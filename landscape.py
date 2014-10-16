@@ -656,17 +656,15 @@ class landscape(graph):
         trees = []
         for t in self.getNodeNames():
             trees.append(self.getVertex(t))
-        if proper:
-            return '\n'.join([t.getProperNewick() for t in trees])
-        return '\n'.join([t.getNewick() for t in trees])
+        return '\n'.join([t.getProperNewick() for t in trees])
     
-    def toTreeFile(self,fout,proper=True):
+    def toTreeFile(self,fout):
         
         ''' Output this landscape as a series of trees, separated by
         newlines, as a text file saved at the given path. '''
         
         o = open(fout,'w')
-        o.write(self._dump(proper))
+        o.write(self._dump())
         o.close()
         return fout
 
