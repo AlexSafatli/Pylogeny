@@ -539,6 +539,30 @@ class topology:
         for branch in self.branches: li.extend(nni(branch))
         return li
     
+    def allType(self,type=TYPE_SPR):
+    
+        ''' Consider all valid moves of a given rearrangement
+        operator for a given topology. Uses a given rearrangement 
+        operator type defined in this module. For example, calling this 
+        function by providing TYPE_NNI as the type will iterate over all 
+        NNI operations. By default, the type is TYPE_SPR. '''
+        
+        if (type == TYPE_SPR):   return self.allSPR()
+        elif (type == TYPE_NNI): return self.allNNI()
+        else: raise RearrangementError('No rearrangement type of that form is defined.')
+    
+    def iterTypeForBranch(self,br,type=TYPE_SPR,flip=True):
+        
+        ''' Iterate over all possible rearrangements for a
+        branch using a given rearrangement operator type defined
+        in this module. For example, calling this function by providing
+        TYPE_NNI as the type will iterate over all NNI operations. By
+        default, the type is TYPE_SPR. '''
+        
+        if (type == TYPE_SPR):   return self.iterSPRForBranch(br,flip)
+        elif (type == TYPE_NNI): return self.iterNNIForBranch(br,flip)
+        else: raise RearrangementError('No rearrangement type of that form is defined.')
+    
     def fromNewick(self,newickstr):
         
         ''' Alias for parse(). '''

@@ -24,8 +24,19 @@ class graph(object):
         self.defaultWeight = 0.
     
     def __len__(self):       return len(self.graph.node)
-    def getSize(self):       return len(self.graph.node)
-    def getNodeNames(self):  return self.graph.node.keys()
+
+    def getSize(self):
+
+        ''' Return the number of nodes in the graph. '''
+        
+        return len(self.graph.node)
+
+    def getNodeNames(self):
+        
+        ''' Return the names/IDs of nodes in the graph. '''
+        
+        return self.graph.node.keys()
+    
     def getNodes(self):      return self.graph.node.values()
     def getEdges(self):      return [self.getEdge(i,j) for i,j in self.graph.edges_iter()]
     def getEdgesFor(self,i): return [self.getEdge(i,j) for j in self.graph.neighbors(i)]
@@ -34,8 +45,13 @@ class graph(object):
     def __iter__(self):
         for node in self.graph.node.keys(): yield node
         
-    def getNeighborsFor(self,i): return self.graph.neighbors(i)        
-    def getDegreeFor(self,i):    return len(self.getNeighborsFor(i))
+    def getNeighborsFor(self,i): return self.graph.neighbors(i)  
+    
+    def getDegreeFor(self,i):
+
+        ''' Return in- and out-degree for node named i. '''
+        
+        return len(self.getNeighborsFor(i))
         
     def setDefaultWeight(self,w): self.defaultWeight = float(w)
     def clearEdgeWeights(self):
@@ -164,9 +180,32 @@ class landscape(graph):
                 tre.score = (None,sc)            
         
     def getAlignment(self):           return self.alignment
-    def getNumberTaxa(self):          return self.leaves
-    def getPossibleNumberTrees(self): return numberUnrootedTrees(self.leaves)
+    
+    def getNumberTaxa(self):
+        
+        ''' Return the number of different taxa present in any respective tree
+        in the landscape. '''
+        
+        return self.leaves
+
+    def getPossibleNumberRootedTrees(self):
+        
+        ''' Assuming all of the trees in the space are rooted, return the 
+        maximum possible number of unrooted trees that can possibly be generated
+        for the number of taxa of trees in the landscape. '''
+        
+        return numberRootedTrees(self.leaves)
+    
+    def getPossibleNumberUnrootedTrees(self):
+        
+        ''' Assuming all of the trees in the space are unrooted, return the 
+        maximum possible number of unrooted trees that can possibly be generated
+        for the number of taxa of trees in the landscape. '''
+        
+        return numberUnrootedTrees(self.leaves)
+    
     def getRootTree(self):            return self.root
+    
     def setAlignment(self,ali):
         
         ''' Set the alignment present in this landscape. WARNING; will not
@@ -202,7 +241,7 @@ class landscape(graph):
 
     def getTree(self,i):
         
-        ''' Get the tree object for a tree by its ID. '''
+        ''' Get the tree object for a tree by its ID or name i. '''
         
         if not i in self.graph.node: return None
         return self.getNode(i)['tree']
@@ -250,9 +289,12 @@ class landscape(graph):
         t = tree(newick)
         self.addTree(t)
 
-    def exploreRandomTree(self,i):
+    def exploreRandomTree(self,i,type=rearrangement.TYPE_SPR):
         
-        ''' Get only a single neighbor to a tree in the landscape. '''
+        ''' Acquire a single neighbor to a tree in the landscape by performing
+        a random rearrangement of type SPR (by default), NNI, or TBR. Rearrangement
+        type is provided as a rearrangement module type definition of form, for example,
+        TYPE_SPR, TYPE_NNI, etc. '''
         
         # Get parsimony profiles.
         p = self.parsimony_profiles
@@ -277,7 +319,7 @@ class landscape(graph):
             
             bra  = choice(branches)
             branches.remove(bra)
-            enum = topol.iterSPRForBranch(bra)
+            enum = topol.iterTypeForBranch(bra,type)
         
             for en in enum:
                 
@@ -318,9 +360,12 @@ class landscape(graph):
         
         return None        
 
-    def exploreTree(self,i):
+    def exploreTree(self,i,type=rearrangement.TYPE_SPR):
         
-        ''' Get all neighbors to a tree in the landscape. '''
+        ''' Get all neighbors to a tree named i in the landscape using a respective
+        rearrangement operator as defined in the rearrangement module. Rearrangement
+        type is provided as a rearrangement module type definition of form, for example,
+        TYPE_SPR, TYPE_NNI, etc. By default, this is TYPE_SPR. '''
         
         # Get parsimony profiles.
         p = self.parsimony_profiles
@@ -340,7 +385,7 @@ class landscape(graph):
                 if (hasthis): topol.lockBranch(hasthis)
         
         # Perform full-enumeration exploration (1 move).
-        enum = topol.allSPR()
+        enum = topol.allType(type)
         
         for en in enum:
             

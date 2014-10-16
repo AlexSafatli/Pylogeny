@@ -15,7 +15,8 @@ class ParsingError(Exception):
     def __str__(self): return repr(self.value)
 
 # Possible Number of Trees
-    
+
+numberRootedTrees   = lambda t: numberUnrootedTrees(t+1)
 numberUnrootedTrees = lambda t: (fact(2*(t-1)-3))/((2**(t-3))*fact(t-3))
 
 # Class Definitions
