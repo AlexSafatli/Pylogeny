@@ -15,4 +15,4 @@ EMAIL   = 'safatli@cs.dal.ca'
 DEPNDS  = ['numpy','networkx','pandas']
 LINKS   = ['http://p4-phylogenetics.googlecode.com/archive/4491de464e68fdb49c7a11e06737cd34a98143ec.tar.gz']
 
-setup(name='pylogeny',version=VERSION,description=DESCRIP,long_description=LONG,url=URL,author=AUTHOR,author_email=EMAIL,license='MIT',packages=['pylogeny'],zip_safe=False,install_requires=DEPNDS,dependency_links=LINKS)
+setup(name='pylogeny',version=VERSION,description=DESCRIP,long_description=LONG,url=URL,author=AUTHOR,author_email=EMAIL,license='MIT',packages=['pylogeny'],install_requires=DEPNDS,dependency_links=LINKS,zip_safe=False)
