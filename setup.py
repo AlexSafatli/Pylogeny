@@ -6,7 +6,7 @@
 
 from setuptools import setup
 
-VERSION = '0.1'
+VERSION = '0.1.1'
 DESCRIP = 'A code framework for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation and analysis of the phylogenetic tree combinatorial space.'
 LONG    = 'A Python library and code framework for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation and analysis of the phylogenetic tree combinatorial space. Also possesses features to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.'
 URL     = 'http://www.github.com/AlexSafatli/Pylogeny'
