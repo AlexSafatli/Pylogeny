@@ -4,18 +4,37 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-from os.path import abspath
+from os import mkdir, getcwd, chdir
+from os.path import abspath, isdir, isfile
 from subprocess import PIPE, Popen as system
+from newick import treeSet
 
 # Constants
 
 E_FASTTREE = 'fasttree'
 E_RAXML    = 'raxmlHPC'
+E_TREEPUZZ = 'puzzle'
 
 # Executable Existence Function
 
 def exeExists(cmd):
     return subprocess.call('type %s'%(cmd),shell=True,stdout=PIPE,stderr=PIPE) == 0
+
+# Temporary Directory Context
+
+class aTemporaryDirectory(object):
+    
+    ''' A class intended to be used as a context manager that allows
+    Python to run in another directory temporarily. '''
+    
+    def __init__(self,dir=None):
+        
+        self.path = '/tmp' + dir
+        if not isdir(self.path): mkdir(self.path)
+        self.current = getcwd()
+        
+    def __enter__(self):      chdir(self.path)
+    def __exit__(self,*args): chdir(self.current)
 
 # Executable Interface
 
@@ -25,22 +44,116 @@ class executable(object):
 
     exeName = None
     
-    def __init__(self): pass
-    
     def getInstructionString(self): return ''
     
     def run(self):
         
         ''' Perform a run of this application. '''
         
-        if not exeExists(self.exeName):
+        if (self.exeName and not exeExists(self.exeName)):
             raise SystemError('%s is not installed on your system.'%(self.exeName))
         sproc = system(self.getInstructionString(),
                        stdout=PIPE,stderr=PIPE,shell=True)
-        if not self.out: return sproc.communicate()[0]
-        else:            return self.out    
+        return sproc.communicate()[0]
 
 # Executable Classes
+
+class treepuzzle(executable):
+    
+    ''' Wrap TREE-PUZZLE in order to create an intermediate file for CONSEL to read and assign confidence to a set of trees. Requires TREE-PUZZLE to be installed. '''
+
+    exeName = E_TREEPUZZ
+
+    def __init__(self,ali,treefile):
+        self.treefile  = treefile
+        self.alignment = ali
+        if self.alignment == None:
+            raise AttributeError('No alignment defined.')
+        
+    def getInstructionString(self):
+        return 'echo "y" | %s %s %s -wsl' % (
+            self.exeName,self.alignment.getPhylip(),self.treefile)
+    
+    def getSiteLikelihoodFile(self):
+        self._output = self.run()
+        if not isfile('%s.sitelh' % (self.treefile)):
+            raise IOError('TREE-PUZZLE did not create site-likelihood output.')
+        else: return '%s.sitelh' % (self.treefile) 
+
+class consel(executable):
+    
+    ''' Denotes a single run of the CONSEL workflow in order to acquire a confidence interval and perform an AU test on a set of trees. Requires CONSEL to be installed. '''
+    
+    def __init__(self,treeset,alignment,name):
+        
+        self.treeset   = treeset
+        self.name      = name
+        self.alignment = alignment
+        self.sitelh    = None
+        self.raw       = None
+        self.rmt       = None
+        self.pv        = None
+        self.auvals    = list()
+        self.interval  = treeSet()
+        self.rejected  = treeSet()
+        self.instruction = ''
+        
+    def getInstructionString(self): return self.instruction
+    
+    def _convertRawData(self):
+        
+        if not isfile('%s.mt' % (self.name)):
+            self.instruction = 'seqmt --puzzle %s %s.mt' % (self.sitelh,self.name)
+            self._out = self.run()
+            if not isfile('%s.mt' % (self.name)):
+                raise IOError('CONSEL seqmt did not create mt file.') 
+        self.raw = '%s.mt' % (self.name)
+        
+    def _createReplicates(self):
+        
+        if not isfile('%s.rmt' % (self.name)):
+            self.instruction = 'makermt %s' % (self.raw)
+            self._out = self.run()
+            if not isfile('%s.rmt' % (self.name)):
+                raise IOError('CONSEL markermt did not create rmt file.')
+        self.rmt = '%s.rmt' % (self.name)
+        
+    def _run(self):
+        
+        if not isfile('%s.pv' % (self.name)):
+            self.instruction = 'consel %s.rmt' % (self.name)
+            self._out = self.run()
+        self.pv = '%s.pv' % (self.name)
+        
+    def _getAU(self):
+        
+        self.instruction = 'catpv %s' % (self.pv)
+        pvout = self.out()
+        for line in pvout.split('\n'):
+            spl = line.split()
+            if len(spl) < 3: continue
+            elif not spl[2].isdigit(): continue
+            it = (int(spl[2])-1,float(spl[4]))
+            self.auvals.append(it)
+            if it[1] >= 0.05: self.interval.add(self.treeset[it[0]])
+            else: self.rejected.add(self.treeset[it[0]])    
+        self._out = pvout
+    
+    def getInterval(self):
+        
+        ''' Compute the AU test. Return the interval of trees. '''
+        
+        with aTemporaryDirectory('/consel__py/'):
+            if not isfile('%s.trees.sitelh' % (self.name)):
+                self.treefile = self.treeset.toTreeFile(self.name + '.trees',False)
+                self.treepuzz = treepuzzle(self.alignment,self.treefile)
+                self.sitelh   = self.treepuzz.getSiteLikelihoodFile()
+            else: self.sitelh = '%s.trees.sitelh' % (self.name)
+            self._convertRawData()
+            self._createReplicates()
+            self._run()
+            self._getAU()
+        return self.interval
 
 class fasttree(executable):
     

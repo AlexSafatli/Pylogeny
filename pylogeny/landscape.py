@@ -1,16 +1,17 @@
-''' Encapsulate a phylogenetic tree space. A phylogenetic landscape or tree space refers to the entire combinatorial space comprising all possible phylogenetic tree topologies for a set of n taxa. The landscape of n taxa can be defined as consisting of a finite set T of tree topologies. Tree topologies can be associated with a fitness function f (t i ) describing their fit. This forms a discrete solution search space and finite graph (T, E) = G. E(G) refers to the neighborhood relation on T(G). Edges in this graph are bidirectional and represent transformation from one tree topology to another by a tree rearrangement operator. An edge between t i and t_j would be notated as e_ij in E(G). '''
+''' Encapsulate a phylogenetic tree space. A phylogenetic landscape or tree space refers to the entire combinatorial space comprising all possible phylogenetic tree topologies for a set of n taxa. The landscape of n taxa can be defined as consisting of a finite set T of tree topologies. Tree topologies can be associated with a fitness function $f(t_i)$ describing their fit. This forms a discrete solution search space and finite graph $(T, E) = G$. $E(G)$ refers to the neighborhood relation on T(G). Edges in this graph are bidirectional and represent transformation from one tree topology to another by a tree rearrangement operator. An edge between $t_i$ and $t_j$ would be notated as $e_{ij}$ in $E(G)$. '''
 
 # Date:   Jan 24 2014
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import networkx, rearrangement
+import networkx
 from random import choice
 from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as ll
 from parsimony import profile_set as profiles
 from bipartition import bipartition
 from networkx import components as comp, algorithms as alg
-from newick import parser, removeBranchLengths, postOrderTraversal, numberUnrootedTrees
+from newick import tree, treeSet, parser, removeBranchLengths, postOrderTraversal, numberRootedTrees, numberUnrootedTrees
+from rearrangement import TYPE_NNI, TYPE_SPR, TYPE_TBR
 
 # Graph Object
 
@@ -289,7 +290,7 @@ class landscape(graph):
         t = tree(newick)
         self.addTree(t)
 
-    def exploreRandomTree(self,i,type=rearrangement.TYPE_SPR):
+    def exploreRandomTree(self,i,type=TYPE_SPR):
         
         ''' Acquire a single neighbor to a tree in the landscape by performing
         a random rearrangement of type SPR (by default), NNI, or TBR. Rearrangement
@@ -360,7 +361,7 @@ class landscape(graph):
         
         return None        
 
-    def exploreTree(self,i,type=rearrangement.TYPE_SPR):
+    def exploreTree(self,i,type=TYPE_SPR):
         
         ''' Get all neighbors to a tree named i in the landscape using a respective
         rearrangement operator as defined in the rearrangement module. Rearrangement
@@ -667,6 +668,17 @@ class landscape(graph):
         o.write(self._dump())
         o.close()
         return fout
+
+    def toTreeSet(self):
+        
+        ''' Convert this landscape into an unorganized set of trees 
+        where taxa names are transformed to their original form (
+        i.e. not transformed to a state friendly for the Phylip format). '''
+        
+        treeset = treeSet()
+        for t in self.getNodeNames():
+            treeset.add(tree(self.getVertex(t).getProperNewick()))
+        return treeset
 
 # Comprising Vertices of Landscapes
 

@@ -4,7 +4,7 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import rearrangement
+from rearrangement import topology
 from random import shuffle
 from math import factorial as fact
 
@@ -21,7 +21,7 @@ numberUnrootedTrees = lambda t: (fact(2*(t-1)-3))/((2**(t-3))*fact(t-3))
 
 # Class Definitions
 
-class tree(object):
+class tree(object): # TODO: Integrate with P4 Tree class.
     
     ''' Defines a single phylogenetic tree by newick string;
     can possess other metadata. '''
@@ -33,7 +33,7 @@ class tree(object):
         self.origin = None
         self.newick = newi
         if (check): self._checkNewick(newi)        
-        else: self._setNewick(newi)
+        else:       self.setNewick(newi)
 
     # Internals
         
@@ -47,18 +47,10 @@ class tree(object):
         parse pass and reroot to lowest-order leaf in
         order to ensure a consistent Newick string. '''
         
-        newi        = self._cleanNewick(newi)
-        prsd        = self._getParsed(newi)
-        topo        = rearrangement.topology(prsd)
-        self.newick = topo.toNewick()
+        newi        = newi.strip('\n').strip(';') + ';'   
+        prsd        = parser(newi).parse()
+        self.newick = topology(prsd).toNewick()
         self.struct = self._getStructure(prsd)
-    
-    def _getParsed(self,newi):
-        
-        ''' PRIVATE: Acquires a topology structure for
-        input Newick string. '''
-        
-        return parser(newi).parse()
     
     def _getStructure(self,prsd=None):
         
@@ -66,30 +58,30 @@ class tree(object):
         defined branch lengths. '''
         
         if prsd: p = prsd
-        else: p = self._getParsed(self.newick)    
+        else: p = parser(self.newick).parse()    
         removeBranchLengths(p)
-        return str(p) + ';'
-        
-    def _cleanNewick(self,newi):
-        
-        ''' PRIVATE: Cleans input newick string such that 
-        a semicolon is added if not present, etc. '''
-        
-        return newi.strip('\n').strip(';') + ';'   
-    
-    def _setNewick(self,n):
-        
-        ''' PRIVATE: Set Newick string with little
-        intervention. '''
-        
-        self.newick = n
-        self.struct = self._getStructure()    
+        return str(p) + ';'  
     
     # Mutators
     
     def setName(self,n):    self.name = n
-    def setOrigin(self,o):  self.origin = o    
+    
+    def setOrigin(self,o):
+        
+        ''' Set the "origin" or specification of where this tree
+        was acquired or constructed from; a string. '''
+        
+        self.origin = o    
+        
     def setScore(self,s):   self.score = s
+    
+    def setNewick(self,n):
+        
+        ''' Set Newick string to n; also reacquires corresponding
+        "structure" or Newick string without branch lengths. '''
+        
+        self.newick = n
+        self.struct = self._getStructure()      
     
     # Accessors
     
@@ -101,19 +93,19 @@ class tree(object):
     
     def getSimpleNewick(self):    
 
-        ''' Return a Newick string with all Taxa name replaced with
+        ''' Return a Newick string with all taxa name replaced with
         successive integers. '''
     
-        t = self.toTopology()
-        n = getAllLeaves(t.getRoot())
-        for _ in xrange(len(n)): n[_].label = str(_+1)
-        return str(t.getRoot()) + ';'
+        o = parser(self.newick).parse()
+        n = getAllLeaves(o)
+        for _ in xrange(1,len(n)+1): n[_].label = str(_)
+        return str(o) + ';'
     
     def toTopology(self):
         
         ''' Return a topology instance for this tree. '''
     
-        t = rearrangement.topology()
+        t = topology()
         t.fromNewick(self.newick)
         return t
 
@@ -122,11 +114,11 @@ class node(object):
     ''' Newick node. '''
     
     def __init__(self,lbl='',strees=None,parent=None):
-        self.label    = lbl
-        self.parent   = parent
-        if strees:
-            self.children = strees
-        else: self.children = list()
+        self.label  = lbl
+        self.parent = parent
+        if strees: self.children = strees
+        else: self.children      = list()
+        
     def __str__(self):
         sT, sl = self.children, self.label
         if len(self.children) > 0:
@@ -146,9 +138,51 @@ class branch(object):
         self.branch_support = s
     def __str__(self):
         st, sl = self.child, self.branch_length
-        if sl > 0: return '%s:%s' % (str(st),str(sl))
-        else:      return '%s'    % (str(st))
+        if sl > 0: return '%s:%s' % (str(st),str(sl)) # Branch Length
+        else:      return '%s'    % (str(st))         # No Branch Length
+
+class treeSet(object):
+    
+    ''' Represents an ordered, unorganized collection of trees 
+    that do not necessarily comprise a combinatorial space. '''
+    
+    trees = list()
+    
+    def add(self,tr): 
+
+        ''' Add a tree object to the collection. '''
+    
+        self.trees.append(tr)
         
+    def remove(self,tr):
+        
+        ''' Remove a tree object from the collection if present. '''
+        
+        if tr in self.trees:
+            self.trees.remove(tr)
+    
+    def indexOf(self,tr):
+        
+        ''' Acquire the index in this collection of a tree object. 
+        Returns -1 if not found. '''
+        
+        if tr in self.trees: return self.trees.index(tr)
+        else: return -1
+    
+    def __getitem__(self,i): return self.trees[i]
+    
+    def toTreeFile(self,fout):
+        
+        ''' Output this landscape as a series of trees, separated by
+        newlines, as a text file saved at the given path. '''        
+        
+        o = open(fout,'w')
+        o.write(str(self))
+        o.close()
+        
+    def __str__(self):
+        return '\n'.join([t.getNewick() for t in self.trees])
+
 # Traversal Functions
 
 def assignParents(top):
@@ -350,8 +384,7 @@ def isSibling(br,other):
 
 class parser:
     
-    ''' Parsing object for Newick strings representing 
-    a phylogenetic tree. '''
+    ''' Parsing object for Newick strings. '''
     
     def __init__(self, newick):
         self.newick           = newick
@@ -408,7 +441,7 @@ def getBranchLength(newick,i):
         i += 1
     try: out = float(runningstr)
     except:
-        raise ParsingError('Could not parse branch length as float at %d.' % (i))
+        raise ParsingError('Could not parse branch length as float at %d in %s.' % (i,newick))
     return (i,out)
 
 def getLeafName(newick,i):

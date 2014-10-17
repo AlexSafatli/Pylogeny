@@ -4,7 +4,7 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import pll, parsimony, fitch
+import pll, parsimony, fitch, p4
 try:
     from model import DiscreteStateModel as State
     from pytbeaglehon.disc_state_cont_time_model import HKY85Model
@@ -14,7 +14,7 @@ except: pass
 
 # Scoring Functions
 
-def _beaglegetLogLikelihood(tree,alignment):
+def beaglegetLogLikelihood(tree,alignment):
     
     ''' Acquire log-likelihood via C++ library
     BEAGLE via use of pybeaglethon wrapper library.

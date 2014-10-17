@@ -11,6 +11,8 @@ from numpy import median
 
 class bipartition(object):
 
+    ''' A tree bipartition. Requires a tree topology. '''
+
     def __init__(self,topol,bra=None):
         self.topology = topol
         self.branch   = bra

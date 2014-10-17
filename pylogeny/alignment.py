@@ -6,23 +6,23 @@
 
 # Imports
 
-import os, shutil, p4
+import os, p4, newick, model
 from tempfile import NamedTemporaryFile as NTempFile
-import newick, model
+from shutil import copyfile
 from executable import fasttree
 
 class alignment(object):
     
     ''' Wrap a biological sequence alignment to enable functionality
     necessary for phylogenetic inference. Makes use of temporary
-    files and therefore requires to be closed once no longer needed. '''
+    files; requires to be closed once no longer needed. '''
     
     def __init__(self,inal):
         
         ''' Instantiate an object intended to wrap an alignment
         for the purposes of running phylogenetic inference. '''
         
-        # Wrap into the p4 phylogenetic library.
+        # Intergrate the p4 phylogenetic library.
         p4.read(inal) # Read the alignment file/string.
         
         # Store data, get size of alignment.
@@ -209,9 +209,9 @@ class phylipFriendlyAlignment(alignment):
 
     def writeProperNexus(self,wri):
         
-        ''' Copy the temporary Nexus file with proper names. '''
+        ''' Write a Nexus file with proper names. '''
         
-        shutil.copyfile(self.paths['nexus'],wri)
+        copyfile(self.paths['nexus'],wri)
         return True
     
     def reassignFromReinterpretedNewick(self,tr):
