@@ -1,13 +1,27 @@
 Pylogeny
 ========
 
-A Python library and code framework for phylogenetic tree reconstruction and scoring.
+A Python library and code framework for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation and analysis of the phylogenetic tree combinatorial space. Also possesses features to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
 
 Allows one to perform the following tasks:
 
-  - Generate and manage phylogenetic tree landscapes.
+  - Generate and maintain phylogenetic tree landscapes.
   - Build and rearrange phylogenetic trees using preset operators such as NNI, SPR, and TBR.
   - Score phylogenetic trees by Log-likelihood and Parsimony.
+  - Build confidence sets of trees using CONSEL.
 
-Dependencies: Numpy, NetworkX, Pandas, P4 Phylogenetic Library.
-Suggested: FastTree, RAxML, PytBEAGLEhon.
+Dependencies
+-------------
+
+ * Numpy
+ * NetworkX
+ * Pandas
+ * P4 phylogenetic library
+
+Suggested
+-------------
+
+ * FastTree
+ * RAxML
+ * CONSEL
+ * PytBEAGLEhon

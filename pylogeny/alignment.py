@@ -6,9 +6,10 @@
 
 # Imports
 
-import os, shutil, p4   
-import fasttree, newick, model
+import os, shutil, p4
 from tempfile import NamedTemporaryFile as NTempFile
+import newick, model
+from executable import fasttree
 
 class alignment(object):
     
@@ -109,7 +110,7 @@ class alignment(object):
         ''' Get a tree in newick format via use of FastTree that serves as
         an approximation of the maximum likelihood tree for this data. '''
         
-        ft = fasttree.fasttree(
+        ft = fasttree(
             self.getFASTA(),isProtein=(
                 self.data.dataType=='protein'))
         return ft.run()
