@@ -6,10 +6,13 @@
 
 # Imports
 
-import os, p4, newick, model
+import os, p4, model, tree
+from newick import parser, getAllNodes
+from executable import fasttree
 from tempfile import NamedTemporaryFile as NTempFile
 from shutil import copyfile
-from executable import fasttree
+
+# Class Definitions
 
 class alignment(object):
     
@@ -120,8 +123,7 @@ class alignment(object):
         ''' Get a tree object for an approximation of the maximum likelihood
         tree for this data using FastTree. '''
         
-        return newick.tree(
-            self.getApproxMLNewick(),check=True)
+        return tree.tree(self.getApproxMLNewick(),check=True)
 
     def getTaxa(self):
         
@@ -218,8 +220,8 @@ class phylipFriendlyAlignment(alignment):
         
         ''' Replace all proper names with reassigned names in a Newick tree. '''
         
-        p = newick.parser(tr).parse()
-        nodes = newick.getAllNodes(p)
+        p = parser(tr).parse()
+        nodes = getAllNodes(p)
         for node in nodes:
             l = node.label
             if l in self.namedict.values():
@@ -233,8 +235,8 @@ class phylipFriendlyAlignment(alignment):
         
         ''' Replaces all reassigned names to proper names in a Newick tree. '''
                
-        p = newick.parser(tr).parse()
-        nodes = newick.getAllNodes(p)
+        p = parser(tr).parse()
+        nodes = getAllNodes(p)
         for node in nodes:
             l = node.label
             if l in self.namedict: node.label = self.namedict[l]

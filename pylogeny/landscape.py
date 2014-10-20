@@ -10,7 +10,8 @@ from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as l
 from parsimony import profile_set as profiles
 from bipartition import bipartition
 from networkx import components as comp, algorithms as alg
-from newick import tree, treeSet, parser, removeBranchLengths, postOrderTraversal, numberRootedTrees, numberUnrootedTrees
+from tree import tree, treeSet, numberRootedTrees, numberUnrootedTrees
+from newick import parser, removeBranchLengths, postOrderTraversal
 from rearrangement import TYPE_NNI, TYPE_SPR, TYPE_TBR
 
 # Graph Object
@@ -137,9 +138,9 @@ class graph(object):
         
         return alg.shortest_path_length(self.graph,nodA,nodB)
 
-# Landscape: Subclass of Graph Object
+# Landscape: Subclass of Graph, TreeSet Objects
 
-class landscape(graph):
+class landscape(graph,treeSet):
     
     ''' Defines an entire phylogenetic tree space. '''
     
@@ -150,13 +151,13 @@ class landscape(graph):
         super(landscape,self).__init__()
         
         # Fields
-        self.alignment = ali
-        self.locks     = list()
-        self.nextTree  = 0
-        self.leaves    = None
-        self.root      = None
+        self.alignment          = ali
+        self.locks              = list()
+        self.nextTree           = 0
+        self.leaves             = None
+        self.root               = None
+        self.operator           = operator
         self.parsimony_profiles = None
-        self.operator  = operator
         
         # Analyze alignment.
         if ali:
@@ -180,7 +181,7 @@ class landscape(graph):
                 sc = parsimony(new,p)
                 tre.score = (None,sc)            
         
-    def getAlignment(self):           return self.alignment
+    def getAlignment(self): return self.alignment
     
     def getNumberTaxa(self):
         
@@ -205,7 +206,7 @@ class landscape(graph):
         
         return numberUnrootedTrees(self.leaves)
     
-    def getRootTree(self):            return self.root
+    def getRootTree(self): return self.root
     
     def setAlignment(self,ali):
         
@@ -282,13 +283,6 @@ class landscape(graph):
         self._newNode(tree.getName(),tree)
         self.nextTree += 1
         return tree.getName()
-
-    def addTreeByNewick(self,newick):
-        
-        ''' Add a tree to the landscape by Newick string. '''
-        
-        t = tree(newick)
-        self.addTree(t)
 
     def exploreRandomTree(self,i,type=TYPE_SPR):
         
@@ -527,9 +521,21 @@ class landscape(graph):
 
     # Search Methods
 
+    def __getitem__(self, i): return self.graph.node[i]
+
+    def indexOf(self, tr):
+        
+        ''' Acquire the index/name in this landscape of a tree object. Returns -1
+        if not found. '''
+        
+        for t in self.graph.node:
+            if self.getTree(t) == tr: return t
+        return -1
+
     def findTree(self,newick):
         
-        ''' Find a tree by Newick string, taking into account branch lengths. '''
+        ''' Find a tree by Newick string, taking into account branch lengths. Returns
+        the name of this tree in the landscape. '''
         
         for t in self.graph.node:
             if self.getTree(t).newick == newick: return t
@@ -652,22 +658,14 @@ class landscape(graph):
 
     # Output Methods
     
+    def __str__(self): return self._dump()
+    
     def _dump(self,proper=True):
         
         trees = []
         for t in self.getNodeNames():
             trees.append(self.getVertex(t))
         return '\n'.join([t.getProperNewick() for t in trees])
-    
-    def toTreeFile(self,fout):
-        
-        ''' Output this landscape as a series of trees, separated by
-        newlines, as a text file saved at the given path. '''
-        
-        o = open(fout,'w')
-        o.write(self._dump())
-        o.close()
-        return fout
 
     def toTreeSet(self):
         
@@ -677,7 +675,7 @@ class landscape(graph):
         
         treeset = treeSet()
         for t in self.getNodeNames():
-            treeset.add(tree(self.getVertex(t).getProperNewick()))
+            treeset.addTree(tree(self.getVertex(t).getProperNewick()))
         return treeset
 
 # Comprising Vertices of Landscapes

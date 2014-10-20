@@ -4,10 +4,10 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
+import tree
 from os import mkdir, getcwd, chdir
 from os.path import abspath, isdir, isfile
 from subprocess import PIPE, Popen as system
-from newick import treeSet
 
 # Constants
 
@@ -94,8 +94,8 @@ class consel(executable):
         self.rmt       = None
         self.pv        = None
         self.auvals    = list()
-        self.interval  = treeSet()
-        self.rejected  = treeSet()
+        self.interval  = tree.treeSet()
+        self.rejected  = tree.treeSet()
         self.instruction = ''
         
     def getInstructionString(self): return self.instruction
@@ -135,8 +135,8 @@ class consel(executable):
             elif not spl[2].isdigit(): continue
             it = (int(spl[2])-1,float(spl[4]))
             self.auvals.append(it)
-            if it[1] >= 0.05: self.interval.add(self.treeset[it[0]])
-            else: self.rejected.add(self.treeset[it[0]])    
+            if it[1] >= 0.05: self.interval.addTree(self.treeset[it[0]])
+            else: self.rejected.addTree(self.treeset[it[0]])    
         self._out = pvout
     
     def getInterval(self):

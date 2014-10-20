@@ -5,7 +5,7 @@ operators describe transformations that are subsets of those possible by the suc
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import newick
+import newick, tree
 from bipartition import bipartition
 
 # Exception Handling
@@ -84,7 +84,7 @@ class rearrangement:
         ''' Commit the move and transform to
         tree object. '''
         
-        out = newick.tree(self.toNewick())
+        out = tree.tree(self.toNewick())
         out.origin = self.getType()
         return out
     
@@ -611,14 +611,14 @@ class topology:
         
         ''' Return the tree object for this topology. '''
         
-        return newick.tree(self.toNewick())
+        return tree.tree(self.toNewick())
         
     def toUnrootedTree(self):
         
         ''' Return the tree object of the unrooted 
         version of this topology. '''
         
-        return newick.tree(self.toUnrootedNewick())
+        return tree.tree(self.toUnrootedNewick())
         
     def __str__(self):
         

@@ -14,100 +14,12 @@ class ParsingError(Exception):
     def __init__(self,val): self.value = val
     def __str__(self): return repr(self.value)
 
-# Possible Number of Trees
-
+# Function Definitions
+    
 numberRootedTrees   = lambda t: numberUnrootedTrees(t+1)
-numberUnrootedTrees = lambda t: (fact(2*(t-1)-3))/((2**(t-3))*fact(t-3))
+numberUnrootedTrees = lambda t: (fact(2*(t-1)-3))/((2**(t-3))*fact(t-3))    
 
 # Class Definitions
-
-class tree(object): # TODO: Integrate with P4 Tree class.
-    
-    ''' Defines a single phylogenetic tree by newick string;
-    can possess other metadata. '''
-    
-    def __init__(self,newi='',check=False):
-        
-        self.name   = ''
-        self.score  = None
-        self.origin = None
-        self.newick = newi
-        if (check): self._checkNewick(newi)        
-        else:       self.setNewick(newi)
-
-    # Internals
-        
-    def __eq__(self,o): return (o.struct == self.struct)
-    def __ne__(self,o): return not (self.__eq__(o))
-    def __str__(self): return self.newick
-    
-    def _checkNewick(self,newi):
-        
-        ''' PRIVATE: Run the Newick string through a 
-        parse pass and reroot to lowest-order leaf in
-        order to ensure a consistent Newick string. '''
-        
-        newi        = newi.strip('\n').strip(';') + ';'   
-        prsd        = parser(newi).parse()
-        self.newick = topology(prsd).toNewick()
-        self.struct = self._getStructure(prsd)
-    
-    def _getStructure(self,prsd=None):
-        
-        ''' PRIVATE: Acquires a newick string without any
-        defined branch lengths. '''
-        
-        if prsd: p = prsd
-        else: p = parser(self.newick).parse()    
-        removeBranchLengths(p)
-        return str(p) + ';'  
-    
-    # Mutators
-    
-    def setName(self,n):    self.name = n
-    
-    def setOrigin(self,o):
-        
-        ''' Set the "origin" or specification of where this tree
-        was acquired or constructed from; a string. '''
-        
-        self.origin = o    
-        
-    def setScore(self,s):   self.score = s
-    
-    def setNewick(self,n):
-        
-        ''' Set Newick string to n; also reacquires corresponding
-        "structure" or Newick string without branch lengths. '''
-        
-        self.newick = n
-        self.struct = self._getStructure()      
-    
-    # Accessors
-    
-    def getName(self):      return self.name
-    def getScore(self):     return self.score
-    def getOrigin(self):    return self.origin
-    def getNewick(self):    return self.__str__()
-    def getStructure(self): return self.struct  
-    
-    def getSimpleNewick(self):    
-
-        ''' Return a Newick string with all taxa name replaced with
-        successive integers. '''
-    
-        o = parser(self.newick).parse()
-        n = getAllLeaves(o)
-        for _ in xrange(1,len(n)+1): n[_].label = str(_)
-        return str(o) + ';'
-    
-    def toTopology(self):
-        
-        ''' Return a topology instance for this tree. '''
-    
-        t = topology()
-        t.fromNewick(self.newick)
-        return t
 
 class node(object):
     
@@ -140,48 +52,6 @@ class branch(object):
         st, sl = self.child, self.branch_length
         if sl > 0: return '%s:%s' % (str(st),str(sl)) # Branch Length
         else:      return '%s'    % (str(st))         # No Branch Length
-
-class treeSet(object):
-    
-    ''' Represents an ordered, unorganized collection of trees 
-    that do not necessarily comprise a combinatorial space. '''
-    
-    trees = list()
-    
-    def add(self,tr): 
-
-        ''' Add a tree object to the collection. '''
-    
-        self.trees.append(tr)
-        
-    def remove(self,tr):
-        
-        ''' Remove a tree object from the collection if present. '''
-        
-        if tr in self.trees:
-            self.trees.remove(tr)
-    
-    def indexOf(self,tr):
-        
-        ''' Acquire the index in this collection of a tree object. 
-        Returns -1 if not found. '''
-        
-        if tr in self.trees: return self.trees.index(tr)
-        else: return -1
-    
-    def __getitem__(self,i): return self.trees[i]
-    
-    def toTreeFile(self,fout):
-        
-        ''' Output this landscape as a series of trees, separated by
-        newlines, as a text file saved at the given path. '''        
-        
-        o = open(fout,'w')
-        o.write(str(self))
-        o.close()
-        
-    def __str__(self):
-        return '\n'.join([t.getNewick() for t in self.trees])
 
 # Traversal Functions
 
