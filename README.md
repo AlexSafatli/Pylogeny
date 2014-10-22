@@ -1,7 +1,7 @@
 Pylogeny
 ========
 
-A Python library and code framework for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation and analysis of the phylogenetic tree combinatorial space. Also possesses features to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
+A Python library and code framework for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation, heuristic search, and analysis of the phylogenetic tree combinatorial space. Also possesses features to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
 
 Allows one to perform the following tasks:
 
@@ -16,7 +16,8 @@ Dependencies
  * Numpy
  * NetworkX
  * Pandas
- * P4 phylogenetic library
+ * P4 Phylogenetic Library
+ * libpll Phylogenetic Likelihood Library
 
 Suggested
 -------------

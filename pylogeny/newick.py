@@ -14,11 +14,6 @@ class ParsingError(Exception):
     def __init__(self,val): self.value = val
     def __str__(self): return repr(self.value)
 
-# Function Definitions
-    
-numberRootedTrees   = lambda t: numberUnrootedTrees(t+1)
-numberUnrootedTrees = lambda t: (fact(2*(t-1)-3))/((2**(t-3))*fact(t-3))    
-
 # Class Definitions
 
 class node(object):

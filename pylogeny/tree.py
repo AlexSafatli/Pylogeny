@@ -70,7 +70,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         successive integers. '''
     
         o = newick.parser(self.newick).parse()
-        n = getAllLeaves(o)
+        n = newick.getAllLeaves(o)
         for _ in xrange(1,len(n)+1): n[_].label = str(_)
         return str(o) + ';'        
     
@@ -109,7 +109,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         
         if prsd: p = prsd
         else: p = newick.parser(self.newick).parse()    
-        removeBranchLengths(p)
+        newick.removeBranchLengths(p)
         return str(p) + ';'  
     
 class treeSet(object):

@@ -23,8 +23,7 @@ class dataModel:
 
         # Model handling. See if one already defined in alignment.
         if not model:
-            if hasattr(alignm,'_pllmodel'):
-                self.model = alignm._pllmodel
+            if hasattr(alignm,'_pllmodel'): self.model = alignm._pllmodel
             else:
                 self.model = partitionModel(alignm)
                 self.model.createSimpleModel(isProtein)
@@ -56,19 +55,28 @@ class partitionModel:
     ''' A partition model intended for libpll. '''
     
     def __init__(self,ali):
+        
         self.handle = NTempFile(delete=False)
         self.length = len(ali)
+        
     def getFileName(self):
+        
         ''' Get the file name of the model file. '''
         return self.handle.name
+    
     def createSimpleModel(self,protein):
+        
         ''' Establish a simple model (e.g., one type). '''
+        
         if protein: simplemodel = "WAG, p1 = 1-%d\n" % (self.length)
         else:       simplemodel = "DNA, p1 = 1-%d\n" % (self.length)
         self.handle.write(simplemodel)
         self.handle.close()
+        
     def createModel(self,models,partnames,ranges):
+        
         ''' Establish a more complex model. '''
+        
         for m in xrange(len(models)):
             mod    = models[m]
             par    = partnames[m]
@@ -76,6 +84,9 @@ class partitionModel:
             towr   = "%s, %s = %d-%d\n" % (mod,par,rl,ru)
             self.handle.write(towr)
         self.handle.close()
+        
     def close(self):
+        
         ''' Delete file. '''
+        
         os.unlink(self.handle.name)

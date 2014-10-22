@@ -25,7 +25,13 @@ class graph(object):
         else: self.graph = gr
         self.defaultWeight = 0.
     
-    def __len__(self):       return len(self.graph.node)
+    def getNetworkXObject(self):
+        
+        ''' Return the internal networkx graph object. '''
+        
+        return self.graph    
+    
+    def __len__(self): return len(self.graph.node)
 
     def getSize(self):
 
@@ -44,6 +50,7 @@ class graph(object):
     def getEdgesFor(self,i): return [self.getEdge(i,j) for j in self.graph.neighbors(i)]
     def getNode(self,i):     return self.graph.node[i] 
     def getEdge(self,i,j):   return self.graph.get_edge_data(i,j)
+    
     def __iter__(self):
         for node in self.graph.node.keys(): yield node
         
@@ -181,7 +188,11 @@ class landscape(graph,treeSet):
                 sc = parsimony(new,p)
                 tre.score = (None,sc)            
         
-    def getAlignment(self): return self.alignment
+    def getAlignment(self): 
+        
+        ''' Acquire the alignment object associated with this space. '''
+        
+        return self.alignment
     
     def getNumberTaxa(self):
         
@@ -206,7 +217,11 @@ class landscape(graph,treeSet):
         
         return numberUnrootedTrees(self.leaves)
     
-    def getRootTree(self): return self.root
+    def getRootTree(self):
+        
+        ''' Acquire the first tree that was placed in this space. '''
+        
+        return self.root
     
     def setAlignment(self,ali):
         

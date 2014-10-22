@@ -81,8 +81,7 @@ class rearrangement:
     
     def toTree(self):
         
-        ''' Commit the move and transform to
-        tree object. '''
+        ''' Commit the move and transform to tree object. '''
         
         out = tree.tree(self.toNewick())
         out.origin = self.getType()
@@ -93,7 +92,7 @@ class rearrangement:
     def __str__(self):
         
         t = self.getType()
-        return '<%s> move [%s] to [%s]' %  (t,self.target,self.destination)
+        return '<%s> move [%s] to [%s]' % (t,self.target,self.destination)
 
 # Tree structure.
 
@@ -140,7 +139,7 @@ class topology:
         for br in self.branches:
             # Anything inside the subtree for that branch
             # is forbidden to be moved to by this branch.
-            self.forbidden[br] = newick.getAllBranches(br)
+            self.forbidden[br] = [_ for _ in newick.getAllBranches(br)]
             # Any siblings are also forbidden 
             # (give the same tree).
             siblings = br.parent.children
