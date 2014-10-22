@@ -10,6 +10,20 @@ Allows one to perform the following tasks:
   - Score phylogenetic trees by Log-likelihood and Parsimony.
   - Build confidence sets of trees using CONSEL.
 
+Code Example
+-------------
+
+You can create a landscape for a given sequence alignment, add a tree to the landscape corresponding to the one acquired from FastTree, and then perform a hill-climbing search on that landscape on the basis of parsimony with the below code.
+
+    from pylogeny.alignment import alignment
+    from pylogeny.landscape import landscape
+    from pylogeny.heuristic import parsimonyGreedy
+
+    ali = alignment('yourAlignment.fasta')
+    ls  = landscape(ali,starting_tree=ali.getApproxMLTree())
+    heu = parsimonyGreedy(ls,ls.getRootTree())
+    heu.explore()     
+
 Dependencies
 -------------
 
