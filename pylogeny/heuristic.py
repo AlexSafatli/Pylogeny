@@ -45,7 +45,7 @@ class phylogeneticLinearHeuristic(heuristic):
 
 class parsimonyGreedy(phylogeneticLinearHeuristic):
     
-    ''' Greedy landscape exploration by comparsion of parsimony. '''
+    ''' Greedy (hill-climbing) landscape exploration by comparsion of parsimony. '''
     
     def __init__(self,ls,startTree):
         super(parsimonyGreedy,self).__init__(ls,startTree)
@@ -84,6 +84,52 @@ class parsimonyGreedy(phylogeneticLinearHeuristic):
                  
             # Set new current tree if greater in parsimony.
             if (cPars > bPars): cursor = best
+            else:
+                self.bestTree = cursor
+                break
+
+class likelihoodGreedy(phylogeneticLinearHeuristic):
+    
+    ''' Greedy (hill-climbing) landscape exploration by comparsion of likelihood. '''
+    
+    def __init__(self,ls,startTree):
+        super(likelihoodGreedy,self).__init__(ls,startTree)
+        
+    def explore(self):
+    
+        ''' Perform greedy search of the landscape using
+        a method of greed via likelihood. '''
+        
+        # Get starting tree, landscape.
+        landscape = self.landscape
+        ali       = landscape.alignment
+        starting  = self.start
+        cursor    = starting # Current tree.
+        
+        while (True):
+
+            # Add this tree to the path.
+            self.path.append(cursor)
+
+            # Explore the current tree and only score via parsimony.
+            landscape.exploreTree(cursor['tree'].name)
+            
+            # Rank by likelihood.
+            nodes = landscape.getNeighborsFor(cursor['tree'].name)
+            nodes = [landscape.getNode(x) for x in nodes]
+            nodes = [it for it in nodes if not it in self.path]
+            map(lambda d: landscape.getVertex(d).scoreLikelihood(),nodes)
+            nodes = sorted(nodes,key=lambda d: d['tree'].score[0])
+            
+            # Get best likelihood tree.
+            best  = nodes[-1]
+            
+            # Get likelihoods.
+            bLikl = best['tree'].score[0]
+            cLikl = cursor['tree'].score[0]
+                 
+            # Set new current tree if greater in likelihood.
+            if (cLikl > bLikl): cursor = best
             else:
                 self.bestTree = cursor
                 break
