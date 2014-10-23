@@ -59,61 +59,70 @@ def getLogLikelihood(tree,alignment):
     return getLogLikelihoodForTopology(
         tree.toTopology(),alignment)
 
-def _pygetParsimonyFromProfiles(topology,profiles):
+def getParsimonyFromProfiles(newick,profiles):
     
     ''' Acquire parsimony via a Python implementation.
-    Parameters: rearrangement.topology object and 
-    parsimony.profile_set object. Deprecated function. '''
+    Parameters: Newick string and parsimony.profile_set object. '''
     
-    return parsimony.fitch_cost(topology,profiles)
-
-def _pygetParsimony(topology,alignment):
-    
-    ''' Acquire parsimony via a Python implementation.
-    Parameters: rearrangement.topology object and 
-    alignment object. Deprecated function. '''
-     
-    return parsimony.fitch(topology,alignment)
+    topo = topology()
+    topo.fromNewick(newick)
+    return parsimony.fitch_cost(topo,profiles)
 
 def getParsimony(newick,alignment):
     
-    ''' Acquire parsimony via a C++ implementation.
-    Parameters: newick string and alignment object. '''    
-    
-    profiles = parsimony.profile_set(alignment)
-    return getParsimonyFromProfiles(newick,profiles)
-
-def getParsimonyForTopology(topology,alignment):
-    
-    ''' Acquire parsimony via a C++ implementation.
-    Parameters: rearrangement.topology and 
-    alignment object. '''    
-    
-    profiles = parsimony.profile_set(alignment)
-    return getParsimonyFromProfiles(
-        topology.toNewick(),profiles)
-
-def getParsimonyFromProfiles(newick,profiles):
-    
-    ''' Acquire parsimony via a C++ implementation.
-    Parameters: newick string and parsimony.profile_set 
-    object. '''        
-    
-    prolist = [str(x) for x in profiles.profiles]
-    weilist = profiles.weights
-    taxdict = profiles.taxa
-    return fitch.calculateCost(newick,prolist,weilist,taxdict)
+    ''' Acquire parsimony via a Python implementation.
+    Parameters: Newick string and alignment object. '''
+     
+    topo = topology()
+    topo.fromNewick(newick)
+    return parsimony.fitch(topo,alignment)
 
 def getParsimonyFromProfilesForTopology(topology,profiles):
-    
-    ''' Acquire parsimony via a C++ implementation.
-    Parameters: rearrangement.topology and parsimony.profile_set 
-    object. '''        
-    
-    prolist = [str(x) for x in profiles.profiles]
-    weilist = profiles.weights
-    taxdict = profiles.taxa
-    return fitch.calculateCost(topology.toNewick(),prolist,
-                               weilist,taxdict)
+
+    ''' Acquire parsimony via a Python implementation. Parameters:
+    rearrangement.topology object and alignment object. '''
+
+    return parsimony.fitch(topology,profiles)
+
+#def getParsimony(newick,alignment):
+#    
+#    ''' Acquire parsimony via a C++ implementation.
+#    Parameters: newick string and alignment object. '''    
+#    
+#    profiles = parsimony.profile_set(alignment)
+#    return getParsimonyFromProfiles(newick,profiles)
+
+#def getParsimonyForTopology(topology,alignment):
+#    
+#    ''' Acquire parsimony via a C++ implementation.
+#    Parameters: rearrangement.topology and 
+#    alignment object. '''    
+#    
+#    profiles = parsimony.profile_set(alignment)
+#    return getParsimonyFromProfiles(
+#        topology.toNewick(),profiles)
+
+#def getParsimonyFromProfiles(newick,profiles):
+#    
+#    ''' Acquire parsimony via a C++ implementation.
+#    Parameters: newick string and parsimony.profile_set 
+#    object. '''        
+#    
+#    prolist = [str(x) for x in profiles.profiles]
+#    weilist = profiles.weights
+#    taxdict = profiles.taxa
+#    return fitch.calculateCost(newick,prolist,weilist,taxdict)
+
+#def getParsimonyFromProfilesForTopology(topology,profiles):
+#    
+#    ''' Acquire parsimony via a C++ implementation.
+#    Parameters: rearrangement.topology and parsimony.profile_set 
+#    object. '''        
+#    
+#    prolist = [str(x) for x in profiles.profiles]
+#    weilist = profiles.weights
+#    taxdict = profiles.taxa
+#    return fitch.calculateCost(topology.toNewick(),prolist,
+#                               weilist,taxdict)
     
     
