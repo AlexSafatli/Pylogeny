@@ -6,13 +6,13 @@
 
 import networkx
 from random import choice
-from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as ll
+from scoring import getParsimonyFromProfilesForTopology as parsimony, getLogLikelihood as ll
 from parsimony import profile_set as profiles
 from bipartition import bipartition
 from networkx import components as comp, algorithms as alg
 from tree import tree, treeSet, numberRootedTrees, numberUnrootedTrees
 from newick import parser, removeBranchLengths, postOrderTraversal
-from rearrangement import TYPE_NNI, TYPE_SPR, TYPE_TBR
+from rearrangement import topology, TYPE_NNI, TYPE_SPR, TYPE_TBR
 
 # Graph Object
 
@@ -185,7 +185,7 @@ class landscape(graph,treeSet):
             topol = tre.toTopology()
             new   = topol.toNewick()
             if not (tre.score):
-                sc = parsimony(new,p)
+                sc = parsimony(topol,p)
                 tre.score = (None,sc)            
         
     def getAlignment(self): 
@@ -246,15 +246,19 @@ class landscape(graph,treeSet):
             # Get the parsimony since this is fast; set likelihood
             # to nothing.
             if self.alignment:
+                topol = topology()
+                topol.fromNewick(tobj.newick)
                 tobj.score = (None,parsimony(
-                    tobj.newick,self.parsimony_profiles))
+                    topol,self.parsimony_profiles))
             else: tobj.score = (None,None)
         elif tobj.score[1] == None:
             # Get the parsimony since this is fast; set likelihood
             # to nothing.
             if self.alignment:
+                topol = topology()
+                topol.fromNewick(tobj.newick)
                 tobj.score = (tobj.score[0],parsimony(
-                    tobj.newick,self.parsimony_profiles))            
+                    topol,self.parsimony_profiles))            
 
     def getTree(self,i):
         
@@ -338,6 +342,7 @@ class landscape(graph,treeSet):
                 t   = en.toTree()
                 new = t.getNewick()
                 stt = t.getStructure()
+                top = en.toTopology()
     
                 # See if already been found.
                 inlandscape = self.findTreeTopologyByStructure(stt)
@@ -350,12 +355,10 @@ class landscape(graph,treeSet):
                     continue
     
                 # See if tree violating existing locks.
-                if isvi:
-                    en = en.toTopology()
-                    if self._isViolating(en): continue
+                if isvi and self._isViolating(top): continue
     
                 # Score.
-                scr = parsimony(new,p)
+                scr = parsimony(top,p)
                 t.score  = (None,scr)
                 t.origin = typ
                 
@@ -404,6 +407,7 @@ class landscape(graph,treeSet):
             t   = en.toTree()
             new = t.getNewick()
             stt = t.getStructure()
+            top = en.toTopology()
 
             # See if already been found.
             inlandscape = self.findTreeTopologyByStructure(stt)
@@ -416,12 +420,10 @@ class landscape(graph,treeSet):
                 continue
 
             # See if tree violating existing locks.
-            if isvi:
-                en = en.toTopology()
-                if self._isViolating(en): continue
+            if isvi and self._isViolating(top): continue
 
             # Score.
-            scr = parsimony(new,p)
+            scr = parsimony(top,p)
             t.score  = (None,scr)
             t.origin = typ
             
