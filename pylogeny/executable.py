@@ -7,7 +7,7 @@
 import tree
 from os import mkdir, getcwd, chdir
 from os.path import abspath, isdir, isfile
-from subprocess import PIPE, Popen as system
+from subprocess import call, PIPE, Popen as system
 
 # Constants
 
@@ -18,7 +18,7 @@ E_TREEPUZZ = 'puzzle'
 # Executable Existence Function
 
 def exeExists(cmd):
-    return subprocess.call('type %s'%(cmd),shell=True,stdout=PIPE,stderr=PIPE) == 0
+    return call('type %s'%(cmd),shell=True,stdout=PIPE,stderr=PIPE) == 0
 
 # Temporary Directory Context
 

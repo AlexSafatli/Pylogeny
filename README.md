@@ -24,6 +24,11 @@ You can create a landscape for a given sequence alignment, add a tree to the lan
     heu = parsimonyGreedy(ls,ls.getRootTree())
     heu.explore()     
 
+You can print the Newick string for the global optimum or tree with the maximum likelihood by calling the following function on that object.
+
+    globalMax = ls.getGlobalOptimum()
+    print ls.getTree(globalMax)
+
 Dependencies
 -------------
 
