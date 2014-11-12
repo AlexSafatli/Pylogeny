@@ -4,7 +4,7 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-from pylibpll import *
+from libpllWrapper import *
 from tempfile import NamedTemporaryFile as NTempFile
 import os
 
