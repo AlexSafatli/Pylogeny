@@ -290,7 +290,7 @@ static PyObject * fitch_cost(PyObject *self, PyObject *args) {
   parser.parse();
 
   // Acquire profiles (first list argument).
-  string strArr[proEles];
+  string *strArr = new string[proEles];
   for (int i = 0; i < proEles; i++) {
     char *proCurr; PyObject *curr;
     curr = PyList_GetItem(proList,i);
@@ -301,7 +301,7 @@ static PyObject * fitch_cost(PyObject *self, PyObject *args) {
   }
 
   // Acquire weights (second list argument).
-  long weiArr[weiEles];
+  long *weiArr = new long[weiEles];
   for (int i = 0; i < proEles; i++) {
     PyObject *it = PyList_GetItem(weiList,i);
     if (PyInt_Check(it)) weiArr[i] = PyInt_AsLong(it);
@@ -327,6 +327,8 @@ static PyObject * fitch_cost(PyObject *self, PyObject *args) {
   int c = cost(&tree,proEles,strArr,weiArr,&taxMap);
 
   // Construct into a Python object and return.
+  delete [] strArr;
+  delete [] weiArr;
   return Py_BuildValue("i",c);
 
 }

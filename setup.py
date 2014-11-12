@@ -9,7 +9,7 @@ import os
 
 # Metadata
 
-VERSION = '0.2.3.5'
+VERSION = '0.2.3.6'
 DESCRIP = 'A code framework for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation, heuristic search, and analysis of the phylogenetic tree combinatorial space.'
 LONG    = 'A Python library and code framework for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation and analysis of the phylogenetic tree combinatorial space. Also possesses features to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.'
 URL     = 'http://www.github.com/AlexSafatli/Pylogeny'
@@ -24,7 +24,7 @@ PLLC    = os.path.join('pylogeny','pylibpll.c')
 # Compilation for C/C++ Extensions (Fitch, Pylibpll)
 
 pllExtension    = extension('pylibpll',sources=[PLLC],include_dirs=['/usr/local/include'],libraries=['pll-generic'],library_dirs=['/usr/local/lib'])
-fitchExtension = extension('fitch',sources=[FITCHCC],include_dirs=['/usr/local/include'],extra_compile_args=['-std=c++11'])
+fitchExtension = extension('fitch',sources=[FITCHCC],include_dirs=['/usr/local/include'],language="c++",extra_compile_args=['-std=c++11'])
 
 # Setup
 
