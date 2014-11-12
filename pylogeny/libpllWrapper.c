@@ -1,11 +1,9 @@
-/* pyPLL.c
+/* libpllWrapper.c
    Date: Jan 31, 2014
    Author: Alex E. Safatli
 ----------------------------------
-   Uncomprehensive bindings with
-   libpll - phylogenetic functions
-   intended for tree scoring and
-   rearrangement.
+   Uncomprehensive bindings with libpll - phylogenetic functions
+   intended for tree scoring and rearrangement. Designed for libpll 1.0.0
 */
 
 #include <pll/pll.h>
@@ -303,7 +301,7 @@ static PyMethodDef modulemethods[] = {
 };
 
 PyMODINIT_FUNC initpylibpll(void) {
-   (void) Py_InitModule("pylibpll",modulemethods);
+   (void) Py_InitModule("libpllWrapper",modulemethods);
 }
 
 int main(int argc, char *argv[]) {
