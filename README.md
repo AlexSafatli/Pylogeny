@@ -29,6 +29,11 @@ You can print the Newick string for the global optimum or tree with the maximum 
     globalMax = ls.getGlobalOptimum()
     print ls.getTree(globalMax)
 
+Installation
+-------------
+
+You can install automatically using `pip` or `easy_install` with the command `pip install pylogeny`.
+
 Documentation
 -------------
 
