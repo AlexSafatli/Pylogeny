@@ -29,6 +29,11 @@ You can print the Newick string for the global optimum or tree with the maximum 
     globalMax = ls.getGlobalOptimum()
     print ls.getTree(globalMax)
 
+Documentation
+-------------
+
+The API is currently being output to a Github page located [here](http://AlexSafatli.github.io/Pylogeny "Pylogeny API").
+
 Dependencies
 -------------
 
@@ -38,7 +43,7 @@ Dependencies
  * P4 Phylogenetic Library
  * libpll Phylogenetic Likelihood Library
 
-Suggested
+Works With
 -------------
 
  * FastTree
