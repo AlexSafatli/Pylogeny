@@ -5,6 +5,7 @@
 # E-mail: safatli@cs.dal.ca
 
 import tree
+from abc import ABCMeta as abstractclass, abstractmethod
 from os import mkdir, getcwd, chdir
 from os.path import abspath, isdir, isfile
 from subprocess import call, PIPE, Popen as system
@@ -43,8 +44,10 @@ class executable(object):
     ''' An interface for the instantation and running of a single instance for a given application. '''
 
     exeName = None
+    __metaclass__ = abstractclass
     
-    def getInstructionString(self): return ''
+    @abstractmethod
+    def getInstructionString(self): pass
     
     def run(self):
         
@@ -215,4 +218,4 @@ class raxml(executable):
     def runFunction(self,alg):
         self.alg = alg
         self.run()
-        
+

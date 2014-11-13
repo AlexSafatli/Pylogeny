@@ -1,6 +1,9 @@
 # Compiled python modules.
 *.pyc
 
+# Compiled C/C++ extensions.
+*.so
+
 # Setuptools distribution, build folder.
 /dist/
 /build/

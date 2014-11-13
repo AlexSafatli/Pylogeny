@@ -30,7 +30,7 @@ static PyObject * phylo_getml(PyObject *self, PyObject *args);
 static PyObject * phylo_getspr_withindist(PyObject *self, PyObject *args);
 static PyObject * phylo_getnni_withindist(PyObject *self, PyObject *args);
 static PyObject * phylo_getall_withindist(PyObject *self, PyObject *args);
-PyMODINIT_FUNC initpylibpll(void);
+PyMODINIT_FUNC initlibpllWrapper(void);
 int main(int argc, char *argv[]);
 
 /* Python Object Wrapping */
@@ -300,13 +300,13 @@ static PyMethodDef modulemethods[] = {
    {NULL, NULL, 0, NULL}
 };
 
-PyMODINIT_FUNC initpylibpll(void) {
+PyMODINIT_FUNC initlibpllWrapper(void) {
    (void) Py_InitModule("libpllWrapper",modulemethods);
 }
 
 int main(int argc, char *argv[]) {
    Py_SetProgramName(argv[0]);
    Py_Initialize();
-   initpylibpll();
+   initlibpllWrapper();
    return 0;
 }
