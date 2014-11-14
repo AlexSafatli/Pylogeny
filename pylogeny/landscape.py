@@ -4,11 +4,10 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import networkx
+import networkx, tree
 from random import choice
 from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as ll
 from parsimony import profile_set as profiles
-from bipartition import bipartition
 from networkx import components as comp, algorithms as alg
 from tree import tree, treeSet, numberRootedTrees, numberUnrootedTrees
 from newick import parser, removeBranchLengths, postOrderTraversal
@@ -465,7 +464,7 @@ class landscape(graph,treeSet):
         topl = tree.toTopology()
         
         # Get bipartition for branch.
-        bipa  = bipartition(topl,br)
+        bipa  = tree.bipartition(topl,br)
         
         # Toggle the lock.
         self.toggleLock(bipa)
@@ -488,7 +487,7 @@ class landscape(graph,treeSet):
         nodes = postOrderTraversal(topl.getRoot())
         if not brind in xrange(len(nodes)): return None
         bnode = nodes[brind]
-        bipa  = bipartition(topl,bnode.parent)
+        bipa  = tree.bipartition(topl,bnode.parent)
         
         # Return the bipartition.
         return bipa
@@ -790,7 +789,7 @@ class vertex(object):
         br = [x.parent for x in nodes]
         for b in br:
             if b:
-                bi = bipartition(topo,b)
+                bi = tree.bipartition(topo,b)
                 bp.append(bi)
             else: bp.append(None)
         
@@ -818,7 +817,7 @@ class vertex(object):
         
         tree   = self.getTree()
         topl   = tree.toTopology()
-        bipa   = bipartition(topl,br)
+        bipa   = tree.bipartition(topl,br)
         return self.getNeighborsOfBipartition(bipa)
 
     

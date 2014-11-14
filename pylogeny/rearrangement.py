@@ -1,12 +1,10 @@
-''' Phylogenetic tree structure encapsulation; allow rearrangement of said structure. Tree rearrangements inducing other topologies include Nearest Neighbor Interchange (NNI), Subtree Pruning and Regrafting (SPR), and Tree Bisection and Reconstruction (TBR). Each of these describe a transfer of one node in phylogenetic trees from one parent of a tree to a new parent. Respectively, these
-operators describe transformations that are subsets of those possible by the successive operator. For example, an NNI operator can perform transformations that are a subset of the transformations possible by the SPR operator. '''
+''' Phylogenetic tree structure encapsulation; allow rearrangement of said structure. Tree rearrangements inducing other topologies include Nearest Neighbor Interchange (NNI), Subtree Pruning and Regrafting (SPR), and Tree Bisection and Reconstruction (TBR). Each of these describe a transfer of one node in phylogenetic trees from one parent of a tree to a new parent. Respectively, these operators describe transformations that are subsets of those possible by the successive operator. For example, an NNI operator can perform transformations that are a subset of the transformations possible by the SPR operator. '''
 
 # Date:   Feb 10 2014
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
 import newick, tree
-from bipartition import bipartition
 
 # Exception Handling
 
@@ -25,7 +23,7 @@ def dup(topo,where=None):
     else: new = topology()
     new.fromNewick(topo.toNewick())
     if where:
-        fake = bipartition(topo,new.fakebranch)
+        fake = tree.bipartition(topo,new.fakebranch)
         # Retain locks.
         for lock in new.locked:
             if lock != fake: new.locked.append(lock)      
@@ -196,7 +194,7 @@ class topology:
         version of the tree. '''
 
         # Check what bipartition is represented.
-        bipart = bipartition(self,br)
+        bipart = tree.bipartition(self,br)
         # Get a leaf that can be rerooted to.
         newleaf = None
         leaves  = newick.getAllLeaves(br.child)
@@ -295,7 +293,7 @@ class topology:
         bili = []
         br = self.branches
         for b in br:
-            bi = bipartition(self,b)
+            bi = tree.bipartition(self,b)
             if not bi in bili: bili.append(bi)
         return bili
     
@@ -341,7 +339,7 @@ class topology:
         transitions can ever occur across it. '''
         
         # Transform to bipartition object.
-        bipart = bipartition(self,branch)
+        bipart = tree.bipartition(self,branch)
         
         # Has already been locked?
         if bipart in self.locked: return True

@@ -56,7 +56,11 @@ class alignment(object):
 
     def close(self):
         
-        ''' Delete FASTA temporary file, other temporary files. '''
+        ''' Delete all temporary files and clear data. '''
+        
+        self.data  = None
+        self.size  = None
+        self.model = None
         if len(self.paths) > 0:
             for f in self.paths.values(): os.unlink(f)
             self.paths = {}

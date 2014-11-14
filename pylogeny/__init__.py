@@ -1,8 +1,8 @@
-''' Pylogeny is a Python library and code framework for phylogenetic tree reconstruction and scoring in the larger frame of a combinatorial space.
+''' Pylogeny is a Python library and code framework for phylogenetic tree reconstruction and scoring.
 
 Allows one to perform the following tasks: (1) Generate and manage phylogenetic tree landscapes. (2) Build and rearrange phylogenetic trees using preset operators such as NNI, SPR, and TBR. (3) Score phylogenetic trees by Log-likelihood and Parsimony. 
 
-Dependencies: Numpy, NetworkX, Pandas, P4 Phylogenetic Library, libpll. Suggested: FastTree, RAxML, PytBEAGLEhon. '''
+Dependencies: Pandas, P4 Phylogenetic Library. Suggested: FastTree, RAxML, PytBEAGLEhon. '''
 
 import os as _
 

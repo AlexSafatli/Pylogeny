@@ -19,7 +19,7 @@ def beaglegetLogLikelihood(tree,alignment):
     ''' Acquire log-likelihood via C++ library
     BEAGLE via use of pybeaglethon wrapper library.
     Parameters: newick.tree object and alignment
-    object. '''
+    object. Currently uses HKY85 model. '''
     
     # Construct appropriate BEAGLE instance.
     if (alignment.getDim() == 4):
