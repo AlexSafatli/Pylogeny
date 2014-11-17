@@ -9,7 +9,7 @@ from random import choice
 from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as ll
 from parsimony import profile_set as profiles
 from networkx import components as comp, algorithms as alg
-from tree import tree, treeSet, numberRootedTrees, numberUnrootedTrees
+from tree import treeSet, numberRootedTrees, numberUnrootedTrees
 from newick import parser, removeBranchLengths, postOrderTraversal
 from rearrangement import TYPE_NNI, TYPE_SPR, TYPE_TBR
 
@@ -460,8 +460,8 @@ class landscape(graph,treeSet):
         if (not tr in g): return None
         
         # Acquire metadata for tree.
-        tree = self.getTree(tr)
-        topl = tree.toTopology()
+        tr = self.getTree(tr)
+        topl = tr.toTopology()
         
         # Get bipartition for branch.
         bipa  = tree.bipartition(topl,br)
@@ -480,8 +480,8 @@ class landscape(graph,treeSet):
         
         # Acquire metadata for tree.
         if not topol:
-            tree = self.graph.node[tr]['tree']
-            topl = tree.toTopology()
+            tr = self.graph.node[tr]['tree']
+            topl = tr.toTopology()
         
         # Get bipartition for branch.
         nodes = postOrderTraversal(topl.getRoot())
@@ -778,14 +778,14 @@ class vertex(object):
         ''' Get all bipartitions for this vertex. '''
         
         # Get tree object.
-        tree = self.getTree()
+        tr = self.getTree()
         
         # Get corresponding topology.
-        topo  = tree.toTopology()
+        topo  = tr.toTopology()
         nodes = postOrderTraversal(topo.getRoot())
         
         # Get branches + bipartitions of the topology.
-        bp = list()
+        bp = []
         br = [x.parent for x in nodes]
         for b in br:
             if b:
@@ -815,9 +815,9 @@ class vertex(object):
         
         ''' Get corresponding neighbors of a branch in this vertex's tree. '''
         
-        tree   = self.getTree()
-        topl   = tree.toTopology()
-        bipa   = tree.bipartition(topl,br)
+        tr   = self.getTree()
+        topl = tr.toTopology()
+        bipa = tree.bipartition(topl,br)
         return self.getNeighborsOfBipartition(bipa)
 
     
