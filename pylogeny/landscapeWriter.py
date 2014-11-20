@@ -131,9 +131,9 @@ class landscapeParser:
         for t in self.database.iterRecords('trees'):
             id,newick,orig,ml,pars = t
             if newick != '':
-                trobj = tree.tree(newick)
-                trobj.origin = orig
-                trobj.name = id
+                trobj = tree.tree(str(newick))
+                trobj.origin = str(orig)
+                trobj.name = int(id)
                 trobj.score = [ml,pars]
                 self.trees.append(trobj)
 
@@ -141,7 +141,7 @@ class landscapeParser:
         
         for e in self.database.iterRecords('graph'):
             source,target = e
-            self.landscape.graph.add_edge(source,target)
+            self.landscape.graph.add_edge(int(source),int(target))
 
     def parse(self):
         
