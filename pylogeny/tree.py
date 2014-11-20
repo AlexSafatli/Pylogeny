@@ -266,6 +266,17 @@ class bipartition(object):
         
         return self.branch
     
+    def getBranchIndex(self):
+        
+        ''' Return an index of the branch with respect to a post order traversal
+        of the topology. '''
+        
+        nodes = newick.postOrderTraversal(self.topology.getRoot())
+        for i in xrange(len(nodes)):
+            node = nodes[i]
+            if node.parent == self.branch:
+                return i
+    
     def getStringRepresentation(self):
         
         ''' Get the string representation corresponding to this bipartition. '''

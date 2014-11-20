@@ -1,11 +1,14 @@
-''' Serialize a phylogenetic landscape into a Python-readable file (Pickle). '''
+''' Serialize a phylogenetic landscape into an archive made up of three components: a flatfile containing
+all tree IDs and respective scores, the alignment file written as a FASTA file, and a representation of the graph in the format. '''
 
 # Date:   Apr 9 2014
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import os, pickle
+from alignment import phylipFriendlyAlignment as alignment
 from landscape import landscape
+from database import SQLiteDatabase
+import os, tree
 
 class landscapeWriter(object):
 
@@ -18,8 +21,8 @@ class landscapeWriter(object):
         self.landscape = landscape
         self.name      = name
         self.cleankey  = ''
-        self.cleanpath = ''
         self.graph     = landscape.graph
+        self.database  = None        
         
         # Clean the input landscape name.
         self._cleanName()
@@ -29,45 +32,57 @@ class landscapeWriter(object):
         for x in self.name:
             if x.isalnum(): self.cleankey += x
             else: self.cleankey += '_'
-        self.cleanpath = '%s.landscape' % (self.cleankey)
+        self.cleansuff = '%s.landscape' % (self.cleankey)
 
-    def _fixDataStructures(self):
+    def _schema(self):
         
-        # Change the list proxy found in the data structure to a list.
-        self.landscape._locks = self.landscape.locks
-        self.landscape.locks = [x for x in self.landscape.locks]
-
-        # Remove any temporary files from the alignment object.
-        if self.landscape.alignment:
-            self.landscape.alignment.close()
-            if hasattr(self.landscape.alignment,'_pllmodel'):
-                del self.landscape.alignment._pllmodel
-
-    def _resetDataStructures(self):
+        # Get the database object.
+        dbobj = self.database
         
-        # Return structures to original forms.
-        self.landscape.locks = self.landscape._locks
-        if self.landscape.alignment:
-            self.landscape.alignment = self.landscape.alignment.recreateObject()
+        # Create all tables.
+        dbobj.newTable('alignment',seqid='integer',seqname='text',sequence='text')
+        dbobj.newTable('trees',treeid='integer',newick='text',origin='text',ml='real',pars='real')
+        dbobj.newTable('graph',source='text',origin='text')
+        dbobj.newTable('locks',treeid='integer',branchid='integer')
 
     def _dump(self,path='.'):
 
-        # Fix structures in landscape.
-        self._fixDataStructures()
-
         # Open the file.
-        fpath = os.path.join(path,self.cleanpath)
-        o = open(fpath, mode='wb')
+        fpath = os.path.join(path,self.cleansuff)
+        if os.path.isfile(fpath): os.unlink(fpath)
+        o = SQLiteDatabase(fpath)
+        self.database = o
         
-        # Dump the landscape.
-        pickle.dump((self.landscape,self.name),o)
+        # Construct the schema for the landscape.
+        self._schema()
+        
+        # Add the alignment.
+        index = 0
+        if self.landscape.alignment != None:
+            for s in self.landscape.alignment:
+                o.insertRecord('alignment',[index,s.name,s.sequence])
+                index += 1
+        
+        # Add all of the trees.
+        for t in self.landscape.iterTrees():
+            assert str(t.getName()).isdigit()
+            o.insertRecord('trees',[int(t.getName()),t.getNewick(),t.getOrigin(
+                ),t.getScore()[0],t.getScore()[1]])
+        
+        # Add the graph in its entirety as its adjacency list.
+        adj_list = self.graph.edges_iter()
+        for tupl in adj_list:
+            o.insertRecord('graph',[int(x) for x in tupl])
+        
+        # Add all of the locks.
+        for l in self.landscape.getLocks():
+            tree = l.topology.toTree()
+            treeIndex = self.landscape.indexOf(tree)
+            o.insertRecord('locks',[treeIndex,l.getBranchIndex()])
         
         # Close the file.
         o.close()
-        
-        # Return structures to previous form.
-        self._resetDataStructures()
-        
+
         # Return the path.
         return fpath
 
@@ -84,21 +99,73 @@ class landscapeParser:
 
     def __init__(self,path):
         self.file = path
+        self.name = None
+        self.database = None
+        self.alignment = None
+        self.trees = []
+        self.landscape = None
 
-    def _onparse(self,landsc):
-        if landsc.alignment: landsc.alignment.paths = {}         
+    def getName(self):
+        
+        ''' Acquire the name of the parsed landscape. '''
+        
+        if self.name is None:
+            self.name = os.path.splitext(os.path.basename(self.file))[0]
+        return self.name
+
+    def _makeAlignment(self):
+        
+        ''' Construct a pseudo-FASTA string to create a new alignment from. '''
+        
+        pseudofasta = ''
+        sequences = self.database.iterRecords('alignment')
+        for sequence in sequences:
+            _,name,seq = sequence
+            if name != '' and seq != '':
+                pseudofasta += '>%s\n%s\n' % (name,seq)
+        if pseudofasta != '':
+            self.alignment = alignment(str(pseudofasta))
+        
+    def _getTrees(self):
+        
+        for t in self.database.iterRecords('trees'):
+            id,newick,orig,ml,pars = t
+            if newick != '':
+                trobj = tree.tree(newick)
+                trobj.origin = orig
+                trobj.name = id
+                trobj.score = [ml,pars]
+                self.trees.append(trobj)
+
+    def _getGraph(self):
+        
+        for e in self.database.iterRecords('graph'):
+            source,target = e
+            self.landscape.graph.add_edge(source,target)
 
     def parse(self):
         
         ''' Parse the file. '''
 
-        # Get landscape object ready.
-        landsc = None
+        # Get database object.
+        fpath = self.file
+        if not os.path.isfile(fpath):
+            raise IOError('Landscape file not found.')
+        o = SQLiteDatabase(fpath)
+        self.database = o
+        
+        # Get the alignment.
+        self._makeAlignment()
+        
+        # Get all of the trees.
+        self._getTrees()
+        
+        # Construct the landscape.
+        self.landscape = landscape(self.alignment,starting_tree=self.trees[0],
+                                   operator=self.trees[0].getOrigin())
+        for t in self.trees: self.landscape.addTree(t)
+        
+        # Ensure all edges are established.
+        self._getGraph()
 
-        # Read the file.
-        o = open(self.file,'rb')
-        landsc,name = pickle.load(o)
-        self._onparse(landsc) # Do any fixes.
-        o.close()
-
-        return (landsc,name)
+        return (self.landscape,self.getName())

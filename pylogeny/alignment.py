@@ -11,6 +11,7 @@ from newick import parser, getAllNodes
 from executable import fasttree
 from tempfile import NamedTemporaryFile as NTempFile
 from shutil import copyfile
+p4.var.warnReadNoFile = False
 
 # Class Definitions
 
@@ -20,17 +21,18 @@ class alignment(object):
     necessary for phylogenetic inference. Makes use of temporary
     files; requires to be closed once no longer needed. '''
     
-    def __init__(self,inal):
+    def __init__(self,inal=None):
         
         ''' Instantiate an object intended to wrap an alignment
         for the purposes of running phylogenetic inference. '''
         
         # Intergrate the p4 phylogenetic library.
-        p4.read(inal) # Read the alignment file/string.
-        
-        # Store data, get size of alignment.
-        self.data  = p4.var.alignments[-1]
-        self.size  = len(self.data)
+        if inal is None:
+            self.data = p4.Alignment()
+            
+        else:
+            p4.read(inal) # Read the alignment file/string.
+            self.data  = p4.var.alignments[-1]
 
         # Augment alignment with a discrete state model.
         self.model = model.DiscreteStateModel(self)
@@ -42,7 +44,11 @@ class alignment(object):
 
     def __getitem__(self,i): return self.data.sequences[i]
     def __str__(self):       return str(self.data) # toString
-    def __len__(self):       return self.size
+    def __len__(self):       return len(self.data)
+    
+    def __iter__(self):
+        
+        for i in xrange(self.getNumSeqs()): yield self[i]
 
     def _makeFASTAFile(self):
         
@@ -59,7 +65,6 @@ class alignment(object):
         ''' Delete all temporary files and clear data. '''
         
         self.data  = None
-        self.size  = None
         self.model = None
         if len(self.paths) > 0:
             for f in self.paths.values(): os.unlink(f)
@@ -155,7 +160,7 @@ class phylipFriendlyAlignment(alignment):
     ''' An alignment object that renames all comprising taxa in order
     to be able to be written as a Phylip file. '''
     
-    def __init__(self,inal):
+    def __init__(self,inal=None):
         
         # Call superclass constructor.
         super(phylipFriendlyAlignment,self).__init__(inal)

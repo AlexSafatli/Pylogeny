@@ -4,7 +4,7 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import networkx, tree
+import networkx, tree, alignment
 from random import choice
 from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as ll
 from parsimony import profile_set as profiles
@@ -261,6 +261,13 @@ class landscape(graph,treeSet):
         
         if not i in self.graph.node: return None
         return self.getNode(i)['tree']
+
+    def iterTrees(self):
+        
+        ''' Iterate over all trees found in this landscape. '''
+        
+        for t in self.graph.nodes():
+            yield self.getTree(t)
 
     def getVertex(self,i):
         
@@ -679,7 +686,9 @@ class landscape(graph,treeSet):
         trees = []
         for t in self.getNodeNames():
             trees.append(self.getVertex(t))
-        return '\n'.join([t.getProperNewick() for t in trees])
+        if type(self.alignment) == alignment.phylipFriendlyAlignment:
+            return '\n'.join([t.getProperNewick() for t in trees])
+        else: return '\n'.join([t.getNewick() for t in trees])
 
     def toTreeSet(self):
         
