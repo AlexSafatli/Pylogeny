@@ -1,0 +1,12 @@
+# Compiled python modules.
+*.pyc
+
+# Compiled C/C++ extensions.
+*.so
+
+# Setuptools distribution, build folder.
+/dist/
+/build/
+
+# Python egg metadata, regenerated from source files by setuptools.
+/*.egg-info

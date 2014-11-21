@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class Hierarchy</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pylogeny-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Trees&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://AlexSafatli.github.io/Pylogeny">Pylogeny</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">&nbsp;</td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="class-tree.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<center><b>
+ [ <a href="module-tree.html">Module Hierarchy</a>
+ | <a href="class-tree.html">Class Hierarchy</a> ]
+</b></center><br />
+<h1 class="epydoc">Class Hierarchy</h1>
+<ul class="nomargin-top">
+    <li> <strong class="uidlink"><a href="pylogeny.pll.dataModel-class.html">pylogeny.pll.dataModel</a></strong>:
+      <em class="summary">Encapsulating a phylogenetic tree (as topology) + corresponding 
+        alignment into a libpll-associated data structure.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.landscapeWriter.landscapeParser-class.html">pylogeny.landscapeWriter.landscapeParser</a></strong>:
+      <em class="summary">Encapsulates the construction of a landscape object from a pickle 
+        file.</em>
+    </li>
+    <li> <strong class="uidlink">object</strong>:
+      <em class="summary">The most base type</em>
+    <ul>
+    <li> <strong class="uidlink">exceptions.BaseException</strong>:
+      <em class="summary">Common base class for all exceptions</em>
+    <ul>
+    <li> <strong class="uidlink">exceptions.Exception</strong>:
+      <em class="summary">Common base class for all non-exit exceptions.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.newick.ParsingError-class.html">pylogeny.newick.ParsingError</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.model.PhyloModelError-class.html">pylogeny.model.PhyloModelError</a></strong>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.rearrangement.RearrangementError-class.html">pylogeny.rearrangement.RearrangementError</a></strong>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.model.DiscreteStateModel-class.html">pylogeny.model.DiscreteStateModel</a></strong>:
+      <em class="summary">Initialize a discrete state model for phylogenetic data.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.executable.aTemporaryDirectory-class.html">pylogeny.executable.aTemporaryDirectory</a></strong>:
+      <em class="summary">A class intended to be used as a context manager that allows Python
+        to run in another directory temporarily.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.alignment.alignment-class.html">pylogeny.alignment.alignment</a></strong>:
+      <em class="summary">Wrap a biological sequence alignment to enable functionality 
+        necessary for phylogenetic inference.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.alignment.phylipFriendlyAlignment-class.html">pylogeny.alignment.phylipFriendlyAlignment</a></strong>:
+      <em class="summary">An alignment object that renames all comprising taxa in order to be
+        able to be written as a Phylip file.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.tree.bipartition-class.html">pylogeny.tree.bipartition</a></strong>:
+      <em class="summary">A tree bipartition.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.newick.branch-class.html">pylogeny.newick.branch</a></strong>:
+      <em class="summary">Newick branch.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.database.database-class.html">pylogeny.database.database</a></strong>:
+      <em class="summary">Allow interfacing with a SQL/sqlite database.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.database.SQLDatabase-class.html">pylogeny.database.SQLDatabase</a></strong>:
+      <em class="summary">Database object to allow reading from a MySQL database.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.database.SQLiteDatabase-class.html">pylogeny.database.SQLiteDatabase</a></strong>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.executable.executable-class.html">pylogeny.executable.executable</a></strong>:
+      <em class="summary">An interface for the instantation and running of a single instance 
+        for a given application.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.executable.consel-class.html">pylogeny.executable.consel</a></strong>:
+      <em class="summary">Denotes a single run of the CONSEL workflow in order to acquire a 
+        confidence interval and perform an AU test on a set of trees.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.executable.fasttree-class.html">pylogeny.executable.fasttree</a></strong>:
+      <em class="summary">Denotes a single run of the FastTree executable in order to acquire
+        an approximate maximum likelihood tree for the input alignment.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.executable.raxml-class.html">pylogeny.executable.raxml</a></strong>:
+      <em class="summary">Denotes a single run of the RAxML executable.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.executable.treepuzzle-class.html">pylogeny.executable.treepuzzle</a></strong>:
+      <em class="summary">Wrap TREE-PUZZLE in order to create an intermediate file for CONSEL
+        to read and assign confidence to a set of trees.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.landscape.graph-class.html">pylogeny.landscape.graph</a></strong>:
+      <em class="summary">Define an empty graph object.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.landscape.landscape-class.html">pylogeny.landscape.landscape</a></strong>:
+      <em class="summary">Defines an entire phylogenetic tree space.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.database.DatabaseLandscape-class.html">pylogeny.database.DatabaseLandscape</a></strong>:
+      <em class="summary">Abstract the landscape to one comprising a landscape.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.database.SQLExhaustiveLandscape-class.html">pylogeny.database.SQLExhaustiveLandscape</a></strong>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.database.SQLiteLandscape-class.html">pylogeny.database.SQLiteLandscape</a></strong>:
+      <em class="summary">Allow random access of all landscape data from an sqlite file found
+        on the hard disk.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.heuristic.heuristic-class.html">pylogeny.heuristic.heuristic</a></strong>:
+      <em class="summary">A base interface for a heuristic that explores a state graph.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.heuristic.phylogeneticLinearHeuristic-class.html">pylogeny.heuristic.phylogeneticLinearHeuristic</a></strong>:
+      <em class="summary">A base class for a heuristic that works on a phylogenetic landscape
+        and only possesses a single path (of search).</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.heuristic.RAxMLIdentify-class.html">pylogeny.heuristic.RAxMLIdentify</a></strong>:
+      <em class="summary">RAxML-driven landscape evaluation of intermediate checkpoint trees 
+        output from the RAxML executable.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.heuristic.likelihoodGreedy-class.html">pylogeny.heuristic.likelihoodGreedy</a></strong>:
+      <em class="summary">Greedy (hill-climbing) landscape exploration by comparsion of 
+        likelihood.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.heuristic.parsimonyGreedy-class.html">pylogeny.heuristic.parsimonyGreedy</a></strong>:
+      <em class="summary">Greedy (hill-climbing) landscape exploration by comparsion of 
+        parsimony.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.heuristic.smoothGreedy-class.html">pylogeny.heuristic.smoothGreedy</a></strong>:
+      <em class="summary">Parsimony-driven greedy landscape exploration by comparsion of 
+        likelihoods.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.landscapeWriter.landscapeWriter-class.html">pylogeny.landscapeWriter.landscapeWriter</a></strong>:
+      <em class="summary">Encapsulate the writing of a landscape to a file format.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.JSONWriter.JSONWriter-class.html">pylogeny.JSONWriter.JSONWriter</a></strong>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.newick.node-class.html">pylogeny.newick.node</a></strong>:
+      <em class="summary">Newick node.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.tree.tree-class.html">pylogeny.tree.tree</a></strong>:
+      <em class="summary">Defines a single (phylogenetic) tree by newick string; can possess 
+        other metadata.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.tree.treeSet-class.html">pylogeny.tree.treeSet</a></strong>:
+      <em class="summary">Represents an ordered, unorganized collection of trees that do not 
+        necessarily comprise a combinatorial space.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.landscape.landscape-class.html">pylogeny.landscape.landscape</a></strong>:
+      <em class="summary">Defines an entire phylogenetic tree space.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.database.DatabaseLandscape-class.html">pylogeny.database.DatabaseLandscape</a></strong>:
+      <em class="summary">Abstract the landscape to one comprising a landscape.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pylogeny.database.SQLExhaustiveLandscape-class.html">pylogeny.database.SQLExhaustiveLandscape</a></strong>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.database.SQLiteLandscape-class.html">pylogeny.database.SQLiteLandscape</a></strong>:
+      <em class="summary">Allow random access of all landscape data from an sqlite file found
+        on the hard disk.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">type</strong>:
+      <em class="summary">type(object) -&gt; the object's type type(name, bases, dict) -&gt; 
+        a new type</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="abc.ABCMeta-class.html">abc.ABCMeta</a></strong>:
+      <em class="summary">Metaclass for defining Abstract Base Classes (ABCs).</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.landscape.vertex-class.html">pylogeny.landscape.vertex</a></strong>:
+      <em class="summary">Encapsulate a single vertex in the landscape and add convenient 
+        functionality to alias parent landscape functions.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.newick.parser-class.html">pylogeny.newick.parser</a></strong>:
+      <em class="summary">Parsing object for Newick strings.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.pll.partitionModel-class.html">pylogeny.pll.partitionModel</a></strong>:
+      <em class="summary">A partition model intended for libpll.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.parsimony.profile_set-class.html">pylogeny.parsimony.profile_set</a></strong>:
+      <em class="summary">Hold a set of site_profile profiles for an entire alignment.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.rearrangement.rearrangement-class.html">pylogeny.rearrangement.rearrangement</a></strong>:
+      <em class="summary">Encapsulates a single rearrangement move of type SPR, NNI, ...</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.parsimony.site_profile-class.html">pylogeny.parsimony.site_profile</a></strong>:
+      <em class="summary">Consolidate the single-column alignment at a region into a set of 
+        components on the basis of similarity alone.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pylogeny.rearrangement.topology-class.html">pylogeny.rearrangement.topology</a></strong>:
+      <em class="summary">Encapsulate a tree topology, wrapping the newick tree structure.</em>
+    </li>
+</ul>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pylogeny-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Trees&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://AlexSafatli.github.io/Pylogeny">Pylogeny</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Nov 20 14:00:41 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

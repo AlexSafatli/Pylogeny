@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pylogeny.alignment.alignment</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pylogeny-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://AlexSafatli.github.io/Pylogeny">Pylogeny</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pylogeny-module.html">Package&nbsp;pylogeny</a> ::
+        <a href="pylogeny.alignment-module.html">Module&nbsp;alignment</a> ::
+        Class&nbsp;alignment
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pylogeny.alignment.alignment-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class alignment</h1><p class="nomargin-top"><span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_pylogeny_2" name="uml_class_diagram_for_pylogeny_2">
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#__init__" title="Instantiate an object intended to wrap an alignment for the purposes of &#160;running phylogenetic inference." alt="" coords="17,39,165,57"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#__getitem__" title="pylogeny.alignment.alignment.__getitem__" alt="" coords="17,57,165,76"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#__str__" title="str(x)" alt="" coords="17,76,165,95"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#__len__" title="pylogeny.alignment.alignment.__len__" alt="" coords="17,95,165,113"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#__iter__" title="pylogeny.alignment.alignment.__iter__" alt="" coords="17,113,165,132"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#close" title="Delete all temporary files and clear data." alt="" coords="17,132,165,151"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#toStrList" title="Get all sequences as a list of strings." alt="" coords="17,151,165,169"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#getStateModel" title="pylogeny.alignment.alignment.getStateModel" alt="" coords="17,169,165,188"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#getSize" title="Return the size of the alignment, or how many characters there are in each &#160;respective item in the alignment." alt="" coords="17,188,165,207"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#getNumSeqs" title="Return the number of sequences that are present in the sequence alignment." alt="" coords="17,207,165,225"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#getDim" title="Return the dimensionality of the sequence alignment (how many different &#160;types of characters)." alt="" coords="17,225,165,244"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#getSequence" title="Acquire the ith sequence." alt="" coords="17,244,165,263"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#getFASTA" title="Get (and create if not already) a path to a temporary FASTA file." alt="" coords="17,263,165,281"/>
+<area shape="rect" id="node4" href="pylogeny.alignment.alignment-class.html#bootstrap" title="Perform bootstrapping on the alignment data." alt="" coords="17,300,165,319"/>
+<area shape="rect" id="node1" href="pylogeny.alignment.alignment-class.html" title="Wrap a biological sequence alignment to enable functionality necessary for phylogenetic inference." alt="" coords="5,6,176,325"/>
+<area shape="rect" id="node2" href="pylogeny.alignment.phylipFriendlyAlignment-class.html" title="An alignment object that renames all comprising taxa in order to be able to be written as a Phylip file." alt="" coords="5,345,179,383"/>
+</map>
+  <img src="uml_class_diagram_for_pylogeny_2.gif" alt='' usemap="#uml_class_diagram_for_pylogeny_2" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>Wrap a biological sequence alignment to enable functionality necessary
+  for phylogenetic inference. Makes use of temporary files; requires to be 
+  closed once no longer needed.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pylogeny.alignment.alignment-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">inal</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Instantiate an object intended to wrap an alignment for the purposes 
+      of running phylogenetic inference.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__getitem__"></a><span class="summary-sig-name">__getitem__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">i</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.__getitem__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pylogeny.alignment.alignment-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      str(x)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.__str__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__len__"></a><span class="summary-sig-name">__len__</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.__len__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__iter__"></a><span class="summary-sig-name">__iter__</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.__iter__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_makeFASTAFile"></a><span class="summary-sig-name">_makeFASTAFile</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      PRIVATE: Make a temporary FASTA file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment._makeFASTAFile">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="close"></a><span class="summary-sig-name">close</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Delete all temporary files and clear data.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.close">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="toStrList"></a><span class="summary-sig-name">toStrList</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Get all sequences as a list of strings.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.toStrList">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getStateModel"></a><span class="summary-sig-name">getStateModel</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getStateModel">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getSize"></a><span class="summary-sig-name">getSize</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the size of the alignment, or how many characters there are in
+      each respective item in the alignment.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getSize">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getNumSeqs"></a><span class="summary-sig-name">getNumSeqs</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the number of sequences that are present in the sequence 
+      alignment.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getNumSeqs">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getDim"></a><span class="summary-sig-name">getDim</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the dimensionality of the sequence alignment (how many 
+      different types of characters).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getDim">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getSequence"></a><span class="summary-sig-name">getSequence</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">i</span>)</span><br />
+      Acquire the ith sequence.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getSequence">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pylogeny.alignment.alignment-class.html#getFASTA" class="summary-sig-name">getFASTA</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Get (and create if not already) a path to a temporary FASTA file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getFASTA">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getApproxMLNewick"></a><span class="summary-sig-name">getApproxMLNewick</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Get a tree in newick format via use of FastTree that serves as an 
+      approximation of the maximum likelihood tree for this data.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getApproxMLNewick">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getApproxMLTree"></a><span class="summary-sig-name">getApproxMLTree</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Get a tree object for an approximation of the maximum likelihood tree
+      for this data using FastTree.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getApproxMLTree">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getTaxa"></a><span class="summary-sig-name">getTaxa</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return taxa names.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getTaxa">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getAlignment"></a><span class="summary-sig-name">getAlignment</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Acquire the alignment data structure (P4 module).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getAlignment">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="bootstrap"></a><span class="summary-sig-name">bootstrap</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Perform bootstrapping on the alignment data.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.bootstrap">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">inal</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Instantiate an object intended to wrap an alignment for the purposes 
+  of running phylogenetic inference.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__str__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Informal representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.__str__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>str(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__str__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="getFASTA"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">getFASTA</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pylogeny.alignment-pysrc.html#alignment.getFASTA">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get (and create if not already) a path to a temporary FASTA file. This
+  will be deleted upon closure of the alignment instance.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pylogeny-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://AlexSafatli.github.io/Pylogeny">Pylogeny</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Nov 20 14:00:41 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

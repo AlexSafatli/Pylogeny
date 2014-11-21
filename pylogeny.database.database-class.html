@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pylogeny.database.database</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pylogeny-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://AlexSafatli.github.io/Pylogeny">Pylogeny</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pylogeny-module.html">Package&nbsp;pylogeny</a> ::
+        <a href="pylogeny.database-module.html">Module&nbsp;database</a> ::
+        Class&nbsp;database
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pylogeny.database.database-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class database</h1><p class="nomargin-top"><span class="codelink"><a href="pylogeny.database-pysrc.html#database">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_pylogeny_9" name="uml_class_diagram_for_pylogeny_9">
+<area shape="rect" id="node26" href="abc.ABCMeta-class.html" title="Metaclass for defining Abstract Base Classes (ABCs)." alt="" coords="28,31,253,49"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#cursor" title="pylogeny.database.database.cursor" alt="" coords="28,49,253,68"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#__abstractmethods__" title="pylogeny.database.database.__abstractmethods__" alt="" coords="28,68,253,87"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#isEmpty" title="Determine if the database is empty." alt="" coords="28,89,253,108"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#getTables" title="Get the list of tables from the database" alt="" coords="28,108,253,127"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#getColumns" title="Return column information for a given table." alt="" coords="28,127,253,145"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#getHeaders" title="Get only header names for a given table&#39;s columns." alt="" coords="28,145,253,164"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#getRecordsColumn" title="Get all data for a single colmun from records for a table." alt="" coords="28,164,253,183"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#getRecords" title="Get all records from a given table in the database." alt="" coords="28,183,253,201"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#iterRecords" title="Get a record, one at a time, from a table in the database." alt="" coords="28,201,253,220"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#filterRecords" title="Get all records from a given table following a condition." alt="" coords="28,220,253,239"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#getRecordsAsDict" title="Acquires records using getRecords() and then leverages access using a &#160;dictionary data structure." alt="" coords="28,239,253,257"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#newTable" title="pylogeny.database.database.newTable" alt="" coords="28,257,253,276"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#insertRecords" title="pylogeny.database.database.insertRecords" alt="" coords="28,276,253,295"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#insertRecord" title="pylogeny.database.database.insertRecord" alt="" coords="28,295,253,313"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#query" title="pylogeny.database.database.query" alt="" coords="28,313,253,332"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#querymany" title="pylogeny.database.database.querymany" alt="" coords="28,332,253,351"/>
+<area shape="rect" id="node26" href="pylogeny.database.database-class.html#close" title="pylogeny.database.database.close" alt="" coords="28,351,253,369"/>
+<area shape="rect" id="node1" href="pylogeny.database.database-class.html" title="Allow interfacing with a SQL/sqlite database." alt="" coords="16,6,264,375"/>
+<area shape="rect" id="node2" href="pylogeny.database.SQLDatabase-class.html" title="Database object to allow reading from a MySQL database." alt="" coords="5,395,123,434"/>
+<area shape="rect" id="node3" href="pylogeny.database.SQLiteDatabase-class.html" title="pylogeny.database.SQLiteDatabase" alt="" coords="152,395,285,434"/>
+</map>
+  <img src="uml_class_diagram_for_pylogeny_9.gif" alt='' usemap="#uml_class_diagram_for_pylogeny_9" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>Allow interfacing with a SQL/sqlite database.</p>
+
+<!-- ==================== NESTED CLASSES ==================== -->
+<a name="section-NestedClasses"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Nested Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-NestedClasses"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="abc.ABCMeta-class.html" class="summary-name">__metaclass__</a><br />
+      Metaclass for defining Abstract Base Classes (ABCs).
+    </td>
+  </tr>
+</table>
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isEmpty"></a><span class="summary-sig-name">isEmpty</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Determine if the database is empty.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.isEmpty">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getTables"></a><span class="summary-sig-name">getTables</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Get the list of tables from the database</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.getTables">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getColumns"></a><span class="summary-sig-name">getColumns</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">table</span>)</span><br />
+      Return column information for a given table.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.getColumns">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getHeaders"></a><span class="summary-sig-name">getHeaders</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">table</span>)</span><br />
+      Get only header names for a given table's columns.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.getHeaders">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getRecordsColumn"></a><span class="summary-sig-name">getRecordsColumn</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">table</span>,
+        <span class="summary-sig-arg">col</span>)</span><br />
+      Get all data for a single colmun from records for a table.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.getRecordsColumn">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getRecords"></a><span class="summary-sig-name">getRecords</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">table</span>)</span><br />
+      Get all records from a given table in the database.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.getRecords">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="iterRecords"></a><span class="summary-sig-name">iterRecords</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">table</span>)</span><br />
+      Get a record, one at a time, from a table in the database.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.iterRecords">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="filterRecords"></a><span class="summary-sig-name">filterRecords</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">table</span>,
+        <span class="summary-sig-arg">condn</span>)</span><br />
+      Get all records from a given table following a condition.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.filterRecords">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getRecordsAsDict"></a><span class="summary-sig-name">getRecordsAsDict</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">table</span>)</span><br />
+      Acquires records using getRecords() and then leverages access using a
+      dictionary data structure.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.getRecordsAsDict">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="newTable"></a><span class="summary-sig-name">newTable</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">tablename</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.newTable">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="insertRecords"></a><span class="summary-sig-name">insertRecords</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">tablename</span>,
+        <span class="summary-sig-arg">items</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.insertRecords">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="insertRecord"></a><span class="summary-sig-name">insertRecord</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">tablename</span>,
+        <span class="summary-sig-arg">record</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.insertRecord">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pylogeny.database.database-class.html#query" class="summary-sig-name">query</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">q</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.query">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pylogeny.database.database-class.html#querymany" class="summary-sig-name">querymany</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">q</span>,
+        <span class="summary-sig-arg">i</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.querymany">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pylogeny.database.database-class.html#close" class="summary-sig-name">close</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pylogeny.database-pysrc.html#database.close">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__init__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="cursor"></a><span class="summary-name">cursor</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__abstractmethods__"></a><span class="summary-name">__abstractmethods__</span> = <code title="frozenset(['close', 'query', 'querymany'])"><code class="variable-group">frozenset([</code><code class="variable-quote">'</code><code class="variable-string">close</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">query</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">querymany</code><code class="variable-quote">'</code><code class="variable-group">])</code></code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_abc_cache"></a><span class="summary-name">_abc_cache</span> = <code title="&lt;_weakrefset.WeakSet object at 0x33f9c10&gt;">&lt;_weakrefset.WeakSet object at 0x33f9c10&gt;</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_abc_negative_cache"></a><span class="summary-name">_abc_negative_cache</span> = <code title="&lt;_weakrefset.WeakSet object at 0x33f9c90&gt;">&lt;_weakrefset.WeakSet object at 0x33f9c90&gt;</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_abc_negative_cache_version"></a><span class="summary-name">_abc_negative_cache_version</span> = <code title="23">23</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_abc_registry"></a><span class="summary-name">_abc_registry</span> = <code title="&lt;_weakrefset.WeakSet object at 0x33f9b50&gt;">&lt;_weakrefset.WeakSet object at 0x33f9b50&gt;</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="query"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">query</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">q</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pylogeny.database-pysrc.html#database.query">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@abstractmethod</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="querymany"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">querymany</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">q</span>,
+        <span class="sig-arg">i</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pylogeny.database-pysrc.html#database.querymany">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@abstractmethod</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="close"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">close</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pylogeny.database-pysrc.html#database.close">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@abstractmethod</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pylogeny-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://AlexSafatli.github.io/Pylogeny">Pylogeny</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Nov 20 14:00:42 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
