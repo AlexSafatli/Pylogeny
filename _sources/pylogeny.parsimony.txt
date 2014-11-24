@@ -1,0 +1,7 @@
+pylogeny.parsimony module
+=========================
+
+.. automodule:: pylogeny.parsimony
+    :members:
+    :undoc-members:
+    :show-inheritance:

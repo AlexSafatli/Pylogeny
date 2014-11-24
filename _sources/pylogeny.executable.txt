@@ -1,0 +1,7 @@
+pylogeny.executable module
+==========================
+
+.. automodule:: pylogeny.executable
+    :members:
+    :undoc-members:
+    :show-inheritance:
