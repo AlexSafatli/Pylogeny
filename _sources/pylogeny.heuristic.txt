@@ -1,7 +1,0 @@
-pylogeny.heuristic module
-=========================
-
-.. automodule:: pylogeny.heuristic
-    :members:
-    :undoc-members:
-    :show-inheritance:
