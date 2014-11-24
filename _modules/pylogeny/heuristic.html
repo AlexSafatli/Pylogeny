@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.heuristic &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pylogeny.heuristic</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39; Define the interface for a heuristic in order to implement any manner of heuristic</span>
+<span class="sd">for a combinatorial problem that can be abstracted into a state graph. In this case, a</span>
+<span class="sd">phylogenetic tree space. &#39;&#39;&#39;</span>
+
+<span class="c"># Date:   Apr 1 2014</span>
+<span class="c"># Author: Alex Safatli</span>
+<span class="c"># E-mail: safatli@cs.dal.ca</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span> <span class="k">as</span> <span class="n">removeFolder</span>
+<span class="kn">from</span> <span class="nn">scoring</span> <span class="kn">import</span> <span class="n">getLogLikelihoodForTopology</span> <span class="k">as</span> <span class="n">ll</span>
+<span class="kn">from</span> <span class="nn">executable</span> <span class="kn">import</span> <span class="n">raxml</span>
+<span class="kn">from</span> <span class="nn">tree</span> <span class="kn">import</span> <span class="n">tree</span>
+
+<span class="c"># Constants</span>
+
+<span class="n">SMGR_MIN_NUM_LIKELIHOOD</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="c"># Base Heuristic Superclass/Interface</span>
+
+<div class="viewcode-block" id="heuristic"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic">[docs]</a><span class="k">class</span> <span class="nc">heuristic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39; A base interface for a heuristic that explores a state graph. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">G</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span> <span class="o">=</span> <span class="n">G</span>      <span class="c"># State Graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span>     <span class="o">=</span> <span class="n">start</span>  <span class="c"># Start State\</span>
+<div class="viewcode-block" id="heuristic.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span></div>
+<div class="viewcode-block" id="heuristic.getStateGraph"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.getStateGraph">[docs]</a>    <span class="k">def</span> <span class="nf">getStateGraph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span></div>
+<div class="viewcode-block" id="heuristic.getStartState"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.getStartState">[docs]</a>    <span class="k">def</span> <span class="nf">getStartState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
+</div></div>
+<div class="viewcode-block" id="phylogeneticLinearHeuristic"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.phylogeneticLinearHeuristic">[docs]</a><span class="k">class</span> <span class="nc">phylogeneticLinearHeuristic</span><span class="p">(</span><span class="n">heuristic</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; A base class for a heuristic that works on a phylogenetic landscape</span>
+<span class="sd">    and only possesses a single path (of search). &#39;&#39;&#39;</span>
+    
+    <span class="n">path</span><span class="p">,</span> <span class="n">bestTree</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="bp">None</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">phylogeneticLinearHeuristic</span><span class="p">,</span><span class="bp">self</span>
+              <span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">)</span>
+<div class="viewcode-block" id="phylogeneticLinearHeuristic.getPath"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.phylogeneticLinearHeuristic.getPath">[docs]</a>    <span class="k">def</span> <span class="nf">getPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span></div>
+<div class="viewcode-block" id="phylogeneticLinearHeuristic.getBestTree"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.phylogeneticLinearHeuristic.getBestTree">[docs]</a>    <span class="k">def</span> <span class="nf">getBestTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bestTree</span>
+    
+<span class="c"># Heuristics</span>
+</div></div>
+<div class="viewcode-block" id="parsimonyGreedy"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy">[docs]</a><span class="k">class</span> <span class="nc">parsimonyGreedy</span><span class="p">(</span><span class="n">phylogeneticLinearHeuristic</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of parsimony. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">parsimonyGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="parsimonyGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    
+        <span class="sd">&#39;&#39;&#39; Perform greedy search of the landscape using</span>
+<span class="sd">        a method of greed via parsimonious criterion. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Get starting tree, landscape.</span>
+        <span class="n">landscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
+        <span class="n">ali</span>       <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">alignment</span>
+        <span class="n">starting</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
+        <span class="n">cursor</span>    <span class="o">=</span> <span class="n">starting</span> <span class="c"># Current tree.</span>
+        
+        <span class="k">while</span> <span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+
+            <span class="c"># Add this tree to the path.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
+
+            <span class="c"># Explore the current tree and only score via parsimony.</span>
+            <span class="n">landscape</span><span class="o">.</span><span class="n">exploreTree</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            
+            <span class="c"># Rank by parsimony.</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">landscape</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">it</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">it</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            
+            <span class="c"># Get best parsimony tree.</span>
+            <span class="n">best</span>  <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            
+            <span class="c"># Get parsimonies.</span>
+            <span class="n">bPars</span> <span class="o">=</span> <span class="n">best</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cPars</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                 
+            <span class="c"># Set new current tree if greater in parsimony.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cPars</span> <span class="o">&gt;</span> <span class="n">bPars</span><span class="p">):</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">best</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bestTree</span> <span class="o">=</span> <span class="n">cursor</span>
+                <span class="k">break</span>
+</div></div>
+<div class="viewcode-block" id="likelihoodGreedy"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy">[docs]</a><span class="k">class</span> <span class="nc">likelihoodGreedy</span><span class="p">(</span><span class="n">phylogeneticLinearHeuristic</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of likelihood. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">likelihoodGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="likelihoodGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    
+        <span class="sd">&#39;&#39;&#39; Perform greedy search of the landscape using</span>
+<span class="sd">        a method of greed via likelihood. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Get starting tree, landscape.</span>
+        <span class="n">landscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
+        <span class="n">ali</span>       <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">alignment</span>
+        <span class="n">starting</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
+        <span class="n">cursor</span>    <span class="o">=</span> <span class="n">starting</span> <span class="c"># Current tree.</span>
+        
+        <span class="k">while</span> <span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+
+            <span class="c"># Add this tree to the path.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
+
+            <span class="c"># Explore the current tree and only score via parsimony.</span>
+            <span class="n">landscape</span><span class="o">.</span><span class="n">exploreTree</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            
+            <span class="c"># Rank by likelihood.</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">getNeighborsFor</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">landscape</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">it</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">it</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
+            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">landscape</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">scoreLikelihood</span><span class="p">(),</span><span class="n">nodes</span><span class="p">)</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            
+            <span class="c"># Get best likelihood tree.</span>
+            <span class="n">best</span>  <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            
+            <span class="c"># Get likelihoods.</span>
+            <span class="n">bLikl</span> <span class="o">=</span> <span class="n">best</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">cLikl</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                 
+            <span class="c"># Set new current tree if greater in likelihood.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cLikl</span> <span class="o">&gt;</span> <span class="n">bLikl</span><span class="p">):</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">best</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bestTree</span> <span class="o">=</span> <span class="n">cursor</span>
+                <span class="k">break</span>
+</div></div>
+<div class="viewcode-block" id="smoothGreedy"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.smoothGreedy">[docs]</a><span class="k">class</span> <span class="nc">smoothGreedy</span><span class="p">(</span><span class="n">phylogeneticLinearHeuristic</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Parsimony-driven greedy landscape exploration </span>
+<span class="sd">    by comparsion of likelihoods. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">smoothGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="smoothGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.smoothGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    
+        <span class="sd">&#39;&#39;&#39; Perform greedy search of the landscape using</span>
+<span class="sd">        a method of greed via parsimonious criterion and then</span>
+<span class="sd">        performing final smoothing via likelihood on top 10% of</span>
+<span class="sd">        1-SPR neighbors ranked on basis of parsimony. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Get starting tree, landscape.</span>
+        <span class="n">landscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
+        <span class="n">ali</span>       <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">alignment</span>
+        <span class="n">starting</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
+        <span class="n">cursor</span>    <span class="o">=</span> <span class="n">starting</span> <span class="c"># Current tree.</span>
+        
+        <span class="k">while</span> <span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+
+            <span class="c"># Add this tree to the path.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
+
+            <span class="c"># Explore the current tree and only score via parsimony.</span>
+            <span class="n">landscape</span><span class="o">.</span><span class="n">exploreTree</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            
+            <span class="c"># Rank by parsimony.</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">landscape</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">it</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">it</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            
+            <span class="c"># Get best parsimony tree.</span>
+            <span class="n">best</span>  <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            
+            <span class="c"># Get parsimonies.</span>
+            <span class="n">bPars</span> <span class="o">=</span> <span class="n">best</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cPars</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            
+            <span class="c"># Get likelihood of current tree if necessary.</span>
+            <span class="n">cL</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cL</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="n">cL</span> <span class="o">=</span> <span class="n">ll</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">toTopology</span><span class="p">(),</span><span class="n">ali</span><span class="p">)</span>
+                <span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">cL</span><span class="p">,</span><span class="n">cPars</span><span class="p">)</span>            
+            
+            <span class="c"># Set new current tree if greater in parsimony.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cPars</span> <span class="o">&gt;</span> <span class="n">bPars</span><span class="p">):</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">best</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c"># Smoothing via likelihood.</span>
+                <span class="c"># Check likelihood of some number of neighbors.</span>
+                <span class="n">numtodo</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">SMGR_MIN_NUM_LIKELIHOOD</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+                <span class="n">numtodo</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">numtodo</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">[:</span><span class="n">numtodo</span><span class="p">]:</span>                
+                    <span class="c"># Get log-likelihood of this neighbor.</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+                        <span class="n">ml</span> <span class="o">=</span> <span class="n">ll</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">toTopology</span><span class="p">(),</span><span class="n">ali</span><span class="p">)</span>
+                        <span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">ml</span><span class="p">,</span><span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span> <span class="n">ml</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">cL</span> <span class="o">&lt;</span> <span class="n">ml</span><span class="p">):</span>
+                        <span class="c"># Short circuit.</span>
+                        <span class="n">cursor</span> <span class="o">=</span> <span class="n">node</span>
+                        <span class="k">continue</span>
+                <span class="c"># Rank by likelihood.</span>
+                <span class="n">visited</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">nodes</span>   <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="c"># Get the best likelihood tree.</span>
+                <span class="n">vbest</span> <span class="o">=</span> <span class="n">visited</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">best</span>  <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">vbest</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">best</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">bestTree</span> <span class="o">=</span> <span class="n">vbest</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">best</span>
+                </div></div>
+<div class="viewcode-block" id="RAxMLIdentify"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.RAxMLIdentify">[docs]</a><span class="k">class</span> <span class="nc">RAxMLIdentify</span><span class="p">(</span><span class="n">phylogeneticLinearHeuristic</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39; RAxML-driven landscape evaluation</span>
+<span class="sd">    of intermediate checkpoint trees output from the </span>
+<span class="sd">    RAxML executable. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">,</span><span class="n">workdir</span><span class="o">=</span><span class="s">&#39;.rxml&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RAxMLIdentify</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span>    <span class="o">=</span> <span class="n">workdir</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">startFile</span>  <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">workdir</span><span class="p">,</span><span class="s">&#39;start&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logFile</span>    <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">workdir</span><span class="p">,</span><span class="s">&#39;logfi&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__setupWorkDir__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__setupExecutable__</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">__setupWorkDir__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">)</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">startFile</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">__setupExecutable__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ali</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">alignment</span>
+        <span class="n">phy</span> <span class="o">=</span> <span class="n">ali</span><span class="o">.</span><span class="n">getPhylip</span><span class="p">()</span>
+        <span class="n">r</span>   <span class="o">=</span> <span class="n">raxml</span><span class="p">(</span><span class="n">phy</span><span class="p">,</span><span class="s">&#39;rx&#39;</span><span class="p">,</span><span class="n">interTrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">startingTree</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">startFile</span><span class="p">,</span>
+                    <span class="n">log</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">logFile</span><span class="p">,</span><span class="n">wdir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="n">r</span>
+    
+    <span class="k">def</span> <span class="nf">__readLogFile__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">checklogf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">,</span><span class="s">&#39;RAxML_log.rx&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">checklogf</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;RAxML output logfile not found (</span><span class="si">%s</span><span class="s">).&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">checklogf</span><span class="p">))</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">checklogf</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">iters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span> <span class="n">iters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">))</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">iters</span>
+        
+    <span class="k">def</span> <span class="nf">__readIterTrees__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">trees</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iters</span><span class="p">:</span>
+            <span class="n">chfi</span>       <span class="o">=</span> <span class="s">&#39;RAxML_checkpoint.rx.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">it</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">,</span><span class="n">chfi</span><span class="p">)</span>
+            <span class="n">o</span>          <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">)</span>
+            <span class="n">tr</span>         <span class="o">=</span> <span class="n">tree</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">))</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">trees</span>
+    
+<div class="viewcode-block" id="RAxMLIdentify.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.RAxMLIdentify.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="c"># Get the landscape.</span>
+        <span class="n">landscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            
+            <span class="c"># Run the RAxML executable, read output.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">executable</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+            <span class="n">checkpoints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__readLogFile__</span><span class="p">()</span>
+            
+            <span class="c"># Get all intermediate trees.</span>
+            <span class="n">trees</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__readIterTrees__</span><span class="p">(</span><span class="n">checkpoints</span><span class="p">)</span>
+            
+            <span class="c"># See if these trees are already in the landscape.</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trees</span><span class="p">:</span>
+                <span class="n">find</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">findTreeTopology</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">find</span><span class="p">:</span>
+                    <span class="n">t</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="s">&#39;RAxML&#39;</span>
+                    <span class="n">find</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">landscape</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">find</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="n">trees</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bestTree</span> <span class="o">=</span> <span class="n">find</span>
+                
+            <span class="c"># Remove work directory.</span>
+            <span class="n">removeFolder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+            <span class="n">removeFolder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;RAxML I/O failure for reason [</span><span class="si">%s</span><span class="s">].&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+            
+        </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.database &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pylogeny.database</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39; Connect, access, + manipulate external tree data from a remote SQL server or from a sqlite file. &#39;&#39;&#39;</span>
+
+<span class="c"># Date:   Nov 7 2013</span>
+<span class="c"># Author: Alex Safatli</span>
+<span class="c"># E-mail: safatli@cs.dal.ca</span>
+
+<span class="kn">import</span> <span class="nn">MySQLdb</span> <span class="kn">as</span> <span class="nn">mysql</span><span class="o">,</span> <span class="nn">sqlite3</span> <span class="kn">as</span> <span class="nn">sqllite</span>
+<span class="kn">from</span> <span class="nn">landscape</span> <span class="kn">import</span> <span class="n">landscape</span><span class="p">,</span> <span class="n">choice</span>
+<span class="kn">from</span> <span class="nn">tree</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span> <span class="k">as</span> <span class="n">abstractclass</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<div class="viewcode-block" id="DatabaseLandscape"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.DatabaseLandscape">[docs]</a><span class="k">class</span> <span class="nc">DatabaseLandscape</span><span class="p">(</span><span class="n">landscape</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Abstract the landscape to one comprising a landscape. &#39;&#39;&#39;</span>
+    
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abstractclass</span>
+
+    <span class="k">def</span> <span class="nf">_acquireNumberOfTaxa</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">topo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">toTopology</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leaves</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">topo</span><span class="o">.</span><span class="n">getLeaves</span><span class="p">())</span>
+        
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_fetchTreeFromDatabase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> <span class="k">pass</span>
+    
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_fetchRearrangementsFromDatabase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> <span class="k">pass</span>
+
+<div class="viewcode-block" id="DatabaseLandscape.getNode"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.DatabaseLandscape.getNode">[docs]</a>    <span class="k">def</span> <span class="nf">getNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fetchTreeFromDatabase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DatabaseLandscape</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="SQLExhaustiveLandscape"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLExhaustiveLandscape">[docs]</a><span class="k">class</span> <span class="nc">SQLExhaustiveLandscape</span><span class="p">(</span><span class="n">DatabaseLandscape</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbobj</span><span class="p">,</span><span class="n">aliname</span><span class="p">):</span>
+        
+        <span class="c"># Set up fields.</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SQLLandscape</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database</span> <span class="o">=</span> <span class="n">dbobj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aliname</span>  <span class="o">=</span> <span class="n">aliname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queryID</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">dbobj</span><span class="o">.</span><span class="n">filterRecords</span><span class="p">(</span>
+            <span class="s">&#39;newick&#39;</span><span class="p">,</span><span class="s">&#39;ID=</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="c"># Alias lookup function.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queryScr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">dbobj</span><span class="o">.</span><span class="n">filterRecords</span><span class="p">(</span>
+            <span class="n">aliname</span><span class="p">,</span><span class="s">&#39;TID=</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tables</span>   <span class="o">=</span> <span class="n">dbobj</span><span class="o">.</span><span class="n">getTables</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">aliname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tables</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;Could not find alignment table &lt;</span><span class="si">%s</span><span class="s">&gt;.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">aliname</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fetchTreeFromDatabase</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># Get root tree.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_acquireNumberOfTaxa</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">_fetchTreeFromDatabase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        
+        <span class="c"># Overrides lookup in graph object first. Looks in database.</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">:</span> <span class="k">return</span>
+        <span class="n">entries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryID</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span>   
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="c"># Create tree object.</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">tree</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> 
+        
+        <span class="c"># Get relevant score(s).</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queryScr</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ml</span><span class="p">,</span><span class="n">p</span>  <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">ml</span><span class="p">),</span><span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">_fetchRearrangementsFromDatabase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">moves</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">filterRecords</span><span class="p">(</span><span class="s">&#39;operations&#39;</span><span class="p">,</span><span class="s">&#39;TID=</span><span class="si">%d</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">),</span><span class="n">_</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">z</span> <span class="ow">in</span> <span class="n">moves</span><span class="p">]</span>
+        
+    <span class="k">def</span> <span class="nf">_applyRearrangement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">move</span><span class="p">):</span>
+        <span class="n">e</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">o</span> <span class="o">=</span> <span class="n">move</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">move</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">move</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">o</span>
+        
+<div class="viewcode-block" id="SQLExhaustiveLandscape.exploreRandomTree"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLExhaustiveLandscape.exploreRandomTree">[docs]</a>    <span class="k">def</span> <span class="nf">exploreRandomTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">node</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s">&#39;explored&#39;</span><span class="p">]):</span> <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">moves</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetchRearrangementsFromDatabase</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">move</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>
+            <span class="n">moves</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">move</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fetchTreeFromDatabase</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_applyRearrangement</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getEdge</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)[</span><span class="s">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaultWeight</span>
+            <span class="k">return</span> <span class="n">j</span>
+        <span class="n">node</span><span class="p">[</span><span class="s">&#39;explored&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+    </div>
+<div class="viewcode-block" id="SQLExhaustiveLandscape.getDatabaseNode"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLExhaustiveLandscape.getDatabaseNode">[docs]</a>    <span class="k">def</span> <span class="nf">getDatabaseNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fetchTreeFromDatabase</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">SQLLandscape</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="SQLExhaustiveLandscape.exploreTree"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLExhaustiveLandscape.exploreTree">[docs]</a>    <span class="k">def</span> <span class="nf">exploreTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">node</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s">&#39;explored&#39;</span><span class="p">]):</span> <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">moves</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetchRearrangementsFromDatabase</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">move</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>
+            <span class="n">moves</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">move</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fetchTreeFromDatabase</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_applyRearrangement</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getEdge</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)[</span><span class="s">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaultWeight</span>
+        <span class="n">node</span><span class="p">[</span><span class="s">&#39;explored&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>     
+        <span class="k">return</span> <span class="bp">True</span>
+</div></div>
+<div class="viewcode-block" id="SQLiteLandscape"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteLandscape">[docs]</a><span class="k">class</span> <span class="nc">SQLiteLandscape</span><span class="p">(</span><span class="n">landscape</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Allow random access of all landscape data from an sqlite file found on the </span>
+<span class="sd">    hard disk. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbobj</span><span class="p">):</span>
+        
+        <span class="k">pass</span>
+        
+</div>
+<div class="viewcode-block" id="database"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database">[docs]</a><span class="k">class</span> <span class="nc">database</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39; Allow interfacing with a SQL/sqlite database. &#39;&#39;&#39;</span>
+    
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abstractclass</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># Cursor for the database object.</span>
+
+<div class="viewcode-block" id="database.isEmpty"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.isEmpty">[docs]</a>    <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Determine if the database is empty. &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTables</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span></div>
+<div class="viewcode-block" id="database.getTables"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getTables">[docs]</a>    <span class="k">def</span> <span class="nf">getTables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Get the list of tables from the database &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SHOW TABLES&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span></div>
+<div class="viewcode-block" id="database.getColumns"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getColumns">[docs]</a>    <span class="k">def</span> <span class="nf">getColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Return column information for a given table. &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SHOW COLUMNS FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span></div>
+<div class="viewcode-block" id="database.getHeaders"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">getHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Get only header names for a given table&#39;s columns. &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getColumns</span><span class="p">(</span><span class="n">table</span><span class="p">)]</span></div>
+<div class="viewcode-block" id="database.getRecordsColumn"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getRecordsColumn">[docs]</a>    <span class="k">def</span> <span class="nf">getRecordsColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">,</span><span class="n">col</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Get all data for a single colmun from records for a table. &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">querymany</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT ? FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),[</span><span class="n">col</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span></div>
+<div class="viewcode-block" id="database.getRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getRecords">[docs]</a>    <span class="k">def</span> <span class="nf">getRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Get all records from a given table in the database. &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT * FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span></div>
+<div class="viewcode-block" id="database.iterRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.iterRecords">[docs]</a>    <span class="k">def</span> <span class="nf">iterRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Get a record, one at a time, from a table in the database. &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT * FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
+        <span class="n">nextitem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">nextitem</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">nextitem</span>
+            <span class="n">nextitem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span></div>
+<div class="viewcode-block" id="database.filterRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.filterRecords">[docs]</a>    <span class="k">def</span> <span class="nf">filterRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">,</span><span class="n">condn</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Get all records from a given table following a condition. &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT * FROM </span><span class="si">%s</span><span class="s"> WHERE </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">,</span><span class="n">condn</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span></div>
+<div class="viewcode-block" id="database.getRecordsAsDict"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getRecordsAsDict">[docs]</a>    <span class="k">def</span> <span class="nf">getRecordsAsDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Acquires records using getRecords() and then leverages</span>
+<span class="sd">        access using a dictionary data structure. &#39;&#39;&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRecords</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="p">{}</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHeaders</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">headers</span><span class="p">):</span> <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">headers</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">headers</span><span class="p">)):</span>
+                <span class="n">header</span> <span class="o">=</span> <span class="n">headers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">value</span>  <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">header</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">d</span></div>
+<div class="viewcode-block" id="database.newTable"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.newTable">[docs]</a>    <span class="k">def</span> <span class="nf">newTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;CREATE TABLE </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">tablename</span><span class="p">,</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()])))</span></div>
+<div class="viewcode-block" id="database.insertRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.insertRecords">[docs]</a>    <span class="k">def</span> <span class="nf">insertRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="n">items</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">querymany</span><span class="p">(</span><span class="s">&#39;&#39;&#39;INSERT INTO </span><span class="si">%s</span><span class="s"> VALUES (</span><span class="si">%s</span><span class="s">)&#39;&#39;&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">tablename</span><span class="p">,</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;?&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]])),</span><span class="n">items</span><span class="p">)</span></div>
+<div class="viewcode-block" id="database.insertRecord"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.insertRecord">[docs]</a>    <span class="k">def</span> <span class="nf">insertRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="n">record</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">insertRecords</span><span class="p">(</span><span class="n">tablename</span><span class="p">,[</span><span class="n">record</span><span class="p">])</span>
+</div>
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="database.query"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">):</span> <span class="k">pass</span>
+    </div>
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="database.querymany"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.querymany">[docs]</a>    <span class="k">def</span> <span class="nf">querymany</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> <span class="k">pass</span>
+</div>
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="database.close"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+</div></div>
+<div class="viewcode-block" id="SQLDatabase"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase">[docs]</a><span class="k">class</span> <span class="nc">SQLDatabase</span><span class="p">(</span><span class="n">database</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Database object to allow reading from a MySQL database. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">host</span><span class="p">,</span><span class="n">user</span><span class="p">,</span><span class="n">pw</span><span class="p">,</span><span class="n">db</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">host</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">pw</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database</span> <span class="o">=</span> <span class="n">db</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    
+<div class="viewcode-block" id="SQLDatabase.connect"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span>   <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
+                                      <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                                      <span class="n">passwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                                      <span class="n">db</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>        
+        </div>
+<div class="viewcode-block" id="SQLDatabase.query"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">):</span>
+        <span class="c"># Execute a MySQL query.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span><span class="n">mysql</span><span class="o">.</span><span class="n">OperationalError</span><span class="p">):</span>
+            <span class="c"># In case of server timeout, reconnect.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>        
+</div>
+<div class="viewcode-block" id="SQLDatabase.querymany"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.querymany">[docs]</a>    <span class="k">def</span> <span class="nf">querymany</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span><span class="n">mysql</span><span class="o">.</span><span class="n">OperationalError</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">querymany</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SQLDatabase.close"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Close the connection.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        
+</div></div>
+<div class="viewcode-block" id="SQLiteDatabase"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase">[docs]</a><span class="k">class</span> <span class="nc">SQLiteDatabase</span><span class="p">(</span><span class="n">database</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span>   <span class="o">=</span> <span class="n">sqllite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SQLiteDatabase.getColumns"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.getColumns">[docs]</a>    <span class="k">def</span> <span class="nf">getColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Return column information for a given table. &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;PRAGMA table_info(</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="SQLiteDatabase.query"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">):</span>
+        <span class="c"># Execute an sqlite query.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SQLiteDatabase.querymany"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.querymany">[docs]</a>    <span class="k">def</span> <span class="nf">querymany</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SQLiteDatabase.close"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Close the connection.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>    
+
+        </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

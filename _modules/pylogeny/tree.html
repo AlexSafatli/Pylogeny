@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.tree &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pylogeny.tree</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39; Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings. &#39;&#39;&#39;</span>
+
+<span class="c"># Date:   Oct 20 2014</span>
+<span class="c"># Author: Alex Safatli</span>
+<span class="c"># E-mail: safatli@cs.dal.ca</span>
+
+<span class="c"># Imports</span>
+
+<span class="kn">import</span> <span class="nn">newick</span><span class="o">,</span> <span class="nn">rearrangement</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span> <span class="k">as</span> <span class="n">fact</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">median</span>
+
+<span class="c"># Function Defitions</span>
+
+<span class="n">numberRootedTrees</span>   <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">numberUnrootedTrees</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">numberUnrootedTrees</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="p">(</span><span class="n">fact</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span><span class="o">/</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span><span class="o">*</span><span class="n">fact</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="c"># Class Definitions for Trees</span>
+
+<div class="viewcode-block" id="tree"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree">[docs]</a><span class="k">class</span> <span class="nc">tree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span> <span class="c"># TODO: Integrate with P4 Tree class (?).</span>
+    
+    <span class="sd">&#39;&#39;&#39; Defines a single (phylogenetic) tree by newick string;</span>
+<span class="sd">    can possess other metadata. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newi</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; If enabled, &quot;check&quot; will force the structure to reroot</span>
+<span class="sd">        the given Newick string tree to a lowest-order leaf in order</span>
+<span class="sd">        to ensure a consistent Newick string among any duplicate</span>
+<span class="sd">        topologies. &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span>   <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span>  <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newick</span> <span class="o">=</span> <span class="n">newi</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">check</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkNewick</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span>        
+        <span class="k">else</span><span class="p">:</span>       <span class="bp">self</span><span class="o">.</span><span class="n">setNewick</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span>
+    
+    <span class="c"># Getters, Mutators</span>
+    
+<div class="viewcode-block" id="tree.getName"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getName">[docs]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+<div class="viewcode-block" id="tree.setName"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setName">[docs]</a>    <span class="k">def</span> <span class="nf">setName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>   <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">n</span></div>
+<div class="viewcode-block" id="tree.getScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getScore">[docs]</a>    <span class="k">def</span> <span class="nf">getScore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span></div>
+<div class="viewcode-block" id="tree.setScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setScore">[docs]</a>    <span class="k">def</span> <span class="nf">setScore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">s</span><span class="p">):</span>  <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">s</span>
+    </div>
+<div class="viewcode-block" id="tree.getOrigin"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">getOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span></div>
+<div class="viewcode-block" id="tree.setOrigin"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">setOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Set the &quot;origin&quot; or specification of where this tree</span>
+<span class="sd">        was acquired or constructed from; a string. &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">o</span>    
+        </div>
+<div class="viewcode-block" id="tree.getNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span></div>
+<div class="viewcode-block" id="tree.setNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setNewick">[docs]</a>    <span class="k">def</span> <span class="nf">setNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Set Newick string to n; also reacquires corresponding</span>
+<span class="sd">        &quot;structure&quot; or Newick string without branch lengths. &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">newick</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getStructure</span><span class="p">()</span>   
+        </div>
+<div class="viewcode-block" id="tree.getStructure"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getStructure">[docs]</a>    <span class="k">def</span> <span class="nf">getStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Returns &quot;structure&quot;, a Newick string without branch lengths. &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> 
+    </div>
+<div class="viewcode-block" id="tree.getSimpleNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getSimpleNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getSimpleNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Return a Newick string with all taxa name replaced with</span>
+<span class="sd">        successive integers. &#39;&#39;&#39;</span>
+    
+        <span class="n">o</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">parser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span> <span class="n">n</span><span class="p">[</span><span class="n">_</span><span class="p">]</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>        
+    
+    <span class="c"># Other Functionality</span>
+    </div>
+<div class="viewcode-block" id="tree.toTopology"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.toTopology">[docs]</a>    <span class="k">def</span> <span class="nf">toTopology</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return a rearrangement.topology instance for this tree to allow for </span>
+<span class="sd">        rearrangement of the actual structure of the tree. &#39;&#39;&#39;</span>
+        
+        <span class="n">t</span> <span class="o">=</span> <span class="n">rearrangement</span><span class="o">.</span><span class="n">topology</span><span class="p">()</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">fromNewick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">t</span>
+    
+    <span class="c"># Internals</span>
+        </div>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">struct</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span> <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span>
+    
+    <span class="k">def</span> <span class="nf">_checkNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newi</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Run the Newick string through a </span>
+<span class="sd">        parse pass and reroot to lowest-order leaf in</span>
+<span class="sd">        order to ensure a consistent Newick string. &#39;&#39;&#39;</span>
+        
+        <span class="n">newi</span>        <span class="o">=</span> <span class="n">newi</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>   
+        <span class="n">prsd</span>        <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">parser</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newick</span> <span class="o">=</span> <span class="n">rearrangement</span><span class="o">.</span><span class="n">topology</span><span class="p">(</span><span class="n">prsd</span><span class="p">)</span><span class="o">.</span><span class="n">toNewick</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getStructure</span><span class="p">(</span><span class="n">prsd</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_getStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">prsd</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Acquires a newick string without any</span>
+<span class="sd">        defined branch lengths. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="n">prsd</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">prsd</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">parser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>    
+        <span class="n">newick</span><span class="o">.</span><span class="n">removeBranchLengths</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>  
+    </div>
+<div class="viewcode-block" id="treeSet"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet">[docs]</a><span class="k">class</span> <span class="nc">treeSet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Represents an ordered, unorganized collection of trees </span>
+<span class="sd">    that do not necessarily comprise a combinatorial space. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       
+        <span class="bp">self</span><span class="o">.</span><span class="n">trees</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>    
+    
+<div class="viewcode-block" id="treeSet.addTree"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.addTree">[docs]</a>    <span class="k">def</span> <span class="nf">addTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span> 
+
+        <span class="sd">&#39;&#39;&#39; Add a tree object to the collection. &#39;&#39;&#39;</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="treeSet.addTreeByNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.addTreeByNewick">[docs]</a>    <span class="k">def</span> <span class="nf">addTreeByNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newick</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Add a tree to the structure by Newick string. &#39;&#39;&#39;</span>
+        
+        <span class="n">t</span> <span class="o">=</span> <span class="n">tree</span><span class="p">(</span><span class="n">newick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>    
+        </div>
+<div class="viewcode-block" id="treeSet.removeTree"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.removeTree">[docs]</a>    <span class="k">def</span> <span class="nf">removeTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Remove a tree object from the collection if present. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="treeSet.indexOf"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.indexOf">[docs]</a>    <span class="k">def</span> <span class="nf">indexOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Acquire the index in this collection of a tree object. </span>
+<span class="sd">        Returns -1 if not found. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="treeSet.toTreeFile"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.toTreeFile">[docs]</a>    <span class="k">def</span> <span class="nf">toTreeFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fout</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Output this landscape as a series of trees, separated by</span>
+<span class="sd">        newlines, as a text file saved at the given path. &#39;&#39;&#39;</span>        
+        
+        <span class="n">o</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fout</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">fout</span>
+        </div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">getNewick</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">])</span>
+    
+<span class="c"># Bipartition Class Definitions    </span>
+    </div>
+<span class="sd">&#39;&#39;&#39; Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree. This package handle operations involving the representation of tree bipartitions. &#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="bipartition"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition">[docs]</a><span class="k">class</span> <span class="nc">bipartition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39; A tree bipartition. Requires a tree topology. &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">topol</span><span class="p">,</span><span class="n">bra</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">topology</span> <span class="o">=</span> <span class="n">topol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">branch</span>   <span class="o">=</span> <span class="n">bra</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btuple</span>   <span class="o">=</span> <span class="bp">None</span> <span class="c"># Tuple list representation.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span>   <span class="o">=</span> <span class="bp">None</span> <span class="c"># String representation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>   <span class="c"># Shorter string representation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shortmap</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># Shorter string mapping of taxa to symbols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconfis</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># Possible reconfigurations as rearrangement objects.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_getStringRepresentation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_getShortStringRepresentation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_getBranchListRepresentation</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="o">!=</span> <span class="n">bipartition</span><span class="p">):</span> <span class="k">return</span> <span class="bp">False</span>
+        <span class="n">l</span><span class="p">,</span><span class="n">r</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span>
+        <span class="n">lo</span><span class="p">,</span><span class="n">ro</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">strrep</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">lo</span><span class="o">==</span><span class="n">l</span> <span class="ow">and</span> <span class="n">ro</span><span class="o">==</span><span class="n">r</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ro</span><span class="o">==</span><span class="n">l</span> <span class="ow">and</span> <span class="n">lo</span><span class="o">==</span><span class="n">r</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span> <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_getStringRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Obtain string representation of a branch in a topology. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topology</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Topology does not exist or is equal to None.&#39;</span><span class="p">)</span>
+        <span class="n">z</span>            <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">getStrBipartitionFromBranch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="p">)</span>
+        <span class="n">l</span><span class="p">,</span><span class="n">r</span>          <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">sorted</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span>  <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_getShortStringRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Obtain short string representation of branch/bipartition. &#39;&#39;&#39;</span>
+        
+        <span class="n">ind</span>  <span class="o">=</span> <span class="mi">65</span> <span class="c"># &#39;A&#39;</span>
+        <span class="n">l</span><span class="p">,</span><span class="n">r</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span>
+        <span class="n">x</span>    <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">),</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">l</span><span class="p">:</span> <span class="n">y</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">y</span> <span class="o">=</span> <span class="n">l</span>
+        <span class="n">l</span><span class="p">,</span><span class="n">r</span>  <span class="o">=</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span>
+        <span class="n">o</span>    <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">lbls</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">r</span><span class="p">]</span>
+        <span class="n">lblm</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">lbls</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lbls</span><span class="p">)</span> <span class="c"># Sort them.</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lbls</span><span class="p">:</span>
+            <span class="n">lblm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+            <span class="n">ind</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span> <span class="n">o</span> <span class="o">+=</span> <span class="n">lblm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">o</span> <span class="o">+=</span> <span class="s">&#39;:&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span> <span class="n">o</span> <span class="o">+=</span> <span class="n">lblm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span> <span class="o">=</span> <span class="n">o</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shortmap</span> <span class="o">=</span> <span class="n">lblm</span>
+        
+    <span class="k">def</span> <span class="nf">_getBranchListRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="p">]</span> <span class="o">+</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllBranches</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="n">branch</span> <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">getBranches</span><span class="p">(</span>
+            <span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">l</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btuple</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>       
+        
+    <span class="k">def</span> <span class="nf">_getBranchFromString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Obtain branch information from a string representation. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strrep</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">tuple</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;Could not read string representation of bipartition.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">branch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">getBranchFromStrBipartition</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strrep</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_makeSPRRearrangements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Perform possible rearrangements. &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconfis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">allSPRForBranch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="p">)</span>
+
+<div class="viewcode-block" id="bipartition.fromStringRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.fromStringRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">fromStringRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">st</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Acquire all component elements from a string representation </span>
+<span class="sd">        of a bipartition. &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span> <span class="o">=</span> <span class="n">st</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_getBranchFromString</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_getShortStringRepresentation</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="bipartition.getBranch"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getBranch">[docs]</a>    <span class="k">def</span> <span class="nf">getBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get branch corresponding to this bipartition. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch</span>
+    </div>
+<div class="viewcode-block" id="bipartition.getBranchIndex"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getBranchIndex">[docs]</a>    <span class="k">def</span> <span class="nf">getBranchIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return an index of the branch with respect to a post order traversal</span>
+<span class="sd">        of the topology. &#39;&#39;&#39;</span>
+        
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">postOrderTraversal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">getRoot</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)):</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">i</span>
+    </div>
+<div class="viewcode-block" id="bipartition.getStringRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getStringRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">getStringRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get the string representation corresponding to this bipartition. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span>
+    </div>
+<div class="viewcode-block" id="bipartition.getShortStringRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getShortStringRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">getShortStringRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get the shorter string representation corresponding to this bipartition. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span>
+    </div>
+<div class="viewcode-block" id="bipartition.getShortStringMappings"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getShortStringMappings">[docs]</a>    <span class="k">def</span> <span class="nf">getShortStringMappings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get the mapping of symbols from taxa names for the shorter string representation. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortmap</span>
+    </div>
+<div class="viewcode-block" id="bipartition.getBranchListRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getBranchListRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">getBranchListRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get the tuple of lists of branches that represent this bipartition. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">btuple</span>
+    </div>
+<div class="viewcode-block" id="bipartition.getSPRRearrangements"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getSPRRearrangements">[docs]</a>    <span class="k">def</span> <span class="nf">getSPRRearrangements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return the set of all scores related to this bipartition. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reconfis</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_makeSPRRearrangements</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reconfis</span>
+    </div>
+<div class="viewcode-block" id="bipartition.getSPRScores"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getSPRScores">[docs]</a>    <span class="k">def</span> <span class="nf">getSPRScores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">node</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Given a landscape, return all possible scores, not actively performing</span>
+<span class="sd">        scoring if not done. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Get starting information.</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span> <span class="c"># Output scoreset.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
+            <span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology</span> <span class="c"># Starting topology.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span><span class="s">&#39;orig&#39;</span><span class="p">):</span> <span class="n">ornewi</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">toNewick</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">ornewi</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">orig</span>
+            <span class="c"># Acquire node corresponding to this topology.</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">findTreeTopology</span><span class="p">(</span><span class="n">ornewi</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="nb">list</span><span class="p">()</span> <span class="c"># Could not find.</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">start</span> <span class="o">=</span> <span class="n">node</span> 
+            
+        <span class="c"># Get neighbors.</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+        
+        <span class="c"># Investigate all rearrangements.</span>
+        <span class="n">rearrangements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSPRRearrangements</span><span class="p">()</span>
+        <span class="n">resultants</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">toTree</span><span class="p">()</span><span class="o">.</span><span class="n">struct</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rearrangements</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
+            <span class="n">node</span>   <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+            <span class="n">tree</span>   <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+            <span class="n">struct</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">struct</span>
+            <span class="k">if</span> <span class="n">struct</span> <span class="ow">in</span> <span class="n">resultants</span><span class="p">:</span>
+                <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">scores</span>
+    </div>
+<div class="viewcode-block" id="bipartition.getMedianSPRScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getMedianSPRScore">[docs]</a>    <span class="k">def</span> <span class="nf">getMedianSPRScore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">node</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Given a landscape, return the median SPR score. &#39;&#39;&#39;</span>
+        
+        <span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSPRScores</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">node</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">li</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="n">median</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+        </div>
+<div class="viewcode-block" id="bipartition.getBestSPRScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getBestSPRScore">[docs]</a>    <span class="k">def</span> <span class="nf">getBestSPRScore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">node</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Given a landscape, return the best SPR score. &#39;&#39;&#39;</span>
+        
+        <span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSPRScores</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">node</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">li</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

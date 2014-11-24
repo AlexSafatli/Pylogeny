@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.parsimony &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pylogeny.parsimony</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39; Toolkit for performance of Parsimonious Criterion (Parsimony) methods of optimization of a phylogenetic topology with a particular set of data. &#39;&#39;&#39;</span>
+
+<span class="c"># Date:   Mar 3 2014</span>
+<span class="c"># Author: Alex Safatli</span>
+<span class="c"># E-mail: safatli@cs.dal.ca</span>
+
+<span class="kn">from</span> <span class="nn">newick</span> <span class="kn">import</span> <span class="n">isLeaf</span><span class="p">,</span> <span class="n">postOrderTraversal</span> <span class="k">as</span> <span class="n">postorder</span>
+
+<div class="viewcode-block" id="profile_set"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.profile_set">[docs]</a><span class="k">class</span> <span class="nc">profile_set</span><span class="p">:</span>
+    
+    <span class="sd">&#39;&#39;&#39; Hold a set of site_profile profiles for an </span>
+<span class="sd">    entire alignment. &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">alignment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numSites</span>  <span class="o">=</span> <span class="n">alignment</span><span class="o">.</span><span class="n">getSize</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">taxa</span>      <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span>  <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>   <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sites</span>     <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constructSet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buildTaxaDict</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">_constructSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Build all site_profiles. &#39;&#39;&#39;</span>
+        
+        <span class="n">num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numSites</span>
+        <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+            <span class="n">pro</span> <span class="o">=</span> <span class="n">site_profile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">,</span><span class="n">site</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pro</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pro</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">pro</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pro</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                
+    <span class="k">def</span> <span class="nf">_buildTaxaDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Build taxa dictionary. &#39;&#39;&#39;</span>
+        
+        <span class="n">tax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="o">.</span><span class="n">getTaxa</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tax</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">taxa</span><span class="p">[</span><span class="n">tax</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span> <span class="o">=</span> <span class="n">t</span>
+                
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="profile_set.weight"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.profile_set.weight">[docs]</a>    <span class="k">def</span> <span class="nf">weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+    </div>
+<div class="viewcode-block" id="profile_set.get"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.profile_set.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+    </div>
+<div class="viewcode-block" id="profile_set.getForTaxa"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.profile_set.getForTaxa">[docs]</a>    <span class="k">def</span> <span class="nf">getForTaxa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="n">tax</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">vector</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">taxa</span><span class="p">[</span><span class="n">tax</span><span class="p">]]</span>
+</div></div>
+<div class="viewcode-block" id="site_profile"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.site_profile">[docs]</a><span class="k">class</span> <span class="nc">site_profile</span><span class="p">:</span>
+    
+    <span class="sd">&#39;&#39;&#39; Consolidate the single-column alignment at</span>
+<span class="sd">    a region into a set of components on the basis</span>
+<span class="sd">    of similarity alone. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alignment</span><span class="p">,</span><span class="n">site</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">alignment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">site</span>      <span class="o">=</span> <span class="n">site</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span>  <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector</span>    <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buildVector</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">o</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vector</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">vector</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector</span>
+        
+    <span class="k">def</span> <span class="nf">_buildVector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Build the vector comprising the set of components. &#39;&#39;&#39;</span>
+        
+        <span class="n">aliData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">sitesli</span> <span class="o">=</span> <span class="n">aliData</span><span class="o">.</span><span class="n">sequenceSlice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site</span><span class="p">)</span>
+        <span class="n">compn</span>   <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">comps</span>   <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">sitesli</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">comps</span><span class="p">:</span>
+                <span class="n">comps</span><span class="p">[</span><span class="n">it</span><span class="p">]</span> <span class="o">=</span> <span class="n">compn</span>
+                <span class="n">compn</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vector</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">comps</span><span class="p">[</span><span class="n">it</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span> <span class="o">=</span> <span class="n">comps</span>
+</div>
+<div class="viewcode-block" id="fitch_cost"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.fitch_cost">[docs]</a><span class="k">def</span> <span class="nf">fitch_cost</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span><span class="n">profiles</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Calculate the cost using Fitch algorithm on </span>
+<span class="sd">    profile set and alignment. Deprecated: Python implementation </span>
+<span class="sd">    of the Fitch algorithm; see fitch C++ module for </span>
+<span class="sd">    a C++ implementation that is roughly four times faster. &#39;&#39;&#39;</span>
+    
+    <span class="c"># Calculate parsimony score.</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">porde</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">postorder</span><span class="p">(</span><span class="n">topology</span><span class="o">.</span><span class="n">getRoot</span><span class="p">())]</span>
+    <span class="k">for</span> <span class="n">profile</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">profiles</span><span class="p">)):</span>
+        <span class="n">posdata</span><span class="p">,</span> <span class="n">local</span> <span class="o">=</span> <span class="p">{},</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">porde</span><span class="p">:</span>
+            <span class="c"># If is leaf.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">posdata</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">.</span><span class="n">getForTaxa</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span><span class="n">node</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+            <span class="c"># Not a leaf.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">posdata</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">child</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">posdata</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">child</span><span class="p">]</span>
+                <span class="c"># Get intersection.</span>
+                <span class="n">X</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+                <span class="c"># If intersection is nothing...</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="c"># Cost goes up, take union.</span>
+                    <span class="n">local</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">X</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+                <span class="n">posdata</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">local</span><span class="o">*</span><span class="n">profiles</span><span class="o">.</span><span class="n">weight</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">total</span>
+</div>
+<div class="viewcode-block" id="fitch"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.fitch">[docs]</a><span class="k">def</span> <span class="nf">fitch</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
+        
+    <span class="sd">&#39;&#39;&#39; Perform the Fitch algorithm on a given</span>
+<span class="sd">    tree topology and associated alignment. Deprecated: </span>
+<span class="sd">    Python implementation of the Fitch algorithm; </span>
+<span class="sd">    see fitch C++ module for a C++ implementation </span>
+<span class="sd">    that is roughly four times faster. &#39;&#39;&#39;</span>
+    
+    <span class="c"># Turn alignment sets into profiles.</span>
+    <span class="n">profiles</span> <span class="o">=</span> <span class="n">profile_set</span><span class="p">(</span><span class="n">alignment</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">profiles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">fitch_cost</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span><span class="n">profiles</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

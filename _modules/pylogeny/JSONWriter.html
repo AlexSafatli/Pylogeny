@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.JSONWriter &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pylogeny.JSONWriter</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39; Serialize a phylogenetic landscape into a JSON object. &#39;&#39;&#39;</span>
+
+<span class="c"># Date:   Jan 27 2014</span>
+<span class="c"># Author: Alex Safatli</span>
+<span class="c"># E-mail: safatli@cs.dal.ca</span>
+
+<span class="kn">from</span> <span class="nn">landscapeWriter</span> <span class="kn">import</span> <span class="n">landscapeWriter</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<div class="viewcode-block" id="JSONWriter"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter">[docs]</a><span class="k">class</span> <span class="nc">JSONWriter</span><span class="p">(</span><span class="n">landscapeWriter</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">JSONWriter</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="JSONWriter.nodeToJSON"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter.nodeToJSON">[docs]</a>    <span class="k">def</span> <span class="nf">nodeToJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">):</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">ml</span><span class="p">,</span><span class="n">pars</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">getScore</span><span class="p">()</span>
+        <span class="n">og</span>      <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">getOrigin</span><span class="p">()</span>
+        <span class="n">lmax</span>    <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">isLocalOptimum</span><span class="p">()</span>
+        <span class="n">mimpr</span>   <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">getBestImprovement</span><span class="p">()</span>
+        <span class="n">expl</span>    <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">isExplored</span><span class="p">()</span>
+        <span class="n">dg</span>      <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">getNeighbors</span><span class="p">())</span>
+        <span class="n">val</span>     <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">isFailed</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">),</span><span class="s">&#39;group&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="p">),</span>
+               <span class="s">&#39;ml&#39;</span><span class="p">:</span><span class="n">ml</span><span class="p">,</span><span class="s">&#39;parsimony&#39;</span><span class="p">:</span><span class="n">pars</span><span class="p">,</span><span class="s">&#39;origin&#39;</span><span class="p">:</span><span class="n">og</span><span class="p">,</span>
+               <span class="s">&#39;explored&#39;</span><span class="p">:</span><span class="n">expl</span><span class="p">,</span><span class="s">&#39;degree&#39;</span><span class="p">:</span><span class="n">dg</span><span class="p">,</span>
+               <span class="s">&#39;isLocalMax&#39;</span><span class="p">:</span><span class="n">lmax</span><span class="p">,</span><span class="s">&#39;maximprov&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">mimpr</span><span class="p">),</span>
+               <span class="s">&#39;value&#39;</span><span class="p">:</span><span class="n">val</span><span class="p">}</span> 
+</div>
+    <span class="k">def</span> <span class="nf">_jsonNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodeToJSON</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_jsonEdges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">jsonNodes</span><span class="p">):</span>
+        
+        <span class="n">nodeli</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;group&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">jsonNodes</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodeli</span><span class="p">:</span>
+            <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">neigh</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">neigh</span> <span class="ow">in</span> <span class="n">nodeli</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="p">{</span><span class="s">&#39;source&#39;</span><span class="p">:</span><span class="n">nodeli</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">node</span><span class="p">),</span>
+                           <span class="s">&#39;target&#39;</span><span class="p">:</span><span class="n">nodeli</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">neigh</span><span class="p">),</span>
+                           <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>    
+    
+    <span class="k">def</span> <span class="nf">_jsonGraph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nodes</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="c"># Initialize variables.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonNodes</span><span class="p">()</span>
+        <span class="n">ls</span>       <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
+        <span class="n">locks</span>    <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">locks</span>
+        <span class="n">toVis</span>    <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">allScore</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="c"># Check scores.</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+
+            <span class="c"># Get node&#39;s log-likelihood score.</span>
+            <span class="n">nS</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="s">&#39;ml&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nS</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="n">allScore</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">toVis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">toVis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">allScore</span> <span class="o">=</span> <span class="bp">False</span>        
+        <span class="k">return</span> <span class="n">toVis</span><span class="p">,</span> <span class="n">allScore</span>
+    
+<div class="viewcode-block" id="JSONWriter.getOnlyImprovements"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter.getOnlyImprovements">[docs]</a>    <span class="k">def</span> <span class="nf">getOnlyImprovements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">groups</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="c"># Are there any groups to uncollapse?</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">groups</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="n">groups</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        
+        <span class="c"># Get all relevant nodes.</span>
+        <span class="n">nodes</span><span class="p">,</span><span class="n">inds</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeToJSON</span><span class="p">(</span><span class="mi">0</span><span class="p">)],[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">iterAllPathsOfBestImprovement</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">inds</span><span class="p">:</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeToJSON</span><span class="p">(</span><span class="n">it</span><span class="p">))</span>
+                    <span class="n">inds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+        
+        <span class="c"># Get node and link information.</span>
+        <span class="n">nodes</span><span class="p">,</span> <span class="n">aS</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonGraph</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonEdges</span><span class="p">(</span><span class="n">nodes</span><span class="p">)]</span>
+        <span class="n">out</span>   <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+            <span class="p">{</span><span class="s">&quot;nodes&quot;</span><span class="p">:</span><span class="n">nodes</span><span class="p">,</span><span class="s">&quot;links&quot;</span><span class="p">:</span><span class="n">links</span><span class="p">,</span><span class="s">&quot;graphid&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s">&quot;scored&quot;</span><span class="p">:</span><span class="n">aS</span><span class="p">},</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">out</span>
+    
+    </div>
+<div class="viewcode-block" id="JSONWriter.getCompleteLandscape"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter.getCompleteLandscape">[docs]</a>    <span class="k">def</span> <span class="nf">getCompleteLandscape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getJSON</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="JSONWriter.getJSON"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter.getJSON">[docs]</a>    <span class="k">def</span> <span class="nf">getJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c"># Get node and link information.</span>
+        <span class="n">nodes</span><span class="p">,</span> <span class="n">aS</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonGraph</span><span class="p">()</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="n">node</span><span class="p">[</span><span class="s">&#39;ml&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonEdges</span><span class="p">(</span><span class="n">nodes</span><span class="p">)]</span>
+        
+        <span class="c"># Output to JSON string.</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s">&quot;nodes&quot;</span><span class="p">:</span><span class="n">nodes</span><span class="p">,</span><span class="s">&quot;links&quot;</span><span class="p">:</span><span class="n">links</span><span class="p">,</span><span class="s">&quot;graphid&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                         <span class="s">&quot;scored&quot;</span><span class="p">:</span><span class="n">aS</span><span class="p">},</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">out</span>
+        </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

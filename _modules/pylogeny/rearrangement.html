@@ -1,0 +1,716 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.rearrangement &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pylogeny.rearrangement</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39; Phylogenetic tree structure encapsulation; allow rearrangement of said structure. Tree rearrangements inducing other topologies include Nearest Neighbor Interchange (NNI), Subtree Pruning and Regrafting (SPR), and Tree Bisection and Reconstruction (TBR). Each of these describe a transfer of one node in phylogenetic trees from one parent of a tree to a new parent. Respectively, these operators describe transformations that are subsets of those possible by the successive operator. For example, an NNI operator can perform transformations that are a subset of the transformations possible by the SPR operator. &#39;&#39;&#39;</span>
+
+<span class="c"># Date:   Feb 10 2014</span>
+<span class="c"># Author: Alex Safatli</span>
+<span class="c"># E-mail: safatli@cs.dal.ca</span>
+
+<span class="kn">import</span> <span class="nn">newick</span><span class="o">,</span> <span class="nn">tree</span>
+
+<span class="c"># Exception Handling</span>
+
+<div class="viewcode-block" id="RearrangementError"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.RearrangementError">[docs]</a><span class="k">class</span> <span class="nc">RearrangementError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+<span class="c"># Movement Type Definitions</span>
+</div>
+<span class="n">TYPE_SPR</span><span class="p">,</span> <span class="n">TYPE_NNI</span><span class="p">,</span> <span class="n">TYPE_TBR</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+
+<span class="c"># Simulate deep copying.</span>
+
+<div class="viewcode-block" id="dup"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.dup">[docs]</a><span class="k">def</span> <span class="nf">dup</span><span class="p">(</span><span class="n">topo</span><span class="p">,</span><span class="n">where</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">where</span><span class="p">:</span> <span class="n">new</span> <span class="o">=</span> <span class="n">topology</span><span class="p">(</span><span class="n">toLeaf</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">new</span> <span class="o">=</span> <span class="n">topology</span><span class="p">()</span>
+    <span class="n">new</span><span class="o">.</span><span class="n">fromNewick</span><span class="p">(</span><span class="n">topo</span><span class="o">.</span><span class="n">toNewick</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">where</span><span class="p">:</span>
+        <span class="n">fake</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">bipartition</span><span class="p">(</span><span class="n">topo</span><span class="p">,</span><span class="n">new</span><span class="o">.</span><span class="n">fakebranch</span><span class="p">)</span>
+        <span class="c"># Retain locks.</span>
+        <span class="k">for</span> <span class="n">lock</span> <span class="ow">in</span> <span class="n">new</span><span class="o">.</span><span class="n">locked</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lock</span> <span class="o">!=</span> <span class="n">fake</span><span class="p">:</span> <span class="n">new</span><span class="o">.</span><span class="n">locked</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lock</span><span class="p">)</span>      
+    <span class="k">return</span> <span class="n">new</span>
+
+<span class="c"># Rearrangement structure.</span>
+</div>
+<div class="viewcode-block" id="rearrangement"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement">[docs]</a><span class="k">class</span> <span class="nc">rearrangement</span><span class="p">:</span>
+    
+    <span class="sd">&#39;&#39;&#39; Encapsulates a single rearrangement move</span>
+<span class="sd">    of type SPR, NNI, ... &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">struct</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">targ</span><span class="p">,</span><span class="n">dest</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Initialize by providing a pointer to</span>
+<span class="sd">        a base topology, a target branch </span>
+<span class="sd">        to be moved, and its destination. &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">topol</span>       <span class="o">=</span> <span class="n">struct</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span>        <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span>      <span class="o">=</span> <span class="n">targ</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destination</span> <span class="o">=</span> <span class="n">dest</span>    
+    
+<div class="viewcode-block" id="rearrangement.getType"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.getType">[docs]</a>    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get the type of movement. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isSPR</span><span class="p">()):</span>   <span class="nb">type</span> <span class="o">=</span> <span class="s">&#39;SPR&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isNNI</span><span class="p">()):</span> <span class="nb">type</span> <span class="o">=</span> <span class="s">&#39;NNI&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isTBR</span><span class="p">()):</span> <span class="nb">type</span> <span class="o">=</span> <span class="s">&#39;TBR&#39;</span>
+        <span class="k">else</span><span class="p">:</span>                <span class="nb">type</span> <span class="o">=</span> <span class="s">&#39;UNKNOWN&#39;</span>
+        <span class="k">return</span> <span class="nb">type</span>
+    </div>
+<div class="viewcode-block" id="rearrangement.isNNI"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.isNNI">[docs]</a>    <span class="k">def</span> <span class="nf">isNNI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">TYPE_NNI</span><span class="p">)</span></div>
+<div class="viewcode-block" id="rearrangement.isSPR"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.isSPR">[docs]</a>    <span class="k">def</span> <span class="nf">isSPR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">TYPE_SPR</span><span class="p">)</span></div>
+<div class="viewcode-block" id="rearrangement.isTBR"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.isTBR">[docs]</a>    <span class="k">def</span> <span class="nf">isTBR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">TYPE_TBR</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="rearrangement.toTopology"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.toTopology">[docs]</a>    <span class="k">def</span> <span class="nf">toTopology</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Commit the actual move and return the</span>
+<span class="sd">        topology. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">topol</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="rearrangement.toNewick"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.toNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Commit the move but do not create a </span>
+<span class="sd">        new structure. Only retrieve resultant</span>
+<span class="sd">        Newick string; will be more efficient.&#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">topol</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">,</span>
+                               <span class="n">returnStruct</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="rearrangement.toTree"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.toTree">[docs]</a>    <span class="k">def</span> <span class="nf">toTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Commit the move and transform to tree object. &#39;&#39;&#39;</span>
+        
+        <span class="n">out</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toNewick</span><span class="p">())</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">out</span>
+    </div>
+<div class="viewcode-block" id="rearrangement.doMove"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.doMove">[docs]</a>    <span class="k">def</span> <span class="nf">doMove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTopology</span><span class="p">()</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;</span><span class="si">%s</span><span class="s">&gt; move [</span><span class="si">%s</span><span class="s">] to [</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">)</span>
+
+<span class="c"># Tree structure.</span>
+</div>
+<div class="viewcode-block" id="topology"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology">[docs]</a><span class="k">class</span> <span class="nc">topology</span><span class="p">:</span>
+    
+    <span class="sd">&#39;&#39;&#39; Encapsulate a tree topology, wrapping the newick </span>
+<span class="sd">    tree structure. Is immutable. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">rerootToLeaf</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">toLeaf</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Initialize structure with a top-level internal </span>
+<span class="sd">        node OR nothing. &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span>        <span class="o">=</span> <span class="n">t</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forbidden</span>  <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">branches</span>   <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locked</span>     <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fakebranch</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rerootFlag</span> <span class="o">=</span> <span class="n">rerootToLeaf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rerootLoc</span>  <span class="o">=</span> <span class="n">toLeaf</span>
+        
+        <span class="k">if</span> <span class="n">t</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span> 
+            <span class="k">if</span> <span class="n">rerootToLeaf</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rerootToLeaf</span><span class="p">(</span><span class="n">toLeaf</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_getAllBranches</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_getForbiddenStates</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clearInteriorNodeNames</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">rerootToLeaf</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lockLeafBranch</span><span class="p">()</span>
+       
+    <span class="k">def</span> <span class="nf">_getAllBranches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Populate branch list. &#39;&#39;&#39;</span>
+        
+        <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">newick</span><span class="o">.</span><span class="n">getAllBranches</span><span class="p">(</span><span class="n">br</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">partitions</span> <span class="o">=</span> <span class="p">[[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">]]</span>  
+       
+    <span class="k">def</span> <span class="nf">_getForbiddenStates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Construct forbidden state lists for </span>
+<span class="sd">        each branch. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Set up list for each branch.</span>
+        <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">:</span>
+            <span class="c"># Anything inside the subtree for that branch</span>
+            <span class="c"># is forbidden to be moved to by this branch.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forbidden</span><span class="p">[</span><span class="n">br</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllBranches</span><span class="p">(</span><span class="n">br</span><span class="p">)]</span>
+            <span class="c"># Any siblings are also forbidden </span>
+            <span class="c"># (give the same tree).</span>
+            <span class="n">siblings</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">children</span>
+            <span class="n">siblings</span> <span class="o">=</span> <span class="p">[</span><span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">siblings</span> <span class="k">if</span> <span class="n">_</span><span class="o">!=</span><span class="n">br</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forbidden</span><span class="p">[</span><span class="n">br</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">siblings</span><span class="p">)</span>
+            <span class="c"># And the parent is forbidden.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forbidden</span><span class="p">[</span><span class="n">br</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_clearInteriorNodeNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Clear all interior node names </span>
+<span class="sd">        but store them in case are needed. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Make sure interior nodes are unnamed.</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllNodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">n</span><span class="o">.</span><span class="n">label</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">label</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s">&#39;&#39;</span> 
+
+    <span class="k">def</span> <span class="nf">_lockLeafBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Lock the branch hanging </span>
+<span class="sd">        off the root with a leaf. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Get this branch.</span>
+        <span class="n">lbranch</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">lbranch</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lbranch</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+                <span class="s">&#39;Could not locate leaf branch off root to lock.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lockBranch</span><span class="p">(</span><span class="n">lbranch</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getPartition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Acquire the list of branches: those this particular</span>
+<span class="sd">        branch could move to without violation of any locks </span>
+<span class="sd">        and itself. &#39;&#39;&#39;</span>
+        
+        <span class="n">possible</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">lo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locked</span><span class="p">:</span>
+            <span class="n">l</span><span class="p">,</span><span class="n">r</span> <span class="o">=</span> <span class="n">lo</span><span class="o">.</span><span class="n">getBranchListRepresentation</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span> <span class="n">o</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">else</span><span class="p">:</span>      <span class="n">o</span> <span class="o">=</span> <span class="n">l</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">o</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">possible</span><span class="p">:</span> <span class="n">possible</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">possible</span>
+
+    <span class="k">def</span> <span class="nf">_flipOperation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">opname</span><span class="p">,</span><span class="n">br</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Try a particular rearrangement operation on a flipped</span>
+<span class="sd">        version of the tree. &#39;&#39;&#39;</span>
+
+        <span class="c"># Check what bipartition is represented.</span>
+        <span class="n">bipart</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">bipartition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">)</span>
+        <span class="c"># Get a leaf that can be rerooted to.</span>
+        <span class="n">newleaf</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">leaves</span>  <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">child</span><span class="p">)</span>
+        <span class="n">curleaf</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">),</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">leaf</span> <span class="ow">in</span> <span class="n">leaves</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">leaf</span> <span class="o">!=</span> <span class="n">curleaf</span><span class="p">:</span>
+                <span class="n">newleaf</span> <span class="o">=</span> <span class="n">leaf</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">newleaf</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="p">[]</span>
+        <span class="c"># Make flipped tree structure.</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">dup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newleaf</span><span class="p">)</span>
+        <span class="c"># Get corresponding branch.</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">getBranchFromBipartition</span><span class="p">(</span><span class="n">bipart</span><span class="p">)</span>
+        <span class="c"># Do possible moves from the other way.</span>
+        <span class="n">op</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">opname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">op</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">flip</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<div class="viewcode-block" id="topology.rerootToLeaf"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.rerootToLeaf">[docs]</a>    <span class="k">def</span> <span class="nf">rerootToLeaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">toleaf</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Reroots the given tree structure such</span>
+<span class="sd">        that it is rooted nearest the lowest-order leaf. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Determine lowest-order leaf.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">toleaf</span><span class="p">:</span>
+            <span class="n">toleaf</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">),</span>
+                            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Find it in current topology.</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">for</span> <span class="n">leaf</span> <span class="ow">in</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">leaf</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">toleaf</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
+                    <span class="n">toleaf</span> <span class="o">=</span> <span class="n">leaf</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">found</span><span class="p">):</span> <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+                <span class="s">&#39;While rerooting, could not find leaf to reroot to.&#39;</span><span class="p">)</span>
+
+        <span class="c"># Acquire branch connecting to leaf + adjacent node.</span>
+        <span class="n">branch</span>  <span class="o">=</span> <span class="n">toleaf</span><span class="o">.</span><span class="n">parent</span>
+        <span class="n">closest</span> <span class="o">=</span> <span class="n">branch</span><span class="o">.</span><span class="n">parent</span>
+        
+        <span class="c"># Error checking: either of these two do not exist?</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">branch</span><span class="p">):</span>  <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+            <span class="s">&#39;While rerooting, leaf has no connecting branch.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">closest</span><span class="p">):</span> <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+            <span class="s">&#39;While rerooting, connecting branch of leaf has no parent.&#39;</span><span class="p">)</span>
+
+        <span class="c"># Flip all of the directionality to this node.</span>
+        <span class="k">if</span> <span class="n">closest</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">:</span> 
+            <span class="n">t</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">invertAlongPathToNode</span><span class="p">(</span><span class="n">closest</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span><span class="p">:</span> <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+                <span class="s">&#39;While rerooting, directions could not be reversed.&#39;</span><span class="p">)</span>
+        
+        <span class="c"># Strip the lowest node off of the tree.</span>
+        <span class="n">closest</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+        
+        <span class="c"># Create a fake branch.</span>
+        <span class="n">fakebr</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">branch</span><span class="p">(</span><span class="n">closest</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">closest</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">fakebr</span>
+        
+        <span class="c"># Create a new node to act as the new root.</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">strees</span><span class="o">=</span><span class="p">[</span><span class="n">branch</span><span class="p">,</span><span class="n">fakebr</span><span class="p">])</span>
+        <span class="n">branch</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="n">fakebr</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">root</span>
+        
+        <span class="c"># Reassign top-level node.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">root</span>       
+        
+        <span class="c"># Remove unary internal nodes.</span>
+        <span class="n">newick</span><span class="o">.</span><span class="n">removeUnaryInternalNodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+        
+        <span class="c"># Ensure fake branch is recognized.</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">branch_length</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">fakebr</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fakebranch</span> <span class="o">=</span> <span class="n">fakebr</span>      
+</div>
+<div class="viewcode-block" id="topology.getRoot"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getRoot">[docs]</a>    <span class="k">def</span> <span class="nf">getRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return the top-level, root, node of </span>
+<span class="sd">        the tree. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span>
+    </div>
+<div class="viewcode-block" id="topology.getInternalNodes"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getInternalNodes">[docs]</a>    <span class="k">def</span> <span class="nf">getInternalNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllInternalNodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span></div>
+<div class="viewcode-block" id="topology.getBranches"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getBranches">[docs]</a>    <span class="k">def</span> <span class="nf">getBranches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span></div>
+<div class="viewcode-block" id="topology.getLeaves"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getLeaves">[docs]</a>    <span class="k">def</span> <span class="nf">getLeaves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="topology.getBipartitions"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getBipartitions">[docs]</a>    <span class="k">def</span> <span class="nf">getBipartitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get all bipartitions. &#39;&#39;&#39;</span>
+        
+        <span class="n">bili</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">br</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">br</span><span class="p">:</span>
+            <span class="n">bi</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">bipartition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">bi</span> <span class="ow">in</span> <span class="n">bili</span><span class="p">:</span> <span class="n">bili</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bili</span>
+    </div>
+<div class="viewcode-block" id="topology.getStrBipartitionFromBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getStrBipartitionFromBranch">[docs]</a>    <span class="k">def</span> <span class="nf">getStrBipartitionFromBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Given a branch, return corresponding </span>
+<span class="sd">        bipartition. &#39;&#39;&#39;</span>
+        
+        <span class="n">right</span>  <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">child</span><span class="p">)</span>
+        <span class="n">others</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getRoot</span><span class="p">())</span>
+        <span class="n">r</span>      <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">right</span><span class="p">]</span>
+        <span class="n">l</span>      <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">others</span> 
+                  <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="ow">in</span> <span class="n">r</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">,</span><span class="n">r</span>
+    </div>
+<div class="viewcode-block" id="topology.getBranchFromStrBipartition"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getBranchFromStrBipartition">[docs]</a>    <span class="k">def</span> <span class="nf">getBranchFromStrBipartition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">bip</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Given a bipartition of taxa, return a </span>
+<span class="sd">        branch that creates that partition of tree</span>
+<span class="sd">        taxa. &#39;&#39;&#39;</span>
+        
+        <span class="n">l</span><span class="p">,</span><span class="n">r</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">bip</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">sorted</span><span class="p">(</span><span class="n">bip</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">:</span>
+            <span class="n">right</span>  <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">child</span><span class="p">)</span>
+            <span class="n">names</span>  <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">right</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">names</span> <span class="o">==</span> <span class="n">l</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">names</span> <span class="o">==</span> <span class="n">r</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">br</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    </div>
+<div class="viewcode-block" id="topology.getBranchFromBipartition"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getBranchFromBipartition">[docs]</a>    <span class="k">def</span> <span class="nf">getBranchFromBipartition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">bip</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Given a bipartition object, return</span>
+<span class="sd">        a branch that creates that partition of</span>
+<span class="sd">        taxa. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBranchFromStrBipartition</span><span class="p">(</span>
+            <span class="n">bip</span><span class="o">.</span><span class="n">getStringRepresentation</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="topology.lockBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.lockBranch">[docs]</a>    <span class="k">def</span> <span class="nf">lockBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">branch</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Given a branch, lock it such that no </span>
+<span class="sd">        transitions can ever occur across it. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Transform to bipartition object.</span>
+        <span class="n">bipart</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">bipartition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">branch</span><span class="p">)</span>
+        
+        <span class="c"># Has already been locked?</span>
+        <span class="k">if</span> <span class="n">bipart</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locked</span><span class="p">:</span> <span class="k">return</span> <span class="bp">True</span>
+            
+        <span class="c"># Is it even in this topology?</span>
+        <span class="n">isintopol</span> <span class="o">=</span> <span class="p">(</span><span class="n">branch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">isintopol</span><span class="p">):</span> <span class="k">return</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locked</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bipart</span><span class="p">)</span>        
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="topology.move"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">branch</span><span class="p">,</span><span class="n">destination</span><span class="p">,</span><span class="n">returnStruct</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Move a branch and attach to a destination </span>
+<span class="sd">        branch. Return new structure, or return merely </span>
+<span class="sd">        the resultant Newick string. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Cannot move to these.</span>
+        <span class="n">forbidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forbidden</span><span class="p">[</span><span class="n">branch</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">forbidden</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+                <span class="s">&#39;Cannot move into subtree or to sibling.&#39;</span><span class="p">)</span>
+        
+        <span class="c"># Check partitions.</span>
+        <span class="n">partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getPartition</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">destination</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">partition</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+                <span class="s">&#39;Cannot move outside of locked partition.&#39;</span><span class="p">)</span>
+        
+        <span class="c"># Get parents.</span>
+        <span class="n">s_parent</span> <span class="o">=</span> <span class="n">branch</span><span class="o">.</span><span class="n">parent</span>       <span class="c"># Source parent. </span>
+        <span class="n">t_parent</span> <span class="o">=</span> <span class="n">destination</span><span class="o">.</span><span class="n">parent</span>  <span class="c"># Target parent.</span>
+        
+        <span class="c"># If parents were found, do transform.</span>
+        <span class="k">if</span> <span class="n">s_parent</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">t_parent</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            
+            <span class="c"># Remove the branch.</span>
+            <span class="n">s_parent</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+            
+            <span class="c"># Create new node.</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,[</span><span class="n">branch</span><span class="p">])</span>
+            
+            <span class="c"># Break destination branch in half, attach.</span>
+            <span class="n">half</span>  <span class="o">=</span> <span class="n">destination</span><span class="o">.</span><span class="n">branch_length</span><span class="o">/</span><span class="mf">2.0</span>
+            <span class="n">outer</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">branch</span><span class="p">(</span><span class="n">destination</span><span class="o">.</span><span class="n">child</span><span class="p">,</span><span class="n">half</span><span class="p">,</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">inner</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">branch</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="n">half</span><span class="p">,</span><span class="n">t_parent</span><span class="p">)</span>
+            <span class="n">t_parent</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">destination</span><span class="p">)</span>
+            <span class="n">t_parent</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inner</span><span class="p">)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outer</span><span class="p">)</span>
+            <span class="n">destination</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">outer</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">inner</span>
+            
+            <span class="c"># Check degree of source parent; combine edges if necessary.</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s_parent</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">a</span>           <span class="o">=</span> <span class="n">s_parent</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">b</span>           <span class="o">=</span> <span class="n">s_parent</span><span class="o">.</span><span class="n">parent</span>
+                <span class="n">end</span>         <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">child</span>
+                <span class="n">start</span>       <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">parent</span>
+                <span class="n">comb</span>        <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">branch_length</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">branch_length</span>
+                <span class="n">fakebr</span>      <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">branch</span><span class="p">(</span><span class="n">end</span><span class="p">,</span><span class="n">comb</span><span class="p">,</span><span class="n">start</span><span class="p">)</span>
+                <span class="n">end</span><span class="o">.</span><span class="n">parent</span>  <span class="o">=</span> <span class="n">fakebr</span>
+                <span class="n">start</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                <span class="n">start</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fakebr</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">returnStruct</span><span class="p">:</span>
+                <span class="c"># Immutable so recreate new structure.</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">dup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">toNewick</span><span class="p">()</span>
+            
+            <span class="c"># Undo changes.</span>
+            <span class="n">s_parent</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s_parent</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">end</span><span class="o">.</span><span class="n">parent</span>  <span class="o">=</span> <span class="n">a</span>
+                <span class="n">start</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                <span class="n">start</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fakebr</span><span class="p">)</span>
+            <span class="n">t_parent</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">destination</span><span class="p">)</span>
+            <span class="n">t_parent</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">inner</span><span class="p">)</span>
+            <span class="n">destination</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">destination</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+        
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+        </div>
+<div class="viewcode-block" id="topology.SPR"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.SPR">[docs]</a>    <span class="k">def</span> <span class="nf">SPR</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">branch</span><span class="p">,</span><span class="n">destination</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Perform an SPR move of a branch to a destination </span>
+<span class="sd">        branch, creating a new node there. Returns a </span>
+<span class="sd">        rearrangement structure (not the actual new structure) </span>
+<span class="sd">        that can then be polled for the actual move; this </span>
+<span class="sd">        is in order to save memory. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="n">rearrangement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">TYPE_SPR</span><span class="p">,</span><span class="n">branch</span><span class="p">,</span><span class="n">destination</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="topology.NNI"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.NNI">[docs]</a>    <span class="k">def</span> <span class="nf">NNI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">branch</span><span class="p">,</span><span class="n">destination</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Perform an NNI move of a branch to a destination, </span>
+<span class="sd">        only if that destination branch is a parent&#39;s parent </span>
+<span class="sd">        or a parent&#39;s sibling. Returns a rearrangement structure</span>
+<span class="sd">        (not the actual new structure) that can then be polled</span>
+<span class="sd">        for the actual move; this is in order to save memory. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="n">newick</span><span class="o">.</span><span class="n">isSibling</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span><span class="n">destination</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">parent</span> <span class="ow">and</span> <span class="n">destination</span> <span class="o">==</span> 
+            <span class="n">branch</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">rearrangement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">TYPE_NNI</span><span class="p">,</span><span class="n">branch</span><span class="p">,</span><span class="n">destination</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+    </div>
+<div class="viewcode-block" id="topology.iterSPRForBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.iterSPRForBranch">[docs]</a>    <span class="k">def</span> <span class="nf">iterSPRForBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>    
+        
+        <span class="sd">&#39;&#39;&#39; Consider all valid SPR moves for a given branch </span>
+<span class="sd">        in the topology and yield all possible rearrangements</span>
+<span class="sd">        as a generator. &#39;&#39;&#39;</span>    
+    
+        <span class="c"># Go through possible moves.</span>
+        <span class="n">partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getPartition</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">partition</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+                <span class="s">&#39;Branch not in any partition of topology.&#39;</span><span class="p">)</span>
+        <span class="n">forbidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forbidden</span><span class="p">[</span><span class="n">br</span><span class="p">]</span>
+        <span class="n">possible</span>  <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">partition</span> <span class="k">if</span> <span class="ow">not</span>
+                     <span class="n">x</span> <span class="ow">in</span> <span class="n">forbidden</span> <span class="ow">and</span> <span class="ow">not</span>
+                     <span class="n">x</span> <span class="o">==</span> <span class="n">br</span><span class="p">]</span>
+        
+        <span class="c"># Pass rearrangement structure as yielded object.</span>
+        <span class="k">for</span> <span class="n">dest</span> <span class="ow">in</span> <span class="n">possible</span><span class="p">:</span>
+            <span class="n">move</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SPR</span><span class="p">(</span><span class="n">br</span><span class="p">,</span><span class="n">dest</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">move</span><span class="p">):</span> <span class="k">yield</span> <span class="n">move</span>
+
+        <span class="c"># Flip tree around and try other way.</span>
+        <span class="k">if</span> <span class="n">flip</span><span class="p">:</span>
+            <span class="n">ite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flipOperation</span><span class="p">(</span><span class="s">&#39;iterSPRForBranch&#39;</span><span class="p">,</span><span class="n">br</span><span class="p">)</span> 
+            <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">ite</span><span class="p">:</span> <span class="k">yield</span> <span class="n">it</span>
+    </div>
+<div class="viewcode-block" id="topology.allSPRForBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.allSPRForBranch">[docs]</a>    <span class="k">def</span> <span class="nf">allSPRForBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Consider all valid SPR moves for a given branch </span>
+<span class="sd">        in the topology and return all possible rearrangements. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterSPRForBranch</span><span class="p">(</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="p">)]</span>
+    </div>
+<div class="viewcode-block" id="topology.allSPR"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.allSPR">[docs]</a>    <span class="k">def</span> <span class="nf">allSPR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Consider all valid SPR moves for a given topology</span>
+<span class="sd">        and return all possible rearrangements. &#39;&#39;&#39;</span>
+
+        <span class="c"># Output list of structures.</span>
+        <span class="n">li</span> <span class="o">=</span> <span class="p">[]</span>        
+        
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">:</span>
+            <span class="n">li</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allSPRForBranch</span><span class="p">(</span><span class="n">branch</span><span class="p">))</span>
+        
+        <span class="c"># Return the list.</span>
+        <span class="k">return</span> <span class="n">li</span>
+</div>
+<div class="viewcode-block" id="topology.iterNNIForBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.iterNNIForBranch">[docs]</a>    <span class="k">def</span> <span class="nf">iterNNIForBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Consider all valid NNI moves for a given branch</span>
+<span class="sd">        in the topology and and yield all possible rearrangements</span>
+<span class="sd">        as a generator. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Go through possible moves.</span>
+        <span class="n">partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getPartition</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">partition</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+                <span class="s">&#39;Branch not in any partition of topology.&#39;</span><span class="p">)</span>
+        <span class="n">possible</span>  <span class="o">=</span> <span class="p">[</span><span class="n">br</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">]</span> <span class="o">+</span> <span class="n">br</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">children</span>
+        <span class="n">forbidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forbidden</span><span class="p">[</span><span class="n">br</span><span class="p">]</span>
+        <span class="n">possible</span>  <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">partition</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">possible</span> <span class="ow">and</span> 
+                     <span class="ow">not</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">forbidden</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">x</span> <span class="o">==</span> <span class="bp">None</span><span class="p">]</span>
+        
+        <span class="c"># Pass rearrangement structure as yielded object.</span>
+        <span class="k">for</span> <span class="n">dest</span> <span class="ow">in</span> <span class="n">possible</span><span class="p">:</span>
+            <span class="n">move</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">NNI</span><span class="p">(</span><span class="n">br</span><span class="p">,</span><span class="n">dest</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">move</span><span class="p">):</span> <span class="k">yield</span> <span class="n">move</span>
+
+        <span class="c"># Flip tree around and try other way.</span>
+        <span class="k">if</span> <span class="n">flip</span><span class="p">:</span>
+            <span class="n">ite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flipOperation</span><span class="p">(</span><span class="s">&#39;iterNNIForBranch&#39;</span><span class="p">,</span><span class="n">br</span><span class="p">)</span> 
+            <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">ite</span><span class="p">:</span> <span class="k">yield</span> <span class="n">it</span>        
+</div>
+<div class="viewcode-block" id="topology.allNNIForBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.allNNIForBranch">[docs]</a>    <span class="k">def</span> <span class="nf">allNNIForBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Consider all valid NNI moves for a given branch </span>
+<span class="sd">        in the topology and return all possible rearrangements. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterNNIForBranch</span><span class="p">(</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="p">)]</span>
+</div>
+<div class="viewcode-block" id="topology.allNNI"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.allNNI">[docs]</a>    <span class="k">def</span> <span class="nf">allNNI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Consider all valid NNI moves for a given topology</span>
+<span class="sd">        and return all possible rearrangements. &#39;&#39;&#39;</span>
+
+        <span class="c"># Output list of structures.</span>
+        <span class="n">li</span><span class="p">,</span><span class="n">nni</span> <span class="o">=</span> <span class="p">[],</span><span class="bp">self</span><span class="o">.</span><span class="n">allNNIForBranch</span>        
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">nni</span><span class="p">(</span><span class="n">branch</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">li</span>
+    </div>
+<div class="viewcode-block" id="topology.allType"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.allType">[docs]</a>    <span class="k">def</span> <span class="nf">allType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="n">TYPE_SPR</span><span class="p">):</span>
+    
+        <span class="sd">&#39;&#39;&#39; Consider all valid moves of a given rearrangement</span>
+<span class="sd">        operator for a given topology. Uses a given rearrangement </span>
+<span class="sd">        operator type defined in this module. For example, calling this </span>
+<span class="sd">        function by providing TYPE_NNI as the type will iterate over all </span>
+<span class="sd">        NNI operations. By default, the type is TYPE_SPR. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nb">type</span> <span class="o">==</span> <span class="n">TYPE_SPR</span><span class="p">):</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allSPR</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span> <span class="o">==</span> <span class="n">TYPE_NNI</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allNNI</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span><span class="s">&#39;No rearrangement type of that form is defined.&#39;</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="topology.iterTypeForBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.iterTypeForBranch">[docs]</a>    <span class="k">def</span> <span class="nf">iterTypeForBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="n">TYPE_SPR</span><span class="p">,</span><span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Iterate over all possible rearrangements for a</span>
+<span class="sd">        branch using a given rearrangement operator type defined</span>
+<span class="sd">        in this module. For example, calling this function by providing</span>
+<span class="sd">        TYPE_NNI as the type will iterate over all NNI operations. By</span>
+<span class="sd">        default, the type is TYPE_SPR. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nb">type</span> <span class="o">==</span> <span class="n">TYPE_SPR</span><span class="p">):</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterSPRForBranch</span><span class="p">(</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span> <span class="o">==</span> <span class="n">TYPE_NNI</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterNNIForBranch</span><span class="p">(</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span><span class="s">&#39;No rearrangement type of that form is defined.&#39;</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="topology.fromNewick"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.fromNewick">[docs]</a>    <span class="k">def</span> <span class="nf">fromNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newickstr</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Alias for parse(). &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">newickstr</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="topology.parse"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newickstr</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Parse a newick string and assign the tree to this</span>
+<span class="sd">        object. Cannot already be initialized with a tree. &#39;&#39;&#39;</span>
+    
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
+                <span class="s">&#39;Structure already initialized.&#39;</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">parser</span><span class="p">(</span><span class="n">newickstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span>  <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orig</span> <span class="o">=</span> <span class="n">newickstr</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rerootFlag</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rerootToLeaf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rerootLoc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_getAllBranches</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_getForbiddenStates</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clearInteriorNodeNames</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rerootFlag</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lockLeafBranch</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="topology.toNewick"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.toNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return the newick string of the tree. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+    </div>
+<div class="viewcode-block" id="topology.toUnrootedNewick"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.toUnrootedNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toUnrootedNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return the newick string of the tree as an</span>
+<span class="sd">        unrooted topology with a multifurcating top-level node. &#39;&#39;&#39;</span>
+        
+        <span class="n">r</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">child</span>
+        <span class="n">newic</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">child</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span>
+        <span class="k">return</span> <span class="n">newic</span>
+        </div>
+<div class="viewcode-block" id="topology.toTree"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.toTree">[docs]</a>    <span class="k">def</span> <span class="nf">toTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return the tree object for this topology. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toNewick</span><span class="p">())</span>
+        </div>
+<div class="viewcode-block" id="topology.toUnrootedTree"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.toUnrootedTree">[docs]</a>    <span class="k">def</span> <span class="nf">toUnrootedTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return the tree object of the unrooted </span>
+<span class="sd">        version of this topology. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toUnrootedNewick</span><span class="p">())</span>
+        </div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return the newick string of the tree. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

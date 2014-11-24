@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.newick module &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="index.html" />
+    <link rel="up" title="pylogeny package" href="pylogeny.html" />
+    <link rel="next" title="pylogeny.parsimony module" href="pylogeny.parsimony.html" />
+    <link rel="prev" title="pylogeny.model module" href="pylogeny.model.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.parsimony.html" title="pylogeny.parsimony module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.model.html" title="pylogeny.model module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pylogeny.newick">
+<span id="pylogeny-newick-module"></span><h1>pylogeny.newick module<a class="headerlink" href="#module-pylogeny.newick" title="Permalink to this headline">¶</a></h1>
+<p>Newick string parsing and object interaction. A Newick string can represent a phylogenetic tree.</p>
+<dl class="exception">
+<dt id="pylogeny.newick.ParsingError">
+<em class="property">exception </em><tt class="descclassname">pylogeny.newick.</tt><tt class="descname">ParsingError</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#ParsingError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.ParsingError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.assignParents">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">assignParents</tt><big>(</big><em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#assignParents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.assignParents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Should be a one-time use function. Goes through
+and assigns parents to the parsed newick tree structure
+nodes and branches to allow for up-traversal.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.newick.branch">
+<em class="property">class </em><tt class="descclassname">pylogeny.newick.</tt><tt class="descname">branch</tt><big>(</big><em>chi</em>, <em>l</em>, <em>parent=None</em>, <em>s=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#branch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.branch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Newick branch.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.getAllBranches">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">getAllBranches</tt><big>(</big><em>br</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#getAllBranches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.getAllBranches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a branch, traverse subtree and return 
+comprising branches as a list.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.getAllInternalNodes">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">getAllInternalNodes</tt><big>(</big><em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#getAllInternalNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.getAllInternalNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a top-level node, find all internal nodes.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.getAllLeaves">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">getAllLeaves</tt><big>(</big><em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#getAllLeaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.getAllLeaves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a top-level node, find all leaves.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.getAllNodes">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">getAllNodes</tt><big>(</big><em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#getAllNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.getAllNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a node, traverse all nodes and return 
+as a list in pre-order.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.getBalancingBracket">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">getBalancingBracket</tt><big>(</big><em>newick</em>, <em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#getBalancingBracket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.getBalancingBracket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a position of an opening bracket in a 
+newick string, i, output the closing bracket&#8217;s
+position that corresponds to this opening bracket.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.getBranchLength">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">getBranchLength</tt><big>(</big><em>newick</em>, <em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#getBranchLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.getBranchLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a position of a colon symbol (indicating a 
+branch length), return the branch length.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.getLeafName">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">getLeafName</tt><big>(</big><em>newick</em>, <em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#getLeafName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.getLeafName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the position of a leaf, find its complete name.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.invertAlongPathToNode">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">invertAlongPathToNode</tt><big>(</big><em>target</em>, <em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#invertAlongPathToNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.invertAlongPathToNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>DANGEROUS: Reverses all directionality to a given
+node from a top-level node. Intended as a low-level 
+function for rerooting a tree.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.isInternalNode">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">isInternalNode</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#isInternalNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.isInternalNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a node, see if is an internal node.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.isLeaf">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">isLeaf</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#isLeaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.isLeaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a node, see if a leaf.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.isSibling">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">isSibling</tt><big>(</big><em>br</em>, <em>other</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#isSibling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.isSibling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a branch, determine if that branch is 
+adjacent to another branch.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.newick.node">
+<em class="property">class </em><tt class="descclassname">pylogeny.newick.</tt><tt class="descname">node</tt><big>(</big><em>lbl=''</em>, <em>strees=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Newick node.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.parseNewick">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">parseNewick</tt><big>(</big><em>newick</em>, <em>i</em>, <em>j</em>, <em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#parseNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.parseNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a newick string into a topological newick
+structure given a top-level node.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.newick.parser">
+<em class="property">class </em><tt class="descclassname">pylogeny.newick.</tt><tt class="descname">parser</tt><big>(</big><em>newick</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parsing object for Newick strings.</p>
+<dl class="method">
+<dt id="pylogeny.newick.parser.parse">
+<tt class="descname">parse</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#parser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.parser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the stored newick string into a topological structure.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.postOrderTraversal">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">postOrderTraversal</tt><big>(</big><em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#postOrderTraversal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.postOrderTraversal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a node, traverse all nodes and return as 
+a list in post-order.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.removeBranchLengths">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">removeBranchLengths</tt><big>(</big><em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#removeBranchLengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.removeBranchLengths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goes through and removes any stored branch lengths.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.removeUnaryInternalNodes">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">removeUnaryInternalNodes</tt><big>(</big><em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#removeUnaryInternalNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.removeUnaryInternalNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goes through and ensures any degree-2 internal 
+nodes are smoothed into a single degree-3 internal 
+node.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.newick.shuffleLeaves">
+<tt class="descclassname">pylogeny.newick.</tt><tt class="descname">shuffleLeaves</tt><big>(</big><em>top</em><big>)</big><a class="reference internal" href="_modules/pylogeny/newick.html#shuffleLeaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.newick.shuffleLeaves" title="Permalink to this definition">¶</a></dt>
+<dd><p>DANGEROUS: Given a top-level node, shuffle all 
+leaves in this tree.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pylogeny.model.html"
+                        title="previous chapter">pylogeny.model module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pylogeny.parsimony.html"
+                        title="next chapter">pylogeny.parsimony module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pylogeny.newick.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.parsimony.html" title="pylogeny.parsimony module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.model.html" title="pylogeny.model module"
+             >previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

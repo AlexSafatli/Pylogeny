@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.parsimony module &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="index.html" />
+    <link rel="up" title="pylogeny package" href="pylogeny.html" />
+    <link rel="next" title="pylogeny.pll module" href="pylogeny.pll.html" />
+    <link rel="prev" title="pylogeny.newick module" href="pylogeny.newick.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.pll.html" title="pylogeny.pll module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.newick.html" title="pylogeny.newick module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pylogeny.parsimony">
+<span id="pylogeny-parsimony-module"></span><h1>pylogeny.parsimony module<a class="headerlink" href="#module-pylogeny.parsimony" title="Permalink to this headline">¶</a></h1>
+<p>Toolkit for performance of Parsimonious Criterion (Parsimony) methods of optimization of a phylogenetic topology with a particular set of data.</p>
+<dl class="function">
+<dt id="pylogeny.parsimony.fitch">
+<tt class="descclassname">pylogeny.parsimony.</tt><tt class="descname">fitch</tt><big>(</big><em>topology</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#fitch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.fitch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the Fitch algorithm on a given
+tree topology and associated alignment. Deprecated: 
+Python implementation of the Fitch algorithm; 
+see fitch C++ module for a C++ implementation 
+that is roughly four times faster.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.parsimony.fitch_cost">
+<tt class="descclassname">pylogeny.parsimony.</tt><tt class="descname">fitch_cost</tt><big>(</big><em>topology</em>, <em>profiles</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#fitch_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.fitch_cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the cost using Fitch algorithm on 
+profile set and alignment. Deprecated: Python implementation 
+of the Fitch algorithm; see fitch C++ module for 
+a C++ implementation that is roughly four times faster.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.parsimony.profile_set">
+<em class="property">class </em><tt class="descclassname">pylogeny.parsimony.</tt><tt class="descname">profile_set</tt><big>(</big><em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hold a set of site_profile profiles for an 
+entire alignment.</p>
+<dl class="method">
+<dt id="pylogeny.parsimony.profile_set.get">
+<tt class="descname">get</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.parsimony.profile_set.getForTaxa">
+<tt class="descname">getForTaxa</tt><big>(</big><em>val</em>, <em>tax</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.getForTaxa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.getForTaxa" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.parsimony.profile_set.weight">
+<tt class="descname">weight</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.parsimony.site_profile">
+<em class="property">class </em><tt class="descclassname">pylogeny.parsimony.</tt><tt class="descname">site_profile</tt><big>(</big><em>alignment</em>, <em>site</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#site_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.site_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consolidate the single-column alignment at
+a region into a set of components on the basis
+of similarity alone.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pylogeny.newick.html"
+                        title="previous chapter">pylogeny.newick module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pylogeny.pll.html"
+                        title="next chapter">pylogeny.pll module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pylogeny.parsimony.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.pll.html" title="pylogeny.pll module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.newick.html" title="pylogeny.newick module"
+             >previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

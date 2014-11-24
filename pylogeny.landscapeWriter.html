@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.landscapeWriter module &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="index.html" />
+    <link rel="up" title="pylogeny package" href="pylogeny.html" />
+    <link rel="next" title="pylogeny.model module" href="pylogeny.model.html" />
+    <link rel="prev" title="pylogeny.landscape module" href="pylogeny.landscape.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.model.html" title="pylogeny.model module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.landscape.html" title="pylogeny.landscape module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pylogeny.landscapeWriter">
+<span id="pylogeny-landscapewriter-module"></span><h1>pylogeny.landscapeWriter module<a class="headerlink" href="#module-pylogeny.landscapeWriter" title="Permalink to this headline">¶</a></h1>
+<p>Serialize a phylogenetic landscape into an archive made up of three components: a flatfile containing
+all tree IDs and respective scores, the alignment file written as a FASTA file, and a representation of the graph in the format.</p>
+<dl class="class">
+<dt id="pylogeny.landscapeWriter.landscapeParser">
+<em class="property">class </em><tt class="descclassname">pylogeny.landscapeWriter.</tt><tt class="descname">landscapeParser</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulates the construction of a landscape
+object from a pickle file.</p>
+<dl class="method">
+<dt id="pylogeny.landscapeWriter.landscapeParser.getName">
+<tt class="descname">getName</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeParser.getName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeParser.getName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire the name of the parsed landscape.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.landscapeWriter.landscapeParser.parse">
+<tt class="descname">parse</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeParser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeParser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.landscapeWriter.landscapeWriter">
+<em class="property">class </em><tt class="descclassname">pylogeny.landscapeWriter.</tt><tt class="descname">landscapeWriter</tt><big>(</big><em>landscape</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Encapsulate the writing of a landscape
+to a file format.</p>
+<dl class="method">
+<dt id="pylogeny.landscapeWriter.landscapeWriter.writeFile">
+<tt class="descname">writeFile</tt><big>(</big><em>path='.'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeWriter.writeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeWriter.writeFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the landscape serialized file to given path.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pylogeny.landscape.html"
+                        title="previous chapter">pylogeny.landscape module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pylogeny.model.html"
+                        title="next chapter">pylogeny.model module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pylogeny.landscapeWriter.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.model.html" title="pylogeny.model module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.landscape.html" title="pylogeny.landscape module"
+             >previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

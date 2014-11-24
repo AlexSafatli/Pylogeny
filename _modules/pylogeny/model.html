@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.model &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pylogeny.model</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39; Phylogenetic tree scoring models; intended to be coupled with the use of pytbeaglehon (BEAGLE) high-performance library. &#39;&#39;&#39;</span>
+
+<span class="c"># Date:   Jun 9 2014</span>
+<span class="c"># Author: Alex Safatli</span>
+<span class="c"># E-mail: safatli@cs.dal.ca</span>
+
+<span class="c"># High-Performance Numeric Computation Library (pandas)</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">P</span>
+
+<span class="c"># pytbeaglehon coupling</span>
+
+<span class="n">pytbeaglehonEnabled</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pytbeaglehon.disc_state_cont_time_model</span> <span class="kn">as</span> <span class="nn">BEAGLEModels</span>
+    <span class="kn">from</span> <span class="nn">pytbeaglehon.disc_char_type</span> <span class="kn">import</span> <span class="n">DNAType</span><span class="p">,</span> <span class="n">AAType</span>
+    <span class="kn">from</span> <span class="nn">pytbeaglehon.tests.util</span> <span class="kn">import</span> <span class="n">TreeForTesting</span> <span class="k">as</span> <span class="n">BEAGLETree</span>
+<span class="k">except</span><span class="p">:</span> <span class="n">pytbeaglehonEnabled</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c"># Exception Handling</span>
+
+<div class="viewcode-block" id="PhyloModelError"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.PhyloModelError">[docs]</a><span class="k">class</span> <span class="nc">PhyloModelError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">v</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+<span class="c"># Model a biological sequence as a discrete state model.</span>
+</div>
+<div class="viewcode-block" id="DiscreteStateModel"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel">[docs]</a><span class="k">class</span> <span class="nc">DiscreteStateModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Initialize a discrete state model </span>
+<span class="sd">    for phylogenetic data. State frequencies and character</span>
+<span class="sd">    time are determined from the given alignment object. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span>    <span class="o">=</span> <span class="n">alignment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">charType</span>     <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stateList</span>    <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seqMatrix</span>    <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span>   <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqs</span>     <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stateFreqs</span>   <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_totalFreq</span>   <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">pytbeaglehonEnabled</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_determineCharType</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transformAlignmentToMatrix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_determineStateFreqs</span><span class="p">()</span>
+        
+    <span class="c"># Internals</span>
+    
+    <span class="k">def</span> <span class="nf">_determineCharType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Determine the character type intrinsic to the</span>
+<span class="sd">        biological sequence alignment given to the instance. &#39;&#39;&#39;</span>
+        
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">getDim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">charType</span> <span class="o">=</span> <span class="n">DNAType</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">getDim</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">a</span><span class="o">.</span><span class="n">getDim</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">21</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">charType</span> <span class="o">=</span> <span class="n">AAType</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="n">PhyloModelError</span><span class="p">(</span>
+            <span class="s">&#39;Unrecognizable character type in alignment.&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_transformAlignmentToMatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Transform instance alignment to a matrix of </span>
+<span class="sd">        states as integers. &#39;&#39;&#39;</span>
+        
+        <span class="n">lioflists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">strList</span>   <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="o">.</span><span class="n">toStrList</span><span class="p">())</span>
+        <span class="n">translate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">charType</span><span class="o">.</span><span class="n">to_indices</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">strList</span><span class="p">:</span> <span class="n">lioflists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">translate</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stateList</span> <span class="o">=</span> <span class="n">lioflists</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seqMatrix</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lioflists</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_determineStateFreqs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Compute the state frequencies for all states if</span>
+<span class="sd">        character type is DNA. Otherwise, leave undefined. &#39;&#39;&#39;</span>
+    
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">charType</span><span class="o">.</span><span class="n">get_num_states</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span> <span class="k">return</span> <span class="c"># DNAType?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="c"># Get all frequencies from the sequence matrix dataframe.</span>
+        <span class="n">freqS</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seqMatrix</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+        
+        <span class="c"># Get all present states that are found in the dataframe.</span>
+        <span class="n">present</span> <span class="o">=</span> <span class="n">freqS</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        
+        <span class="c"># Get all possible states.</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">charType</span><span class="o">.</span><span class="n">get_states</span><span class="p">()</span>
+        
+        <span class="c"># Enumerate over all possible states.</span>
+        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">charType</span><span class="o">.</span><span class="n">to_indices</span><span class="p">([</span><span class="n">state</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">present</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span><span class="p">[</span><span class="n">state</span><span class="p">]</span> <span class="o">=</span> <span class="n">freqS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span><span class="p">[</span><span class="n">state</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="c"># Flatten.</span>
+        
+        <span class="c"># Calculate actual state frequencies.</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqs</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_totalFreq</span> <span class="o">=</span> <span class="n">total</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stateFreqs</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">total</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">rawFreqs</span><span class="p">)</span>
+    
+    <span class="c"># Accessors    </span>
+    
+<div class="viewcode-block" id="DiscreteStateModel.getAlignment"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getAlignment">[docs]</a>    <span class="k">def</span> <span class="nf">getAlignment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span></div>
+<div class="viewcode-block" id="DiscreteStateModel.getAlignmentAsStateList"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getAlignmentAsStateList">[docs]</a>    <span class="k">def</span> <span class="nf">getAlignmentAsStateList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stateList</span></div>
+<div class="viewcode-block" id="DiscreteStateModel.getSequenceMatrix"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getSequenceMatrix">[docs]</a>    <span class="k">def</span> <span class="nf">getSequenceMatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">seqMatrix</span></div>
+<div class="viewcode-block" id="DiscreteStateModel.getCharType"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getCharType">[docs]</a>    <span class="k">def</span> <span class="nf">getCharType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">charType</span></div>
+<div class="viewcode-block" id="DiscreteStateModel.getStateFreqs"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getStateFreqs">[docs]</a>    <span class="k">def</span> <span class="nf">getStateFreqs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stateFreqs</span></div>
+<div class="viewcode-block" id="DiscreteStateModel.getRawStateFreqs"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getRawStateFreqs">[docs]</a>    <span class="k">def</span> <span class="nf">getRawStateFreqs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqs</span></div>
+<div class="viewcode-block" id="DiscreteStateModel.getRawStateFreqsAsList"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getRawStateFreqsAsList">[docs]</a>    <span class="k">def</span> <span class="nf">getRawStateFreqsAsList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRawStateFreqs</span><span class="p">()</span></div>
+<div class="viewcode-block" id="DiscreteStateModel.getRawStateFreqsAsDict"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getRawStateFreqsAsDict">[docs]</a>    <span class="k">def</span> <span class="nf">getRawStateFreqsAsDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span>
+    </div>
+<div class="viewcode-block" id="DiscreteStateModel.getFrequencyOfState"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getFrequencyOfState">[docs]</a>    <span class="k">def</span> <span class="nf">getFrequencyOfState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_totalFreq</span>
+    </div>
+<div class="viewcode-block" id="DiscreteStateModel.getRawFrequencyOfState"><a class="viewcode-back" href="../../pylogeny.model.html#pylogeny.model.DiscreteStateModel.getRawFrequencyOfState">[docs]</a>    <span class="k">def</span> <span class="nf">getRawFrequencyOfState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rawFreqMap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

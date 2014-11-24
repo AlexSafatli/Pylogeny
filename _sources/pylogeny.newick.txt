@@ -1,0 +1,7 @@
+pylogeny.newick module
+======================
+
+.. automodule:: pylogeny.newick
+    :members:
+    :undoc-members:
+    :show-inheritance:

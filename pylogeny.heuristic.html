@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.heuristic module &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="index.html" />
+    <link rel="up" title="pylogeny package" href="pylogeny.html" />
+    <link rel="next" title="pylogeny.landscape module" href="pylogeny.landscape.html" />
+    <link rel="prev" title="pylogeny.executable module" href="pylogeny.executable.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.landscape.html" title="pylogeny.landscape module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.executable.html" title="pylogeny.executable module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pylogeny.heuristic">
+<span id="pylogeny-heuristic-module"></span><h1>pylogeny.heuristic module<a class="headerlink" href="#module-pylogeny.heuristic" title="Permalink to this headline">¶</a></h1>
+<p>Define the interface for a heuristic in order to implement any manner of heuristic
+for a combinatorial problem that can be abstracted into a state graph. In this case, a
+phylogenetic tree space.</p>
+<dl class="class">
+<dt id="pylogeny.heuristic.RAxMLIdentify">
+<em class="property">class </em><tt class="descclassname">pylogeny.heuristic.</tt><tt class="descname">RAxMLIdentify</tt><big>(</big><em>ls</em>, <em>startNode</em>, <em>workdir='.rxml'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#RAxMLIdentify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.RAxMLIdentify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.heuristic.phylogeneticLinearHeuristic" title="pylogeny.heuristic.phylogeneticLinearHeuristic"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.heuristic.phylogeneticLinearHeuristic</span></tt></a></p>
+<p>RAxML-driven landscape evaluation
+of intermediate checkpoint trees output from the 
+RAxML executable.</p>
+<dl class="method">
+<dt id="pylogeny.heuristic.RAxMLIdentify.explore">
+<tt class="descname">explore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#RAxMLIdentify.explore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.RAxMLIdentify.explore" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.heuristic.heuristic">
+<em class="property">class </em><tt class="descclassname">pylogeny.heuristic.</tt><tt class="descname">heuristic</tt><big>(</big><em>G=None</em>, <em>start=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#heuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.heuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A base interface for a heuristic that explores a state graph.</p>
+<dl class="method">
+<dt id="pylogeny.heuristic.heuristic.explore">
+<tt class="descname">explore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#heuristic.explore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.heuristic.explore" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.heuristic.heuristic.getStartState">
+<tt class="descname">getStartState</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#heuristic.getStartState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.heuristic.getStartState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.heuristic.heuristic.getStateGraph">
+<tt class="descname">getStateGraph</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#heuristic.getStateGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.heuristic.getStateGraph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.heuristic.likelihoodGreedy">
+<em class="property">class </em><tt class="descclassname">pylogeny.heuristic.</tt><tt class="descname">likelihoodGreedy</tt><big>(</big><em>ls</em>, <em>startTree</em><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#likelihoodGreedy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.likelihoodGreedy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.heuristic.phylogeneticLinearHeuristic" title="pylogeny.heuristic.phylogeneticLinearHeuristic"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.heuristic.phylogeneticLinearHeuristic</span></tt></a></p>
+<p>Greedy (hill-climbing) landscape exploration by comparsion of likelihood.</p>
+<dl class="method">
+<dt id="pylogeny.heuristic.likelihoodGreedy.explore">
+<tt class="descname">explore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#likelihoodGreedy.explore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.likelihoodGreedy.explore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform greedy search of the landscape using
+a method of greed via likelihood.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.heuristic.parsimonyGreedy">
+<em class="property">class </em><tt class="descclassname">pylogeny.heuristic.</tt><tt class="descname">parsimonyGreedy</tt><big>(</big><em>ls</em>, <em>startTree</em><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#parsimonyGreedy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.parsimonyGreedy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.heuristic.phylogeneticLinearHeuristic" title="pylogeny.heuristic.phylogeneticLinearHeuristic"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.heuristic.phylogeneticLinearHeuristic</span></tt></a></p>
+<p>Greedy (hill-climbing) landscape exploration by comparsion of parsimony.</p>
+<dl class="method">
+<dt id="pylogeny.heuristic.parsimonyGreedy.explore">
+<tt class="descname">explore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#parsimonyGreedy.explore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.parsimonyGreedy.explore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform greedy search of the landscape using
+a method of greed via parsimonious criterion.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.heuristic.phylogeneticLinearHeuristic">
+<em class="property">class </em><tt class="descclassname">pylogeny.heuristic.</tt><tt class="descname">phylogeneticLinearHeuristic</tt><big>(</big><em>ls</em>, <em>startTree</em><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#phylogeneticLinearHeuristic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.phylogeneticLinearHeuristic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.heuristic.heuristic" title="pylogeny.heuristic.heuristic"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.heuristic.heuristic</span></tt></a></p>
+<p>A base class for a heuristic that works on a phylogenetic landscape
+and only possesses a single path (of search).</p>
+<dl class="attribute">
+<dt id="pylogeny.heuristic.phylogeneticLinearHeuristic.bestTree">
+<tt class="descname">bestTree</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.heuristic.phylogeneticLinearHeuristic.bestTree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.heuristic.phylogeneticLinearHeuristic.getBestTree">
+<tt class="descname">getBestTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#phylogeneticLinearHeuristic.getBestTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.phylogeneticLinearHeuristic.getBestTree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.heuristic.phylogeneticLinearHeuristic.getPath">
+<tt class="descname">getPath</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#phylogeneticLinearHeuristic.getPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.phylogeneticLinearHeuristic.getPath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.heuristic.phylogeneticLinearHeuristic.path">
+<tt class="descname">path</tt><em class="property"> = []</em><a class="headerlink" href="#pylogeny.heuristic.phylogeneticLinearHeuristic.path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.heuristic.smoothGreedy">
+<em class="property">class </em><tt class="descclassname">pylogeny.heuristic.</tt><tt class="descname">smoothGreedy</tt><big>(</big><em>ls</em>, <em>startTree</em><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#smoothGreedy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.smoothGreedy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.heuristic.phylogeneticLinearHeuristic" title="pylogeny.heuristic.phylogeneticLinearHeuristic"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.heuristic.phylogeneticLinearHeuristic</span></tt></a></p>
+<p>Parsimony-driven greedy landscape exploration 
+by comparsion of likelihoods.</p>
+<dl class="method">
+<dt id="pylogeny.heuristic.smoothGreedy.explore">
+<tt class="descname">explore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#smoothGreedy.explore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.smoothGreedy.explore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform greedy search of the landscape using
+a method of greed via parsimonious criterion and then
+performing final smoothing via likelihood on top 10% of
+1-SPR neighbors ranked on basis of parsimony.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pylogeny.executable.html"
+                        title="previous chapter">pylogeny.executable module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pylogeny.landscape.html"
+                        title="next chapter">pylogeny.landscape module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pylogeny.heuristic.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.landscape.html" title="pylogeny.landscape module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.executable.html" title="pylogeny.executable module"
+             >previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

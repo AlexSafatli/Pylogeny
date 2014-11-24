@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.executable &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pylogeny.executable</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39; Defines an interface to manage interfacing with the system for respective application calls and implements multiple of these for executables such as FastTree and RAxML. &#39;&#39;&#39;</span>
+
+<span class="c"># Date:   Oct 16 2014</span>
+<span class="c"># Author: Alex Safatli</span>
+<span class="c"># E-mail: safatli@cs.dal.ca</span>
+
+<span class="kn">import</span> <span class="nn">tree</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span> <span class="k">as</span> <span class="n">abstractclass</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">mkdir</span><span class="p">,</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">chdir</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">isdir</span><span class="p">,</span> <span class="n">isfile</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">call</span><span class="p">,</span> <span class="n">PIPE</span><span class="p">,</span> <span class="n">Popen</span> <span class="k">as</span> <span class="n">system</span>
+
+<span class="c"># Constants</span>
+
+<span class="n">E_FASTTREE</span> <span class="o">=</span> <span class="s">&#39;fasttree&#39;</span>
+<span class="n">E_RAXML</span>    <span class="o">=</span> <span class="s">&#39;raxmlHPC&#39;</span>
+<span class="n">E_TREEPUZZ</span> <span class="o">=</span> <span class="s">&#39;puzzle&#39;</span>
+
+<span class="c"># Executable Existence Function</span>
+
+<div class="viewcode-block" id="exeExists"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.exeExists">[docs]</a><span class="k">def</span> <span class="nf">exeExists</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">call</span><span class="p">(</span><span class="s">&#39;type </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">cmd</span><span class="p">),</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="c"># Temporary Directory Context</span>
+</div>
+<div class="viewcode-block" id="aTemporaryDirectory"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.aTemporaryDirectory">[docs]</a><span class="k">class</span> <span class="nc">aTemporaryDirectory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; A class intended to be used as a context manager that allows</span>
+<span class="sd">    Python to run in another directory temporarily. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">dir</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">&#39;/tmp&#39;</span> <span class="o">+</span> <span class="nb">dir</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">):</span> <span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">getcwd</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="n">chdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="n">chdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="p">)</span>
+
+<span class="c"># Executable Interface</span>
+</div>
+<div class="viewcode-block" id="executable"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.executable">[docs]</a><span class="k">class</span> <span class="nc">executable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; An interface for the instantation and running of a single instance for a given application. &#39;&#39;&#39;</span>
+
+    <span class="n">exeName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abstractclass</span>
+    
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="executable.getInstructionString"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.executable.getInstructionString">[docs]</a>    <span class="k">def</span> <span class="nf">getInstructionString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+    </div>
+<div class="viewcode-block" id="executable.run"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.executable.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Perform a run of this application. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">exeExists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> is not installed on your system.&#39;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">))</span>
+        <span class="n">sproc</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInstructionString</span><span class="p">(),</span>
+                       <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sproc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c"># Executable Classes</span>
+</div></div>
+<div class="viewcode-block" id="treepuzzle"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.treepuzzle">[docs]</a><span class="k">class</span> <span class="nc">treepuzzle</span><span class="p">(</span><span class="n">executable</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Wrap TREE-PUZZLE in order to create an intermediate file for CONSEL to read and assign confidence to a set of trees. Requires TREE-PUZZLE to be installed. &#39;&#39;&#39;</span>
+
+    <span class="n">exeName</span> <span class="o">=</span> <span class="n">E_TREEPUZZ</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ali</span><span class="p">,</span><span class="n">treefile</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treefile</span>  <span class="o">=</span> <span class="n">treefile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">ali</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;No alignment defined.&#39;</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="treepuzzle.getInstructionString"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.treepuzzle.getInstructionString">[docs]</a>    <span class="k">def</span> <span class="nf">getInstructionString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;echo &quot;y&quot; | </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> -wsl&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="o">.</span><span class="n">getPhylip</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">treefile</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="treepuzzle.getSiteLikelihoodFile"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.treepuzzle.getSiteLikelihoodFile">[docs]</a>    <span class="k">def</span> <span class="nf">getSiteLikelihoodFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.sitelh&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treefile</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;TREE-PUZZLE did not create site-likelihood output.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.sitelh&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treefile</span><span class="p">)</span> 
+</div></div>
+<div class="viewcode-block" id="consel"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.consel">[docs]</a><span class="k">class</span> <span class="nc">consel</span><span class="p">(</span><span class="n">executable</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Denotes a single run of the CONSEL workflow in order to acquire a confidence interval and perform an AU test on a set of trees. Requires CONSEL to be installed. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">treeset</span><span class="p">,</span><span class="n">alignment</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeset</span>   <span class="o">=</span> <span class="n">treeset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span>      <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">alignment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sitelh</span>    <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw</span>       <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rmt</span>       <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pv</span>        <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auvals</span>    <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval</span>  <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">treeSet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rejected</span>  <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">treeSet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        
+<div class="viewcode-block" id="consel.getInstructionString"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.consel.getInstructionString">[docs]</a>    <span class="k">def</span> <span class="nf">getInstructionString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span>
+    </div>
+    <span class="k">def</span> <span class="nf">_convertRawData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.mt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span> <span class="o">=</span> <span class="s">&#39;seqmt --puzzle </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">.mt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sitelh</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.mt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;CONSEL seqmt did not create mt file.&#39;</span><span class="p">)</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.mt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_createReplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.rmt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span> <span class="o">=</span> <span class="s">&#39;makermt </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.rmt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;CONSEL markermt did not create rmt file.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rmt</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.rmt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.pv&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span> <span class="o">=</span> <span class="s">&#39;consel </span><span class="si">%s</span><span class="s">.rmt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pv</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.pv&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_getAU</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span> <span class="o">=</span> <span class="s">&#39;catpv </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pv</span><span class="p">)</span>
+        <span class="n">pvout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">pvout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">):</span>
+            <span class="n">spl</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spl</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span> <span class="k">continue</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">spl</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span> <span class="k">continue</span>
+            <span class="n">it</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">spl</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="n">spl</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">auvals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">it</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.05</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeset</span><span class="p">[</span><span class="n">it</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rejected</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeset</span><span class="p">[</span><span class="n">it</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>    
+        <span class="bp">self</span><span class="o">.</span><span class="n">_out</span> <span class="o">=</span> <span class="n">pvout</span>
+    
+<div class="viewcode-block" id="consel.getInterval"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.consel.getInterval">[docs]</a>    <span class="k">def</span> <span class="nf">getInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Compute the AU test. Return the interval of trees. &#39;&#39;&#39;</span>
+        
+        <span class="k">with</span> <span class="n">aTemporaryDirectory</span><span class="p">(</span><span class="s">&#39;/consel__py/&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.trees.sitelh&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">treefile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeset</span><span class="o">.</span><span class="n">toTreeFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.trees&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">treepuzz</span> <span class="o">=</span> <span class="n">treepuzzle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">treefile</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sitelh</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treepuzz</span><span class="o">.</span><span class="n">getSiteLikelihoodFile</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sitelh</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.trees.sitelh&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_convertRawData</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_createReplicates</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_getAU</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval</span>
+</div></div>
+<div class="viewcode-block" id="fasttree"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.fasttree">[docs]</a><span class="k">class</span> <span class="nc">fasttree</span><span class="p">(</span><span class="n">executable</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Denotes a single run of the FastTree executable in order to acquire an approximate maximum likelihood tree for the input alignment. See http://www.microbesonline.org/fasttree/ for more information on FastTree. Requires FastTree to be installed. &#39;&#39;&#39;</span>
+    
+    <span class="n">exeName</span> <span class="o">=</span> <span class="n">E_FASTTREE</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inp_align</span><span class="p">,</span><span class="n">out_file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">isProtein</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">inp_align</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isProtein</span> <span class="o">=</span> <span class="n">isProtein</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span>       <span class="o">=</span> <span class="n">out_file</span>
+        
+<div class="viewcode-block" id="fasttree.getInstructionString"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.fasttree.getInstructionString">[docs]</a>    <span class="k">def</span> <span class="nf">getInstructionString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> -quiet -nopr &lt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">:</span> <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; &gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+    </div></div>
+<div class="viewcode-block" id="raxml"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.raxml">[docs]</a><span class="k">class</span> <span class="nc">raxml</span><span class="p">(</span><span class="n">executable</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Denotes a single run of the RAxML executable. See http://sco.h-its.org/exelixis/software.html for more information on RAxML. Requires RAxML to be installed. &#39;&#39;&#39;</span>
+    
+    <span class="n">exeName</span> <span class="o">=</span> <span class="n">E_RAXML</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inp_align</span><span class="p">,</span><span class="n">out_file</span><span class="p">,</span><span class="n">model</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">is_Protein</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">interTrees</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">alg</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">startingTree</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">rapid</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">slow</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">optimizeBootstrap</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">numboot</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                 <span class="n">log</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">wdir</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span>     <span class="o">=</span> <span class="n">inp_align</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span>           <span class="o">=</span> <span class="n">out_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span>         <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protein</span>       <span class="o">=</span> <span class="n">is_Protein</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intermediates</span> <span class="o">=</span> <span class="n">interTrees</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alg</span>           <span class="o">=</span> <span class="n">alg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startingTree</span>  <span class="o">=</span> <span class="n">startingTree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slowBoot</span>      <span class="o">=</span> <span class="n">slow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rapidBoot</span>     <span class="o">=</span> <span class="n">rapid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numBoot</span>       <span class="o">=</span> <span class="n">numboot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optBoot</span>       <span class="o">=</span> <span class="n">optimizeBootstrap</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span>           <span class="o">=</span> <span class="n">log</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span>       <span class="o">=</span> <span class="n">abspath</span><span class="p">(</span><span class="n">wdir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_Protein</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="s">&#39;PROTGAMMAJTT&#39;</span>
+            <span class="k">else</span><span class="p">:</span>          <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="s">&#39;GTRGAMMA&#39;</span>
+            
+<div class="viewcode-block" id="raxml.getInstructionString"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.raxml.getInstructionString">[docs]</a>    <span class="k">def</span> <span class="nf">getInstructionString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> -s </span><span class="si">%s</span><span class="s"> -n </span><span class="si">%s</span><span class="s"> -m </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alg</span><span class="p">:</span> <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; -f </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intermediates</span><span class="p">:</span> <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; -j&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">startingTree</span><span class="p">:</span> <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; -t </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">startingTree</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rapidBoot</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">slowBoot</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rapidBoot</span><span class="p">:</span>  <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; -x 234534251 -N </span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numBoot</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">slowBoot</span><span class="p">:</span> <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; -b 234534251 -N </span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numBoot</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optBoot</span><span class="p">:</span> <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; -k&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">:</span> <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; -w </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">:</span> <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39; &gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+    </div>
+<div class="viewcode-block" id="raxml.runFunction"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.raxml.runFunction">[docs]</a>    <span class="k">def</span> <span class="nf">runFunction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alg</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alg</span> <span class="o">=</span> <span class="n">alg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

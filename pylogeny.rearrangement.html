@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.rearrangement module &mdash; Pylogeny 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.2.7 documentation" href="index.html" />
+    <link rel="up" title="pylogeny package" href="pylogeny.html" />
+    <link rel="next" title="pylogeny.scoring module" href="pylogeny.scoring.html" />
+    <link rel="prev" title="pylogeny.pll module" href="pylogeny.pll.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.pll.html" title="pylogeny.pll module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pylogeny.rearrangement">
+<span id="pylogeny-rearrangement-module"></span><h1>pylogeny.rearrangement module<a class="headerlink" href="#module-pylogeny.rearrangement" title="Permalink to this headline">¶</a></h1>
+<p>Phylogenetic tree structure encapsulation; allow rearrangement of said structure. Tree rearrangements inducing other topologies include Nearest Neighbor Interchange (NNI), Subtree Pruning and Regrafting (SPR), and Tree Bisection and Reconstruction (TBR). Each of these describe a transfer of one node in phylogenetic trees from one parent of a tree to a new parent. Respectively, these operators describe transformations that are subsets of those possible by the successive operator. For example, an NNI operator can perform transformations that are a subset of the transformations possible by the SPR operator.</p>
+<dl class="exception">
+<dt id="pylogeny.rearrangement.RearrangementError">
+<em class="property">exception </em><tt class="descclassname">pylogeny.rearrangement.</tt><tt class="descname">RearrangementError</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#RearrangementError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.RearrangementError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.rearrangement.dup">
+<tt class="descclassname">pylogeny.rearrangement.</tt><tt class="descname">dup</tt><big>(</big><em>topo</em>, <em>where=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#dup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.dup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.rearrangement.rearrangement">
+<em class="property">class </em><tt class="descclassname">pylogeny.rearrangement.</tt><tt class="descname">rearrangement</tt><big>(</big><em>struct</em>, <em>type</em>, <em>targ</em>, <em>dest</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulates a single rearrangement move
+of type SPR, NNI, ...</p>
+<dl class="method">
+<dt id="pylogeny.rearrangement.rearrangement.doMove">
+<tt class="descname">doMove</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.doMove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.doMove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.rearrangement.getType">
+<tt class="descname">getType</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.getType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.getType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the type of movement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.rearrangement.isNNI">
+<tt class="descname">isNNI</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.isNNI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.isNNI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.rearrangement.isSPR">
+<tt class="descname">isSPR</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.isSPR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.isSPR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.rearrangement.isTBR">
+<tt class="descname">isTBR</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.isTBR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.isTBR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.rearrangement.toNewick">
+<tt class="descname">toNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.toNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.toNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Commit the move but do not create a 
+new structure. Only retrieve resultant
+Newick string; will be more efficient.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.rearrangement.toTopology">
+<tt class="descname">toTopology</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.toTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.toTopology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Commit the actual move and return the
+topology.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.rearrangement.toTree">
+<tt class="descname">toTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.toTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.toTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Commit the move and transform to tree object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.rearrangement.topology">
+<em class="property">class </em><tt class="descclassname">pylogeny.rearrangement.</tt><tt class="descname">topology</tt><big>(</big><em>t=None</em>, <em>rerootToLeaf=True</em>, <em>toLeaf=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulate a tree topology, wrapping the newick 
+tree structure. Is immutable.</p>
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.NNI">
+<tt class="descname">NNI</tt><big>(</big><em>branch</em>, <em>destination</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.NNI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.NNI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform an NNI move of a branch to a destination, 
+only if that destination branch is a parent&#8217;s parent 
+or a parent&#8217;s sibling. Returns a rearrangement structure
+(not the actual new structure) that can then be polled
+for the actual move; this is in order to save memory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.SPR">
+<tt class="descname">SPR</tt><big>(</big><em>branch</em>, <em>destination</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.SPR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.SPR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform an SPR move of a branch to a destination 
+branch, creating a new node there. Returns a 
+rearrangement structure (not the actual new structure) 
+that can then be polled for the actual move; this 
+is in order to save memory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.allNNI">
+<tt class="descname">allNNI</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.allNNI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.allNNI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consider all valid NNI moves for a given topology
+and return all possible rearrangements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.allNNIForBranch">
+<tt class="descname">allNNIForBranch</tt><big>(</big><em>br</em>, <em>flip=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.allNNIForBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.allNNIForBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consider all valid NNI moves for a given branch 
+in the topology and return all possible rearrangements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.allSPR">
+<tt class="descname">allSPR</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.allSPR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.allSPR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consider all valid SPR moves for a given topology
+and return all possible rearrangements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.allSPRForBranch">
+<tt class="descname">allSPRForBranch</tt><big>(</big><em>br</em>, <em>flip=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.allSPRForBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.allSPRForBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consider all valid SPR moves for a given branch 
+in the topology and return all possible rearrangements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.allType">
+<tt class="descname">allType</tt><big>(</big><em>type=1</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.allType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.allType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consider all valid moves of a given rearrangement
+operator for a given topology. Uses a given rearrangement 
+operator type defined in this module. For example, calling this 
+function by providing TYPE_NNI as the type will iterate over all 
+NNI operations. By default, the type is TYPE_SPR.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.fromNewick">
+<tt class="descname">fromNewick</tt><big>(</big><em>newickstr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.fromNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.fromNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for parse().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.getBipartitions">
+<tt class="descname">getBipartitions</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getBipartitions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getBipartitions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all bipartitions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.getBranchFromBipartition">
+<tt class="descname">getBranchFromBipartition</tt><big>(</big><em>bip</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getBranchFromBipartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getBranchFromBipartition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a bipartition object, return
+a branch that creates that partition of
+taxa.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.getBranchFromStrBipartition">
+<tt class="descname">getBranchFromStrBipartition</tt><big>(</big><em>bip</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getBranchFromStrBipartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getBranchFromStrBipartition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a bipartition of taxa, return a 
+branch that creates that partition of tree
+taxa.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.getBranches">
+<tt class="descname">getBranches</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getBranches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getBranches" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.getInternalNodes">
+<tt class="descname">getInternalNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getInternalNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getInternalNodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.getLeaves">
+<tt class="descname">getLeaves</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getLeaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getLeaves" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.getRoot">
+<tt class="descname">getRoot</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getRoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getRoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the top-level, root, node of 
+the tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.getStrBipartitionFromBranch">
+<tt class="descname">getStrBipartitionFromBranch</tt><big>(</big><em>br</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getStrBipartitionFromBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getStrBipartitionFromBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a branch, return corresponding 
+bipartition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.iterNNIForBranch">
+<tt class="descname">iterNNIForBranch</tt><big>(</big><em>br</em>, <em>flip=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.iterNNIForBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.iterNNIForBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consider all valid NNI moves for a given branch
+in the topology and and yield all possible rearrangements
+as a generator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.iterSPRForBranch">
+<tt class="descname">iterSPRForBranch</tt><big>(</big><em>br</em>, <em>flip=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.iterSPRForBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.iterSPRForBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consider all valid SPR moves for a given branch 
+in the topology and yield all possible rearrangements
+as a generator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.iterTypeForBranch">
+<tt class="descname">iterTypeForBranch</tt><big>(</big><em>br</em>, <em>type=1</em>, <em>flip=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.iterTypeForBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.iterTypeForBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over all possible rearrangements for a
+branch using a given rearrangement operator type defined
+in this module. For example, calling this function by providing
+TYPE_NNI as the type will iterate over all NNI operations. By
+default, the type is TYPE_SPR.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.lockBranch">
+<tt class="descname">lockBranch</tt><big>(</big><em>branch</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.lockBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.lockBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a branch, lock it such that no 
+transitions can ever occur across it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.move">
+<tt class="descname">move</tt><big>(</big><em>branch</em>, <em>destination</em>, <em>returnStruct=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move a branch and attach to a destination 
+branch. Return new structure, or return merely 
+the resultant Newick string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.parse">
+<tt class="descname">parse</tt><big>(</big><em>newickstr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a newick string and assign the tree to this
+object. Cannot already be initialized with a tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.rerootToLeaf">
+<tt class="descname">rerootToLeaf</tt><big>(</big><em>toleaf=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.rerootToLeaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.rerootToLeaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>PRIVATE: Reroots the given tree structure such
+that it is rooted nearest the lowest-order leaf.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.toNewick">
+<tt class="descname">toNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.toNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.toNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the newick string of the tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.toTree">
+<tt class="descname">toTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.toTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.toTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the tree object for this topology.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.toUnrootedNewick">
+<tt class="descname">toUnrootedNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.toUnrootedNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.toUnrootedNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the newick string of the tree as an
+unrooted topology with a multifurcating top-level node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.toUnrootedTree">
+<tt class="descname">toUnrootedTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.toUnrootedTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.toUnrootedTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the tree object of the unrooted 
+version of this topology.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pylogeny.pll.html"
+                        title="previous chapter">pylogeny.pll module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pylogeny.scoring.html"
+                        title="next chapter">pylogeny.scoring module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pylogeny.rearrangement.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pylogeny.pll.html" title="pylogeny.pll module"
+             >previous</a> |</li>
+        <li><a href="index.html">Pylogeny 0.2.7 documentation</a> &raquo;</li>
+          <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
