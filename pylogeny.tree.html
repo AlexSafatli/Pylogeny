@@ -52,17 +52,25 @@
             
   <div class="section" id="module-pylogeny.tree">
 <span id="pylogeny-tree-module"></span><h1>pylogeny.tree module<a class="headerlink" href="#module-pylogeny.tree" title="Permalink to this headline">¶</a></h1>
-<p>Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings.</p>
+<p>Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings, collections of them, and for splits of these trees.</p>
 <dl class="class">
 <dt id="pylogeny.tree.bipartition">
 <em class="property">class </em><tt class="descclassname">pylogeny.tree.</tt><tt class="descname">bipartition</tt><big>(</big><em>topol</em>, <em>bra=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>A tree bipartition. Requires a tree topology.</p>
+<p>A tree bipartition. Requires a tree topology. Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree.</p>
 <dl class="method">
 <dt id="pylogeny.tree.bipartition.fromStringRepresentation">
 <tt class="descname">fromStringRepresentation</tt><big>(</big><em>st</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.fromStringRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.fromStringRepresentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquire all component elements from a string representation 
 of a bipartition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>st</strong> &#8211; A string representation from a <a class="reference internal" href="#pylogeny.tree.bipartition" title="pylogeny.tree.bipartition"><tt class="xref py py-class docutils literal"><span class="pre">bipartition</span></tt></a> object.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -75,6 +83,14 @@ of a bipartition.</p>
 <dt id="pylogeny.tree.bipartition.getBranch">
 <tt class="descname">getBranch</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getBranch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get branch corresponding to this bipartition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">newick.branch</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -200,6 +216,11 @@ was acquired or constructed from; a string.</p>
 <dl class="method">
 <dt id="pylogeny.tree.tree.setScore">
 <tt class="descname">setScore</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.setScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.setScore" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.toNewick">
+<tt class="descname">toNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.toNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.toNewick" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">

@@ -47,7 +47,7 @@
           <div class="body">
             
   <h1>Source code for pylogeny.tree</h1><div class="highlight"><pre>
-<span class="sd">&#39;&#39;&#39; Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings. &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39; Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings, collections of them, and for splits of these trees. &#39;&#39;&#39;</span>
 
 <span class="c"># Date:   Oct 20 2014</span>
 <span class="c"># Author: Alex Safatli</span>
@@ -55,7 +55,7 @@
 
 <span class="c"># Imports</span>
 
-<span class="kn">import</span> <span class="nn">newick</span><span class="o">,</span> <span class="nn">rearrangement</span>
+<span class="kn">import</span> <span class="nn">newick</span><span class="o">,</span> <span class="nn">rearrangement</span><span class="o">,</span> <span class="nn">base</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span> <span class="k">as</span> <span class="n">fact</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">median</span>
 
@@ -101,6 +101,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">o</span>    
         </div>
 <div class="viewcode-block" id="tree.getNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span></div>
+<div class="viewcode-block" id="tree.toNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.toNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span></div>
 <div class="viewcode-block" id="tree.setNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setNewick">[docs]</a>    <span class="k">def</span> <span class="nf">setNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Set Newick string to n; also reacquires corresponding</span>
@@ -200,6 +201,7 @@
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
     </div>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">)</span>
     
 <div class="viewcode-block" id="treeSet.toTreeFile"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.toTreeFile">[docs]</a>    <span class="k">def</span> <span class="nf">toTreeFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fout</span><span class="p">):</span>
         
@@ -216,13 +218,21 @@
     
 <span class="c"># Bipartition Class Definitions    </span>
     </div>
-<span class="sd">&#39;&#39;&#39; Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree. This package handle operations involving the representation of tree bipartitions. &#39;&#39;&#39;</span>
-
 <div class="viewcode-block" id="bipartition"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition">[docs]</a><span class="k">class</span> <span class="nc">bipartition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="sd">&#39;&#39;&#39; A tree bipartition. Requires a tree topology. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; A tree bipartition. Requires a tree topology. Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree. &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">topol</span><span class="p">,</span><span class="n">bra</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Construct a bipartition from a branch in a topology. </span>
+<span class="sd">        </span>
+<span class="sd">        :param topol: A topology.</span>
+<span class="sd">        :type topol: :class: `rearrangement.topology`</span>
+<span class="sd">        :param bra: An optional argument; can still acquire a bipartition from a string.</span>
+<span class="sd">        :type bra: :class: `newick.branch`</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">topology</span> <span class="o">=</span> <span class="n">topol</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branch</span>   <span class="o">=</span> <span class="n">bra</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">btuple</span>   <span class="o">=</span> <span class="bp">None</span> <span class="c"># Tuple list representation.</span>
@@ -252,6 +262,7 @@
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topology</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Topology does not exist or is equal to None.&#39;</span><span class="p">)</span>
+        
         <span class="n">z</span>            <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">getStrBipartitionFromBranch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="p">)</span>
         <span class="n">l</span><span class="p">,</span><span class="n">r</span>          <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">sorted</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span>  <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>
@@ -303,7 +314,11 @@
 <div class="viewcode-block" id="bipartition.fromStringRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.fromStringRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">fromStringRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">st</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Acquire all component elements from a string representation </span>
-<span class="sd">        of a bipartition. &#39;&#39;&#39;</span>
+<span class="sd">        of a bipartition. </span>
+<span class="sd">        </span>
+<span class="sd">        :param st: A string representation from a :class:`.bipartition` object.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span> <span class="o">=</span> <span class="n">st</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_getBranchFromString</span><span class="p">()</span>
@@ -311,7 +326,11 @@
         </div>
 <div class="viewcode-block" id="bipartition.getBranch"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getBranch">[docs]</a>    <span class="k">def</span> <span class="nf">getBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Get branch corresponding to this bipartition. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get branch corresponding to this bipartition.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: :class:`newick.branch`</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch</span>
     </div>
@@ -320,7 +339,7 @@
         <span class="sd">&#39;&#39;&#39; Return an index of the branch with respect to a post order traversal</span>
 <span class="sd">        of the topology. &#39;&#39;&#39;</span>
         
-        <span class="n">nodes</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">postOrderTraversal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">getRoot</span><span class="p">())</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="o">.</span><span class="n">postOrderTraversal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">getRoot</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)):</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="p">:</span>

@@ -1,0 +1,605 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pylogeny.base &mdash; Pylogeny 0.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pylogeny.base</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39; Definitions for generalized containers and objects used by other structures in this framework. &#39;&#39;&#39;</span>
+
+<span class="c"># Date:   Nov 26 2014</span>
+<span class="c"># Author: Alex Safatli</span>
+<span class="c"># E-mail: safatli@cs.dal.ca</span>
+
+<span class="c"># Imports</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Container</span>
+
+<span class="c"># Tree Elements</span>
+
+<div class="viewcode-block" id="treeStructure"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeStructure">[docs]</a><span class="k">class</span> <span class="nc">treeStructure</span><span class="p">(</span><span class="n">Container</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Defines a base collection of treeNodes and treeBranches in a</span>
+<span class="sd">    hierarchical tree structure. &#39;&#39;&#39;</span>
+    
+    <span class="n">root</span> <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">root</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="n">root</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">treeNode</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+    
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
+        
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPostOrderTraversal</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span> <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    
+<div class="viewcode-block" id="treeStructure.getRoot"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeStructure.getRoot">[docs]</a>    <span class="k">def</span> <span class="nf">getRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return the top-level, root, node of </span>
+<span class="sd">        the tree. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>    
+    </div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="treeStructure.leaves"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeStructure.leaves">[docs]</a>    <span class="k">def</span> <span class="nf">leaves</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">isLeaf</span><span class="p">():</span> <span class="k">return</span> <span class="p">[</span><span class="n">root</span><span class="p">]</span>
+        <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">getChildren</span><span class="p">():</span>
+            <span class="n">li</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">treeStructure</span><span class="o">.</span><span class="n">leaves</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">child</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">li</span>        
+        </div>
+<div class="viewcode-block" id="treeStructure.getAllLeaves"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeStructure.getAllLeaves">[docs]</a>    <span class="k">def</span> <span class="nf">getAllLeaves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        
+        <span class="k">return</span> <span class="n">treeStructure</span><span class="o">.</span><span class="n">leaves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+    </div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="treeStructure.nodes"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeStructure.nodes">[docs]</a>    <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">root</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span> <span class="p">[]</span>
+        <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">getChildren</span><span class="p">():</span>
+            <span class="n">li</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">treeStructure</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">child</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">li</span>    
+    </div>
+<div class="viewcode-block" id="treeStructure.getAllNodes"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeStructure.getAllNodes">[docs]</a>    <span class="k">def</span> <span class="nf">getAllNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="n">treeStructure</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+    </div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="treeStructure.postOrderTraversal"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeStructure.postOrderTraversal">[docs]</a>    <span class="k">def</span> <span class="nf">postOrderTraversal</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="p">[]</span>
+        <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">getChildren</span><span class="p">():</span>
+            <span class="n">li</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">treeStructure</span><span class="o">.</span><span class="n">postOrderTraversal</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">child</span><span class="p">))</span>
+        <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">li</span>
+        </div>
+<div class="viewcode-block" id="treeStructure.getPostOrderTraversal"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeStructure.getPostOrderTraversal">[docs]</a>    <span class="k">def</span> <span class="nf">getPostOrderTraversal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="n">treeStructure</span><span class="o">.</span><span class="n">postOrderTraversal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">_createStringLinesForNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">root</span><span class="p">,</span><span class="n">levelsDeep</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">getChildren</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">&#39;  &#39;</span><span class="o">*</span><span class="n">levelsDeep</span> <span class="o">+</span> <span class="s">&#39;| &#39;</span> <span class="o">+</span> <span class="n">root</span><span class="o">.</span><span class="n">label</span>
+        <span class="n">strOut</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">getChildren</span><span class="p">():</span>
+            <span class="n">strOut</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_createStringLinesForNode</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">child</span><span class="p">,</span><span class="n">levelsDeep</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">strOut</span>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Returns a string representation of the tree. &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_createStringLinesForNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="treeNode"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeNode">[docs]</a><span class="k">class</span> <span class="nc">treeNode</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; A node in a tree. &#39;&#39;&#39;</span>
+
+    <span class="n">label</span>    <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">parent</span>   <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">children</span> <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbl</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">children</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span>  <span class="o">=</span> <span class="n">lbl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="k">if</span> <span class="n">children</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">children</span>
+        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            
+<div class="viewcode-block" id="treeNode.getLabel"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeNode.getLabel">[docs]</a>    <span class="k">def</span> <span class="nf">getLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span></div>
+<div class="viewcode-block" id="treeNode.getParent"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeNode.getParent">[docs]</a>    <span class="k">def</span> <span class="nf">getParent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span></div>
+<div class="viewcode-block" id="treeNode.addChild"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeNode.addChild">[docs]</a>    <span class="k">def</span> <span class="nf">addChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">item</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+<div class="viewcode-block" id="treeNode.getChildByIndex"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeNode.getChildByIndex">[docs]</a>    <span class="k">def</span> <span class="nf">getChildByIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
+<div class="viewcode-block" id="treeNode.getChildren"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeNode.getChildren">[docs]</a>    <span class="k">def</span> <span class="nf">getChildren</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span></div>
+<div class="viewcode-block" id="treeNode.isLeaf"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeNode.isLeaf">[docs]</a>    <span class="k">def</span> <span class="nf">isLeaf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></div>
+<div class="viewcode-block" id="treeNode.isInternalNode"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeNode.isInternalNode">[docs]</a>    <span class="k">def</span> <span class="nf">isInternalNode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="treeBranch"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeBranch">[docs]</a><span class="k">class</span> <span class="nc">treeBranch</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; A branch in a tree. &#39;&#39;&#39;</span>
+    
+    <span class="n">label</span>  <span class="o">=</span> <span class="s">&#39;&#39;</span>    
+    <span class="n">parent</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">child</span>  <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">child</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child</span>  <span class="o">=</span> <span class="n">child</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span>  <span class="o">=</span> <span class="n">label</span>
+        
+<div class="viewcode-block" id="treeBranch.getLabel"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeBranch.getLabel">[docs]</a>    <span class="k">def</span> <span class="nf">getLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span></div>
+<div class="viewcode-block" id="treeBranch.getParent"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeBranch.getParent">[docs]</a>    <span class="k">def</span> <span class="nf">getParent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span></div>
+<div class="viewcode-block" id="treeBranch.getChild"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.treeBranch.getChild">[docs]</a>    <span class="k">def</span> <span class="nf">getChild</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">child</span>  
+
+<span class="c"># Tries</span>
+</div></div>
+<div class="viewcode-block" id="trieNode"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trieNode">[docs]</a><span class="k">class</span> <span class="nc">trieNode</span><span class="p">(</span><span class="n">treeNode</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; A subclass of treeNode that allows for checking </span>
+<span class="sd">    non-zero members amongst children branches and other</span>
+<span class="sd">    conveniences. &#39;&#39;&#39;</span>
+    
+<div class="viewcode-block" id="trieNode.getParentNode"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trieNode.getParentNode">[docs]</a>    <span class="k">def</span> <span class="nf">getParentNode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+    </div>
+<div class="viewcode-block" id="trieNode.setChildNode"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trieNode.setChildNode">[docs]</a>    <span class="k">def</span> <span class="nf">setChildNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">child</span><span class="p">,</span><span class="n">newchild</span><span class="p">):</span>
+        
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">branch</span><span class="o">.</span><span class="n">child</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">branch</span><span class="o">.</span><span class="n">child</span> <span class="o">==</span> <span class="n">child</span><span class="p">:</span>
+                <span class="n">branch</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="n">newchild</span>
+                <span class="k">if</span> <span class="n">newchild</span><span class="p">:</span> <span class="n">newchild</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">branch</span>
+                <span class="k">return</span>
+    </div>
+<div class="viewcode-block" id="trieNode.iterNonEmptyChildrenNodes"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trieNode.iterNonEmptyChildrenNodes">[docs]</a>    <span class="k">def</span> <span class="nf">iterNonEmptyChildrenNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    
+        
+        <span class="sd">&#39;&#39;&#39; Iterate over all children that are not empty. &#39;&#39;&#39;</span>
+        
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">child</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">branch</span><span class="o">.</span><span class="n">child</span>
+                </div>
+<div class="viewcode-block" id="trieNode.getNonEmptyChildrenNodes"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trieNode.getNonEmptyChildrenNodes">[docs]</a>    <span class="k">def</span> <span class="nf">getNonEmptyChildrenNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Acquire a list of all non-empty children. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterNonEmptyChildrenNodes</span><span class="p">()]</span>
+    </div>
+<div class="viewcode-block" id="trieNode.getNonEmptyChildrenBranches"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trieNode.getNonEmptyChildrenBranches">[docs]</a>    <span class="k">def</span> <span class="nf">getNonEmptyChildrenBranches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Acquire a list of all non-empty children. &#39;&#39;&#39;</span>
+    
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">parent</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterNonEmptyChildrenNodes</span><span class="p">()]</span>
+    </div>
+<div class="viewcode-block" id="trieNode.getNonEmptyChildrenBranchLabels"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trieNode.getNonEmptyChildrenBranchLabels">[docs]</a>    <span class="k">def</span> <span class="nf">getNonEmptyChildrenBranchLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterNonEmptyChildrenNodes</span><span class="p">()]</span>
+    </div>
+<div class="viewcode-block" id="trieNode.numEmptyChildrenNodes"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trieNode.numEmptyChildrenNodes">[docs]</a>    <span class="k">def</span> <span class="nf">numEmptyChildrenNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Acquire the number of children nodes that are marked 0 </span>
+<span class="sd">        or nonexistent. &#39;&#39;&#39;</span>
+        
+        <span class="n">empty</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">child</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">branch</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">empty</span> <span class="o">+=</span> <span class="mi">1</span>
+                
+        <span class="k">return</span> <span class="n">empty</span>
+</div></div>
+<div class="viewcode-block" id="trie"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trie">[docs]</a><span class="k">class</span> <span class="nc">trie</span><span class="p">(</span><span class="n">Sized</span><span class="p">,</span><span class="n">treeStructure</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Defines a trie across a range of strings. &#39;&#39;&#39;</span>
+    
+    <span class="n">alphabet</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">root</span>     <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">count</span>    <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">trieNode</span><span class="p">(</span><span class="n">lbl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Implementing for interface (Container). &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Implementing for interface (Sized). &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+        
+<div class="viewcode-block" id="trie.getAlphabet"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trie.getAlphabet">[docs]</a>    <span class="k">def</span> <span class="nf">getAlphabet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span></div>
+<div class="viewcode-block" id="trie.getRoot"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trie.getRoot">[docs]</a>    <span class="k">def</span> <span class="nf">getRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+    </div>
+    <span class="k">def</span> <span class="nf">_makeNewChildForNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">,</span><span class="n">char</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Called when a new item is added to the alphabet. Adds a new</span>
+<span class="sd">        empty node to all children. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">getChildren</span><span class="p">())</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">getChildren</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_makeNewChildForNodes</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">child</span><span class="p">,</span><span class="n">char</span><span class="p">)</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">treeBranch</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">node</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">char</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">_newNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">parent</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Create a new node. &#39;&#39;&#39;</span>
+        
+        <span class="n">t</span> <span class="o">=</span> <span class="n">trieNode</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span><span class="n">lbl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">:</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">treeBranch</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">char</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">t</span>
+    
+    <span class="k">def</span> <span class="nf">_deleteNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">,</span><span class="n">child</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Delete a node. &#39;&#39;&#39;</span>
+        
+        <span class="c"># If a child was given, clear it.</span>
+        <span class="k">if</span> <span class="n">child</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">setChildNode</span><span class="p">(</span><span class="n">child</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="bp">None</span>
+            
+        <span class="c"># If this is root, stop.</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span> <span class="k">return</span>
+        
+        <span class="c"># Check node for emptiness.</span>
+        <span class="n">numempty</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">numEmptyChildrenNodes</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">numempty</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">)):</span>
+            <span class="c"># All empty.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_deleteNode</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">getParentNode</span><span class="p">(),</span><span class="n">node</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="trie.search"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trie.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Search for a sequence in the trie. Returns true</span>
+<span class="sd">        if it exists. &#39;&#39;&#39;</span>
+        
+        <span class="n">index</span>  <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoot</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+            
+            <span class="c"># In alphabet?</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">character</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            
+            <span class="c"># Get index in alphabet.</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+            
+            <span class="c"># Traverse trie.</span>
+            <span class="n">nextitem</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">getChildByIndex</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextitem</span><span class="o">.</span><span class="n">child</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="n">nextitem</span><span class="o">.</span><span class="n">child</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">label</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="trie.insert"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trie.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Dynamically insert a sequence into the trie. &#39;&#39;&#39;</span>
+    
+        <span class="n">index</span>  <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoot</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+            
+            <span class="c"># In alphabet?</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">character</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_makeNewChildForNodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getRoot</span><span class="p">(),</span><span class="n">character</span><span class="p">)</span>
+            
+            <span class="c"># Get index in alphabet.</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+            
+            <span class="c"># Traverse trie.</span>
+            <span class="n">nextitem</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">getChildByIndex</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextitem</span><span class="o">.</span><span class="n">child</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="n">nextitem</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_newNode</span><span class="p">(</span><span class="n">nextitem</span><span class="p">)</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="n">nextitem</span><span class="o">.</span><span class="n">child</span>
+        
+        <span class="c"># Mark the leaf.</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+        </div>
+<div class="viewcode-block" id="trie.delete"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trie.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Remove a sequence from the trie. Will not remove</span>
+<span class="sd">        added characters to alphabet. &#39;&#39;&#39;</span>
+        
+        <span class="n">index</span>  <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoot</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+            
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">character</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s">&#39;Sequence </span><span class="si">%s</span><span class="s"> not in trie.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">seq</span><span class="p">))</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+            
+            <span class="c"># Traverse trie.</span>
+            <span class="n">nextitem</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">getChildByIndex</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextitem</span><span class="o">.</span><span class="n">child</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s">&#39;Sequence </span><span class="si">%s</span><span class="s"> not in trie.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">seq</span><span class="p">))</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="n">nextitem</span><span class="o">.</span><span class="n">child</span>
+        
+        <span class="c"># Work way up and check for completely empty subtrees.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_deleteNode</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
+        </div>
+    <span class="k">def</span> <span class="nf">_createStringLinesForNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">root</span><span class="p">,</span><span class="n">levelsDeep</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Private method for stringifying this object. &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="s">&#39;&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">):</span>
+            <span class="n">strOut</span>   <span class="o">=</span> <span class="s">&#39;  &#39;</span><span class="o">*</span><span class="n">levelsDeep</span> <span class="o">+</span> <span class="s">&#39;| &#39;</span> <span class="o">+</span> <span class="n">root</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">label</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">strOut</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">getChildren</span><span class="p">():</span>
+            <span class="n">strOut</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_createStringLinesForNode</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">child</span><span class="p">,</span><span class="n">levelsDeep</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">strOut</span>     
+</div>
+<div class="viewcode-block" id="patriciaTree"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.patriciaTree">[docs]</a><span class="k">class</span> <span class="nc">patriciaTree</span><span class="p">(</span><span class="n">trie</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Defines a PATRICIA tree (condensed trie) across a range of strings. &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_deleteNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">,</span><span class="n">child</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Merges node upward if it only has 1 child. &#39;&#39;&#39;</span>
+        
+        <span class="c"># If a child was given, clear it.</span>
+        <span class="k">if</span> <span class="n">child</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">setChildNode</span><span class="p">(</span><span class="n">child</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="bp">None</span>
+            
+        <span class="c"># If this is root, stop.</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span> <span class="k">return</span>
+        
+        <span class="c"># Check node for emptiness.</span>
+        <span class="n">numempty</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">numEmptyChildrenNodes</span><span class="p">()</span>
+        <span class="n">lenalpha</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">numempty</span> <span class="o">==</span> <span class="n">lenalpha</span><span class="p">):</span>
+            <span class="c"># All empty.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_deleteNode</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">getParentNode</span><span class="p">(),</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">numempty</span> <span class="o">==</span> <span class="n">lenalpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c"># Only has a single child. Merge upwards.</span>
+            <span class="n">parent</span>     <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">getParentNode</span><span class="p">()</span>
+            <span class="n">edge</span>       <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span>
+            <span class="n">nonemptybr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">getNonEmptyChildrenBranches</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">edge</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">label</span> <span class="o">+</span> <span class="n">nonemptybr</span><span class="o">.</span><span class="n">label</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">setChildNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="n">nonemptybr</span><span class="o">.</span><span class="n">child</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Acquires the leaf for a sequence if it exists. Returns the</span>
+<span class="sd">        node and its parent of wherever failure or success occurs. Returns</span>
+<span class="sd">        a tuple of elements where cursor is the node the query stopped at,</span>
+<span class="sd">        parentofcursor is the branch associated with that node, cpos is the</span>
+<span class="sd">        position of seq that the query stopped at, and spos is where cpos was</span>
+<span class="sd">        last at before finding a mismatch. &#39;&#39;&#39;</span>
+        
+        <span class="n">index</span>  <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cpos</span>   <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">spos</span>   <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoot</span><span class="p">()</span>
+        <span class="n">parentofcursor</span> <span class="o">=</span> <span class="n">cursor</span>
+        
+        <span class="k">while</span> <span class="p">(</span><span class="n">cpos</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)):</span>
+
+            <span class="c"># Get character.</span>
+            <span class="n">character</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="n">cpos</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">character</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">cpos</span><span class="p">,</span> <span class="n">spos</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+            
+            <span class="c"># Go to next respective item in trie.</span>
+            <span class="n">nextitem</span>       <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">getChildByIndex</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+            <span class="n">parentofcursor</span> <span class="o">=</span> <span class="n">nextitem</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextitem</span><span class="o">.</span><span class="n">child</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="c"># Item is not in the trie.</span>
+                <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="n">parentofcursor</span><span class="p">,</span> <span class="n">cpos</span><span class="p">,</span> <span class="n">spos</span>
+            <span class="n">cursor</span> <span class="o">=</span> <span class="n">nextitem</span><span class="o">.</span><span class="n">child</span> 
+            <span class="n">label</span>  <span class="o">=</span> <span class="n">nextitem</span><span class="o">.</span><span class="n">label</span>
+            <span class="n">spos</span>   <span class="o">=</span> <span class="n">cpos</span>
+            <span class="n">lpos</span>   <span class="o">=</span> <span class="mi">0</span>
+            
+            <span class="c"># Check character matching.</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">lpos</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">cpos</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)):</span>
+                    <span class="c"># Still more in the label! Not found.</span>
+                    <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="n">parentofcursor</span><span class="p">,</span> <span class="n">cpos</span><span class="p">,</span> <span class="n">spos</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">lpos</span><span class="p">]</span> <span class="o">!=</span> <span class="n">seq</span><span class="p">[</span><span class="n">cpos</span><span class="p">]):</span>
+                    <span class="c"># Found a mismatch.</span>
+                    <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="n">parentofcursor</span><span class="p">,</span> <span class="n">cpos</span><span class="p">,</span> <span class="n">spos</span>
+                <span class="n">lpos</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">cpos</span> <span class="o">+=</span> <span class="mi">1</span>
+                
+        <span class="k">return</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">parentofcursor</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">),</span> <span class="n">spos</span>
+    
+<div class="viewcode-block" id="patriciaTree.search"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.patriciaTree.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Search for a sequence in the PATRICIA tree. Returns its position in</span>
+<span class="sd">        addition sequence if it exists. Else, returns 0. &#39;&#39;&#39;</span>
+        
+        <span class="n">query</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">query</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">label</span>       
+    </div>
+<div class="viewcode-block" id="patriciaTree.insert"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.patriciaTree.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Dynamically insert a sequence into the PATRICIA tree. Returns the</span>
+<span class="sd">        unique index in the tree for that string. &#39;&#39;&#39;</span>
+        
+        <span class="c"># Check alphabet membership.</span>
+        <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">character</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">character</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_makeNewChildForNodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getRoot</span><span class="p">(),</span><span class="n">character</span><span class="p">)</span>        
+        
+        <span class="c"># Perform a query.</span>
+        <span class="n">query</span><span class="p">,</span><span class="n">queryparent</span><span class="p">,</span><span class="n">cpos</span><span class="p">,</span><span class="n">spos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">query</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">query</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="c"># Already in the tree.</span>
+        
+        <span class="n">prevLabel</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="c"># Insert Case 1: Middle of Edge. Check for label of edge.</span>
+        <span class="n">currEdge</span> <span class="o">=</span> <span class="n">queryparent</span>
+        <span class="n">cmpLabel</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="n">spos</span><span class="p">:</span><span class="n">cpos</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">currEdge</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">cmpLabel</span> <span class="o">!=</span> <span class="n">currEdge</span><span class="o">.</span><span class="n">label</span><span class="p">):</span>
+            
+            <span class="c"># Know point of convergence.</span>
+            <span class="n">newLabel</span>  <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="n">spos</span><span class="p">:</span><span class="n">cpos</span><span class="p">]</span>
+            <span class="n">oldLabel</span>  <span class="o">=</span> <span class="n">currEdge</span><span class="o">.</span><span class="n">label</span>
+            
+            <span class="c"># Replace previous edge label.</span>
+            <span class="n">currEdge</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">newLabel</span>
+            
+            <span class="c"># See what has to be split to a new edge.</span>
+            <span class="n">extent</span> <span class="o">=</span> <span class="n">oldLabel</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">newLabel</span><span class="p">):]</span>
+            
+            <span class="c"># Make new node to join split edge.</span>
+            <span class="n">oldNode</span> <span class="o">=</span> <span class="n">currEdge</span><span class="o">.</span><span class="n">child</span>
+            <span class="n">newNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_newNode</span><span class="p">(</span><span class="n">currEdge</span><span class="p">)</span>
+            <span class="n">currEdge</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="n">newNode</span>
+            
+            <span class="c"># Get ready for insertion to newChild.</span>
+            <span class="n">extentIndex</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">extentBranch</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">.</span><span class="n">getChildByIndex</span><span class="p">(</span><span class="n">extentIndex</span><span class="p">)</span>            
+            
+            <span class="c"># Special Case: Adding a subset of an existing entry.</span>
+            <span class="k">if</span> <span class="n">cpos</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+                <span class="c"># Simply mark the new node.</span>
+                <span class="n">newNode</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+                <span class="n">insertBranch</span>  <span class="o">=</span> <span class="bp">None</span>
+            
+            <span class="c"># Add extent to newChild as well as this insertion.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">insertIndex</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="n">cpos</span><span class="p">])</span>
+                <span class="n">insertBranch</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">.</span><span class="n">getChildByIndex</span><span class="p">(</span><span class="n">insertIndex</span><span class="p">)</span>
+            <span class="n">extentBranch</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">extent</span>
+            <span class="n">extentBranch</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="n">oldNode</span>
+            <span class="n">oldNode</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">extentBranch</span>            
+            
+        <span class="c"># Insert Case 2: New Node.</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">insertBranch</span> <span class="o">=</span> <span class="n">queryparent</span>
+        
+        <span class="k">if</span> <span class="n">insertBranch</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">prevLabel</span> <span class="o">=</span> <span class="n">insertBranch</span><span class="o">.</span><span class="n">label</span>
+            <span class="k">if</span> <span class="n">cpos</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+                <span class="n">insertBranch</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="n">cpos</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="n">insertBranch</span><span class="o">.</span><span class="n">child</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">insertBranch</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_newNode</span><span class="p">(</span><span class="n">insertBranch</span><span class="p">)</span>
+            <span class="n">insertBranch</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+            
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+</div>
+<div class="viewcode-block" id="patriciaTree.delete"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.patriciaTree.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Remove a sequence from the PATRICIA tree. Will not remove </span>
+<span class="sd">        added characters to alphabet. &#39;&#39;&#39;</span>
+
+        <span class="n">query</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">query</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s">&#39;Sequence </span><span class="si">%s</span><span class="s"> not in trie.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">seq</span><span class="p">))</span>
+        
+        <span class="c"># Work way up and check for completely empty subtrees.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_deleteNode</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alex Safatli.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

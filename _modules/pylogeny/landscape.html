@@ -53,14 +53,17 @@
 <span class="c"># Author: Alex Safatli</span>
 <span class="c"># E-mail: safatli@cs.dal.ca</span>
 
-<span class="kn">import</span> <span class="nn">networkx</span><span class="o">,</span> <span class="nn">tree</span><span class="o">,</span> <span class="nn">alignment</span>
+<span class="c"># Imports</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span><span class="o">,</span> <span class="nn">tree</span><span class="o">,</span> <span class="nn">alignment</span><span class="o">,</span> <span class="nn">base</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 <span class="kn">from</span> <span class="nn">scoring</span> <span class="kn">import</span> <span class="n">getParsimonyFromProfiles</span> <span class="k">as</span> <span class="n">parsimony</span><span class="p">,</span> <span class="n">getLogLikelihood</span> <span class="k">as</span> <span class="n">ll</span>
 <span class="kn">from</span> <span class="nn">parsimony</span> <span class="kn">import</span> <span class="n">profile_set</span> <span class="k">as</span> <span class="n">profiles</span>
 <span class="kn">from</span> <span class="nn">networkx</span> <span class="kn">import</span> <span class="n">components</span> <span class="k">as</span> <span class="n">comp</span><span class="p">,</span> <span class="n">algorithms</span> <span class="k">as</span> <span class="n">alg</span>
 <span class="kn">from</span> <span class="nn">tree</span> <span class="kn">import</span> <span class="n">treeSet</span><span class="p">,</span> <span class="n">numberRootedTrees</span><span class="p">,</span> <span class="n">numberUnrootedTrees</span>
-<span class="kn">from</span> <span class="nn">newick</span> <span class="kn">import</span> <span class="n">parser</span><span class="p">,</span> <span class="n">removeBranchLengths</span><span class="p">,</span> <span class="n">postOrderTraversal</span>
+<span class="kn">from</span> <span class="nn">newick</span> <span class="kn">import</span> <span class="n">parser</span><span class="p">,</span> <span class="n">removeBranchLengths</span>
 <span class="kn">from</span> <span class="nn">rearrangement</span> <span class="kn">import</span> <span class="n">TYPE_NNI</span><span class="p">,</span> <span class="n">TYPE_SPR</span><span class="p">,</span> <span class="n">TYPE_TBR</span>
+<span class="n">postOrderTraversal</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="o">.</span><span class="n">postOrderTraversal</span>
 
 <span class="c"># Graph Object</span>
 
@@ -69,6 +72,13 @@
     <span class="sd">&#39;&#39;&#39; Define an empty graph object. &#39;&#39;&#39;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">gr</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Instantiate a graph.</span>
+<span class="sd">        </span>
+<span class="sd">        :param gr: A networkx graph object, if already exists. </span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="k">if</span> <span class="n">gr</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">gr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">defaultWeight</span> <span class="o">=</span> <span class="mf">0.</span>
@@ -89,7 +99,7 @@
 </div>
 <div class="viewcode-block" id="graph.getNodeNames"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.graph.getNodeNames">[docs]</a>    <span class="k">def</span> <span class="nf">getNodeNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Return the names/IDs of nodes in the graph. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Return the names of nodes in the graph. &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
     </div>
@@ -201,7 +211,14 @@
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ali</span><span class="p">,</span><span class="n">starting_tree</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">root</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">operator</span><span class="o">=</span><span class="s">&#39;SPR&#39;</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Initialize the landscape. &#39;&#39;&#39;</span>        
+        <span class="sd">&#39;&#39;&#39; Initialize the landscape. </span>
+<span class="sd">        </span>
+<span class="sd">        :param ali: An :class:`alignment.alignment` object.</span>
+<span class="sd">        :param starting_tree: An optional tree object to start the landscape with.</span>
+<span class="sd">        :param root: Whether or not to acquire an approximate maximum likelihood tree (FastTree) or start the landscape with a given starting tree.</span>
+<span class="sd">        :param operator: A string that describes what operator the landscape is mostly comprised of.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>        
         
         <span class="nb">super</span><span class="p">(</span><span class="n">landscape</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         
@@ -269,7 +286,7 @@
         
         <span class="sd">&#39;&#39;&#39; Acquire the first tree that was placed in this space. &#39;&#39;&#39;</span>
         
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
     </div>
 <div class="viewcode-block" id="landscape.setAlignment"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.setAlignment">[docs]</a>    <span class="k">def</span> <span class="nf">setAlignment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ali</span><span class="p">):</span>
         
@@ -739,7 +756,7 @@
             <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">getProperNewick</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trees</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">getNewick</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trees</span><span class="p">])</span>
 
-<div class="viewcode-block" id="landscape.toTreeSet"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.toTreeSet">[docs]</a>    <span class="k">def</span> <span class="nf">toTreeSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="landscape.toProperNewickTreeSet"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.toProperNewickTreeSet">[docs]</a>    <span class="k">def</span> <span class="nf">toProperNewickTreeSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Convert this landscape into an unorganized set of trees </span>
 <span class="sd">        where taxa names are transformed to their original form (</span>
@@ -748,6 +765,15 @@
         <span class="n">treeset</span> <span class="o">=</span> <span class="n">treeSet</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNodeNames</span><span class="p">():</span>
             <span class="n">treeset</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="n">tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">getProperNewick</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">treeset</span>
+    </div>
+<div class="viewcode-block" id="landscape.toTreeSet"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.toTreeSet">[docs]</a>    <span class="k">def</span> <span class="nf">toTreeSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Convert this landscape into an unorganized set of trees. &#39;&#39;&#39;</span>
+        
+        <span class="n">treeset</span> <span class="o">=</span> <span class="n">treeSet</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNodeNames</span><span class="p">():</span>
+            <span class="n">treeset</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">treeset</span>
 
 <span class="c"># Comprising Vertices of Landscapes</span>
@@ -786,6 +812,8 @@
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s">&#39;Landscape rearrangement operator not defined!&#39;</span><span class="p">)</span>
     </div>
 <div class="viewcode-block" id="vertex.scoreLikelihood"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.scoreLikelihood">[docs]</a>    <span class="k">def</span> <span class="nf">scoreLikelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    
+        <span class="sd">&#39;&#39;&#39; Acquire the log-likelihood for this vertex. &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getScore</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">ll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">ali</span><span class="p">)</span>
@@ -826,7 +854,8 @@
 </div>
 <div class="viewcode-block" id="vertex.getProperNewick"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.getProperNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getProperNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Get the proper Newick string for a tree. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get the proper Newick string for a tree. </span>
+<span class="sd">        :returns: A string.&#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ali</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNewick</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ali</span><span class="o">.</span><span class="n">reinterpretNewick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getNewick</span><span class="p">())</span>

@@ -55,8 +55,8 @@
 
 <span class="c"># Imports</span>
 
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">p4</span><span class="o">,</span> <span class="nn">model</span><span class="o">,</span> <span class="nn">tree</span>
-<span class="kn">from</span> <span class="nn">newick</span> <span class="kn">import</span> <span class="n">parser</span><span class="p">,</span> <span class="n">getAllNodes</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">p4</span><span class="o">,</span> <span class="nn">model</span><span class="o">,</span> <span class="nn">tree</span><span class="o">,</span> <span class="nn">base</span>
+<span class="kn">from</span> <span class="nn">newick</span> <span class="kn">import</span> <span class="n">parser</span>
 <span class="kn">from</span> <span class="nn">executable</span> <span class="kn">import</span> <span class="n">fasttree</span>
 <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span> <span class="k">as</span> <span class="n">NTempFile</span>
 <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
@@ -72,8 +72,11 @@
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inal</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Instantiate an object intended to wrap an alignment</span>
-<span class="sd">        for the purposes of running phylogenetic inference. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Instantiate an object intended to wrap an alignment for the purposes of running phylogenetic inference. </span>
+<span class="sd">        </span>
+<span class="sd">        :param inal: An alignment file path (most formats are accepted). </span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Intergrate the p4 phylogenetic library.</span>
         <span class="k">if</span> <span class="n">inal</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -279,7 +282,7 @@
         <span class="sd">&#39;&#39;&#39; Replace all proper names with reassigned names in a Newick tree. &#39;&#39;&#39;</span>
         
         <span class="n">p</span> <span class="o">=</span> <span class="n">parser</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="n">getAllNodes</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">getAllNodes</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">label</span>
             <span class="k">if</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">namedict</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
@@ -294,7 +297,7 @@
         <span class="sd">&#39;&#39;&#39; Replaces all reassigned names to proper names in a Newick tree. &#39;&#39;&#39;</span>
                
         <span class="n">p</span> <span class="o">=</span> <span class="n">parser</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="n">getAllNodes</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">getAllNodes</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">label</span>
             <span class="k">if</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">namedict</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">namedict</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>

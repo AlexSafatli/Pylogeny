@@ -47,7 +47,7 @@
           <div class="body">
             
   <h1>Source code for pylogeny.executable</h1><div class="highlight"><pre>
-<span class="sd">&#39;&#39;&#39; Defines an interface to manage interfacing with the system for respective application calls and implements multiple of these for executables such as FastTree and RAxML. &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39; Defines an interface to manage interfacing with the system for respective application calls and implements multiple of these for executables such as FastTree and RAxML. Requires a UNIX environment. &#39;&#39;&#39;</span>
 
 <span class="c"># Date:   Oct 16 2014</span>
 <span class="c"># Author: Alex Safatli</span>
@@ -68,6 +68,9 @@
 <span class="c"># Executable Existence Function</span>
 
 <div class="viewcode-block" id="exeExists"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.exeExists">[docs]</a><span class="k">def</span> <span class="nf">exeExists</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39; Determines whether a function exists in a UNIX environment. &#39;&#39;&#39;</span>
+    
     <span class="k">return</span> <span class="n">call</span><span class="p">(</span><span class="s">&#39;type </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">cmd</span><span class="p">),</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 
 <span class="c"># Temporary Directory Context</span>
@@ -75,7 +78,7 @@
 <div class="viewcode-block" id="aTemporaryDirectory"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.aTemporaryDirectory">[docs]</a><span class="k">class</span> <span class="nc">aTemporaryDirectory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; A class intended to be used as a context manager that allows</span>
-<span class="sd">    Python to run in another directory temporarily. &#39;&#39;&#39;</span>
+<span class="sd">    Python to run in a temporary directory for a finite period of time. &#39;&#39;&#39;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">dir</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         

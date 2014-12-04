@@ -155,7 +155,7 @@
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getNodeNames">
 <tt class="descname">getNodeNames</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNodeNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNodeNames" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the names/IDs of nodes in the graph.</p>
+<dd><p>Return the names of nodes in the graph.</p>
 </dd></dl>
 
 <dl class="method">
@@ -411,11 +411,17 @@ modify existing scores.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pylogeny.landscape.landscape.toTreeSet">
-<tt class="descname">toTreeSet</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.toTreeSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.toTreeSet" title="Permalink to this definition">¶</a></dt>
+<dt id="pylogeny.landscape.landscape.toProperNewickTreeSet">
+<tt class="descname">toProperNewickTreeSet</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.toProperNewickTreeSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.toProperNewickTreeSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert this landscape into an unorganized set of trees 
 where taxa names are transformed to their original form (
 i.e. not transformed to a state friendly for the Phylip format).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.landscape.landscape.toTreeSet">
+<tt class="descname">toTreeSet</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.toTreeSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.toTreeSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this landscape into an unorganized set of trees.</p>
 </dd></dl>
 
 <dl class="method">
@@ -516,7 +522,8 @@ landscape.</p>
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getProperNewick">
 <tt class="descname">getProperNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getProperNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getProperNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the proper Newick string for a tree.</p>
+<dd><p>Get the proper Newick string for a tree. 
+:returns: A string.</p>
 </dd></dl>
 
 <dl class="method">
@@ -560,7 +567,8 @@ landscape.</p>
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.scoreLikelihood">
 <tt class="descname">scoreLikelihood</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.scoreLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.scoreLikelihood" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Acquire the log-likelihood for this vertex.</p>
+</dd></dl>
 
 </dd></dl>
 

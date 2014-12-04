@@ -56,13 +56,13 @@
             
   <div class="section" id="module-pylogeny.executable">
 <span id="pylogeny-executable-module"></span><h1>pylogeny.executable module<a class="headerlink" href="#module-pylogeny.executable" title="Permalink to this headline">¶</a></h1>
-<p>Defines an interface to manage interfacing with the system for respective application calls and implements multiple of these for executables such as FastTree and RAxML.</p>
+<p>Defines an interface to manage interfacing with the system for respective application calls and implements multiple of these for executables such as FastTree and RAxML. Requires a UNIX environment.</p>
 <dl class="class">
 <dt id="pylogeny.executable.aTemporaryDirectory">
 <em class="property">class </em><tt class="descclassname">pylogeny.executable.</tt><tt class="descname">aTemporaryDirectory</tt><big>(</big><em>dir=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/executable.html#aTemporaryDirectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.aTemporaryDirectory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>A class intended to be used as a context manager that allows
-Python to run in another directory temporarily.</p>
+Python to run in a temporary directory for a finite period of time.</p>
 </dd></dl>
 
 <dl class="class">
@@ -86,7 +86,8 @@ Python to run in another directory temporarily.</p>
 <dl class="function">
 <dt id="pylogeny.executable.exeExists">
 <tt class="descclassname">pylogeny.executable.</tt><tt class="descname">exeExists</tt><big>(</big><em>cmd</em><big>)</big><a class="reference internal" href="_modules/pylogeny/executable.html#exeExists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.exeExists" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Determines whether a function exists in a UNIX environment.</p>
+</dd></dl>
 
 <dl class="class">
 <dt id="pylogeny.executable.executable">

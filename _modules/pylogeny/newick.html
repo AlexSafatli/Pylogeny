@@ -56,6 +56,7 @@
 <span class="kn">from</span> <span class="nn">rearrangement</span> <span class="kn">import</span> <span class="n">topology</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">shuffle</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span> <span class="k">as</span> <span class="n">fact</span>
+<span class="kn">import</span> <span class="nn">base</span>
 
 <span class="c"># Exception Handling</span>
 
@@ -65,15 +66,13 @@
 
 <span class="c"># Class Definitions</span>
 </div>
-<div class="viewcode-block" id="node"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.node">[docs]</a><span class="k">class</span> <span class="nc">node</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="node"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.node">[docs]</a><span class="k">class</span> <span class="nc">node</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">treeNode</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Newick node. &#39;&#39;&#39;</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbl</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">strees</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">label</span>  <span class="o">=</span> <span class="n">lbl</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
-        <span class="k">if</span> <span class="n">strees</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">strees</span>
-        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span>      <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbl</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">children</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="nb">super</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">lbl</span><span class="p">,</span><span class="n">children</span><span class="p">,</span><span class="n">parent</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sT</span><span class="p">,</span> <span class="n">sl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
@@ -83,7 +82,7 @@
             <span class="k">return</span> <span class="s">&#39;(</span><span class="si">%s</span><span class="s">)</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="n">l</span><span class="p">)),</span><span class="n">sl</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
 </div>
-<div class="viewcode-block" id="branch"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.branch">[docs]</a><span class="k">class</span> <span class="nc">branch</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="branch"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.branch">[docs]</a><span class="k">class</span> <span class="nc">branch</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">treeBranch</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Newick branch. &#39;&#39;&#39;</span>
     
@@ -92,6 +91,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">child</span>          <span class="o">=</span> <span class="n">chi</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branch_length</span>  <span class="o">=</span> <span class="n">l</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branch_support</span> <span class="o">=</span> <span class="n">s</span>
+        
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">st</span><span class="p">,</span> <span class="n">sl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch_length</span>
         <span class="k">if</span> <span class="n">sl</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">st</span><span class="p">),</span><span class="nb">str</span><span class="p">(</span><span class="n">sl</span><span class="p">))</span> <span class="c"># Branch Length</span>
@@ -183,18 +183,6 @@
             <span class="k">return</span> <span class="bp">True</span>
     <span class="k">return</span> <span class="bp">False</span>
 </div>
-<div class="viewcode-block" id="isLeaf"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.isLeaf">[docs]</a><span class="k">def</span> <span class="nf">isLeaf</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    
-    <span class="sd">&#39;&#39;&#39; Given a node, see if a leaf. &#39;&#39;&#39;</span>
-    
-    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="isInternalNode"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.isInternalNode">[docs]</a><span class="k">def</span> <span class="nf">isInternalNode</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    
-    <span class="sd">&#39;&#39;&#39; Given a node, see if is an internal node. &#39;&#39;&#39;</span>
-    
-    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
-</div>
 <div class="viewcode-block" id="shuffleLeaves"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.shuffleLeaves">[docs]</a><span class="k">def</span> <span class="nf">shuffleLeaves</span><span class="p">(</span><span class="n">top</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; DANGEROUS: Given a top-level node, shuffle all </span>
@@ -205,68 +193,6 @@
     <span class="n">shuffle</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">leaves</span><span class="p">)):</span>
         <span class="n">leaves</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
-</div>
-<div class="viewcode-block" id="getAllLeaves"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.getAllLeaves">[docs]</a><span class="k">def</span> <span class="nf">getAllLeaves</span><span class="p">(</span><span class="n">top</span><span class="p">):</span>
-    
-    <span class="sd">&#39;&#39;&#39; Given a top-level node, find all leaves. &#39;&#39;&#39;</span>
-
-    <span class="c"># Is a node? Is a leaf?</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">top</span><span class="p">)</span> <span class="o">!=</span> <span class="n">node</span><span class="p">:</span> <span class="k">return</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">isLeaf</span><span class="p">(</span><span class="n">top</span><span class="p">):</span>       <span class="k">return</span> <span class="p">[</span><span class="n">top</span><span class="p">]</span>
-    
-    <span class="c"># Get list.</span>
-    <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    
-    <span class="c"># Traverse.</span>
-    <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="n">top</span><span class="o">.</span><span class="n">children</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">child</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">li</span>
-</div>
-<div class="viewcode-block" id="getAllInternalNodes"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.getAllInternalNodes">[docs]</a><span class="k">def</span> <span class="nf">getAllInternalNodes</span><span class="p">(</span><span class="n">top</span><span class="p">):</span>
-    
-    <span class="sd">&#39;&#39;&#39; Given a top-level node, find all internal nodes. &#39;&#39;&#39;</span>
-    
-    <span class="c"># Is a node? Leaf?</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">top</span><span class="p">)</span> <span class="o">!=</span> <span class="n">node</span><span class="p">:</span>   <span class="k">return</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">isLeaf</span><span class="p">(</span><span class="n">top</span><span class="p">):</span>         <span class="k">return</span> <span class="nb">list</span><span class="p">()</span>
-    
-    <span class="c"># Get list.</span>
-    <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    
-    <span class="c"># Traverse.</span>
-    <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="n">top</span><span class="o">.</span><span class="n">children</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">getAllInternalNodes</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">child</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">li</span>
-</div>
-<div class="viewcode-block" id="getAllNodes"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.getAllNodes">[docs]</a><span class="k">def</span> <span class="nf">getAllNodes</span><span class="p">(</span><span class="n">top</span><span class="p">):</span>
-    
-    <span class="sd">&#39;&#39;&#39; Given a node, traverse all nodes and return </span>
-<span class="sd">    as a list in pre-order. &#39;&#39;&#39;</span>
-
-    <span class="c"># Is a node?</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">top</span><span class="p">)</span> <span class="o">!=</span> <span class="n">node</span><span class="p">:</span> <span class="k">return</span> <span class="nb">list</span><span class="p">()</span>
-
-    <span class="c"># Make list.</span>
-    <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    
-    <span class="c"># Traverse.</span>
-    <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="n">top</span><span class="o">.</span><span class="n">children</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">getAllNodes</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">child</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">li</span>
-</div>
-<div class="viewcode-block" id="postOrderTraversal"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.postOrderTraversal">[docs]</a><span class="k">def</span> <span class="nf">postOrderTraversal</span><span class="p">(</span><span class="n">top</span><span class="p">):</span>
-    
-    <span class="sd">&#39;&#39;&#39; Given a node, traverse all nodes and return as </span>
-<span class="sd">    a list in post-order. &#39;&#39;&#39;</span>
-
-    <span class="c"># Is a node?</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">top</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">top</span><span class="p">)</span> <span class="o">!=</span> <span class="n">node</span><span class="p">):</span> <span class="k">return</span> <span class="nb">list</span><span class="p">()</span>
-    
-    <span class="c"># Make list.</span>
-    <span class="n">li</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    
-    <span class="c"># Traverse.</span>
-    <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="n">top</span><span class="o">.</span><span class="n">children</span><span class="p">:</span> <span class="n">li</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">postOrderTraversal</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">child</span><span class="p">))</span>
-    <span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">li</span>
 </div>
 <div class="viewcode-block" id="getAllBranches"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.getAllBranches">[docs]</a><span class="k">def</span> <span class="nf">getAllBranches</span><span class="p">(</span><span class="n">br</span><span class="p">):</span>
     
