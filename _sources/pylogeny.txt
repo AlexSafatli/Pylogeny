@@ -8,6 +8,7 @@ Submodules
 
    pylogeny.JSONWriter
    pylogeny.alignment
+   pylogeny.base
    pylogeny.database
    pylogeny.executable
    pylogeny.heuristic

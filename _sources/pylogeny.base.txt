@@ -1,0 +1,7 @@
+pylogeny.base module
+====================
+
+.. automodule:: pylogeny.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
