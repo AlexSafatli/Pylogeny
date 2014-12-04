@@ -4,14 +4,17 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import networkx, tree, alignment
+# Imports
+
+import networkx, tree, alignment, base
 from random import choice
 from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as ll
 from parsimony import profile_set as profiles
 from networkx import components as comp, algorithms as alg
 from tree import treeSet, numberRootedTrees, numberUnrootedTrees
-from newick import parser, removeBranchLengths, postOrderTraversal
+from newick import parser, removeBranchLengths
 from rearrangement import TYPE_NNI, TYPE_SPR, TYPE_TBR
+postOrderTraversal = base.treeStructure.postOrderTraversal
 
 # Graph Object
 
@@ -20,6 +23,13 @@ class graph(object):
     ''' Define an empty graph object. '''
     
     def __init__(self,gr=None):
+        
+        ''' Instantiate a graph.
+        
+        :param gr: A networkx graph object, if already exists. 
+        
+        '''
+        
         if gr == None: self.graph = networkx.Graph()
         else: self.graph = gr
         self.defaultWeight = 0.
@@ -40,7 +50,7 @@ class graph(object):
 
     def getNodeNames(self):
         
-        ''' Return the names/IDs of nodes in the graph. '''
+        ''' Return the names of nodes in the graph. '''
         
         return self.graph.node.keys()
     
@@ -152,7 +162,14 @@ class landscape(graph,treeSet):
     
     def __init__(self,ali,starting_tree=None,root=True,operator='SPR'):
         
-        ''' Initialize the landscape. '''        
+        ''' Initialize the landscape. 
+        
+        :param ali: An :class:`alignment.alignment` object.
+        :param starting_tree: An optional tree object to start the landscape with.
+        :param root: Whether or not to acquire an approximate maximum likelihood tree (FastTree) or start the landscape with a given starting tree.
+        :param operator: A string that describes what operator the landscape is mostly comprised of.
+        
+        '''        
         
         super(landscape,self).__init__()
         
@@ -220,7 +237,7 @@ class landscape(graph,treeSet):
         
         ''' Acquire the first tree that was placed in this space. '''
         
-        return self.root
+        return self.getTree(self.root)
     
     def setAlignment(self,ali):
         
@@ -690,7 +707,7 @@ class landscape(graph,treeSet):
             return '\n'.join([t.getProperNewick() for t in trees])
         else: return '\n'.join([t.getNewick() for t in trees])
 
-    def toTreeSet(self):
+    def toProperNewickTreeSet(self):
         
         ''' Convert this landscape into an unorganized set of trees 
         where taxa names are transformed to their original form (
@@ -699,6 +716,15 @@ class landscape(graph,treeSet):
         treeset = treeSet()
         for t in self.getNodeNames():
             treeset.addTree(tree(self.getVertex(t).getProperNewick()))
+        return treeset
+    
+    def toTreeSet(self):
+
+        ''' Convert this landscape into an unorganized set of trees. '''
+        
+        treeset = treeSet()
+        for t in self.getNodeNames():
+            treeset.addTree(self.getTree(t))
         return treeset
 
 # Comprising Vertices of Landscapes
@@ -737,6 +763,8 @@ class vertex(object):
         raise AssertionError('Landscape rearrangement operator not defined!')
     
     def scoreLikelihood(self):
+    
+        ''' Acquire the log-likelihood for this vertex. '''
         
         if self.getScore()[0] == None:
             l = ll(self.getTree(),self.ali)
@@ -777,7 +805,8 @@ class vertex(object):
 
     def getProperNewick(self):
         
-        ''' Get the proper Newick string for a tree. '''
+        ''' Get the proper Newick string for a tree. 
+        :returns: A string.'''
         
         if self.ali == None: return self.getNewick()
         return self.ali.reinterpretNewick(self.getNewick())

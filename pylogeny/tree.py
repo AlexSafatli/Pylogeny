@@ -1,4 +1,4 @@
-''' Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings. '''
+''' Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings, collections of them, and for splits of these trees. '''
 
 # Date:   Oct 20 2014
 # Author: Alex Safatli
@@ -6,7 +6,7 @@
 
 # Imports
 
-import newick, rearrangement
+import newick, rearrangement, base
 from math import factorial as fact
 from numpy import median
 
@@ -52,6 +52,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         self.origin = o    
         
     def getNewick(self):   return self.newick
+    def toNewick(self):    return self.newick
     def setNewick(self,n):
         
         ''' Set Newick string to n; also reacquires corresponding
@@ -151,6 +152,7 @@ class treeSet(object):
         else: return -1
     
     def __getitem__(self,i): return self.trees[i]
+    def __len__(self): return len(self.trees)
     
     def toTreeFile(self,fout):
         
@@ -167,13 +169,21 @@ class treeSet(object):
     
 # Bipartition Class Definitions    
     
-''' Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree. This package handle operations involving the representation of tree bipartitions. '''
-
 class bipartition(object):
 
-    ''' A tree bipartition. Requires a tree topology. '''
+    ''' A tree bipartition. Requires a tree topology. Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree. '''
 
     def __init__(self,topol,bra=None):
+        
+        ''' Construct a bipartition from a branch in a topology. 
+        
+        :param topol: A topology.
+        :type topol: :class: `rearrangement.topology`
+        :param bra: An optional argument; can still acquire a bipartition from a string.
+        :type bra: :class: `newick.branch`
+        
+        '''
+        
         self.topology = topol
         self.branch   = bra
         self.btuple   = None # Tuple list representation.
@@ -203,6 +213,7 @@ class bipartition(object):
         if (self.branch == None): return
         if (self.topology == None):
             raise ValueError('Topology does not exist or is equal to None.')
+        
         z            = self.topology.getStrBipartitionFromBranch(self.branch)
         l,r          = sorted(z[0]),sorted(z[1])
         self.strrep  = (l,r)
@@ -254,7 +265,11 @@ class bipartition(object):
     def fromStringRepresentation(self,st):
         
         ''' Acquire all component elements from a string representation 
-        of a bipartition. '''
+        of a bipartition. 
+        
+        :param st: A string representation from a :class:`.bipartition` object.
+        
+        '''
         
         self.strrep = st
         self._getBranchFromString()
@@ -262,7 +277,11 @@ class bipartition(object):
         
     def getBranch(self):
         
-        ''' Get branch corresponding to this bipartition. '''
+        ''' Get branch corresponding to this bipartition.
+        
+        :returns: :class:`newick.branch`
+        
+        '''
         
         return self.branch
     
@@ -271,7 +290,7 @@ class bipartition(object):
         ''' Return an index of the branch with respect to a post order traversal
         of the topology. '''
         
-        nodes = newick.postOrderTraversal(self.topology.getRoot())
+        nodes = base.treeStructure.postOrderTraversal(self.topology.getRoot())
         for i in xrange(len(nodes)):
             node = nodes[i]
             if node.parent == self.branch:

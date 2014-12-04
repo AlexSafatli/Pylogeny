@@ -6,8 +6,8 @@
 
 # Imports
 
-import os, p4, model, tree
-from newick import parser, getAllNodes
+import os, p4, model, tree, base
+from newick import parser
 from executable import fasttree
 from tempfile import NamedTemporaryFile as NTempFile
 from shutil import copyfile
@@ -23,8 +23,11 @@ class alignment(object):
     
     def __init__(self,inal=None):
         
-        ''' Instantiate an object intended to wrap an alignment
-        for the purposes of running phylogenetic inference. '''
+        ''' Instantiate an object intended to wrap an alignment for the purposes of running phylogenetic inference. 
+        
+        :param inal: An alignment file path (most formats are accepted). 
+        
+        '''
         
         # Intergrate the p4 phylogenetic library.
         if inal is None:
@@ -230,7 +233,7 @@ class phylipFriendlyAlignment(alignment):
         ''' Replace all proper names with reassigned names in a Newick tree. '''
         
         p = parser(tr).parse()
-        nodes = getAllNodes(p)
+        nodes = base.treeStructure(p).getAllNodes()
         for node in nodes:
             l = node.label
             if l in self.namedict.values():
@@ -245,7 +248,7 @@ class phylipFriendlyAlignment(alignment):
         ''' Replaces all reassigned names to proper names in a Newick tree. '''
                
         p = parser(tr).parse()
-        nodes = getAllNodes(p)
+        nodes = base.treeStructure(p).getAllNodes()
         for node in nodes:
             l = node.label
             if l in self.namedict: node.label = self.namedict[l]

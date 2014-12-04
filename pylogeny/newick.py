@@ -7,6 +7,7 @@
 from rearrangement import topology
 from random import shuffle
 from math import factorial as fact
+import base
 
 # Exception Handling
 
@@ -16,15 +17,13 @@ class ParsingError(Exception):
 
 # Class Definitions
 
-class node(object):
+class node(base.treeNode):
     
     ''' Newick node. '''
-    
-    def __init__(self,lbl='',strees=None,parent=None):
-        self.label  = lbl
-        self.parent = parent
-        if strees: self.children = strees
-        else: self.children      = list()
+        
+    def __init__(self,lbl='',children=None,parent=None):
+        
+        super(node,self).__init__(lbl,children,parent)
         
     def __str__(self):
         sT, sl = self.children, self.label
@@ -34,7 +33,7 @@ class node(object):
             return '(%s)%s' % (','.join(map(str,l)),sl)
         else: return self.label
 
-class branch(object):
+class branch(base.treeBranch):
     
     ''' Newick branch. '''
     
@@ -43,6 +42,7 @@ class branch(object):
         self.child          = chi
         self.branch_length  = l
         self.branch_support = s
+        
     def __str__(self):
         st, sl = self.child, self.branch_length
         if sl > 0: return '%s:%s' % (str(st),str(sl)) # Branch Length
@@ -134,18 +134,6 @@ def invertAlongPathToNode(target,top):
             return True
     return False
 
-def isLeaf(n):
-    
-    ''' Given a node, see if a leaf. '''
-    
-    return (len(n.children) == 0)
-
-def isInternalNode(n):
-    
-    ''' Given a node, see if is an internal node. '''
-    
-    return (len(n.children) > 1)
-
 def shuffleLeaves(top):
     
     ''' DANGEROUS: Given a top-level node, shuffle all 
@@ -156,68 +144,6 @@ def shuffleLeaves(top):
     shuffle(names)
     for l in xrange(len(leaves)):
         leaves[l].label = names[l]
-
-def getAllLeaves(top):
-    
-    ''' Given a top-level node, find all leaves. '''
-
-    # Is a node? Is a leaf?
-    if type(top) != node: return list()
-    if isLeaf(top):       return [top]
-    
-    # Get list.
-    li = list()
-    
-    # Traverse.
-    for br in top.children: li.extend(getAllLeaves(br.child))
-    return li
-
-def getAllInternalNodes(top):
-    
-    ''' Given a top-level node, find all internal nodes. '''
-    
-    # Is a node? Leaf?
-    if type(top) != node:   return list()
-    if isLeaf(top):         return list()
-    
-    # Get list.
-    li = list()
-    
-    # Traverse.
-    for br in top.children: li.extend(getAllInternalNodes(br.child))
-    return li
-
-def getAllNodes(top):
-    
-    ''' Given a node, traverse all nodes and return 
-    as a list in pre-order. '''
-
-    # Is a node?
-    if type(top) != node: return list()
-
-    # Make list.
-    li = list()
-    
-    # Traverse.
-    li.append(top)
-    for br in top.children: li.extend(getAllNodes(br.child))
-    return li
-
-def postOrderTraversal(top):
-    
-    ''' Given a node, traverse all nodes and return as 
-    a list in post-order. '''
-
-    # Is a node?
-    if (top == None or type(top) != node): return list()
-    
-    # Make list.
-    li = list()
-    
-    # Traverse.
-    for br in top.children: li.extend(postOrderTraversal(br.child))
-    li.append(top)
-    return li
 
 def getAllBranches(br):
     

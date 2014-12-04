@@ -4,7 +4,7 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import newick, tree
+import newick, tree, base
 
 # Exception Handling
 
@@ -94,7 +94,7 @@ class rearrangement:
 
 # Tree structure.
 
-class topology:
+class topology(base.treeStructure):
     
     ''' Encapsulate a tree topology, wrapping the newick 
     tree structure. Is immutable. '''
@@ -104,7 +104,7 @@ class topology:
         ''' Initialize structure with a top-level internal 
         node OR nothing. '''
         
-        self.top        = t
+        self.root        = t
         self.forbidden  = {}
         self.branches   = []
         self.locked     = []
@@ -117,13 +117,13 @@ class topology:
             self._getAllBranches()
             self._getForbiddenStates()
             self._clearInteriorNodeNames()
-            if rerootToLeaf: self._lockLeafBranch()
+            if rerootToLeaf: self._lockLeafBranch()       
        
     def _getAllBranches(self):
         
         ''' PRIVATE: Populate branch list. '''
         
-        for br in self.top.children:
+        for br in self.root.children:
             self.branches.append(br)
             self.branches.extend(newick.getAllBranches(br))
         self.partitions = [[x for x in self.branches]]  
@@ -152,9 +152,9 @@ class topology:
         but store them in case are needed. '''
         
         # Make sure interior nodes are unnamed.
-        nodes = newick.getAllNodes(self.top)
+        nodes = self.getAllNodes()
         for n in nodes:
-            if n != self.top and len(n.children) != 0 and n.label != '':
+            if n != self.root and len(n.children) != 0 and n.label != '':
                 n._label = n.label
                 n.label = '' 
 
@@ -165,7 +165,7 @@ class topology:
         
         # Get this branch.
         lbranch = None
-        for f in self.top.children:
+        for f in self.root.children:
             if (len(f.child.children) == 0):
                 lbranch = f
         if (lbranch == None):
@@ -197,10 +197,9 @@ class topology:
         bipart = tree.bipartition(self,br)
         # Get a leaf that can be rerooted to.
         newleaf = None
-        leaves  = newick.getAllLeaves(br.child)
+        leaves  = base.treeStructure.leaves(br.child)
         curleaf = sorted(
-            newick.getAllLeaves(
-                self.top),key=lambda d: d.label)[0]
+            self.getAllLeaves(),key=lambda d: d.label)[0]
         for leaf in leaves:
             if leaf != curleaf:
                 newleaf = leaf
@@ -221,12 +220,12 @@ class topology:
         
         # Determine lowest-order leaf.
         if not toleaf:
-            toleaf = sorted(newick.getAllLeaves(self.top),
+            toleaf = sorted(self.getAllLeaves(),
                             key=lambda d: d.label)[0]
         else:
             # Find it in current topology.
             found = False
-            for leaf in newick.getAllLeaves(self.top):
+            for leaf in self.getAllLeaves():
                 if leaf.label == toleaf.label:
                     toleaf = leaf
                     found = True
@@ -245,8 +244,8 @@ class topology:
             'While rerooting, connecting branch of leaf has no parent.')
 
         # Flip all of the directionality to this node.
-        if closest != self.top: 
-            t = newick.invertAlongPathToNode(closest,self.top)
+        if closest != self.root: 
+            t = newick.invertAlongPathToNode(closest,self.root)
             if not t: raise RearrangementError(
                 'While rerooting, directions could not be reversed.')
         
@@ -258,15 +257,15 @@ class topology:
         closest.parent = fakebr
         
         # Create a new node to act as the new root.
-        root = newick.node(strees=[branch,fakebr])
+        root = newick.node(children=[branch,fakebr])
         branch.parent = root
         fakebr.parent = root
         
         # Reassign top-level node.
-        self.top = root       
+        self.root = root       
         
         # Remove unary internal nodes.
-        newick.removeUnaryInternalNodes(self.top)
+        newick.removeUnaryInternalNodes(self.root)
         
         # Ensure fake branch is recognized.
         for f in root.children:
@@ -274,17 +273,9 @@ class topology:
                 f.child.children) > 0):
                 fakebr = f
         self.fakebranch = fakebr      
-
-    def getRoot(self):
-        
-        ''' Return the top-level, root, node of 
-        the tree. '''
-        
-        return self.top
     
-    def getInternalNodes(self): return newick.getAllInternalNodes(self.top)
     def getBranches(self): return self.branches
-    def getLeaves(self): return newick.getAllLeaves(self.top)
+    def getLeaves(self): return self.getAllLeaves()
     
     def getBipartitions(self):
         
@@ -302,8 +293,8 @@ class topology:
         ''' Given a branch, return corresponding 
         bipartition. '''
         
-        right  = newick.getAllLeaves(br.child)
-        others = newick.getAllLeaves(self.getRoot())
+        right  = base.treeStructure.leaves(br.child)
+        others = self.getAllLeaves()
         r      = [x.label for x in right]
         l      = [x.label for x in others 
                   if not x.label in r]
@@ -318,7 +309,7 @@ class topology:
         l,r = sorted(bip[0]),sorted(bip[1])
         
         for br in self.branches:
-            right  = newick.getAllLeaves(br.child)
+            right  = base.treeStructure.leaves(br.child)
             names  = sorted([x.label for x in right])
             if (names == l) or (names == r):
                 return br
@@ -571,11 +562,11 @@ class topology:
         ''' Parse a newick string and assign the tree to this
         object. Cannot already be initialized with a tree. '''
     
-        if self.top != None:
+        if self.root != None:
             raise RearrangementError(
                 'Structure already initialized.')
         p = newick.parser(newickstr)
-        self.top  = p.parse()
+        self.root  = p.parse()
         self.orig = newickstr
         if self.rerootFlag: self.rerootToLeaf(self.rerootLoc)
         self._getAllBranches()
@@ -594,14 +585,14 @@ class topology:
         ''' Return the newick string of the tree as an
         unrooted topology with a multifurcating top-level node. '''
         
-        r,a,b = self.top,self.top.children[0],self.top.children[1]
+        r,a,b = self.root,self.root.children[0],self.root.children[1]
         r.children.remove(a)
         b.child.children.append(a)
         a.parent = b.child
         newic = str(b.child) + ';'
         r.children.append(a)
         b.child.children.remove(a)
-        a.parent = self.top
+        a.parent = self.root
         return newic
         
     def toTree(self):
@@ -621,4 +612,4 @@ class topology:
         
         ''' Return the newick string of the tree. '''
         
-        return str(self.top) + ';'
+        return str(self.root) + ';'

@@ -1,4 +1,4 @@
-''' Defines an interface to manage interfacing with the system for respective application calls and implements multiple of these for executables such as FastTree and RAxML. '''
+''' Defines an interface to manage interfacing with the system for respective application calls and implements multiple of these for executables such as FastTree and RAxML. Requires a UNIX environment. '''
 
 # Date:   Oct 16 2014
 # Author: Alex Safatli
@@ -19,6 +19,9 @@ E_TREEPUZZ = 'puzzle'
 # Executable Existence Function
 
 def exeExists(cmd):
+    
+    ''' Determines whether a function exists in a UNIX environment. '''
+    
     return call('type %s'%(cmd),shell=True,stdout=PIPE,stderr=PIPE) == 0
 
 # Temporary Directory Context
@@ -26,7 +29,7 @@ def exeExists(cmd):
 class aTemporaryDirectory(object):
     
     ''' A class intended to be used as a context manager that allows
-    Python to run in another directory temporarily. '''
+    Python to run in a temporary directory for a finite period of time. '''
     
     def __init__(self,dir=None):
         

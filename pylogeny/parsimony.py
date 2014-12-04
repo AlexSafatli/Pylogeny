@@ -4,7 +4,8 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-from newick import isLeaf, postOrderTraversal as postorder
+from base import treeStructure
+postorder = treeStructure.postOrderTraversal
 
 class profile_set:
     
