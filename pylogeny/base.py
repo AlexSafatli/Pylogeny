@@ -382,13 +382,12 @@ class patriciaTree(trie):
         position of seq that the query stopped at, and spos is where cpos was
         last at before finding a mismatch. '''
         
-        index  = 0
-        cpos   = 0
-        spos   = 0
+        index,cpos,spos = 0,0,0
         cursor = self.getRoot()
         parentofcursor = cursor
+        seqLength = len(seq)
         
-        while (cpos < len(seq)):
+        while (cpos < seqLength):
 
             # Get character.
             character = seq[cpos]
@@ -408,8 +407,9 @@ class patriciaTree(trie):
             lpos   = 0
             
             # Check character matching.
-            while (lpos < len(label)):
-                if (cpos >= len(seq)):
+            labelLength = len(label)
+            while (lpos < labelLength):
+                if (cpos >= seqLength):
                     # Still more in the label! Not found.
                     return None, parentofcursor, cpos, spos
                 elif (label[lpos] != seq[cpos]):
@@ -418,7 +418,7 @@ class patriciaTree(trie):
                 lpos += 1
                 cpos += 1
                 
-        return cursor, parentofcursor, len(seq), spos
+        return cursor, parentofcursor, seqLength, spos
     
     def search(self,seq):
         
@@ -426,7 +426,7 @@ class patriciaTree(trie):
         addition sequence if it exists. Else, returns 0. '''
         
         query,_,_,_ = self._query(seq)
-        if (query == None): return 0
+        if (query is None): return 0
         return query.label       
     
     def insert(self,seq):

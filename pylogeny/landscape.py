@@ -156,7 +156,7 @@ class graph(object):
 
 # Landscape: Subclass of Graph, TreeSet Objects
 
-class landscape(graph,treeSet):
+class landscape(graph,treeSet,base.Iterable):
     
     ''' Defines an entire phylogenetic tree space. '''
     
@@ -282,6 +282,11 @@ class landscape(graph,treeSet):
     def iterTrees(self):
         
         ''' Iterate over all trees found in this landscape. '''
+        
+        for t in self.graph.nodes():
+            yield self.getTree(t)
+    
+    def __iter__(self):
         
         for t in self.graph.nodes():
             yield self.getTree(t)

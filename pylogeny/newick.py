@@ -139,7 +139,7 @@ def shuffleLeaves(top):
     ''' DANGEROUS: Given a top-level node, shuffle all 
     leaves in this tree. '''
 
-    leaves = getAllLeaves(top)
+    leaves = base.treeStructure.leaves(top)
     names  = [x.label for x in leaves]
     shuffle(names)
     for l in xrange(len(leaves)):

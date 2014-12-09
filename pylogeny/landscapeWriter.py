@@ -91,7 +91,7 @@ class landscapeWriter(object):
 
         return self._dump(path)
 
-class landscapeParser:
+class landscapeParser(object):
 
     ''' Encapsulates the construction of a landscape
     object from a pickle file. '''

@@ -64,7 +64,14 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
     def getStructure(self):
         
         ''' Returns "structure", a Newick string without branch lengths. '''
+        
         return self.struct 
+    
+    def getRerootedNoBranchLengthNewick(self): 
+    
+        ''' See getStructure(). '''
+        
+        return self.getStructure()
     
     def getSimpleNewick(self):
 
@@ -114,7 +121,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         newick.removeBranchLengths(p)
         return str(p) + ';'  
     
-class treeSet(object):
+class treeSet(base.Sized):
     
     ''' Represents an ordered, unorganized collection of trees 
     that do not necessarily comprise a combinatorial space. '''
