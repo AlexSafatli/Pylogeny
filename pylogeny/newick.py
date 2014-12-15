@@ -178,6 +178,8 @@ class parser:
     ''' Parsing object for Newick strings. '''
     
     def __init__(self, newick):
+        if newick == None or type(newick) != str:
+            raise ValueError('Input <%s> is not a valid string!' % (repr(newick)))
         self.newick           = newick
         self.parsed_structure = None
         

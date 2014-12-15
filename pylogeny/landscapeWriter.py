@@ -63,9 +63,9 @@ class landscapeWriter(object):
                 index += 1
         
         # Add all of the trees.
-        for t in self.landscape.iterTrees():
-            assert str(t.getName()).isdigit()
-            o.insertRecord('trees',[int(t.getName()),t.getNewick(),t.getOrigin(
+        for i in self.landscape.iterNodes():
+            t = self.landscape.getTree(i)
+            o.insertRecord('trees',[int(i),t.getNewick(),t.getOrigin(
                 ),t.getScore()[0],t.getScore()[1]])
         
         # Add the graph in its entirety as its adjacency list.
@@ -135,6 +135,7 @@ class landscapeParser(object):
                 trobj.name = int(id)
                 trobj.score = [ml,pars]
                 self.trees.append(trobj)
+        self.trees = sorted(self.trees,key=lambda d: d.name)
 
     def _getGraph(self):
         
@@ -161,7 +162,7 @@ class landscapeParser(object):
         
         # Construct the landscape.
         self.landscape = landscape(self.alignment,starting_tree=self.trees[0],
-                                   operator=self.trees[0].getOrigin())
+                                   operator=self.trees[0].getOrigin(),root=False)
         for t in self.trees: self.landscape.addTree(t)
         
         # Ensure all edges are established.

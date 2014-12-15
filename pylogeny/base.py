@@ -191,13 +191,14 @@ class trie(Sized,treeStructure):
     
     ''' Defines a trie across a range of strings. '''
     
-    alphabet = None
-    root     = None
-    count    = 0
+    alphabet  = None
+    root      = None
+    count     = 0
+    nextLabel = 1
     
     def __init__(self):
         
-        self.alphabet = list()
+        self.alphabet = []
         self.root = trieNode(lbl=0)
         
     def __contains__(self,x):
@@ -303,7 +304,11 @@ class trie(Sized,treeStructure):
             cursor = nextitem.child
         
         # Mark the leaf.
-        cursor.label = self.count
+        cursor.label = self.nextLabel
+        self.nextLabel += 1
+        
+        # Return its label.
+        return cursor.label
         
     def delete(self,seq):
         
@@ -352,26 +357,26 @@ class patriciaTree(trie):
         ''' Merges node upward if it only has 1 child. '''
         
         # If a child was given, clear it.
-        if child != None:
+        if child is not None:
             node.setChildNode(child,None)
             child.parent = None
             
         # If this is root, stop.
-        if node == self.root: return
+        if node is self.root: return
         
         # Check node for emptiness.
-        numempty = node.numEmptyChildrenNodes()
-        lenalpha = len(self.alphabet)
-        if (numempty == lenalpha):
-            # All empty.
-            self._deleteNode(node.getParentNode(),node)
-        elif (numempty == lenalpha - 1):
+        numEmpty = node.numEmptyChildrenNodes()
+        alphaLen = len(self.alphabet)
+        if (numEmpty == alphaLen - 1):
             # Only has a single child. Merge upwards.
             parent     = node.getParentNode()
             edge       = node.parent
             nonemptybr = node.getNonEmptyChildrenBranches()[0]
             edge.label = edge.label + nonemptybr.label
-            parent.setChildNode(node,nonemptybr.child)
+            parent.setChildNode(node,nonemptybr.child)    
+        elif (numEmpty == alphaLen):        
+            # All empty.
+            self._deleteNode(node.getParentNode(),node)
     
     def _query(self,seq):
         
@@ -443,8 +448,7 @@ class patriciaTree(trie):
         # Perform a query.
         query,queryparent,cpos,spos = self._query(seq)
         if query == None or query.label == 0: self.count += 1
-        else:
-            return # Already in the tree.
+        else: return 0 # Already in the tree.
         
         prevLabel = ''
         # Insert Case 1: Middle of Edge. Check for label of edge.
@@ -454,8 +458,8 @@ class patriciaTree(trie):
         if (len(currEdge.label) > 1 and cmpLabel != currEdge.label):
             
             # Know point of convergence.
-            newLabel  = seq[spos:cpos]
-            oldLabel  = currEdge.label
+            newLabel = seq[spos:cpos]
+            oldLabel = currEdge.label
             
             # Replace previous edge label.
             currEdge.label = newLabel
@@ -475,7 +479,7 @@ class patriciaTree(trie):
             # Special Case: Adding a subset of an existing entry.
             if cpos >= len(seq):
                 # Simply mark the new node.
-                newNode.label = self.count
+                newNode.label = self.nextLabel
                 insertBranch  = None
             
             # Add extent to newChild as well as this insertion.
@@ -495,9 +499,10 @@ class patriciaTree(trie):
                 insertBranch.label = seq[cpos:]
             if insertBranch.child is None:
                 insertBranch.child = self._newNode(insertBranch)
-            insertBranch.child.label = self.count
-            
-        return self.count
+            insertBranch.child.label = self.nextLabel
+        
+        self.nextLabel += 1
+        return self.nextLabel-1
 
     def delete(self,seq):
         

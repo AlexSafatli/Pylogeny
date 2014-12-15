@@ -11,10 +11,13 @@ from random import choice
 from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as ll
 from parsimony import profile_set as profiles
 from networkx import components as comp, algorithms as alg
+from base import patriciaTree
 from tree import treeSet, numberRootedTrees, numberUnrootedTrees
 from newick import parser, removeBranchLengths
 from rearrangement import TYPE_NNI, TYPE_SPR, TYPE_TBR
 postOrderTraversal = base.treeStructure.postOrderTraversal
+
+LS_NOT_DEFINED = -1
 
 # Graph Object
 
@@ -41,6 +44,8 @@ class graph(object):
         return self.graph    
     
     def __len__(self): return len(self.graph.node)
+    def __iter__(self):
+        for node in self.graph.node.keys(): yield node
 
     def getSize(self):
 
@@ -54,15 +59,17 @@ class graph(object):
         
         return self.graph.node.keys()
     
-    def getNodes(self):      return self.graph.node.values()
-    def getEdges(self):      return [self.getEdge(i,j) for i,j in self.graph.edges_iter()]
-    def getEdgesFor(self,i): return [self.getEdge(i,j) for j in self.graph.neighbors(i)]
-    def getNode(self,i):     return self.graph.node[i] 
-    def getEdge(self,i,j):   return self.graph.get_edge_data(i,j)
-    
-    def __iter__(self):
-        for node in self.graph.node.keys(): yield node
+    def iterNodes(self):
         
+        ''' Iterate over all nodes. '''
+        
+        for node in self.graph.node: yield node
+        
+    def getNodes(self):          return self.graph.node.values()
+    def getEdges(self):          return [self.getEdge(i,j) for i,j in self.graph.edges_iter()]
+    def getEdgesFor(self,i):     return [self.getEdge(i,j) for j in self.graph.neighbors(i)]
+    def getNode(self,i):         return self.graph.node[i] 
+    def getEdge(self,i,j):       return self.graph.get_edge_data(i,j)
     def getNeighborsFor(self,i): return self.graph.neighbors(i)  
     
     def getDegreeFor(self,i):
@@ -181,6 +188,8 @@ class landscape(graph,treeSet,base.Iterable):
         self.root               = None
         self.operator           = operator
         self.parsimony_profiles = None
+        self.newickSearchTree   = patriciaTree()
+        self.newickSearchMap    = dict()
         
         # Analyze alignment.
         if ali:
@@ -250,14 +259,33 @@ class landscape(graph,treeSet,base.Iterable):
     
     # Node Management
                 
-    def _newNode(self,i,tobj):
+    def _newNode(self,tobj):
         
         ''' PRIVATE: Add a new node. '''
         
+        # Add its structure to an auxilary PATRICIA tree structure.
+        insert = self.newickSearchTree.insert(tobj.getStructure())
+        if insert == 0:
+            raise AssertionError('Tree (%d) by structure <%s> already exists in space!' % (
+                tobj.name,str(tobj.getStructure())))
+        i = insert - 1
+        
+        # See if name indicates an integer.
+        if (str(tobj.getName()).isdigit()):
+            mapInd = i
+            i = int(tobj.getName())
+            if i in self.graph.node:
+                raise KeyError('Tree already exists in landscape with that index (%d).' % (i))
+            self.newickSearchMap[mapInd] = i
+        
+        # Create the node.
+        self.graph.add_node(i)
         node = self.graph.node[i]
         node['explored'] = False
         node['tree']     = tobj
         node['failed']   = False
+        
+        # Preliminary scoring.
         if tobj.score == None:
             # Get the parsimony since this is fast; set likelihood
             # to nothing.
@@ -270,8 +298,11 @@ class landscape(graph,treeSet,base.Iterable):
             # to nothing.
             if self.alignment:
                 tobj.score = (tobj.score[0],parsimony(
-                    tobj.newick,self.parsimony_profiles))            
-
+                    tobj.newick,self.parsimony_profiles))  
+        
+        # Return the index.
+        return i
+    
     def getTree(self,i):
         
         ''' Get the tree object for a tree by its ID or name i. '''
@@ -283,8 +314,7 @@ class landscape(graph,treeSet,base.Iterable):
         
         ''' Iterate over all trees found in this landscape. '''
         
-        for t in self.graph.nodes():
-            yield self.getTree(t)
+        for t in self: yield t
     
     def __iter__(self):
         
@@ -302,30 +332,24 @@ class landscape(graph,treeSet,base.Iterable):
 
     def removeTree(self,tree):
         
-        ''' Remove a tree by object. '''
+        ''' Remove a tree from the landscape by object. '''
         
         for t in self.graph.node:
             if self.getTree(t) == tree:
                 self.graph.remove_node(t)
+                self.newickSearchTree.delete(tree.getStructure())
                 return True
         return False
         
     def addTree(self,tree):
         
-        ''' Add a tree to the landscape. '''
+        ''' Add a tree to the landscape. Will return its index. '''
+            
+        # Add node to graph.
+        index = self._newNode(tree)
         
-        if not hasattr(self,'nextTree'):
-            # Set up next tree iterable.
-            self.nextTree = max(self.graph.node.keys())+1
-        
-        # Add tree with unique ID if not present.
-        if tree.getName() is '':
-            t = self.nextTree
-            tree.name = t
-        self.graph.add_node(tree.getName())
-        self._newNode(tree.getName(),tree)
-        self.nextTree += 1
-        return tree.getName()
+        # Return its index.
+        return index
 
     def exploreRandomTree(self,i,type=TYPE_SPR):
         
@@ -598,8 +622,12 @@ class landscape(graph,treeSet,base.Iterable):
         ''' Find a tree by topology, not taking into account branch lengths,
         given the topology. '''
         
-        for t in self.graph.node:
-            if self.getTree(t).getStructure() == struct: return t
+        query = self.newickSearchTree.search(struct)
+        if query != 0:
+            index = (query - 1)
+            if index in self.newickSearchMap:
+                return self.newickSearchMap[index]
+            else: return index
         return None
         
     def getBestImprovement(self,i):
@@ -695,9 +723,7 @@ class landscape(graph,treeSet,base.Iterable):
         ''' Get the global optimum of the current space. '''
         
         optima = self.getLocalOptima()
-        gmax   = max(
-            optima,key=lambda d: self.getTree(d).score[0])
-        return gmax
+        return max(optima,key=lambda d: self.getTree(d).score[0])
 
     # Output Methods
     
@@ -706,8 +732,7 @@ class landscape(graph,treeSet,base.Iterable):
     def _dump(self,proper=True):
         
         trees = []
-        for t in self.getNodeNames():
-            trees.append(self.getVertex(t))
+        for t in self.getNodeNames(): trees.append(self.getVertex(t))
         if type(self.alignment) == alignment.phylipFriendlyAlignment:
             return '\n'.join([t.getProperNewick() for t in trees])
         else: return '\n'.join([t.getNewick() for t in trees])
@@ -765,7 +790,7 @@ class vertex(object):
 
         n = self.ls.getNumberTaxa()
         if self.ls.operator == 'SPR': return 4*(n-3)*(n-2)
-        raise AssertionError('Landscape rearrangement operator not defined!')
+        return LS_NOT_DEFINED
     
     def scoreLikelihood(self):
     
