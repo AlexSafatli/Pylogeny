@@ -8,4 +8,4 @@ import os as _
 
 thisdir = _.path.split(_.path.realpath(__file__))[0]
 itlist = _.listdir(thisdir)
-__all__ = [_.path.split(x)[-1].strip('.py') for x in itlist if x.endswith('.py') and not x.endswith('__init__.py')]
+__all__ = [_.path.split(x)[-1].strip('.py') for x in itlist if x.endswith('.py') and not x.endswith('init__.py')]
