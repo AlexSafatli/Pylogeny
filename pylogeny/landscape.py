@@ -61,7 +61,7 @@ class graph(object):
     
     def iterNodes(self):
         
-        ''' Iterate over all nodes. '''
+        ''' Iterate over all node keys. '''
         
         for node in self.graph.node: yield node
         
@@ -393,7 +393,7 @@ class landscape(graph,treeSet,base.Iterable):
     
                 # See if already been found.
                 inlandscape = self.findTreeTopologyByStructure(stt)
-                if (inlandscape):
+                if (inlandscape != None):
                     # Is in landscape; has connection to tree?
                     if not (inlandscape == i): 
                         if not self.graph.has_edge(inlandscape,i):
@@ -459,7 +459,7 @@ class landscape(graph,treeSet,base.Iterable):
 
             # See if already been found.
             inlandscape = self.findTreeTopologyByStructure(stt)
-            if (inlandscape):
+            if (inlandscape != None):
                 # Is in landscape; has connection to tree?
                 if not (inlandscape == i): 
                     if not self.graph.has_edge(inlandscape,i):
@@ -782,6 +782,12 @@ class vertex(object):
     def isLocalOptimum(self): return self.ls.isLocalOptimum(self.id)
     def isExplored(self):     return self.obj['explored']
     def isFailed(self):       return ('failed' in self.obj and self.obj['failed'])
+    
+    def setExplored(self,exp):
+        
+        ''' Sets the "explored" flag of this node in the landscape. '''
+        
+        self.obj['explored'] = exp
     
     def approximatePossibleNumNeighbors(self):
         

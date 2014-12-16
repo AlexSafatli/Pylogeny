@@ -145,7 +145,7 @@ class database(object):
         return [x[0] for x in self.getColumns(table)]
     def getRecordsColumn(self,table,col):
         ''' Get all data for a single colmun from records for a table. '''
-        self.querymany("""SELECT ? FROM %s""" % (table),[col])
+        self.query("""SELECT %s FROM %s""" % (col,table))
         return self.cursor.fetchall()
     def getRecords(self,table):
         ''' Get all records from a given table in the database. '''
@@ -177,9 +177,9 @@ class database(object):
                 value  = item[i]
                 d[header].append(value)
         return d
-    def newTable(self,tablename,**kwargs):
+    def newTable(self,tablename,*args):
         self.query("""CREATE TABLE %s (%s)""" % (
-            tablename,', '.join(['%s %s' % (x,y) for x,y in kwargs.iteritems()])))
+            tablename,', '.join(['%s %s' % (x,y) for x,y in args])))
     def insertRecords(self,tablename,items):
         self.querymany('''INSERT INTO %s VALUES (%s)''' % (
             tablename,', '.join(['?' for x in items[0]])),items)

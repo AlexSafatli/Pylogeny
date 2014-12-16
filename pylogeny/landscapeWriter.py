@@ -39,10 +39,11 @@ class landscapeWriter(object):
         dbobj = self.database
         
         # Create all tables.
-        dbobj.newTable('alignment',seqid='integer',seqname='text',sequence='text')
-        dbobj.newTable('trees',treeid='integer',newick='text',origin='text',ml='real',pars='real')
-        dbobj.newTable('graph',source='text',origin='text')
-        dbobj.newTable('locks',treeid='integer',branchid='integer')
+        dbobj.newTable('alignment',('seqid','integer'),('seqname','text'),('sequence','text'))
+        dbobj.newTable('trees',('treeid','integer'),('newick','text'),
+                       ('origin','text'),('ml','real'),('pars','real'),('explored','boolean'))
+        dbobj.newTable('graph',('source','text'),('origin','text'))
+        dbobj.newTable('locks',('treeid','integer'),('branchid','integer'))
 
     def _dump(self,path='.'):
 
@@ -66,7 +67,8 @@ class landscapeWriter(object):
         for i in self.landscape.iterNodes():
             t = self.landscape.getTree(i)
             o.insertRecord('trees',[int(i),t.getNewick(),t.getOrigin(
-                ),t.getScore()[0],t.getScore()[1]])
+                ),t.getScore()[0],t.getScore()[1],
+                self.landscape.getVertex(i).isExplored()])
         
         # Add the graph in its entirety as its adjacency list.
         adj_list = self.graph.edges_iter()
@@ -102,6 +104,7 @@ class landscapeParser(object):
         self.database = None
         self.alignment = None
         self.trees = []
+        self.explored = {}
         self.landscape = None
 
     def getName(self):
@@ -126,15 +129,18 @@ class landscapeParser(object):
             self.alignment = alignment(str(pseudofasta))
         
     def _getTrees(self):
-        
+    
+        floatIfNotNone = lambda d: float(d) if d != None else d
+        intIfNotNone   = lambda d: int(d) if d != None else d
         for t in self.database.iterRecords('trees'):
-            id,newick,orig,ml,pars = t
+            id,newick,orig,ml,pars,exp = t
             if newick != '':
                 trobj = tree.tree(str(newick))
                 trobj.origin = str(orig)
                 trobj.name = int(id)
-                trobj.score = [ml,pars]
+                trobj.score = [floatIfNotNone(ml),intIfNotNone(pars)]
                 self.trees.append(trobj)
+                self.explored[trobj] = bool(exp)
         self.trees = sorted(self.trees,key=lambda d: d.name)
 
     def _getGraph(self):
@@ -163,7 +169,9 @@ class landscapeParser(object):
         # Construct the landscape.
         self.landscape = landscape(self.alignment,starting_tree=self.trees[0],
                                    operator=self.trees[0].getOrigin(),root=False)
-        for t in self.trees: self.landscape.addTree(t)
+        for t in self.trees:
+            add = self.landscape.addTree(t)
+            self.landscape.getVertex(add).setExplored(self.explored[t])
         
         # Ensure all edges are established.
         self._getGraph()
