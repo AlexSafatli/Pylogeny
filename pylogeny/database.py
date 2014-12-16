@@ -128,18 +128,16 @@ class database(object):
     
     __metaclass__ = abstractclass
     cursor = None # Cursor for the database object.
-
+    
+    @abstractmethod
+    def getTables(self): pass
+    
+    @abstractmethod
+    def getColumns(self,table): pass  
+    
     def isEmpty(self):
         ''' Determine if the database is empty. '''
         return (len(self.getTables()) == 0)
-    def getTables(self):
-        ''' Get the list of tables from the database '''
-        self.query("""SHOW TABLES""")
-        return [x[0] for x in self.cursor.fetchall()]
-    def getColumns(self,table):
-        ''' Return column information for a given table. '''
-        self.query("""SHOW COLUMNS FROM %s""" % (table))
-        return self.cursor.fetchall()
     def getHeaders(self,table):
         ''' Get only header names for a given table's columns. '''
         return [x[0] for x in self.getColumns(table)]
@@ -213,6 +211,15 @@ class SQLDatabase(database):
                                       db=self.database)
         self.cursor   = self.socket.cursor()        
         
+    def getTables(self):
+        self.query("""SHOW TABLES""")
+        return [x[0] for x in self.cursor.fetchall()]        
+        
+    def getColumns(self,table):
+        ''' Return column information for a given table. '''
+        self.query("""SHOW COLUMNS FROM %s""" % (table))
+        return self.cursor.fetchall()          
+        
     def query(self,q):
         # Execute a MySQL query.
         try:
@@ -245,6 +252,10 @@ class SQLiteDatabase(database):
         ''' Return column information for a given table. '''
         self.query("""PRAGMA table_info(%s)""" % (table))
         return self.cursor.fetchall()
+
+    def getTables(self):
+        self.query("""SELECT name FROM sqlite_master WHERE type='table';""")
+        return [x[0] for x in self.cursor.fetchall()]   
 
     def query(self,q):
         # Execute an sqlite query.

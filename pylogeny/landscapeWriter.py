@@ -4,6 +4,7 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
+from __version__ import VERSION
 from alignment import phylipFriendlyAlignment as alignment
 from landscape import landscape
 from database import SQLiteDatabase
@@ -38,12 +39,15 @@ class landscapeWriter(object):
         # Get the database object.
         dbobj = self.database
         
-        # Create all tables.
+        # Create all content tables.
         dbobj.newTable('alignment',('seqid','integer'),('seqname','text'),('sequence','text'))
         dbobj.newTable('trees',('treeid','integer'),('newick','text'),
                        ('origin','text'),('ml','real'),('pars','real'),('explored','boolean'))
         dbobj.newTable('graph',('source','text'),('origin','text'))
         dbobj.newTable('locks',('treeid','integer'),('branchid','integer'))
+        
+        # Create a table to store metadata.
+        dbobj.newTable('metadata',('key','text'),('value','text'))
 
     def _dump(self,path='.'):
 
@@ -55,6 +59,10 @@ class landscapeWriter(object):
         
         # Construct the schema for the landscape.
         self._schema()
+        
+        # Include metadata about the landscape.
+        o.insertRecord('metadata',['name',self.name])
+        o.insertRecord('metadata',['version',VERSION])
         
         # Add the alignment.
         index = 0
@@ -96,10 +104,11 @@ class landscapeWriter(object):
 class landscapeParser(object):
 
     ''' Encapsulates the construction of a landscape
-    object from a pickle file. '''
+    object from a sqlite landscape file. '''
 
     def __init__(self,path):
         self.file = path
+        self.metadata = None
         self.name = None
         self.database = None
         self.alignment = None
@@ -112,8 +121,21 @@ class landscapeParser(object):
         ''' Acquire the name of the parsed landscape. '''
         
         if self.name is None:
-            self.name = os.path.splitext(os.path.basename(self.file))[0]
+            if len(self.metadata) > 0:
+                for metadata in self.metadata:
+                    if metadata[0] == 'name':
+                        self.name = metadata[1]
+            else: self.name = os.path.splitext(os.path.basename(self.file))[0]
         return self.name
+
+    def _getLandscapeMetadata(self):
+        
+        ''' Check metadata in landscape if present. '''
+        
+        tables = self.database.getTables()
+        if 'metadata' in tables:
+            return self.database.getRecords('metadata')
+        else: return []
 
     def _makeAlignment(self):
         
@@ -159,6 +181,9 @@ class landscapeParser(object):
             raise IOError('Landscape file not found.')
         o = SQLiteDatabase(fpath)
         self.database = o
+        
+        # Get metadata.
+        self.metadata = self._getLandscapeMetadata()
         
         # Get the alignment.
         self._makeAlignment()
