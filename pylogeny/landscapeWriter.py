@@ -12,8 +12,7 @@ import os, tree
 
 class landscapeWriter(object):
 
-    ''' Encapsulate the writing of a landscape
-    to a file format. '''
+    ''' Encapsulate the writing of a landscape to a file format. '''
 
     def __init__(self, landscape, name):
         

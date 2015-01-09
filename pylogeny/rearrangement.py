@@ -565,7 +565,7 @@ class topology(base.treeStructure):
         if self.root != None:
             raise RearrangementError(
                 'Structure already initialized.')
-        p = newick.parser(newickstr)
+        p = newick.newickParser(newickstr)
         self.root  = p.parse()
         self.orig = newickstr
         if self.rerootFlag: self.rerootToLeaf(self.rerootLoc)

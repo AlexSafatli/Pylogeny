@@ -173,7 +173,7 @@ def isSibling(br,other):
 
 # Parsing Assets
 
-class parser:
+class newickParser:
     
     ''' Parsing object for Newick strings. '''
     

@@ -7,7 +7,7 @@
 # Imports
 
 import os, p4, model, tree, base
-from newick import parser
+from newick import newickParser
 from executable import fasttree
 from tempfile import NamedTemporaryFile as NTempFile
 from shutil import copyfile
@@ -232,7 +232,7 @@ class phylipFriendlyAlignment(alignment):
         
         ''' Replace all proper names with reassigned names in a Newick tree. '''
         
-        p = parser(tr).parse()
+        p = newickParser(tr).parse()
         nodes = base.treeStructure(p).getAllNodes()
         for node in nodes:
             l = node.label
@@ -247,7 +247,7 @@ class phylipFriendlyAlignment(alignment):
         
         ''' Replaces all reassigned names to proper names in a Newick tree. '''
                
-        p = parser(tr).parse()
+        p = newickParser(tr).parse()
         nodes = base.treeStructure(p).getAllNodes()
         for node in nodes:
             l = node.label

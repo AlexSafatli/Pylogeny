@@ -24,7 +24,7 @@ class heuristic(object):
     
     def __init__(self,G=None,start=None):
         self.landscape = G      # State Graph
-        self.start     = start  # Start State\
+        self.start     = start  # Start State
     def explore(self): pass
     def getStateGraph(self): return self.landscape
     def getStartState(self): return self.start
@@ -35,9 +35,9 @@ class phylogeneticLinearHeuristic(heuristic):
     and only possesses a single path (of search). '''
     
     path, bestTree = list(), None
-    def __init__(self,ls,startTree):
+    def __init__(self,ls,startNode):
         super(phylogeneticLinearHeuristic,self
-              ).__init__(ls,startTree)
+              ).__init__(ls,startNode)
     def getPath(self):     return self.path
     def getBestTree(self): return self.bestTree
     
@@ -47,8 +47,8 @@ class parsimonyGreedy(phylogeneticLinearHeuristic):
     
     ''' Greedy (hill-climbing) landscape exploration by comparsion of parsimony. '''
     
-    def __init__(self,ls,startTree):
-        super(parsimonyGreedy,self).__init__(ls,startTree)
+    def __init__(self,ls,startNode):
+        super(parsimonyGreedy,self).__init__(ls,startNode)
         
     def explore(self):
     
@@ -67,10 +67,10 @@ class parsimonyGreedy(phylogeneticLinearHeuristic):
             self.path.append(cursor)
 
             # Explore the current tree and only score via parsimony.
-            landscape.exploreTree(cursor['tree'].name)
+            landscape.exploreTree(cursor['index'])
             
             # Rank by parsimony.
-            nodes = landscape.graph.neighbors(cursor['tree'].name)
+            nodes = landscape.graph.neighbors(cursor['index'])
             nodes = [landscape.getNode(x) for x in nodes]
             nodes = [it for it in nodes if not it in self.path]
             nodes = sorted(nodes,key=lambda d: d['tree'].score[1])
@@ -92,8 +92,8 @@ class likelihoodGreedy(phylogeneticLinearHeuristic):
     
     ''' Greedy (hill-climbing) landscape exploration by comparsion of likelihood. '''
     
-    def __init__(self,ls,startTree):
-        super(likelihoodGreedy,self).__init__(ls,startTree)
+    def __init__(self,ls,startNode):
+        super(likelihoodGreedy,self).__init__(ls,startNode)
         
     def explore(self):
     
@@ -112,10 +112,10 @@ class likelihoodGreedy(phylogeneticLinearHeuristic):
             self.path.append(cursor)
 
             # Explore the current tree and only score via parsimony.
-            landscape.exploreTree(cursor['tree'].name)
+            landscape.exploreTree(cursor['index'])
             
             # Rank by likelihood.
-            nodes = landscape.getNeighborsFor(cursor['tree'].name)
+            nodes = landscape.getNeighborsFor(cursor['index'])
             nodes = [landscape.getNode(x) for x in nodes]
             nodes = [it for it in nodes if not it in self.path]
             map(lambda d: landscape.getVertex(d).scoreLikelihood(),nodes)
@@ -139,8 +139,8 @@ class smoothGreedy(phylogeneticLinearHeuristic):
     ''' Parsimony-driven greedy landscape exploration 
     by comparsion of likelihoods. '''
     
-    def __init__(self,ls,startTree):
-        super(smoothGreedy,self).__init__(ls,startTree)
+    def __init__(self,ls,startNode):
+        super(smoothGreedy,self).__init__(ls,startNode)
         
     def explore(self):
     
@@ -161,10 +161,10 @@ class smoothGreedy(phylogeneticLinearHeuristic):
             self.path.append(cursor)
 
             # Explore the current tree and only score via parsimony.
-            landscape.exploreTree(cursor['tree'].name)
+            landscape.exploreTree(cursor['index'])
             
             # Rank by parsimony.
-            nodes = landscape.graph.neighbors(cursor['tree'].name)
+            nodes = landscape.graph.neighbors(cursor['index'])
             nodes = [landscape.getNode(x) for x in nodes]
             nodes = [it for it in nodes if not it in self.path]
             nodes = sorted(nodes,key=lambda d: d['tree'].score[1])

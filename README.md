@@ -45,6 +45,7 @@ Dependencies
  * Numpy
  * NetworkX
  * Pandas
+ * MySQLdb for Python
  * P4 Phylogenetic Library
  * libpll Phylogenetic Likelihood Library
 

@@ -13,7 +13,7 @@ from parsimony import profile_set as profiles
 from networkx import components as comp, algorithms as alg
 from base import patriciaTree
 from tree import treeSet, numberRootedTrees, numberUnrootedTrees
-from newick import parser, removeBranchLengths
+from newick import newickParser, removeBranchLengths
 from rearrangement import TYPE_NNI, TYPE_SPR, TYPE_TBR
 postOrderTraversal = base.treeStructure.postOrderTraversal
 
@@ -242,6 +242,12 @@ class landscape(graph,treeSet,base.Iterable):
         
         return numberUnrootedTrees(self.leaves)
     
+    def getRoot(self):
+        
+        ''' Returns the index to the root (starting) tree of the space. '''
+        
+        return self.root
+    
     def getRootTree(self):
         
         ''' Acquire the first tree that was placed in this space. '''
@@ -281,6 +287,7 @@ class landscape(graph,treeSet,base.Iterable):
         # Create the node.
         self.graph.add_node(i)
         node = self.graph.node[i]
+        node['index']    = i
         node['explored'] = False
         node['tree']     = tobj
         node['failed']   = False
@@ -328,7 +335,7 @@ class landscape(graph,treeSet,base.Iterable):
         additional functionality. Object created upon invocation of
         this function. '''
         
-        return vertex(i,self.getNode(i),self)
+        return vertex(self.getNode(i),self)
 
     def removeTree(self,tree):
         
@@ -612,7 +619,7 @@ class landscape(graph,treeSet,base.Iterable):
         
         ''' Find a tree by topology, not taking into account branch lengths. '''
         
-        s = parser(newick).parse()
+        s = newickParser(newick).parse()
         removeBranchLengths(s)
         s = str(s) + ';'
         return self.findTreeTopologyByStructure(s)
@@ -764,8 +771,8 @@ class vertex(object):
     ''' Encapsulate a single vertex in the landscape and add convenient
     functionality to alias parent landscape functions. '''
     
-    def __init__(self,i,obj,ls):
-        self.id  = i
+    def __init__(self,obj,ls):
+        self.id  = obj['index']
         self.obj = obj
         self.ls = ls
         self.ali = ls.alignment
@@ -847,10 +854,10 @@ class vertex(object):
         if self.ali == None: return self.getNewick()
         return self.ali.reinterpretNewick(self.getNewick())
     
-    def getBipartitions(self):
-    
-        ''' Get all bipartitions for this vertex. '''
+    def iterBipartitions(self):
         
+        ''' Return a generator to iterate over all bipartitions for this vertex. '''
+    
         # Get tree object.
         tr = self.getTree()
         
@@ -864,11 +871,15 @@ class vertex(object):
         for b in br:
             if b:
                 bi = tree.bipartition(topo,b)
-                bp.append(bi)
-            else: bp.append(None)
+                yield bi
+            else: yield None
+    
+    def getBipartitions(self):
+    
+        ''' Get all bipartitions for this vertex. '''
         
         # Return the bipartitions.
-        return bp
+        return [bipart for bipart in self.iterBipartitions()]
     
     def getBipartitionScores(self):
         

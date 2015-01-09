@@ -78,9 +78,10 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         ''' Return a Newick string with all taxa name replaced with
         successive integers. '''
     
-        o = newick.parser(self.newick).parse()
-        n = newick.getAllLeaves(o)
-        for _ in xrange(1,len(n)+1): n[_].label = str(_)
+        o = newick.newickParser(self.newick).parse()
+        t = base.treeStructure(o)
+        n = t.getAllLeaves()
+        for _ in xrange(1,len(n)+1): n[_-1].label = str(_)
         return str(o) + ';'        
     
     # Other Functionality
@@ -107,7 +108,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         order to ensure a consistent Newick string. '''
         
         newi        = newi.strip('\n').strip(';') + ';'   
-        prsd        = newick.parser(newi).parse()
+        prsd        = newick.newickParser(newi).parse()
         self.newick = rearrangement.topology(prsd).toNewick()
         self.struct = self._getStructure(prsd)
     
@@ -117,13 +118,13 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         defined branch lengths. '''
         
         if prsd: p = prsd
-        else: p = newick.parser(self.newick).parse()    
+        else: p = newick.newickParser(self.newick).parse()    
         newick.removeBranchLengths(p)
         return str(p) + ';'  
     
 class treeSet(base.Sized):
     
-    ''' Represents an ordered, unorganized collection of trees 
+    ''' Represents an ordered, disorganized collection of trees 
     that do not necessarily comprise a combinatorial space. '''
     
     def __init__(self):
@@ -199,7 +200,6 @@ class bipartition(object):
         self.shortmap = None # Shorter string mapping of taxa to symbols
         self.reconfis = None # Possible reconfigurations as rearrangement objects.
         self._getStringRepresentation()
-        self._getShortStringRepresentation()
         self._getBranchListRepresentation()
     
     def __hash__(self): return hash(self.shortstr)
@@ -280,7 +280,6 @@ class bipartition(object):
         
         self.strrep = st
         self._getBranchFromString()
-        self._getShortStringRepresentation()
         
     def getBranch(self):
         
@@ -313,12 +312,14 @@ class bipartition(object):
         
         ''' Get the shorter string representation corresponding to this bipartition. '''
         
+        if self.shortstr == '': self._getShortStringRepresentation()
         return self.shortstr
     
     def getShortStringMappings(self):
         
         ''' Get the mapping of symbols from taxa names for the shorter string representation. '''
         
+        if self.shortstr == '': self._getShortStringRepresentation()
         return self.shortmap
     
     def getBranchListRepresentation(self):
