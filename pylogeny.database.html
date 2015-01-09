@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.database module &mdash; Pylogeny 0.3.6.2 documentation</title>
+    <title>pylogeny.database module &mdash; Pylogeny 0.3.6.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.6.2',
+        VERSION:     '0.3.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.2 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.6 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.executable module" href="pylogeny.executable.html" />
     <link rel="prev" title="pylogeny.base module" href="pylogeny.base.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.base.html" title="pylogeny.base module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -82,6 +82,17 @@
 <dl class="method">
 <dt id="pylogeny.database.SQLDatabase.connect">
 <tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLDatabase.getColumns">
+<tt class="descname">getColumns</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.getColumns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.getColumns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return column information for a given table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLDatabase.getTables">
+<tt class="descname">getTables</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.getTables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.getTables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -133,6 +144,11 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="pylogeny.database.SQLiteDatabase.getTables">
+<tt class="descname">getTables</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.getTables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.getTables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pylogeny.database.SQLiteDatabase.query">
 <tt class="descname">query</tt><big>(</big><em>q</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.query" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -176,8 +192,7 @@ hard disk.</p>
 <dl class="method">
 <dt id="pylogeny.database.database.getColumns">
 <tt class="descname">getColumns</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getColumns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getColumns" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return column information for a given table.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.getHeaders">
@@ -207,8 +222,7 @@ access using a dictionary data structure.</p>
 <dl class="method">
 <dt id="pylogeny.database.database.getTables">
 <tt class="descname">getTables</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getTables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getTables" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the list of tables from the database</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.insertRecord">
@@ -234,7 +248,7 @@ access using a dictionary data structure.</p>
 
 <dl class="method">
 <dt id="pylogeny.database.database.newTable">
-<tt class="descname">newTable</tt><big>(</big><em>tablename</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.newTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.newTable" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">newTable</tt><big>(</big><em>tablename</em>, <em>*args</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.newTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.newTable" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -300,12 +314,12 @@ access using a dictionary data structure.</p>
         <li class="right" >
           <a href="pylogeny.base.html" title="pylogeny.base module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Alex Safatli.
+        &copy; Copyright 2015, Alex Safatli.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>

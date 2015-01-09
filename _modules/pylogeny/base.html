@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.base &mdash; Pylogeny 0.3.6.2 documentation</title>
+    <title>pylogeny.base &mdash; Pylogeny 0.3.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.2',
+        VERSION:     '0.3.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.2 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -240,13 +240,14 @@
     
     <span class="sd">&#39;&#39;&#39; Defines a trie across a range of strings. &#39;&#39;&#39;</span>
     
-    <span class="n">alphabet</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">root</span>     <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">count</span>    <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">alphabet</span>  <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">root</span>      <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">count</span>     <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nextLabel</span> <span class="o">=</span> <span class="mi">1</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">trieNode</span><span class="p">(</span><span class="n">lbl</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
@@ -352,7 +353,11 @@
             <span class="n">cursor</span> <span class="o">=</span> <span class="n">nextitem</span><span class="o">.</span><span class="n">child</span>
         
         <span class="c"># Mark the leaf.</span>
-        <span class="n">cursor</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nextLabel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nextLabel</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="c"># Return its label.</span>
+        <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">label</span>
         </div>
 <div class="viewcode-block" id="trie.delete"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.trie.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
         
@@ -401,26 +406,26 @@
         <span class="sd">&#39;&#39;&#39; Merges node upward if it only has 1 child. &#39;&#39;&#39;</span>
         
         <span class="c"># If a child was given, clear it.</span>
-        <span class="k">if</span> <span class="n">child</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">node</span><span class="o">.</span><span class="n">setChildNode</span><span class="p">(</span><span class="n">child</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
             <span class="n">child</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="bp">None</span>
             
         <span class="c"># If this is root, stop.</span>
-        <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span> <span class="k">return</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span> <span class="k">return</span>
         
         <span class="c"># Check node for emptiness.</span>
-        <span class="n">numempty</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">numEmptyChildrenNodes</span><span class="p">()</span>
-        <span class="n">lenalpha</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">numempty</span> <span class="o">==</span> <span class="n">lenalpha</span><span class="p">):</span>
-            <span class="c"># All empty.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_deleteNode</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">getParentNode</span><span class="p">(),</span><span class="n">node</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="p">(</span><span class="n">numempty</span> <span class="o">==</span> <span class="n">lenalpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">numEmpty</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">numEmptyChildrenNodes</span><span class="p">()</span>
+        <span class="n">alphaLen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">numEmpty</span> <span class="o">==</span> <span class="n">alphaLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
             <span class="c"># Only has a single child. Merge upwards.</span>
             <span class="n">parent</span>     <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">getParentNode</span><span class="p">()</span>
             <span class="n">edge</span>       <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span>
             <span class="n">nonemptybr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">getNonEmptyChildrenBranches</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">edge</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">label</span> <span class="o">+</span> <span class="n">nonemptybr</span><span class="o">.</span><span class="n">label</span>
-            <span class="n">parent</span><span class="o">.</span><span class="n">setChildNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="n">nonemptybr</span><span class="o">.</span><span class="n">child</span><span class="p">)</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">setChildNode</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="n">nonemptybr</span><span class="o">.</span><span class="n">child</span><span class="p">)</span>    
+        <span class="k">elif</span> <span class="p">(</span><span class="n">numEmpty</span> <span class="o">==</span> <span class="n">alphaLen</span><span class="p">):</span>        
+            <span class="c"># All empty.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_deleteNode</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">getParentNode</span><span class="p">(),</span><span class="n">node</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
         
@@ -431,13 +436,12 @@
 <span class="sd">        position of seq that the query stopped at, and spos is where cpos was</span>
 <span class="sd">        last at before finding a mismatch. &#39;&#39;&#39;</span>
         
-        <span class="n">index</span>  <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">cpos</span>   <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">spos</span>   <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">index</span><span class="p">,</span><span class="n">cpos</span><span class="p">,</span><span class="n">spos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
         <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRoot</span><span class="p">()</span>
         <span class="n">parentofcursor</span> <span class="o">=</span> <span class="n">cursor</span>
+        <span class="n">seqLength</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
         
-        <span class="k">while</span> <span class="p">(</span><span class="n">cpos</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)):</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">cpos</span> <span class="o">&lt;</span> <span class="n">seqLength</span><span class="p">):</span>
 
             <span class="c"># Get character.</span>
             <span class="n">character</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="n">cpos</span><span class="p">]</span>
@@ -457,8 +461,9 @@
             <span class="n">lpos</span>   <span class="o">=</span> <span class="mi">0</span>
             
             <span class="c"># Check character matching.</span>
-            <span class="k">while</span> <span class="p">(</span><span class="n">lpos</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">cpos</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)):</span>
+            <span class="n">labelLength</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">lpos</span> <span class="o">&lt;</span> <span class="n">labelLength</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">cpos</span> <span class="o">&gt;=</span> <span class="n">seqLength</span><span class="p">):</span>
                     <span class="c"># Still more in the label! Not found.</span>
                     <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="n">parentofcursor</span><span class="p">,</span> <span class="n">cpos</span><span class="p">,</span> <span class="n">spos</span>
                 <span class="k">elif</span> <span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">lpos</span><span class="p">]</span> <span class="o">!=</span> <span class="n">seq</span><span class="p">[</span><span class="n">cpos</span><span class="p">]):</span>
@@ -467,7 +472,7 @@
                 <span class="n">lpos</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">cpos</span> <span class="o">+=</span> <span class="mi">1</span>
                 
-        <span class="k">return</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">parentofcursor</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">),</span> <span class="n">spos</span>
+        <span class="k">return</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">parentofcursor</span><span class="p">,</span> <span class="n">seqLength</span><span class="p">,</span> <span class="n">spos</span>
     
 <div class="viewcode-block" id="patriciaTree.search"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.patriciaTree.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
         
@@ -475,7 +480,7 @@
 <span class="sd">        addition sequence if it exists. Else, returns 0. &#39;&#39;&#39;</span>
         
         <span class="n">query</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">query</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">query</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">label</span>       
     </div>
 <div class="viewcode-block" id="patriciaTree.insert"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.patriciaTree.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
@@ -492,8 +497,7 @@
         <span class="c"># Perform a query.</span>
         <span class="n">query</span><span class="p">,</span><span class="n">queryparent</span><span class="p">,</span><span class="n">cpos</span><span class="p">,</span><span class="n">spos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">query</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">query</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="c"># Already in the tree.</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="mi">0</span> <span class="c"># Already in the tree.</span>
         
         <span class="n">prevLabel</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="c"># Insert Case 1: Middle of Edge. Check for label of edge.</span>
@@ -503,8 +507,8 @@
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">currEdge</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">cmpLabel</span> <span class="o">!=</span> <span class="n">currEdge</span><span class="o">.</span><span class="n">label</span><span class="p">):</span>
             
             <span class="c"># Know point of convergence.</span>
-            <span class="n">newLabel</span>  <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="n">spos</span><span class="p">:</span><span class="n">cpos</span><span class="p">]</span>
-            <span class="n">oldLabel</span>  <span class="o">=</span> <span class="n">currEdge</span><span class="o">.</span><span class="n">label</span>
+            <span class="n">newLabel</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="n">spos</span><span class="p">:</span><span class="n">cpos</span><span class="p">]</span>
+            <span class="n">oldLabel</span> <span class="o">=</span> <span class="n">currEdge</span><span class="o">.</span><span class="n">label</span>
             
             <span class="c"># Replace previous edge label.</span>
             <span class="n">currEdge</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">newLabel</span>
@@ -524,7 +528,7 @@
             <span class="c"># Special Case: Adding a subset of an existing entry.</span>
             <span class="k">if</span> <span class="n">cpos</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
                 <span class="c"># Simply mark the new node.</span>
-                <span class="n">newNode</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+                <span class="n">newNode</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nextLabel</span>
                 <span class="n">insertBranch</span>  <span class="o">=</span> <span class="bp">None</span>
             
             <span class="c"># Add extent to newChild as well as this insertion.</span>
@@ -544,9 +548,10 @@
                 <span class="n">insertBranch</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">seq</span><span class="p">[</span><span class="n">cpos</span><span class="p">:]</span>
             <span class="k">if</span> <span class="n">insertBranch</span><span class="o">.</span><span class="n">child</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">insertBranch</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_newNode</span><span class="p">(</span><span class="n">insertBranch</span><span class="p">)</span>
-            <span class="n">insertBranch</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
-            
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+            <span class="n">insertBranch</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nextLabel</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">nextLabel</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nextLabel</span><span class="o">-</span><span class="mi">1</span>
 </div>
 <div class="viewcode-block" id="patriciaTree.delete"><a class="viewcode-back" href="../../pylogeny.base.html#pylogeny.base.patriciaTree.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">seq</span><span class="p">):</span>
         
@@ -593,12 +598,12 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Alex Safatli.
+        &copy; Copyright 2015, Alex Safatli.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>

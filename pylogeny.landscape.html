@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscape module &mdash; Pylogeny 0.3.6.2 documentation</title>
+    <title>pylogeny.landscape module &mdash; Pylogeny 0.3.6.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.6.2',
+        VERSION:     '0.3.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.2 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.6 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.landscapeWriter module" href="pylogeny.landscapeWriter.html" />
     <link rel="prev" title="pylogeny.heuristic module" href="pylogeny.heuristic.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.heuristic.html" title="pylogeny.heuristic module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -200,6 +200,12 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="pylogeny.landscape.graph.iterNodes">
+<tt class="descname">iterNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.iterNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.iterNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over all node keys.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pylogeny.landscape.graph.setDefaultWeight">
 <tt class="descname">setDefaultWeight</tt><big>(</big><em>w</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.setDefaultWeight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.setDefaultWeight" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -209,12 +215,12 @@
 <dl class="class">
 <dt id="pylogeny.landscape.landscape">
 <em class="property">class </em><tt class="descclassname">pylogeny.landscape.</tt><tt class="descname">landscape</tt><big>(</big><em>ali</em>, <em>starting_tree=None</em>, <em>root=True</em>, <em>operator='SPR'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pylogeny.landscape.graph" title="pylogeny.landscape.graph"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.landscape.graph</span></tt></a>, <a class="reference internal" href="pylogeny.tree.html#pylogeny.tree.treeSet" title="pylogeny.tree.treeSet"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.tree.treeSet</span></tt></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.landscape.graph" title="pylogeny.landscape.graph"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.landscape.graph</span></tt></a>, <a class="reference internal" href="pylogeny.tree.html#pylogeny.tree.treeSet" title="pylogeny.tree.treeSet"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.tree.treeSet</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">_abcoll.Iterable</span></tt></p>
 <p>Defines an entire phylogenetic tree space.</p>
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.addTree">
 <tt class="descname">addTree</tt><big>(</big><em>tree</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.addTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.addTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a tree to the landscape.</p>
+<dd><p>Add a tree to the landscape. Will return its index.</p>
 </dd></dl>
 
 <dl class="method">
@@ -400,7 +406,7 @@ bipartition to the bipartition lock list. Returns true if locked.</p>
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.removeTree">
 <tt class="descname">removeTree</tt><big>(</big><em>tree</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.removeTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.removeTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove a tree by object.</p>
+<dd><p>Remove a tree from the landscape by object.</p>
 </dd></dl>
 
 <dl class="method">
@@ -570,6 +576,12 @@ landscape.</p>
 <dd><p>Acquire the log-likelihood for this vertex.</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="pylogeny.landscape.vertex.setExplored">
+<tt class="descname">setExplored</tt><big>(</big><em>exp</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.setExplored"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.setExplored" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the &#8220;explored&#8221; flag of this node in the landscape.</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -623,12 +635,12 @@ landscape.</p>
         <li class="right" >
           <a href="pylogeny.heuristic.html" title="pylogeny.heuristic module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Alex Safatli.
+        &copy; Copyright 2015, Alex Safatli.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>

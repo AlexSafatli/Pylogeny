@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree &mdash; Pylogeny 0.3.6.2 documentation</title>
+    <title>pylogeny.tree &mdash; Pylogeny 0.3.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.2',
+        VERSION:     '0.3.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.2 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -113,7 +113,14 @@
 <div class="viewcode-block" id="tree.getStructure"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getStructure">[docs]</a>    <span class="k">def</span> <span class="nf">getStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Returns &quot;structure&quot;, a Newick string without branch lengths. &#39;&#39;&#39;</span>
+        
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> 
+    </div>
+<div class="viewcode-block" id="tree.getRerootedNoBranchLengthNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getRerootedNoBranchLengthNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getRerootedNoBranchLengthNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+    
+        <span class="sd">&#39;&#39;&#39; See getStructure(). &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStructure</span><span class="p">()</span>
     </div>
 <div class="viewcode-block" id="tree.getSimpleNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getSimpleNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getSimpleNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
@@ -163,7 +170,7 @@
         <span class="n">newick</span><span class="o">.</span><span class="n">removeBranchLengths</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>  
     </div>
-<div class="viewcode-block" id="treeSet"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet">[docs]</a><span class="k">class</span> <span class="nc">treeSet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="treeSet"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet">[docs]</a><span class="k">class</span> <span class="nc">treeSet</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Sized</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Represents an ordered, unorganized collection of trees </span>
 <span class="sd">    that do not necessarily comprise a combinatorial space. &#39;&#39;&#39;</span>
@@ -454,12 +461,12 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Alex Safatli.
+        &copy; Copyright 2015, Alex Safatli.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>

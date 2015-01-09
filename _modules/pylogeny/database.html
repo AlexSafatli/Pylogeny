@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.database &mdash; Pylogeny 0.3.6.2 documentation</title>
+    <title>pylogeny.database &mdash; Pylogeny 0.3.6.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.2',
+        VERSION:     '0.3.6.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.2 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -177,24 +177,22 @@
     
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abstractclass</span>
     <span class="n">cursor</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># Cursor for the database object.</span>
-
+    
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="database.getTables"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getTables">[docs]</a>    <span class="k">def</span> <span class="nf">getTables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+    </div>
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="database.getColumns"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getColumns">[docs]</a>    <span class="k">def</span> <span class="nf">getColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span> <span class="k">pass</span>  
+    </div>
 <div class="viewcode-block" id="database.isEmpty"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.isEmpty">[docs]</a>    <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Determine if the database is empty. &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTables</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span></div>
-<div class="viewcode-block" id="database.getTables"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getTables">[docs]</a>    <span class="k">def</span> <span class="nf">getTables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Get the list of tables from the database &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SHOW TABLES&quot;&quot;&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span></div>
-<div class="viewcode-block" id="database.getColumns"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getColumns">[docs]</a>    <span class="k">def</span> <span class="nf">getColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Return column information for a given table. &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SHOW COLUMNS FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span></div>
 <div class="viewcode-block" id="database.getHeaders"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">getHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Get only header names for a given table&#39;s columns. &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getColumns</span><span class="p">(</span><span class="n">table</span><span class="p">)]</span></div>
 <div class="viewcode-block" id="database.getRecordsColumn"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getRecordsColumn">[docs]</a>    <span class="k">def</span> <span class="nf">getRecordsColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">,</span><span class="n">col</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Get all data for a single colmun from records for a table. &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">querymany</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT ? FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">),[</span><span class="n">col</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT </span><span class="si">%s</span><span class="s"> FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">table</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span></div>
 <div class="viewcode-block" id="database.getRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getRecords">[docs]</a>    <span class="k">def</span> <span class="nf">getRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Get all records from a given table in the database. &#39;&#39;&#39;</span>
@@ -226,9 +224,9 @@
                 <span class="n">value</span>  <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">d</span><span class="p">[</span><span class="n">header</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">d</span></div>
-<div class="viewcode-block" id="database.newTable"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.newTable">[docs]</a>    <span class="k">def</span> <span class="nf">newTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="database.newTable"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.newTable">[docs]</a>    <span class="k">def</span> <span class="nf">newTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;CREATE TABLE </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span>
-            <span class="n">tablename</span><span class="p">,</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()])))</span></div>
+            <span class="n">tablename</span><span class="p">,</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">args</span><span class="p">])))</span></div>
 <div class="viewcode-block" id="database.insertRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.insertRecords">[docs]</a>    <span class="k">def</span> <span class="nf">insertRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="n">items</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">querymany</span><span class="p">(</span><span class="s">&#39;&#39;&#39;INSERT INTO </span><span class="si">%s</span><span class="s"> VALUES (</span><span class="si">%s</span><span class="s">)&#39;&#39;&#39;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">tablename</span><span class="p">,</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;?&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]])),</span><span class="n">items</span><span class="p">)</span></div>
@@ -262,6 +260,15 @@
                                       <span class="n">db</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>        
         </div>
+<div class="viewcode-block" id="SQLDatabase.getTables"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.getTables">[docs]</a>    <span class="k">def</span> <span class="nf">getTables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SHOW TABLES&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span>        
+        </div>
+<div class="viewcode-block" id="SQLDatabase.getColumns"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.getColumns">[docs]</a>    <span class="k">def</span> <span class="nf">getColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Return column information for a given table. &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SHOW COLUMNS FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>          
+        </div>
 <div class="viewcode-block" id="SQLDatabase.query"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">):</span>
         <span class="c"># Execute a MySQL query.</span>
         <span class="k">try</span><span class="p">:</span>
@@ -294,6 +301,10 @@
         <span class="sd">&#39;&#39;&#39; Return column information for a given table. &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;PRAGMA table_info(</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="SQLiteDatabase.getTables"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.getTables">[docs]</a>    <span class="k">def</span> <span class="nf">getTables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT name FROM sqlite_master WHERE type=&#39;table&#39;;&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span>   
 </div>
 <div class="viewcode-block" id="SQLiteDatabase.query"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">q</span><span class="p">):</span>
         <span class="c"># Execute an sqlite query.</span>
@@ -341,12 +352,12 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Alex Safatli.
+        &copy; Copyright 2015, Alex Safatli.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
