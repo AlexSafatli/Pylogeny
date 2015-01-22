@@ -25,6 +25,9 @@ class treeStructure(Container):
     
     def __contains__(self,x):
         
+        ''' Determines whether a node is found in the tree
+        structure. '''
+        
         for node in self.getPostOrderTraversal():
             if node == x: return True
         return False

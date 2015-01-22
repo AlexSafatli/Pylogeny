@@ -1,9 +1,10 @@
-''' C Extension to wrap libpll library. '''
+''' Wrap C extension for libpll library for use in natural Python. '''
 
 # Date:   Feb 2014
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
+import alignment, rearrangement
 from libpllWrapper import *
 from tempfile import NamedTemporaryFile as NTempFile
 import os
@@ -12,11 +13,22 @@ class dataModel:
     
     ''' Encapsulating a phylogenetic tree (as topology) + corresponding alignment
     into a libpll-associated data structure. Allows for log-likelihood
-    scoring of this model. MUST BE CLOSED AFTER USE. '''
+    scoring of this model. **MUST BE CLOSED AFTER USE.** '''
 
     def __init__(self,topo,alignm,model=None):
 
-        ''' Initialize all structures. '''
+        ''' Initialize the data model and respective structures. 
+        
+        :param topo: A topology object.
+        :type topo: :class: `rearrangement.topology`
+        :param alignm: A phylipFriendlyAlignment object.
+        :type alignm: :class: `alignment.phylipFriendlyAlignment`
+        
+        '''
+        
+        # Ensure that given alignment object is of correct type.
+        if type(alignm) != alignment.phylipFriendlyAlignment:
+            raise TypeError('Data model for libpll likelihood scoring needs phylipFriendlyAlignment.')
         
         # Declarations
         isProtein = (alignm.data.dataType == 'protein')
@@ -45,10 +57,9 @@ class dataModel:
 
     def close(self):
 
-        ''' If done with this particular problem. '''
+        ''' If done with this particular problem. Frees associated memory. '''
         
         destroy(self.instance)
-  
 
 class partitionModel:
     

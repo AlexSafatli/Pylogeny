@@ -1,10 +1,10 @@
-''' Phylogenetic tree scoring. '''
+''' Functions for phylogenetic tree goodness-of-fit scoring. '''
 
 # Date:   Jan 29 2014
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-import pll, parsimony, fitch, p4
+import pll, parsimony, fitch, p4, tree, rearrangement, alignment
 try:
     from model import DiscreteStateModel as State
     from pytbeaglehon.disc_state_cont_time_model import HKY85Model
@@ -18,8 +18,15 @@ def beaglegetLogLikelihood(tree,alignment):
     
     ''' Acquire log-likelihood via C++ library
     BEAGLE via use of pybeaglethon wrapper library.
-    Parameters: newick.tree object and alignment
-    object. Currently uses HKY85 model. '''
+    Currently uses HKY85 model. 
+    
+    :param tree: A tree object.
+    :type tree: :class: `tree.tree`
+    :param alignment: An alignment object.
+    :type alignment: :class: `alignment.alignment`
+    :returns: A floating point value.
+    
+    '''
     
     # Construct appropriate BEAGLE instance.
     if (alignment.getDim() == 4):
@@ -33,9 +40,15 @@ def beaglegetLogLikelihood(tree,alignment):
 
 def getLogLikelihoodForTopology(topo,alignment):
     
-    ''' Acquire log-likelihood via C library libpll.
-    Parameters: rearrangement.topology object and alignment
-    object. '''
+    ''' Acquire log-likelihood via C library libpll. 
+    
+    :param topo: A topology object.
+    :type topo: :class: `rearrangement.topology`
+    :param alignment: An alignment object.
+    :type alignment: :class: `alignment.phylipFriendlyAlignment`
+    :returns: A floating point value.
+    
+    '''
 
     # Acquire a data model for libpll.
     try: p = pll.dataModel(topo,alignment)
@@ -52,9 +65,15 @@ def getLogLikelihoodForTopology(topo,alignment):
 
 def getLogLikelihood(tree,alignment):
     
-    ''' Acquire log-likelihood via C library libpll.
-    Parameters: newick.tree object and alignment
-    object. '''
+    ''' Acquire log-likelihood via C library libpll. 
+
+    :param tree: A tree object.
+    :type tree: :class: `tree.tree`
+    :param alignment: An alignment object.
+    :type alignment: :class: `alignment.phylipFriendlyAlignment`
+    :returns: A floating point value.    
+    
+    '''
 
     return getLogLikelihoodForTopology(
         tree.toTopology(),alignment)
@@ -78,16 +97,28 @@ def _pygetParsimony(topology,alignment):
 def getParsimony(newick,alignment):
     
     ''' Acquire parsimony via a C++ implementation.
-    Parameters: newick string and alignment object. '''    
+    
+    :param newick: A New Hampshire (Newick) tree string.
+    :param alignment: An alignment object.
+    :type alignment: :class: `alignment.alignment`
+    :returns: An integer value.
+    
+    '''    
     
     profiles = parsimony.profile_set(alignment)
     return getParsimonyFromProfiles(newick,profiles)
 
-def getParsimonyForTopology(topology,alignment):
+def getParsimonyForTopology(topo,alignment):
     
     ''' Acquire parsimony via a C++ implementation.
-    Parameters: rearrangement.topology and 
-    alignment object. '''    
+    
+    :param topo: A topology object.
+    :type topo: :class: `rearrangement.topology`
+    :param alignment: An alignment object.
+    :type alignment: :class: `alignment.alignment`
+    :returns: An integer value.
+    
+    '''    
     
     profiles = parsimony.profile_set(alignment)
     return getParsimonyFromProfiles(
@@ -96,8 +127,13 @@ def getParsimonyForTopology(topology,alignment):
 def getParsimonyFromProfiles(newick,profiles):
     
     ''' Acquire parsimony via a C++ implementation.
-    Parameters: newick string and parsimony.profile_set 
-    object. '''        
+    
+    :param newick: A New Hampshire (Newick) tree string.
+    :param profiles: A set of profiles corresponding to an alignment.
+    :type profiles: :class: `parsimony.profile_set`
+    :returns: An integer value.    
+
+    '''        
     
     prolist = [str(x) for x in profiles.profiles]
     weilist = profiles.weights
@@ -107,8 +143,14 @@ def getParsimonyFromProfiles(newick,profiles):
 def getParsimonyFromProfilesForTopology(topology,profiles):
     
     ''' Acquire parsimony via a C++ implementation.
-    Parameters: rearrangement.topology and parsimony.profile_set 
-    object. '''        
+    
+    :param topo: A topology object.
+    :type topo: :class: `rearrangement.topology`
+    :param profiles: A set of profiles corresponding to an alignment.
+    :type profiles: :class: `parsimony.profile_set`
+    :returns: An integer value.
+    
+    '''        
     
     prolist = [str(x) for x in profiles.profiles]
     weilist = profiles.weights

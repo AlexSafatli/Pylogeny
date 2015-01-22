@@ -46,7 +46,7 @@ class alignment(object):
     # Internals
 
     def __getitem__(self,i): return self.data.sequences[i]
-    def __str__(self):       return str(self.data) # toString
+    def __str__(self):       return str(self.data)
     def __len__(self):       return len(self.data)
     
     def __iter__(self):
@@ -79,8 +79,7 @@ class alignment(object):
         
         ''' Get all sequences as a list of strings. '''
         
-        return [self.getSequence(i) for i in xrange(
-            self.getNumSeqs())]
+        return [self.getSequence(i) for i in xrange(self.getNumSeqs())]
     
     def getStateModel(self): return self.model
     
@@ -126,8 +125,7 @@ class alignment(object):
         an approximation of the maximum likelihood tree for this data. '''
         
         ft = fasttree(
-            self.getFASTA(),isProtein=(
-                self.data.dataType=='protein'))
+            self.getFASTA(),isProtein=(self.data.dataType=='protein'))
         return ft.run()
     
     def getApproxMLTree(self):
@@ -136,6 +134,12 @@ class alignment(object):
         tree for this data using FastTree. '''
         
         return tree.tree(self.getApproxMLNewick(),check=True)
+
+    def getFastTreeNewick(self):
+        
+        ''' Alias for the "getApproxMLNewick()" function. '''
+        
+        return self.getApproxMLNewick()
 
     def getTaxa(self):
         
@@ -161,7 +165,7 @@ class alignment(object):
 class phylipFriendlyAlignment(alignment):
     
     ''' An alignment object that renames all comprising taxa in order
-    to be able to be written as a Phylip file. '''
+    to be able to be written as a strict Phylip file. '''
     
     def __init__(self,inal=None):
         
