@@ -5,4 +5,4 @@ epydoc --pdf --name Pylogeny --url "http://AlexSafatli.github.io/Pylogeny" --gra
 find ../docs/ -type f -not -name api.pdf -not -name makedoc.sh -delete
 cd .. ; sphinx-apidoc -F -e -H Pylogeny -A "Alex Safatli" -V $version -R $version -o docs pylogeny ; cd - ; rm *.pyc
 cd ../docs/ ; make html ; cp -r _build/html/* $1 ; find ../docs/ -type f -not -name api.pdf -not -name makedoc.sh -delete ; cd -
-cd $1 ; git add * ; git commit -m "Version $1 documentation uploaded."; git push origin gh-pages ; cd -
+cd $1 ; git add * ; git commit -m "Version $version documentation uploaded."; git push origin gh-pages ; cd -
