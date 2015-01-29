@@ -38,31 +38,6 @@ def beaglegetLogLikelihood(tree,alignment):
     scorer = Scorer(model_list=[model],data=states,tree=T(newi))
     return scorer()
 
-def getLogLikelihoodForTopology(topo,alignment):
-    
-    ''' Acquire log-likelihood via C library libpll. 
-    
-    :param topo: A topology object.
-    :type topo: :class: `rearrangement.topology`
-    :param alignment: An alignment object.
-    :type alignment: :class: `alignment.phylipFriendlyAlignment`
-    :returns: A floating point value.
-    
-    '''
-
-    # Acquire a data model for libpll.
-    try: p = pll.dataModel(topo,alignment)
-    except: return None
-    
-    # Try and acquire the actual log-likelihood.
-    try: sc = p.getLogLikelihood()
-    except:
-        p.close()
-        return None
-
-    p.close()
-    return sc
-
 def getLogLikelihood(tree,alignment):
     
     ''' Acquire log-likelihood via C library libpll. 
@@ -75,8 +50,24 @@ def getLogLikelihood(tree,alignment):
     
     '''
 
-    return getLogLikelihoodForTopology(
-        tree.toTopology(),alignment)
+    topo = tree.toTopology()
+    
+    # Acquire a data model for libpll.
+    try: p = pll.dataModel(topo,alignment)
+    except: return None
+
+    # Try and acquire the actual log-likelihood.
+    try: sc = p.getLogLikelihood()
+    except:
+        p.close()
+        return None
+    
+    # Update the tree's Newick string based on new branch lengths.
+    tree.setNewick(p.getNewickString().strip())
+    
+    # Close instance and return.
+    p.close()
+    return sc    
 
 def _pygetParsimonyFromProfiles(topology,profiles):
     

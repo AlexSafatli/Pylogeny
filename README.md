@@ -47,7 +47,7 @@ Dependencies
  * Pandas
  * MySQLdb for Python
  * P4 Phylogenetic Library
- * libpll Phylogenetic Likelihood Library
+ * libpll Phylogenetic Likelihood Library (currently compiled with ver. 1.0.0 with SSE3)
 
 Works With
 -------------

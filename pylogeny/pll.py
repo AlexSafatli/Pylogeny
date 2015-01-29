@@ -7,7 +7,8 @@
 import alignment, rearrangement
 from libpllWrapper import *
 from tempfile import NamedTemporaryFile as NTempFile
-import os
+from cStringIO import StringIO
+import os, sys
 
 class dataModel:
     
@@ -49,10 +50,16 @@ class dataModel:
                              topo.toUnrootedNewick(),
                              modf)
         
+    def getNewickString(self):
+        
+        ''' Acquire the Newick string of the problem instance. '''
+        
+        return getNewickString(self.instance)
+        
     def getLogLikelihood(self):
         
         ''' Calculates log-likelihood using libpll. '''
-        
+       
         return getLogLikelihood(self.instance)
 
     def close(self):

@@ -122,7 +122,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         newick.removeBranchLengths(p)
         return str(p) + ';'  
     
-class treeSet(base.Sized):
+class treeSet(base.Sized,base.Iterable):
     
     ''' Represents an ordered, disorganized collection of trees 
     that do not necessarily comprise a combinatorial space. '''
@@ -160,7 +160,18 @@ class treeSet(base.Sized):
         else: return -1
     
     def __getitem__(self,i): return self.trees[i]
+    def __setitem__(self,i,o): self.trees[i] = o
     def __len__(self): return len(self.trees)
+    
+    def __iter__(self):
+        
+        for t in self.trees: yield t
+    
+    def iterTrees(self):
+        
+        ''' Iterate over all trees found in this set. '''
+        
+        for t in self: yield t    
     
     def toTreeFile(self,fout):
         
@@ -171,6 +182,20 @@ class treeSet(base.Sized):
         o.write(str(self))
         o.close()
         return fout
+    
+    @staticmethod
+    def fromTreeFile(fin):
+        
+        ''' Acquire a file where newlines separate Newick strings, and create
+        an instance of treeSet from those trees. '''
+        
+        t = treeSet()
+        o = open(fin,'r')
+        for line in o.readlines():
+            newickString = line.strip()
+            t.addTreeByNewick(newickString)
+        o.close()
+        return t
         
     def __str__(self):
         return '\n'.join([t.getNewick() for t in self.trees])

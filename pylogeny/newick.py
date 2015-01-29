@@ -4,7 +4,6 @@
 # Author: Alex Safatli
 # E-mail: safatli@cs.dal.ca
 
-from rearrangement import topology
 from random import shuffle
 from math import factorial as fact
 import base

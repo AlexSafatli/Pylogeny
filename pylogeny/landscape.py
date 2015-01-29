@@ -163,7 +163,7 @@ class graph(object):
 
 # Landscape: Subclass of Graph, TreeSet Objects
 
-class landscape(graph,treeSet,base.Iterable):
+class landscape(graph,treeSet):
     
     ''' Defines an entire phylogenetic tree space. '''
     
@@ -316,12 +316,6 @@ class landscape(graph,treeSet,base.Iterable):
         
         if not i in self.graph.node: return None
         return self.getNode(i)['tree']
-
-    def iterTrees(self):
-        
-        ''' Iterate over all trees found in this landscape. '''
-        
-        for t in self: yield t
     
     def __iter__(self):
         
@@ -822,7 +816,7 @@ class vertex(object):
         
         return self.ls.getBestImprovement(self.id)
     
-    def getPathOfBestImprovement(self):    
+    def getPathOfBestImprovement(self):
     
         ''' Alias function for function of same name in parent
         landscape. '''

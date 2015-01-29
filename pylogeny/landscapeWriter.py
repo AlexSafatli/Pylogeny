@@ -75,7 +75,7 @@ class landscapeWriter(object):
             t = self.landscape.getTree(i)
             o.insertRecord('trees',[int(i),t.getNewick(),t.getOrigin(
                 ),t.getScore()[0],t.getScore()[1],
-                self.landscape.getVertex(i).isExplored()])
+                self.landscape.getNode(i)['explored']])
         
         # Add the graph in its entirety as its adjacency list.
         adj_list = self.graph.edges_iter()
@@ -176,8 +176,7 @@ class landscapeParser(object):
 
         # Get database object.
         fpath = self.file
-        if not os.path.isfile(fpath):
-            raise IOError('Landscape file not found.')
+        if not os.path.isfile(fpath): raise IOError('Landscape file not found.')
         o = SQLiteDatabase(fpath)
         self.database = o
         

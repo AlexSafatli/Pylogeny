@@ -8,7 +8,7 @@ phylogenetic tree space. '''
 
 import os
 from shutil import rmtree as removeFolder
-from scoring import getLogLikelihoodForTopology as ll
+from scoring import getLogLikelihood as ll
 from executable import raxml
 from tree import tree
 
@@ -118,7 +118,7 @@ class likelihoodGreedy(phylogeneticLinearHeuristic):
             nodes = landscape.getNeighborsFor(cursor['index'])
             nodes = [landscape.getNode(x) for x in nodes]
             nodes = [it for it in nodes if not it in self.path]
-            map(lambda d: landscape.getVertex(d).scoreLikelihood(),nodes)
+            map(lambda d: landscape.getVertex(d['index']).scoreLikelihood(),nodes)
             nodes = sorted(nodes,key=lambda d: d['tree'].score[0])
             
             # Get best likelihood tree.
@@ -179,7 +179,7 @@ class smoothGreedy(phylogeneticLinearHeuristic):
             # Get likelihood of current tree if necessary.
             cL = cursor['tree'].score[0]
             if (cL == None):
-                cL = ll(cursor['tree'].toTopology(),ali)
+                cL = ll(cursor['tree'],ali)
                 cursor['tree'].score = (cL,cPars)            
             
             # Set new current tree if greater in parsimony.
@@ -191,7 +191,7 @@ class smoothGreedy(phylogeneticLinearHeuristic):
                 for node in nodes[:numtodo]:                
                     # Get log-likelihood of this neighbor.
                     if (node['tree'].score[0] == None):
-                        ml = ll(node['tree'].toTopology(),ali)
+                        ml = ll(node['tree'],ali)
                         node['tree'].score = (ml,node['tree'].score[1])
                     else: ml = node['tree'].score[0]
                     if (cL < ml):

@@ -23,7 +23,7 @@ PLLC    = os.path.join('pylogeny','libpllWrapper.c')
 
 # Compilation for C/C++ Extensions (Fitch, Pylibpll)
 
-pllExtension    = extension('libpllWrapper',sources=[PLLC],include_dirs=['/usr/local/include'],libraries=['pll-generic'],library_dirs=['/usr/local/lib'])
+pllExtension    = extension('libpllWrapper',sources=[PLLC],include_dirs=['/usr/local/include'],libraries=['pll-sse3'],library_dirs=['/usr/local/lib'])
 fitchExtension = extension('fitch',sources=[FITCHCC],include_dirs=['/usr/local/include'],language="c++",extra_compile_args=['-std=c++11'])
 
 # Setup
