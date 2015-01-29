@@ -1,10 +1,7 @@
-/* libpllWrapper.c
-   Date: Jan 31, 2014
-   Author: Alex E. Safatli
-----------------------------------
-   Uncomprehensive bindings with libpll - phylogenetic functions
-   intended for tree scoring and rearrangement. Designed for libpll 1.0.0
-*/
+/* libpllWrapper.c / Date: Jan 31, 2014 /Author: Alex E. Safatli
+----------------------------------------------------------------------
+Uncomprehensive bindings with libpll - phylogenetic functions 
+intended for tree scoring and rearrangement. Designed for libpll 1.0.0 */
 
 #include <pll/pll.h>
 #include <Python.h>
@@ -23,6 +20,7 @@ typedef struct {
 
 /* Function Prototypes */
 
+static void makeRearrangementList(problem_t *problem);
 static PyObject * phylo_rearr_to_pylist(problem_t * probl);
 static PyObject * phylo_init(PyObject *self, PyObject *args);
 static PyObject * phylo_del(PyObject *self, PyObject *args);
@@ -30,14 +28,14 @@ static PyObject * phylo_getml(PyObject *self, PyObject *args);
 static PyObject * phylo_getspr_withindist(PyObject *self, PyObject *args);
 static PyObject * phylo_getnni_withindist(PyObject *self, PyObject *args);
 static PyObject * phylo_getall_withindist(PyObject *self, PyObject *args);
-PyMODINIT_FUNC initlibpllWrapper(void);
-int main(int argc, char *argv[]);
+PyMODINIT_FUNC initlibpllWrapper(void); int main(int argc, char *argv[]);
 
 /* Python Object Wrapping */
 
 static PyObject * phylo_rearr_to_pylist(problem_t * probl) {
 
    pllRearrangeList *rlist; PyObject *list; int i;
+   if (!probl->arrangelist) makeRearrangementList(probl);
    rlist = probl->arrangelist;
    list  = PyList_New(rlist->entries);
 
@@ -81,6 +79,18 @@ static PyObject * phylo_rearr_to_pylist(problem_t * probl) {
 
 }
 
+/* Helper Functions */
+
+static void makeRearrangementList(problem_t *problem) {
+
+   /* Setup rearrangement list. Maximum number of rearrangements
+   will be the maximum number of SPR neighbors: 4(n-3)(n-2) + (n-1). */
+   
+   int n = problem->instance->mxtips, max = 4 * (n-3) * (n-2) + (n-1);
+   problem->arrangelist = pllCreateRearrangeList(max);
+   
+}
+
 /* Component Functions */
 
 static PyObject * phylo_init(PyObject *self, PyObject *args) {
@@ -93,14 +103,14 @@ static PyObject * phylo_init(PyObject *self, PyObject *args) {
 
    // Parse arguments.
    if (!PyArg_ParseTuple(args,"sss",&alignf,&newick,&partf)) {
-      PyErr_SetString(PyExc_IOError,"Could not acquire correct input.");
+      PyErr_SetString(PyExc_IOError,"Need alignment file, newick string, partition file as strings.");
       return NULL;
    }
 
    // Allocate memory appropriately from heap.
    problem = (problem_t*)malloc(sizeof(problem_t));
    if (!problem) {
-      PyErr_SetString(PyExc_ReferenceError,"Memory allocation failure.");
+      PyErr_SetString(PyExc_ReferenceError,"Memory allocation failure for problem type.");
       return NULL;
    }
 
@@ -108,7 +118,7 @@ static PyObject * phylo_init(PyObject *self, PyObject *args) {
    pllInstanceAttr *attr  = problem->attribs
       = (pllInstanceAttr*)malloc(sizeof(pllInstanceAttr));
    if (!problem->attribs) {
-      PyErr_SetString(PyExc_ReferenceError,"Memory allocation failure.");
+      PyErr_SetString(PyExc_ReferenceError,"Memory allocation failure for instance attributes.");
       return NULL;
    }
       
@@ -148,10 +158,8 @@ static PyObject * phylo_init(PyObject *self, PyObject *args) {
    pllInitModel(inst,problem->partitions,ali);
    pllQueuePartitionsDestroy(&partinfo);
 
-   /* Setup rearrangement list. Maximum number of rearrangements
-      will be the maximum number of SPR neighbors: 4(n-3)(n-2) + (n-1). */
-   int n = inst->mxtips, max = 4 * (n-3) * (n-2) + (n-1);
-   problem->arrangelist = pllCreateRearrangeList(max);
+   /* Setup rearrangement list as NULL. */
+   problem->arrangelist = NULL;
 
    // Tell libpll to optimize length of new branch created by moves.
    inst->thoroughInsertion = PLL_TRUE;
@@ -171,7 +179,7 @@ static PyObject * phylo_del(PyObject *self, PyObject *args) {
    } pp = (problem_t*)PyCObject_AsVoidPtr(p);
 
    // Deallocate everything. Not incl. the universe.
-   pllDestroyRearrangeList(&(pp->arrangelist));
+   if (pp->arrangelist) pllDestroyRearrangeList(&(pp->arrangelist));
    pllAlignmentDataDestroy(pp->alignment);
    pllNewickParseDestroy(&(pp->tree));
    pllPartitionsDestroy(pp->instance,&(pp->partitions));
@@ -205,6 +213,30 @@ static PyObject * phylo_getml(PyObject *self, PyObject *args) {
 
 }
 
+static PyObject * phylo_getnewick(PyObject *self, PyObject *args) {
+   
+   // Get pointer.
+   PyObject *p; problem_t *pp;
+   if (!PyArg_ParseTuple(args,"O",&p) || !PyCObject_Check(p)) {
+      PyErr_SetString(PyExc_ReferenceError,"Could not parse pointer.");
+      return NULL;
+   } pp = (problem_t*)PyCObject_AsVoidPtr(p);
+   
+   // Get the tree string.
+   Tree2String(pp->instance->tree_string,pp->instance,
+               pp->partitions,pp->instance->start->back,
+               PLL_TRUE,PLL_TRUE,0,0,0,PLL_SUMMARIZE_LH,0,0);
+   char *rnewick = pp->instance->tree_string;
+   
+   // Return it.
+   if (rnewick) return Py_BuildValue("s",rnewick);
+   else {
+      PyErr_SetString(PyExc_IOError,"Unable to acquire Newick string for tree.");    
+      return NULL;         
+   }
+   
+}
+
 static PyObject * phylo_getspr_withindist(PyObject *self, PyObject *args) {
 
    // Get pointer, radius to go to.
@@ -214,6 +246,7 @@ static PyObject * phylo_getspr_withindist(PyObject *self, PyObject *args) {
       return NULL;
    } pp = (problem_t*)PyCObject_AsVoidPtr(p);
 
+   if (!pp->arrangelist) makeRearrangementList(pp);
    int n = pp->instance->mxtips, i;
 
    for (i = 1; i <= n+1; i++) {
@@ -235,6 +268,7 @@ static PyObject * phylo_getnni_withindist(PyObject *self, PyObject *args) {
       return NULL;
    } pp = (problem_t*)PyCObject_AsVoidPtr(p);
 
+   if (!pp->arrangelist) makeRearrangementList(pp);
    int n = pp->instance->mxtips, i;
 
    for (i = 1; i <= n+1; i++) {
@@ -256,6 +290,7 @@ static PyObject * phylo_getall_withindist(PyObject *self, PyObject *args) {
       return NULL;
    } pp = (problem_t*)PyCObject_AsVoidPtr(p);
 
+   if (!pp->arrangelist) makeRearrangementList(pp);
    int n = pp->instance->mxtips, i;
 
    /*
@@ -297,6 +332,8 @@ static PyMethodDef modulemethods[] = {
    "Get all NNI moves within a maximum distance from a leaf of current given tree instance."},
    {"getAllMovesInDistance", phylo_getall_withindist, METH_VARARGS,
    "Get all moves within a maximum distance from a leaf of current given tree instance."},
+   {"getNewickString", phylo_getnewick, METH_VARARGS,
+   "Get the Newick string for the current initialized problem."},
    {NULL, NULL, 0, NULL}
 };
 

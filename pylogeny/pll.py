@@ -82,11 +82,11 @@ class partitionModel:
         ''' Get the file name of the model file. '''
         return self.handle.name
     
-    def createSimpleModel(self,protein):
+    def createSimpleModel(self,protein,pmodel='WAG'):
         
         ''' Establish a simple model (e.g., one type). '''
         
-        if protein: simplemodel = "WAG, p1 = 1-%d\n" % (self.length)
+        if protein: simplemodel = "%s, p1 = 1-%d\n" % (pmodel,self.length)
         else:       simplemodel = "DNA, p1 = 1-%d\n" % (self.length)
         self.handle.write(simplemodel)
         self.handle.close()
