@@ -396,7 +396,7 @@ class landscape(graph,treeSet):
                 inlandscape = self.findTreeTopologyByStructure(stt)
                 if (inlandscape != None):
                     # Is in landscape; has connection to tree?
-                    if not (inlandscape == i): 
+                    if (inlandscape != i and self.graph.has_node(inlandscape)): 
                         if not self.graph.has_edge(inlandscape,i):
                             self.graph.add_edge(inlandscape,i)
                             self.getEdge(inlandscape,i)['weight'] = self.defaultWeight
@@ -462,7 +462,7 @@ class landscape(graph,treeSet):
             inlandscape = self.findTreeTopologyByStructure(stt)
             if (inlandscape != None):
                 # Is in landscape; has connection to tree?
-                if not (inlandscape == i): 
+                if (inlandscape != i and self.graph.has_node(inlandscape)): 
                     if not self.graph.has_edge(inlandscape,i):
                         self.graph.add_edge(inlandscape,i)
                         self.getEdge(inlandscape,i)['weight'] = self.defaultWeight

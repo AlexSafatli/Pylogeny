@@ -25,6 +25,7 @@ static PyObject * phylo_rearr_to_pylist(problem_t * probl);
 static PyObject * phylo_init(PyObject *self, PyObject *args);
 static PyObject * phylo_del(PyObject *self, PyObject *args);
 static PyObject * phylo_getml(PyObject *self, PyObject *args);
+static PyObject * phylo_getnewick(PyObject *self, PyObject *args);
 static PyObject * phylo_getspr_withindist(PyObject *self, PyObject *args);
 static PyObject * phylo_getnni_withindist(PyObject *self, PyObject *args);
 static PyObject * phylo_getall_withindist(PyObject *self, PyObject *args);

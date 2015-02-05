@@ -1,4 +1,4 @@
-''' Defines an interface to manage interfacing with the system for respective application calls and implements multiple of these for executables such as FastTree and RAxML. Requires a UNIX environment. '''
+''' Defines an interface to manage interfacing with the system for respective application calls and implements some of these for executables such as FastTree and RAxML. Currently requires a UNIX-like environment (e.g., Mac OS X or a Linux-based environment). '''
 
 # Date:   Oct 16 2014
 # Author: Alex Safatli
@@ -6,7 +6,7 @@
 
 import tree
 from abc import ABCMeta as abstractclass, abstractmethod
-from os import mkdir, getcwd, chdir
+from os import mkdir, getcwd, chdir, name as os_name
 from os.path import abspath, isdir, isfile
 from subprocess import call, PIPE, Popen as system
 
@@ -15,6 +15,7 @@ from subprocess import call, PIPE, Popen as system
 E_FASTTREE = 'fasttree'
 E_RAXML    = 'raxmlHPC'
 E_TREEPUZZ = 'puzzle'
+L_TEMPDIR  = 'pylogeny'
 
 # Executable Existence Function
 
@@ -22,7 +23,7 @@ def exeExists(cmd):
     
     ''' Determines whether a function exists in a UNIX environment. '''
     
-    return call('type %s'%(cmd),shell=True,stdout=PIPE,stderr=PIPE) == 0
+    return call('type %s' % (cmd),shell=True,stdout=PIPE,stderr=PIPE) == 0
 
 # Temporary Directory Context
 
@@ -33,7 +34,7 @@ class aTemporaryDirectory(object):
     
     def __init__(self,dir=None):
         
-        self.path = '/tmp' + dir
+        self.path = '/tmp/' + dir + '/'
         if not isdir(self.path): mkdir(self.path)
         self.current = getcwd()
         
@@ -56,10 +57,15 @@ class executable(object):
         
         ''' Perform a run of this application. '''
         
-        if (self.exeName and not exeExists(self.exeName)):
-            raise SystemError('%s is not installed on your system.'%(self.exeName))
-        sproc = system(self.getInstructionString(),
-                       stdout=PIPE,stderr=PIPE,shell=True)
+        if (os_name != 'posix'):
+            import platform
+            pf = platform.system()
+            raise SystemError('Using an executable application requires a UNIX-like environment. ' + 
+                              'You are currently using platform %s, which does not appear to possess ' % (pf) +
+                              'the ability to run a binary in a shell.')
+        elif (self.exeName and not exeExists(self.exeName)):
+            raise SystemError('%s is not installed on your system.' % (self.exeName))
+        sproc = system(self.getInstructionString(),stdout=PIPE,stderr=PIPE,shell=True)
         return sproc.communicate()[0]
 
 # Executable Classes
@@ -149,9 +155,9 @@ class consel(executable):
         
         ''' Compute the AU test. Return the interval of trees. '''
         
-        with aTemporaryDirectory('/consel__py/'):
+        with aTemporaryDirectory(L_TEMPDIR):
             if not isfile('%s.trees.sitelh' % (self.name)):
-                self.treefile = self.treeset.toTreeFile(self.name + '.trees',False)
+                self.treefile = self.treeset.toTreeFile(self.name + '.trees')
                 self.treepuzz = treepuzzle(self.alignment,self.treefile)
                 self.sitelh   = self.treepuzz.getSiteLikelihoodFile()
             else: self.sitelh = '%s.trees.sitelh' % (self.name)

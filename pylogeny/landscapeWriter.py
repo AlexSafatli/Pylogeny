@@ -73,9 +73,15 @@ class landscapeWriter(object):
         # Add all of the trees.
         for i in self.landscape.iterNodes():
             t = self.landscape.getTree(i)
-            o.insertRecord('trees',[int(i),t.getNewick(),t.getOrigin(
-                ),t.getScore()[0],t.getScore()[1],
-                self.landscape.getNode(i)['explored']])
+            find = self.landscape.findTreeTopologyByStructure(t.getStructure())
+            if (find == i):
+                # Verify identity of this tree.
+                o.insertRecord('trees',[int(i),t.getNewick(),t.getOrigin(
+                    ),t.getScore()[0],t.getScore()[1],
+                    self.landscape.getNode(i)['explored']])
+            else:
+                print 'Warning: Tree %s found to have identical identity with %s.' % (
+                    str(find),str(i))
         
         # Add the graph in its entirety as its adjacency list.
         adj_list = self.graph.edges_iter()

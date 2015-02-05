@@ -44,7 +44,7 @@ class treeStructure(Container):
         if root.isLeaf(): return [root]
         li = list()
         for branch in root.getChildren():
-            li.extend(treeStructure.leaves(branch.child))
+            li.extend(treeStructure.leaves(branch.getChild()))
         return li        
         
     def getAllLeaves(self): 
@@ -57,7 +57,7 @@ class treeStructure(Container):
         li = list()
         li.append(root)
         for branch in root.getChildren():
-            li.extend(treeStructure.nodes(branch.child))
+            li.extend(treeStructure.nodes(branch.getChild()))
         return li    
     
     def getAllNodes(self):
