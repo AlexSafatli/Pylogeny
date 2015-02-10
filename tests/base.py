@@ -1,8 +1,8 @@
-from Odin.newick import shuffleLeaves, newickParser
-from Odin.tree import tree as treeObject
-from Odin.alignment import phylipFriendlyAlignment as alignment
-from Odin.landscape import landscape
-from Odin.landscapeWriter import landscapeWriter, landscapeParser
+from pylogeny.newick import shuffleLeaves, newickParser
+from pylogeny.tree import tree as treeObject
+from pylogeny.alignment import phylipFriendlyAlignment as alignment
+from pylogeny.landscape import landscape
+from pylogeny.landscapeWriter import landscapeWriter, landscapeParser
 from unittest import TestLoader as loader, TestCase as testCase, TextTestRunner as tests
 from os.path import isfile
 from os import unlink

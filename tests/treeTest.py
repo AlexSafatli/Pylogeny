@@ -1,7 +1,7 @@
 from unittest import TestLoader as loader, TestCase as testCase, TextTestRunner as tests
 from os.path import isfile
-from Odin.tree import tree, treeSet
-from Odin.alignment import alignment
+from pylogeny.tree import tree, treeSet
+from pylogeny.alignment import alignment
 
 class treeTest(testCase):
 
