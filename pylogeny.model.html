@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.model module &mdash; Pylogeny 0.3.6.9 documentation</title>
+    <title>pylogeny.model module &mdash; Pylogeny 0.3.8.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.6.9',
+        VERSION:     '0.3.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.9 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.newick module" href="pylogeny.newick.html" />
     <link rel="prev" title="pylogeny.landscapeWriter module" href="pylogeny.landscapeWriter.html" /> 
@@ -36,15 +36,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pylogeny.newick.html" title="pylogeny.newick module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="pylogeny.landscapeWriter.html" title="pylogeny.landscapeWriter module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -54,74 +51,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-pylogeny.model">
-<span id="pylogeny-model-module"></span><h1>pylogeny.model module<a class="headerlink" href="#module-pylogeny.model" title="Permalink to this headline">¶</a></h1>
-<p>Phylogenetic tree scoring models; intended to be coupled with the use of pytbeaglehon (BEAGLE) high-performance library.</p>
-<dl class="class">
-<dt id="pylogeny.model.DiscreteStateModel">
-<em class="property">class </em><tt class="descclassname">pylogeny.model.</tt><tt class="descname">DiscreteStateModel</tt><big>(</big><em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>Initialize a discrete state model 
-for phylogenetic data. State frequencies and character
-time are determined from the given alignment object.</p>
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getAlignment">
-<tt class="descname">getAlignment</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getAlignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getAlignment" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getAlignmentAsStateList">
-<tt class="descname">getAlignmentAsStateList</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getAlignmentAsStateList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getAlignmentAsStateList" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getCharType">
-<tt class="descname">getCharType</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getCharType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getCharType" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getFrequencyOfState">
-<tt class="descname">getFrequencyOfState</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getFrequencyOfState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getFrequencyOfState" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getRawFrequencyOfState">
-<tt class="descname">getRawFrequencyOfState</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getRawFrequencyOfState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getRawFrequencyOfState" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getRawStateFreqs">
-<tt class="descname">getRawStateFreqs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getRawStateFreqs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getRawStateFreqs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getRawStateFreqsAsDict">
-<tt class="descname">getRawStateFreqsAsDict</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getRawStateFreqsAsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getRawStateFreqsAsDict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getRawStateFreqsAsList">
-<tt class="descname">getRawStateFreqsAsList</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getRawStateFreqsAsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getRawStateFreqsAsList" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getSequenceMatrix">
-<tt class="descname">getSequenceMatrix</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getSequenceMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getSequenceMatrix" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.model.DiscreteStateModel.getStateFreqs">
-<tt class="descname">getStateFreqs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#DiscreteStateModel.getStateFreqs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.DiscreteStateModel.getStateFreqs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="exception">
-<dt id="pylogeny.model.PhyloModelError">
-<em class="property">exception </em><tt class="descclassname">pylogeny.model.</tt><tt class="descname">PhyloModelError</tt><big>(</big><em>v</em><big>)</big><a class="reference internal" href="_modules/pylogeny/model.html#PhyloModelError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.model.PhyloModelError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
-</dd></dl>
-
+  <div class="section" id="pylogeny-model-module">
+<h1>pylogeny.model module<a class="headerlink" href="#pylogeny-model-module" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -165,21 +96,18 @@ time are determined from the given alignment object.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pylogeny.newick.html" title="pylogeny.newick module"
              >next</a> |</li>
         <li class="right" >
           <a href="pylogeny.landscapeWriter.html" title="pylogeny.landscapeWriter module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015, Alex Safatli.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

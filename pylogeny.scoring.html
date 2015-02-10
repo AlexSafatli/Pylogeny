@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.scoring module &mdash; Pylogeny 0.3.6.9 documentation</title>
+    <title>pylogeny.scoring module &mdash; Pylogeny 0.3.8.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.6.9',
+        VERSION:     '0.3.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.9 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.tree module" href="pylogeny.tree.html" />
     <link rel="prev" title="pylogeny.rearrangement module" href="pylogeny.rearrangement.html" /> 
@@ -36,15 +36,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pylogeny.tree.html" title="pylogeny.tree module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="pylogeny.rearrangement.html" title="pylogeny.rearrangement module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -54,65 +51,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-pylogeny.scoring">
-<span id="pylogeny-scoring-module"></span><h1>pylogeny.scoring module<a class="headerlink" href="#module-pylogeny.scoring" title="Permalink to this headline">¶</a></h1>
-<p>Phylogenetic tree scoring.</p>
-<dl class="function">
-<dt id="pylogeny.scoring.beaglegetLogLikelihood">
-<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">beaglegetLogLikelihood</tt><big>(</big><em>tree</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#beaglegetLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.beaglegetLogLikelihood" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire log-likelihood via C++ library
-BEAGLE via use of pybeaglethon wrapper library.
-Parameters: newick.tree object and alignment
-object. Currently uses HKY85 model.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pylogeny.scoring.getLogLikelihood">
-<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getLogLikelihood</tt><big>(</big><em>tree</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getLogLikelihood" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire log-likelihood via C library libpll.
-Parameters: newick.tree object and alignment
-object.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pylogeny.scoring.getLogLikelihoodForTopology">
-<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getLogLikelihoodForTopology</tt><big>(</big><em>topo</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getLogLikelihoodForTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getLogLikelihoodForTopology" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire log-likelihood via C library libpll.
-Parameters: rearrangement.topology object and alignment
-object.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pylogeny.scoring.getParsimony">
-<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getParsimony</tt><big>(</big><em>newick</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getParsimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getParsimony" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire parsimony via a C++ implementation.
-Parameters: newick string and alignment object.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pylogeny.scoring.getParsimonyForTopology">
-<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getParsimonyForTopology</tt><big>(</big><em>topology</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getParsimonyForTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getParsimonyForTopology" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire parsimony via a C++ implementation.
-Parameters: rearrangement.topology and 
-alignment object.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pylogeny.scoring.getParsimonyFromProfiles">
-<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getParsimonyFromProfiles</tt><big>(</big><em>newick</em>, <em>profiles</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getParsimonyFromProfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getParsimonyFromProfiles" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire parsimony via a C++ implementation.
-Parameters: newick string and parsimony.profile_set 
-object.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pylogeny.scoring.getParsimonyFromProfilesForTopology">
-<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getParsimonyFromProfilesForTopology</tt><big>(</big><em>topology</em>, <em>profiles</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getParsimonyFromProfilesForTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getParsimonyFromProfilesForTopology" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire parsimony via a C++ implementation.
-Parameters: rearrangement.topology and parsimony.profile_set 
-object.</p>
-</dd></dl>
-
+  <div class="section" id="pylogeny-scoring-module">
+<h1>pylogeny.scoring module<a class="headerlink" href="#pylogeny-scoring-module" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -156,21 +96,18 @@ object.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pylogeny.tree.html" title="pylogeny.tree module"
              >next</a> |</li>
         <li class="right" >
           <a href="pylogeny.rearrangement.html" title="pylogeny.rearrangement module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015, Alex Safatli.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

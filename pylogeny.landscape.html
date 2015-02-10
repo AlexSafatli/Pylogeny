@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscape module &mdash; Pylogeny 0.3.6.9 documentation</title>
+    <title>pylogeny.landscape module &mdash; Pylogeny 0.3.8.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.6.9',
+        VERSION:     '0.3.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.9 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.landscapeWriter module" href="pylogeny.landscapeWriter.html" />
     <link rel="prev" title="pylogeny.heuristic module" href="pylogeny.heuristic.html" /> 
@@ -36,15 +36,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pylogeny.landscapeWriter.html" title="pylogeny.landscapeWriter module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="pylogeny.heuristic.html" title="pylogeny.heuristic module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -54,536 +51,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-pylogeny.landscape">
-<span id="pylogeny-landscape-module"></span><h1>pylogeny.landscape module<a class="headerlink" href="#module-pylogeny.landscape" title="Permalink to this headline">¶</a></h1>
-<p>Encapsulate a phylogenetic tree space. A phylogenetic landscape or tree space refers to the entire combinatorial space comprising all possible phylogenetic tree topologies for a set of M{n} taxa. The landscape of M{n} taxa can be defined as consisting of a finite set M{T} of tree topologies. Tree topologies can be associated with a fitness function M{f(t_i)} describing their fit. This forms a discrete solution search space and finite graph M{(T, E) = G}. M{E(G)} refers to the neighborhood relation on M{T(G)}. Edges in this graph are bidirectional and represent transformation from one tree topology to another by a tree rearrangement operator. An edge between M{t_i} and M{t_j} would be notated as M{e_{ij}} in M{E(G)}.</p>
-<dl class="class">
-<dt id="pylogeny.landscape.graph">
-<em class="property">class </em><tt class="descclassname">pylogeny.landscape.</tt><tt class="descname">graph</tt><big>(</big><em>gr=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>Define an empty graph object.</p>
-<dl class="method">
-<dt id="pylogeny.landscape.graph.clearEdgeWeights">
-<tt class="descname">clearEdgeWeights</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.clearEdgeWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.clearEdgeWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getCenter">
-<tt class="descname">getCenter</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getCenter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getCenter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the centre of the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getCliqueNumber">
-<tt class="descname">getCliqueNumber</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getCliqueNumber"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getCliqueNumber" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the clique number of the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getCliques">
-<tt class="descname">getCliques</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getCliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getCliques" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the cliques present in the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getCliquesOfNode">
-<tt class="descname">getCliquesOfNode</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getCliquesOfNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getCliquesOfNode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the clique that a node corresponds to.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getComponentOfNode">
-<tt class="descname">getComponentOfNode</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getComponentOfNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getComponentOfNode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the graph component of a given node.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getComponents">
-<tt class="descname">getComponents</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getComponents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getComponents" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the connected components in the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getDegreeFor">
-<tt class="descname">getDegreeFor</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getDegreeFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getDegreeFor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return in- and out-degree for node named i.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getDiameter">
-<tt class="descname">getDiameter</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getDiameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getDiameter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire the diameter of the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getEdge">
-<tt class="descname">getEdge</tt><big>(</big><em>i</em>, <em>j</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getEdge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getEdge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getEdges">
-<tt class="descname">getEdges</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getEdges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getEdges" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getEdgesFor">
-<tt class="descname">getEdgesFor</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getEdgesFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getEdgesFor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getMST">
-<tt class="descname">getMST</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getMST"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getMST" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire the minimum spanning tree for the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getNeighborsFor">
-<tt class="descname">getNeighborsFor</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNeighborsFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNeighborsFor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getNetworkXObject">
-<tt class="descname">getNetworkXObject</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNetworkXObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNetworkXObject" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the internal networkx graph object.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getNode">
-<tt class="descname">getNode</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getNodeNames">
-<tt class="descname">getNodeNames</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNodeNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNodeNames" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the names of nodes in the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getNodes">
-<tt class="descname">getNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNodes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getNumCliques">
-<tt class="descname">getNumCliques</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNumCliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNumCliques" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the number of cliques found in the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getNumComponents">
-<tt class="descname">getNumComponents</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNumComponents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNumComponents" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the number of components of the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getShortestPath">
-<tt class="descname">getShortestPath</tt><big>(</big><em>nodA</em>, <em>nodB</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getShortestPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getShortestPath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the shortest path between two nodes.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getShortestPathLength">
-<tt class="descname">getShortestPathLength</tt><big>(</big><em>nodA</em>, <em>nodB</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getShortestPathLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getShortestPathLength" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the shortest path length between two nodes.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.getSize">
-<tt class="descname">getSize</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getSize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the number of nodes in the graph.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.hasPath">
-<tt class="descname">hasPath</tt><big>(</big><em>nodA</em>, <em>nodB</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.hasPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.hasPath" title="Permalink to this definition">¶</a></dt>
-<dd><p>See if a path exists between two nodes.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.iterNodes">
-<tt class="descname">iterNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.iterNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.iterNodes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Iterate over all node keys.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.graph.setDefaultWeight">
-<tt class="descname">setDefaultWeight</tt><big>(</big><em>w</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.setDefaultWeight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.setDefaultWeight" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pylogeny.landscape.landscape">
-<em class="property">class </em><tt class="descclassname">pylogeny.landscape.</tt><tt class="descname">landscape</tt><big>(</big><em>ali</em>, <em>starting_tree=None</em>, <em>root=True</em>, <em>operator='SPR'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pylogeny.landscape.graph" title="pylogeny.landscape.graph"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.landscape.graph</span></tt></a>, <a class="reference internal" href="pylogeny.tree.html#pylogeny.tree.treeSet" title="pylogeny.tree.treeSet"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.tree.treeSet</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">_abcoll.Iterable</span></tt></p>
-<p>Defines an entire phylogenetic tree space.</p>
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.addTree">
-<tt class="descname">addTree</tt><big>(</big><em>tree</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.addTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.addTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a tree to the landscape. Will return its index.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.exploreRandomTree">
-<tt class="descname">exploreRandomTree</tt><big>(</big><em>i</em>, <em>type=1</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.exploreRandomTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.exploreRandomTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire a single neighbor to a tree in the landscape by performing
-a random rearrangement of type SPR (by default), NNI, or TBR. Rearrangement
-type is provided as a rearrangement module type definition of form, for example,
-TYPE_SPR, TYPE_NNI, etc.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.exploreTree">
-<tt class="descname">exploreTree</tt><big>(</big><em>i</em>, <em>type=1</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.exploreTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.exploreTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all neighbors to a tree named i in the landscape using a respective
-rearrangement operator as defined in the rearrangement module. Rearrangement
-type is provided as a rearrangement module type definition of form, for example,
-TYPE_SPR, TYPE_NNI, etc. By default, this is TYPE_SPR.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.findTree">
-<tt class="descname">findTree</tt><big>(</big><em>newick</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.findTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.findTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find a tree by Newick string, taking into account branch lengths. Returns
-the name of this tree in the landscape.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.findTreeTopology">
-<tt class="descname">findTreeTopology</tt><big>(</big><em>newick</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.findTreeTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.findTreeTopology" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find a tree by topology, not taking into account branch lengths.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.findTreeTopologyByStructure">
-<tt class="descname">findTreeTopologyByStructure</tt><big>(</big><em>struct</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.findTreeTopologyByStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.findTreeTopologyByStructure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find a tree by topology, not taking into account branch lengths,
-given the topology.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getAlignment">
-<tt class="descname">getAlignment</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getAlignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getAlignment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire the alignment object associated with this space.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getAllPathsOfBestImprovement">
-<tt class="descname">getAllPathsOfBestImprovement</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getAllPathsOfBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getAllPathsOfBestImprovement" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return all paths of best improvement as a dictionary.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getBestImprovement">
-<tt class="descname">getBestImprovement</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getBestImprovement" title="Permalink to this definition">¶</a></dt>
-<dd><p>For a tree in the landscape, investigate neighbors to find 
-a tree that leads to the best improvement of fitness function score
-on the basis of likelihood.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getBipartitionFoundInTreeByIndex">
-<tt class="descname">getBipartitionFoundInTreeByIndex</tt><big>(</big><em>tr</em>, <em>brind</em>, <em>topol=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getBipartitionFoundInTreeByIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getBipartitionFoundInTreeByIndex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a tree node and a branch index, return the associated
-bipartition.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getGlobalOptimum">
-<tt class="descname">getGlobalOptimum</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getGlobalOptimum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getGlobalOptimum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the global optimum of the current space.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getLocalOptima">
-<tt class="descname">getLocalOptima</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getLocalOptima"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getLocalOptima" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all trees in the landscape that can be labelled as a local
-optimum.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getLocks">
-<tt class="descname">getLocks</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getLocks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getLocks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getNumberTaxa">
-<tt class="descname">getNumberTaxa</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getNumberTaxa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getNumberTaxa" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the number of different taxa present in any respective tree
-in the landscape.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getPathOfBestImprovement">
-<tt class="descname">getPathOfBestImprovement</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getPathOfBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getPathOfBestImprovement" title="Permalink to this definition">¶</a></dt>
-<dd><p>For a tree in the landscape, investigate neighbors iteratively
-until a best path of score improvement is found on basis of likelihood.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getPossibleNumberRootedTrees">
-<tt class="descname">getPossibleNumberRootedTrees</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getPossibleNumberRootedTrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getPossibleNumberRootedTrees" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assuming all of the trees in the space are rooted, return the 
-maximum possible number of unrooted trees that can possibly be generated
-for the number of taxa of trees in the landscape.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getPossibleNumberUnrootedTrees">
-<tt class="descname">getPossibleNumberUnrootedTrees</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getPossibleNumberUnrootedTrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getPossibleNumberUnrootedTrees" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assuming all of the trees in the space are unrooted, return the 
-maximum possible number of unrooted trees that can possibly be generated
-for the number of taxa of trees in the landscape.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getRootTree">
-<tt class="descname">getRootTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getRootTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getRootTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire the first tree that was placed in this space.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getTree">
-<tt class="descname">getTree</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the tree object for a tree by its ID or name i.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.getVertex">
-<tt class="descname">getVertex</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getVertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getVertex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire a vertex object from the landscape; this is a 
-high-level representation of a tree in the landscape with
-additional functionality. Object created upon invocation of
-this function.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.indexOf">
-<tt class="descname">indexOf</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.indexOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.indexOf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire the index/name in this landscape of a tree object. Returns -1
-if not found.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.isLocalOptimum">
-<tt class="descname">isLocalOptimum</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.isLocalOptimum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.isLocalOptimum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determine if a tree is, without any doubt, a local optimum.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.isViolating">
-<tt class="descname">isViolating</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.isViolating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.isViolating" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determine if a tree is violating any locks intrinsic 
-to the landscape.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.iterAllPathsOfBestImprovement">
-<tt class="descname">iterAllPathsOfBestImprovement</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.iterAllPathsOfBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.iterAllPathsOfBestImprovement" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return an iterator for all paths of best improvement.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.iterTrees">
-<tt class="descname">iterTrees</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.iterTrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.iterTrees" title="Permalink to this definition">¶</a></dt>
-<dd><p>Iterate over all trees found in this landscape.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.lockBranchFoundInTree">
-<tt class="descname">lockBranchFoundInTree</tt><big>(</big><em>tr</em>, <em>br</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.lockBranchFoundInTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.lockBranchFoundInTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a tree node and a branch object, add a given 
-bipartition to the bipartition lock list. Returns true if locked.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.lockBranchFoundInTreeByIndex">
-<tt class="descname">lockBranchFoundInTreeByIndex</tt><big>(</big><em>tr</em>, <em>brind</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.lockBranchFoundInTreeByIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.lockBranchFoundInTreeByIndex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a tree node and a branch index, add a given 
-bipartition to the bipartition lock list. Returns true if locked.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.removeTree">
-<tt class="descname">removeTree</tt><big>(</big><em>tree</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.removeTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.removeTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove a tree from the landscape by object.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.setAlignment">
-<tt class="descname">setAlignment</tt><big>(</big><em>ali</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.setAlignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.setAlignment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the alignment present in this landscape. WARNING; will not
-modify existing scores.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.toProperNewickTreeSet">
-<tt class="descname">toProperNewickTreeSet</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.toProperNewickTreeSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.toProperNewickTreeSet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert this landscape into an unorganized set of trees 
-where taxa names are transformed to their original form (
-i.e. not transformed to a state friendly for the Phylip format).</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.toTreeSet">
-<tt class="descname">toTreeSet</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.toTreeSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.toTreeSet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert this landscape into an unorganized set of trees.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.toggleLock">
-<tt class="descname">toggleLock</tt><big>(</big><em>lock</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.toggleLock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.toggleLock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a biparition to the list of locked bipartitions if not 
-present; otherwise, remove it. Return status of lock.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pylogeny.landscape.vertex">
-<em class="property">class </em><tt class="descclassname">pylogeny.landscape.</tt><tt class="descname">vertex</tt><big>(</big><em>i</em>, <em>obj</em>, <em>ls</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>Encapsulate a single vertex in the landscape and add convenient
-functionality to alias parent landscape functions.</p>
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.approximatePossibleNumNeighbors">
-<tt class="descname">approximatePossibleNumNeighbors</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.approximatePossibleNumNeighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.approximatePossibleNumNeighbors" title="Permalink to this definition">¶</a></dt>
-<dd><p>Approximate the possible number of neighbors to this vertex
-by considering the type of tree rearrangement operator.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getBestImprovement">
-<tt class="descname">getBestImprovement</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getBestImprovement" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias function for function of same name in parent
-landscape.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getBipartitionScores">
-<tt class="descname">getBipartitionScores</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getBipartitionScores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getBipartitionScores" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all corresponding bipartition vectors of SPR scores.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getBipartitions">
-<tt class="descname">getBipartitions</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getBipartitions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getBipartitions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all bipartitions for this vertex.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getDegree">
-<tt class="descname">getDegree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getDegree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getDegree" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getDict">
-<tt class="descname">getDict</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getDict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getIndex">
-<tt class="descname">getIndex</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getIndex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getNeighbors">
-<tt class="descname">getNeighbors</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getNeighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getNeighbors" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getNeighborsOfBipartition">
-<tt class="descname">getNeighborsOfBipartition</tt><big>(</big><em>bi</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getNeighborsOfBipartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getNeighborsOfBipartition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get corresponding neighbors of a bipartition in this vertex&#8217;s tree.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getNeighborsOfBranch">
-<tt class="descname">getNeighborsOfBranch</tt><big>(</big><em>br</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getNeighborsOfBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getNeighborsOfBranch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get corresponding neighbors of a branch in this vertex&#8217;s tree.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getNewick">
-<tt class="descname">getNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getNewick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getObject">
-<tt class="descname">getObject</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getObject" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getOrigin">
-<tt class="descname">getOrigin</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getOrigin" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getPathOfBestImprovement">
-<tt class="descname">getPathOfBestImprovement</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getPathOfBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getPathOfBestImprovement" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias function for function of same name in parent
-landscape.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getProperNewick">
-<tt class="descname">getProperNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getProperNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getProperNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the proper Newick string for a tree. 
-:returns: A string.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getScore">
-<tt class="descname">getScore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getScore" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.getTree">
-<tt class="descname">getTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getTree" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.isBestImprovement">
-<tt class="descname">isBestImprovement</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.isBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.isBestImprovement" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check to see if this vertex is a best move for another node.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.isExplored">
-<tt class="descname">isExplored</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.isExplored"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.isExplored" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.isFailed">
-<tt class="descname">isFailed</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.isFailed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.isFailed" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.isLocalOptimum">
-<tt class="descname">isLocalOptimum</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.isLocalOptimum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.isLocalOptimum" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.isViolating">
-<tt class="descname">isViolating</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.isViolating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.isViolating" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias function for function of same name in parent
-landscape.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.scoreLikelihood">
-<tt class="descname">scoreLikelihood</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.scoreLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.scoreLikelihood" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire the log-likelihood for this vertex.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.landscape.vertex.setExplored">
-<tt class="descname">setExplored</tt><big>(</big><em>exp</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.setExplored"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.setExplored" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the &#8220;explored&#8221; flag of this node in the landscape.</p>
-</dd></dl>
-
-</dd></dl>
-
+  <div class="section" id="pylogeny-landscape-module">
+<h1>pylogeny.landscape module<a class="headerlink" href="#pylogeny-landscape-module" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -627,21 +96,18 @@ landscape.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="pylogeny.landscapeWriter.html" title="pylogeny.landscapeWriter module"
              >next</a> |</li>
         <li class="right" >
           <a href="pylogeny.heuristic.html" title="pylogeny.heuristic module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015, Alex Safatli.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>
