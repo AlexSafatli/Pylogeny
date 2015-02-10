@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree &mdash; Pylogeny 0.3.6.9 documentation</title>
+    <title>pylogeny.tree &mdash; Pylogeny 0.3.8.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.9',
+        VERSION:     '0.3.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.9 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -127,9 +127,10 @@
         <span class="sd">&#39;&#39;&#39; Return a Newick string with all taxa name replaced with</span>
 <span class="sd">        successive integers. &#39;&#39;&#39;</span>
     
-        <span class="n">o</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">parser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span> <span class="n">n</span><span class="p">[</span><span class="n">_</span><span class="p">]</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">newickParser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span> <span class="n">n</span><span class="p">[</span><span class="n">_</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>        
     
     <span class="c"># Other Functionality</span>
@@ -145,7 +146,10 @@
     
     <span class="c"># Internals</span>
         </div>
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">struct</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">o</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">struct</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span><span class="p">)</span>
+    
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span> <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span>
     
@@ -156,7 +160,7 @@
 <span class="sd">        order to ensure a consistent Newick string. &#39;&#39;&#39;</span>
         
         <span class="n">newi</span>        <span class="o">=</span> <span class="n">newi</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>   
-        <span class="n">prsd</span>        <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">parser</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="n">prsd</span>        <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">newickParser</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">newick</span> <span class="o">=</span> <span class="n">rearrangement</span><span class="o">.</span><span class="n">topology</span><span class="p">(</span><span class="n">prsd</span><span class="p">)</span><span class="o">.</span><span class="n">toNewick</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getStructure</span><span class="p">(</span><span class="n">prsd</span><span class="p">)</span>
     
@@ -166,13 +170,13 @@
 <span class="sd">        defined branch lengths. &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="n">prsd</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">prsd</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">parser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>    
+        <span class="k">else</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">newickParser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>    
         <span class="n">newick</span><span class="o">.</span><span class="n">removeBranchLengths</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>  
     </div>
-<div class="viewcode-block" id="treeSet"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet">[docs]</a><span class="k">class</span> <span class="nc">treeSet</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Sized</span><span class="p">):</span>
+<div class="viewcode-block" id="treeSet"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet">[docs]</a><span class="k">class</span> <span class="nc">treeSet</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Sized</span><span class="p">,</span><span class="n">base</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Represents an ordered, unorganized collection of trees </span>
+    <span class="sd">&#39;&#39;&#39; Represents an ordered, disorganized collection of trees </span>
 <span class="sd">    that do not necessarily comprise a combinatorial space. &#39;&#39;&#39;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -208,8 +212,19 @@
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
     </div>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">o</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">o</span>
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">)</span>
     
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">:</span> <span class="k">yield</span> <span class="n">t</span>
+    
+<div class="viewcode-block" id="treeSet.iterTrees"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.iterTrees">[docs]</a>    <span class="k">def</span> <span class="nf">iterTrees</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Iterate over all trees found in this set. &#39;&#39;&#39;</span>
+        
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span> <span class="k">yield</span> <span class="n">t</span>    
+    </div>
 <div class="viewcode-block" id="treeSet.toTreeFile"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.toTreeFile">[docs]</a>    <span class="k">def</span> <span class="nf">toTreeFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fout</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Output this landscape as a series of trees, separated by</span>
@@ -219,6 +234,20 @@
         <span class="n">o</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
         <span class="n">o</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">fout</span>
+    </div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="treeSet.fromTreeFile"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.fromTreeFile">[docs]</a>    <span class="k">def</span> <span class="nf">fromTreeFile</span><span class="p">(</span><span class="n">fin</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Acquire a file where newlines separate Newick strings, and create</span>
+<span class="sd">        an instance of treeSet from those trees. &#39;&#39;&#39;</span>
+        
+        <span class="n">t</span> <span class="o">=</span> <span class="n">treeSet</span><span class="p">()</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fin</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">o</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+            <span class="n">newickString</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">addTreeByNewick</span><span class="p">(</span><span class="n">newickString</span><span class="p">)</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">t</span>
         </div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">getNewick</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">])</span>
@@ -248,7 +277,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">shortmap</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># Shorter string mapping of taxa to symbols</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reconfis</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># Possible reconfigurations as rearrangement objects.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_getStringRepresentation</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_getShortStringRepresentation</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_getBranchListRepresentation</span><span class="p">()</span>
     
     <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span><span class="p">)</span>
@@ -329,7 +357,6 @@
         
         <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span> <span class="o">=</span> <span class="n">st</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_getBranchFromString</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_getShortStringRepresentation</span><span class="p">()</span>
         </div>
 <div class="viewcode-block" id="bipartition.getBranch"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getBranch">[docs]</a>    <span class="k">def</span> <span class="nf">getBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -362,12 +389,14 @@
         
         <span class="sd">&#39;&#39;&#39; Get the shorter string representation corresponding to this bipartition. &#39;&#39;&#39;</span>
         
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getShortStringRepresentation</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span>
     </div>
 <div class="viewcode-block" id="bipartition.getShortStringMappings"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getShortStringMappings">[docs]</a>    <span class="k">def</span> <span class="nf">getShortStringMappings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Get the mapping of symbols from taxa names for the shorter string representation. &#39;&#39;&#39;</span>
         
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getShortStringRepresentation</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortmap</span>
     </div>
 <div class="viewcode-block" id="bipartition.getBranchListRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getBranchListRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">getBranchListRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -461,13 +490,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015, Alex Safatli.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

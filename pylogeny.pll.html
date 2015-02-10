@@ -36,6 +36,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pylogeny.rearrangement.html" title="pylogeny.rearrangement module"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -51,8 +54,65 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="pylogeny-pll-module">
-<h1>pylogeny.pll module<a class="headerlink" href="#pylogeny-pll-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pylogeny.pll">
+<span id="pylogeny-pll-module"></span><h1>pylogeny.pll module<a class="headerlink" href="#module-pylogeny.pll" title="Permalink to this headline">¶</a></h1>
+<p>Wrap C extension for libpll library for use in natural Python.</p>
+<dl class="class">
+<dt id="pylogeny.pll.dataModel">
+<em class="property">class </em><tt class="descclassname">pylogeny.pll.</tt><tt class="descname">dataModel</tt><big>(</big><em>topo</em>, <em>alignm</em>, <em>model=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulating a phylogenetic tree (as topology) + corresponding alignment
+into a libpll-associated data structure. Allows for log-likelihood
+scoring of this model. <strong>MUST BE CLOSED AFTER USE.</strong></p>
+<dl class="method">
+<dt id="pylogeny.pll.dataModel.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>If done with this particular problem. Frees associated memory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.pll.dataModel.getLogLikelihood">
+<tt class="descname">getLogLikelihood</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel.getLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel.getLogLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates log-likelihood using libpll.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.pll.dataModel.getNewickString">
+<tt class="descname">getNewickString</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel.getNewickString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel.getNewickString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire the Newick string of the problem instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.pll.partitionModel">
+<em class="property">class </em><tt class="descclassname">pylogeny.pll.</tt><tt class="descname">partitionModel</tt><big>(</big><em>ali</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>A partition model intended for libpll.</p>
+<dl class="method">
+<dt id="pylogeny.pll.partitionModel.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.pll.partitionModel.createModel">
+<tt class="descname">createModel</tt><big>(</big><em>models</em>, <em>partnames</em>, <em>ranges</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.createModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.createModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Establish a more complex model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.pll.partitionModel.createSimpleModel">
+<tt class="descname">createSimpleModel</tt><big>(</big><em>protein</em>, <em>pmodel='WAG'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.createSimpleModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.createSimpleModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Establish a simple model (e.g., one type).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.pll.partitionModel.getFileName">
+<tt class="descname">getFileName</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.getFileName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.getFileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the file name of the model file.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -95,6 +155,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pylogeny.rearrangement.html" title="pylogeny.rearrangement module"
              >next</a> |</li>

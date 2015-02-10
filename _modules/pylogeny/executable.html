@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.executable &mdash; Pylogeny 0.3.6.9 documentation</title>
+    <title>pylogeny.executable &mdash; Pylogeny 0.3.8.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.9',
+        VERSION:     '0.3.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.9 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -47,23 +47,27 @@
           <div class="body">
             
   <h1>Source code for pylogeny.executable</h1><div class="highlight"><pre>
-<span class="sd">&#39;&#39;&#39; Defines an interface to manage interfacing with the system for respective application calls and implements multiple of these for executables such as FastTree and RAxML. Requires a UNIX environment. &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39; Defines an interface to manage interfacing with the system for respective application calls and implements some of these for executables such as FastTree and RAxML. Currently requires a UNIX-like environment (e.g., Mac OS X or a Linux-based environment). &#39;&#39;&#39;</span>
 
 <span class="c"># Date:   Oct 16 2014</span>
 <span class="c"># Author: Alex Safatli</span>
 <span class="c"># E-mail: safatli@cs.dal.ca</span>
 
 <span class="kn">import</span> <span class="nn">tree</span>
+<span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">longest_common_substring</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span> <span class="k">as</span> <span class="n">abstractclass</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">mkdir</span><span class="p">,</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">chdir</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">mkdir</span><span class="p">,</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">chdir</span><span class="p">,</span> <span class="n">name</span> <span class="k">as</span> <span class="n">os_name</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">isdir</span><span class="p">,</span> <span class="n">isfile</span>
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">call</span><span class="p">,</span> <span class="n">PIPE</span><span class="p">,</span> <span class="n">Popen</span> <span class="k">as</span> <span class="n">system</span>
+<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
 
 <span class="c"># Constants</span>
 
 <span class="n">E_FASTTREE</span> <span class="o">=</span> <span class="s">&#39;fasttree&#39;</span>
 <span class="n">E_RAXML</span>    <span class="o">=</span> <span class="s">&#39;raxmlHPC&#39;</span>
 <span class="n">E_TREEPUZZ</span> <span class="o">=</span> <span class="s">&#39;puzzle&#39;</span>
+<span class="n">E_RSPR</span>     <span class="o">=</span> <span class="s">&#39;rspr&#39;</span>
+<span class="n">L_TEMPDIR</span>  <span class="o">=</span> <span class="s">&#39;pylogeny&#39;</span>
 
 <span class="c"># Executable Existence Function</span>
 
@@ -71,7 +75,7 @@
     
     <span class="sd">&#39;&#39;&#39; Determines whether a function exists in a UNIX environment. &#39;&#39;&#39;</span>
     
-    <span class="k">return</span> <span class="n">call</span><span class="p">(</span><span class="s">&#39;type </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">cmd</span><span class="p">),</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">call</span><span class="p">(</span><span class="s">&#39;type </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cmd</span><span class="p">),</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 
 <span class="c"># Temporary Directory Context</span>
 </div>
@@ -82,7 +86,7 @@
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">dir</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">&#39;/tmp&#39;</span> <span class="o">+</span> <span class="nb">dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">&#39;/tmp/&#39;</span> <span class="o">+</span> <span class="nb">dir</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">):</span> <span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">getcwd</span><span class="p">()</span>
         
@@ -105,10 +109,15 @@
         
         <span class="sd">&#39;&#39;&#39; Perform a run of this application. &#39;&#39;&#39;</span>
         
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">exeExists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> is not installed on your system.&#39;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">))</span>
-        <span class="n">sproc</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInstructionString</span><span class="p">(),</span>
-                       <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">os_name</span> <span class="o">!=</span> <span class="s">&#39;posix&#39;</span><span class="p">):</span>
+            <span class="kn">import</span> <span class="nn">platform</span>
+            <span class="n">pf</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s">&#39;Using an executable application requires a UNIX-like environment. &#39;</span> <span class="o">+</span> 
+                              <span class="s">&#39;You are currently using platform </span><span class="si">%s</span><span class="s">, which does not appear to possess &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pf</span><span class="p">)</span> <span class="o">+</span>
+                              <span class="s">&#39;the ability to run a binary in a shell.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">exeExists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> is not installed on your system.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">))</span>
+        <span class="n">sproc</span> <span class="o">=</span> <span class="n">system</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInstructionString</span><span class="p">(),</span><span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sproc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c"># Executable Classes</span>
@@ -198,9 +207,9 @@
         
         <span class="sd">&#39;&#39;&#39; Compute the AU test. Return the interval of trees. &#39;&#39;&#39;</span>
         
-        <span class="k">with</span> <span class="n">aTemporaryDirectory</span><span class="p">(</span><span class="s">&#39;/consel__py/&#39;</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">aTemporaryDirectory</span><span class="p">(</span><span class="n">L_TEMPDIR</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.trees.sitelh&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">treefile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeset</span><span class="o">.</span><span class="n">toTreeFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.trees&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">treefile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeset</span><span class="o">.</span><span class="n">toTreeFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.trees&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">treepuzz</span> <span class="o">=</span> <span class="n">treepuzzle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">treefile</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">sitelh</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treepuzz</span><span class="o">.</span><span class="n">getSiteLikelihoodFile</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sitelh</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.trees.sitelh&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -270,7 +279,72 @@
 <div class="viewcode-block" id="raxml.runFunction"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.raxml.runFunction">[docs]</a>    <span class="k">def</span> <span class="nf">runFunction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alg</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alg</span> <span class="o">=</span> <span class="n">alg</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</pre></div></div></div>
+</div></div>
+<div class="viewcode-block" id="rspr"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.rspr">[docs]</a><span class="k">class</span> <span class="nc">rspr</span><span class="p">(</span><span class="n">executable</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39; Denotes a single run of the rSPR executable by Dr. Chris Whidden (2014), a software package for computing rooted subtree-prune-and-regraft (SPR) distances. See http://kiwi.cs.dal.ca/Software/RSPR. Requires the executable to be on PATH. &#39;&#39;&#39;</span>
+
+    <span class="n">exeName</span> <span class="o">=</span> <span class="n">E_RSPR</span>
+    <span class="n">RSPR_ALG_DEFAULT</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="n">RSPR_ALG_APPROX</span>  <span class="o">=</span> <span class="s">&#39;-approx&#39;</span>
+    <span class="n">RSPR_ALG_BB</span>      <span class="o">=</span> <span class="s">&#39;-bb&#39;</span>
+    <span class="n">RSPR_ALG_FPT</span>     <span class="o">=</span> <span class="s">&#39;-fpt&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">treeA</span><span class="p">,</span><span class="n">treeB</span><span class="p">,</span><span class="n">algorithm</span><span class="o">=</span><span class="n">RSPR_ALG_DEFAULT</span><span class="p">,</span><span class="n">overlap</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Algorithm choices are defined in this class. If overlap is set to True, </span>
+<span class="sd">        will attempt to consolidate taxa names such that they are overlapping </span>
+<span class="sd">        (otherwise, RSPR will return an error if they do not match). &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputA</span>   <span class="o">=</span> <span class="n">treeA</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputB</span>   <span class="o">=</span> <span class="n">treeB</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeFile</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">algthm</span>   <span class="o">=</span> <span class="n">algorithm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span>  <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">overlap</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_overlapTaxa</span><span class="p">(</span><span class="n">treeA</span><span class="p">,</span><span class="n">treeB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_makeTemporaryFile</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">_makeTemporaryFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">t1</span><span class="p">,</span><span class="n">t2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputA</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">inputB</span>
+        <span class="n">fi</span>    <span class="o">=</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">fi</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">newick</span><span class="p">,</span><span class="n">t2</span><span class="o">.</span><span class="n">newick</span><span class="p">))</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeFile</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">name</span>        
+        
+    <span class="k">def</span> <span class="nf">_overlapTaxa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+        <span class="n">topol</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">toTopology</span><span class="p">()</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">toTopology</span><span class="p">()</span>
+        <span class="n">anodes</span> <span class="o">=</span> <span class="n">topol</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">()</span>
+        <span class="n">bnodes</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">anodes</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bnodes</span><span class="p">)):</span> <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;Non-overlapping taxa lengths.&#39;</span><span class="p">)</span>
+        <span class="n">runnli</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">anodes</span><span class="p">:</span>
+            <span class="n">corresp</span>    <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">correspstr</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bnodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">runnli</span><span class="p">]:</span>
+                <span class="n">lcstr</span> <span class="o">=</span> <span class="n">longest_common_substring</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">label</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lcstr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">label</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">3.</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span> 
+                    <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">lcstr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">label</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">3.</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span> <span class="ow">and</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">lcstr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">correspstr</span><span class="p">)):</span>
+                    <span class="n">corresp</span>    <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">correspstr</span> <span class="o">=</span> <span class="n">lcstr</span>
+            <span class="k">if</span> <span class="n">corresp</span><span class="p">:</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">label</span>       <span class="o">=</span> <span class="n">correspstr</span>
+                <span class="n">corresp</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">correspstr</span>
+                <span class="n">runnli</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corresp</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;Could not find overlapping taxa for </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputA</span> <span class="o">=</span> <span class="n">topol</span><span class="o">.</span><span class="n">toTree</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputB</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">toTree</span><span class="p">()</span>         
+
+<div class="viewcode-block" id="rspr.getSPRDistance"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.rspr.getSPRDistance">[docs]</a>    <span class="k">def</span> <span class="nf">getSPRDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;drSPR=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+</div>
+<div class="viewcode-block" id="rspr.getInstructionString"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.rspr.getInstructionString">[docs]</a>    <span class="k">def</span> <span class="nf">getInstructionString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> &lt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">algthm</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">treeFile</span><span class="p">)</span></div></div>
+</pre></div>
 
           </div>
         </div>
@@ -303,13 +377,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015, Alex Safatli.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

@@ -35,6 +35,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
@@ -47,8 +50,247 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="pylogeny-tree-module">
-<h1>pylogeny.tree module<a class="headerlink" href="#pylogeny-tree-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pylogeny.tree">
+<span id="pylogeny-tree-module"></span><h1>pylogeny.tree module<a class="headerlink" href="#module-pylogeny.tree" title="Permalink to this headline">¶</a></h1>
+<p>Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings, collections of them, and for splits of these trees.</p>
+<dl class="class">
+<dt id="pylogeny.tree.bipartition">
+<em class="property">class </em><tt class="descclassname">pylogeny.tree.</tt><tt class="descname">bipartition</tt><big>(</big><em>topol</em>, <em>bra=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A tree bipartition. Requires a tree topology. Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree.</p>
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.fromStringRepresentation">
+<tt class="descname">fromStringRepresentation</tt><big>(</big><em>st</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.fromStringRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.fromStringRepresentation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire all component elements from a string representation 
+of a bipartition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>st</strong> &#8211; A string representation from a <a class="reference internal" href="#pylogeny.tree.bipartition" title="pylogeny.tree.bipartition"><tt class="xref py py-class docutils literal"><span class="pre">bipartition</span></tt></a> object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getBestSPRScore">
+<tt class="descname">getBestSPRScore</tt><big>(</big><em>ls</em>, <em>node=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getBestSPRScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getBestSPRScore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a landscape, return the best SPR score.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getBranch">
+<tt class="descname">getBranch</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get branch corresponding to this bipartition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">newick.branch</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getBranchIndex">
+<tt class="descname">getBranchIndex</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getBranchIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getBranchIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an index of the branch with respect to a post order traversal
+of the topology.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getBranchListRepresentation">
+<tt class="descname">getBranchListRepresentation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getBranchListRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getBranchListRepresentation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the tuple of lists of branches that represent this bipartition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getMedianSPRScore">
+<tt class="descname">getMedianSPRScore</tt><big>(</big><em>ls</em>, <em>node=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getMedianSPRScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getMedianSPRScore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a landscape, return the median SPR score.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getSPRRearrangements">
+<tt class="descname">getSPRRearrangements</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getSPRRearrangements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getSPRRearrangements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the set of all scores related to this bipartition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getSPRScores">
+<tt class="descname">getSPRScores</tt><big>(</big><em>ls</em>, <em>node=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getSPRScores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getSPRScores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a landscape, return all possible scores, not actively performing
+scoring if not done.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getShortStringMappings">
+<tt class="descname">getShortStringMappings</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getShortStringMappings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getShortStringMappings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the mapping of symbols from taxa names for the shorter string representation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getShortStringRepresentation">
+<tt class="descname">getShortStringRepresentation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getShortStringRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getShortStringRepresentation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the shorter string representation corresponding to this bipartition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.getStringRepresentation">
+<tt class="descname">getStringRepresentation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getStringRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getStringRepresentation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the string representation corresponding to this bipartition.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.tree.numberRootedTrees">
+<tt class="descclassname">pylogeny.tree.</tt><tt class="descname">numberRootedTrees</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#pylogeny.tree.numberRootedTrees" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.tree.numberUnrootedTrees">
+<tt class="descclassname">pylogeny.tree.</tt><tt class="descname">numberUnrootedTrees</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#pylogeny.tree.numberUnrootedTrees" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.tree.tree">
+<em class="property">class </em><tt class="descclassname">pylogeny.tree.</tt><tt class="descname">tree</tt><big>(</big><em>newi=''</em>, <em>check=False</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Defines a single (phylogenetic) tree by newick string;
+can possess other metadata.</p>
+<dl class="method">
+<dt id="pylogeny.tree.tree.getName">
+<tt class="descname">getName</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.getNewick">
+<tt class="descname">getNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getNewick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.getOrigin">
+<tt class="descname">getOrigin</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getOrigin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.getRerootedNoBranchLengthNewick">
+<tt class="descname">getRerootedNoBranchLengthNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getRerootedNoBranchLengthNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getRerootedNoBranchLengthNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>See getStructure().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.getScore">
+<tt class="descname">getScore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getScore" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.getSimpleNewick">
+<tt class="descname">getSimpleNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getSimpleNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getSimpleNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Newick string with all taxa name replaced with
+successive integers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.getStructure">
+<tt class="descname">getStructure</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns &#8220;structure&#8221;, a Newick string without branch lengths.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.setName">
+<tt class="descname">setName</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.setName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.setName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.setNewick">
+<tt class="descname">setNewick</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.setNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.setNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set Newick string to n; also reacquires corresponding
+&#8220;structure&#8221; or Newick string without branch lengths.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.setOrigin">
+<tt class="descname">setOrigin</tt><big>(</big><em>o</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.setOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.setOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the &#8220;origin&#8221; or specification of where this tree
+was acquired or constructed from; a string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.setScore">
+<tt class="descname">setScore</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.setScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.setScore" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.toNewick">
+<tt class="descname">toNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.toNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.toNewick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.toTopology">
+<tt class="descname">toTopology</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.toTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.toTopology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a rearrangement.topology instance for this tree to allow for 
+rearrangement of the actual structure of the tree.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.tree.treeSet">
+<em class="property">class </em><tt class="descclassname">pylogeny.tree.</tt><tt class="descname">treeSet</tt><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">_abcoll.Sized</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">_abcoll.Iterable</span></tt></p>
+<p>Represents an ordered, disorganized collection of trees 
+that do not necessarily comprise a combinatorial space.</p>
+<dl class="method">
+<dt id="pylogeny.tree.treeSet.addTree">
+<tt class="descname">addTree</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.addTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.addTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a tree object to the collection.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.treeSet.addTreeByNewick">
+<tt class="descname">addTreeByNewick</tt><big>(</big><em>newick</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.addTreeByNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.addTreeByNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a tree to the structure by Newick string.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pylogeny.tree.treeSet.fromTreeFile">
+<em class="property">static </em><tt class="descname">fromTreeFile</tt><big>(</big><em>fin</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.fromTreeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.fromTreeFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire a file where newlines separate Newick strings, and create
+an instance of treeSet from those trees.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.treeSet.indexOf">
+<tt class="descname">indexOf</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.indexOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.indexOf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire the index in this collection of a tree object. 
+Returns -1 if not found.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.treeSet.iterTrees">
+<tt class="descname">iterTrees</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.iterTrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.iterTrees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over all trees found in this set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.treeSet.removeTree">
+<tt class="descname">removeTree</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.removeTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.removeTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a tree object from the collection if present.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.treeSet.toTreeFile">
+<tt class="descname">toTreeFile</tt><big>(</big><em>fout</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.toTreeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.toTreeFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output this landscape as a series of trees, separated by
+newlines, as a text file saved at the given path.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -88,6 +330,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              >previous</a> |</li>

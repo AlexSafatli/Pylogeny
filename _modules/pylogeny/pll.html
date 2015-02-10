@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.pll &mdash; Pylogeny 0.3.6.9 documentation</title>
+    <title>pylogeny.pll &mdash; Pylogeny 0.3.8.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.9',
+        VERSION:     '0.3.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.9 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -47,25 +47,38 @@
           <div class="body">
             
   <h1>Source code for pylogeny.pll</h1><div class="highlight"><pre>
-<span class="sd">&#39;&#39;&#39; C Extension to wrap libpll library. &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39; Wrap C extension for libpll library for use in natural Python. &#39;&#39;&#39;</span>
 
 <span class="c"># Date:   Feb 2014</span>
 <span class="c"># Author: Alex Safatli</span>
 <span class="c"># E-mail: safatli@cs.dal.ca</span>
 
+<span class="kn">import</span> <span class="nn">alignment</span><span class="o">,</span> <span class="nn">rearrangement</span>
 <span class="kn">from</span> <span class="nn">libpllWrapper</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span> <span class="k">as</span> <span class="n">NTempFile</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">cStringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
 
 <div class="viewcode-block" id="dataModel"><a class="viewcode-back" href="../../pylogeny.pll.html#pylogeny.pll.dataModel">[docs]</a><span class="k">class</span> <span class="nc">dataModel</span><span class="p">:</span>
     
     <span class="sd">&#39;&#39;&#39; Encapsulating a phylogenetic tree (as topology) + corresponding alignment</span>
 <span class="sd">    into a libpll-associated data structure. Allows for log-likelihood</span>
-<span class="sd">    scoring of this model. MUST BE CLOSED AFTER USE. &#39;&#39;&#39;</span>
+<span class="sd">    scoring of this model. **MUST BE CLOSED AFTER USE.** &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">topo</span><span class="p">,</span><span class="n">alignm</span><span class="p">,</span><span class="n">model</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Initialize all structures. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Initialize the data model and respective structures. </span>
+<span class="sd">        </span>
+<span class="sd">        :param topo: A topology object.</span>
+<span class="sd">        :type topo: :class: `rearrangement.topology`</span>
+<span class="sd">        :param alignm: A phylipFriendlyAlignment object.</span>
+<span class="sd">        :type alignm: :class: `alignment.phylipFriendlyAlignment`</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="c"># Ensure that given alignment object is of correct type.</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">alignm</span><span class="p">)</span> <span class="o">!=</span> <span class="n">alignment</span><span class="o">.</span><span class="n">phylipFriendlyAlignment</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;libpll interfacing needs phylipFriendlyAlignment.&#39;</span><span class="p">)</span>
         
         <span class="c"># Declarations</span>
         <span class="n">isProtein</span> <span class="o">=</span> <span class="p">(</span><span class="n">alignm</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dataType</span> <span class="o">==</span> <span class="s">&#39;protein&#39;</span><span class="p">)</span>
@@ -86,18 +99,23 @@
                              <span class="n">topo</span><span class="o">.</span><span class="n">toUnrootedNewick</span><span class="p">(),</span>
                              <span class="n">modf</span><span class="p">)</span>
         
+<div class="viewcode-block" id="dataModel.getNewickString"><a class="viewcode-back" href="../../pylogeny.pll.html#pylogeny.pll.dataModel.getNewickString">[docs]</a>    <span class="k">def</span> <span class="nf">getNewickString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Acquire the Newick string of the problem instance. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="n">getNewickString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="p">)</span>
+        </div>
 <div class="viewcode-block" id="dataModel.getLogLikelihood"><a class="viewcode-back" href="../../pylogeny.pll.html#pylogeny.pll.dataModel.getLogLikelihood">[docs]</a>    <span class="k">def</span> <span class="nf">getLogLikelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Calculates log-likelihood using libpll. &#39;&#39;&#39;</span>
-        
+       
         <span class="k">return</span> <span class="n">getLogLikelihood</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="dataModel.close"><a class="viewcode-back" href="../../pylogeny.pll.html#pylogeny.pll.dataModel.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; If done with this particular problem. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; If done with this particular problem. Frees associated memory. &#39;&#39;&#39;</span>
         
         <span class="n">destroy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="p">)</span>
-  
 </div></div>
 <div class="viewcode-block" id="partitionModel"><a class="viewcode-back" href="../../pylogeny.pll.html#pylogeny.pll.partitionModel">[docs]</a><span class="k">class</span> <span class="nc">partitionModel</span><span class="p">:</span>
     
@@ -113,11 +131,11 @@
         <span class="sd">&#39;&#39;&#39; Get the file name of the model file. &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle</span><span class="o">.</span><span class="n">name</span>
     </div>
-<div class="viewcode-block" id="partitionModel.createSimpleModel"><a class="viewcode-back" href="../../pylogeny.pll.html#pylogeny.pll.partitionModel.createSimpleModel">[docs]</a>    <span class="k">def</span> <span class="nf">createSimpleModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">protein</span><span class="p">):</span>
+<div class="viewcode-block" id="partitionModel.createSimpleModel"><a class="viewcode-back" href="../../pylogeny.pll.html#pylogeny.pll.partitionModel.createSimpleModel">[docs]</a>    <span class="k">def</span> <span class="nf">createSimpleModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">protein</span><span class="p">,</span><span class="n">pmodel</span><span class="o">=</span><span class="s">&#39;WAG&#39;</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Establish a simple model (e.g., one type). &#39;&#39;&#39;</span>
         
-        <span class="k">if</span> <span class="n">protein</span><span class="p">:</span> <span class="n">simplemodel</span> <span class="o">=</span> <span class="s">&quot;WAG, p1 = 1-</span><span class="si">%d</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">protein</span><span class="p">:</span> <span class="n">simplemodel</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">, p1 = 1-</span><span class="si">%d</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pmodel</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>       <span class="n">simplemodel</span> <span class="o">=</span> <span class="s">&quot;DNA, p1 = 1-</span><span class="si">%d</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">simplemodel</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -172,13 +190,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015, Alex Safatli.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

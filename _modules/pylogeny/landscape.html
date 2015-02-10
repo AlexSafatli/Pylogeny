@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscape &mdash; Pylogeny 0.3.6.9 documentation</title>
+    <title>pylogeny.landscape &mdash; Pylogeny 0.3.8.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.9',
+        VERSION:     '0.3.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.9 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -62,7 +62,7 @@
 <span class="kn">from</span> <span class="nn">networkx</span> <span class="kn">import</span> <span class="n">components</span> <span class="k">as</span> <span class="n">comp</span><span class="p">,</span> <span class="n">algorithms</span> <span class="k">as</span> <span class="n">alg</span>
 <span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">patriciaTree</span>
 <span class="kn">from</span> <span class="nn">tree</span> <span class="kn">import</span> <span class="n">treeSet</span><span class="p">,</span> <span class="n">numberRootedTrees</span><span class="p">,</span> <span class="n">numberUnrootedTrees</span>
-<span class="kn">from</span> <span class="nn">newick</span> <span class="kn">import</span> <span class="n">parser</span><span class="p">,</span> <span class="n">removeBranchLengths</span>
+<span class="kn">from</span> <span class="nn">newick</span> <span class="kn">import</span> <span class="n">newickParser</span><span class="p">,</span> <span class="n">removeBranchLengths</span>
 <span class="kn">from</span> <span class="nn">rearrangement</span> <span class="kn">import</span> <span class="n">TYPE_NNI</span><span class="p">,</span> <span class="n">TYPE_SPR</span><span class="p">,</span> <span class="n">TYPE_TBR</span>
 <span class="n">postOrderTraversal</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="o">.</span><span class="n">postOrderTraversal</span>
 
@@ -119,6 +119,7 @@
 <div class="viewcode-block" id="graph.getEdgesFor"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.graph.getEdgesFor">[docs]</a>    <span class="k">def</span> <span class="nf">getEdgesFor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>     <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">getEdge</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span></div>
 <div class="viewcode-block" id="graph.getNode"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.graph.getNode">[docs]</a>    <span class="k">def</span> <span class="nf">getNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> </div>
 <div class="viewcode-block" id="graph.getEdge"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.graph.getEdge">[docs]</a>    <span class="k">def</span> <span class="nf">getEdge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">):</span>       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_edge_data</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span></div>
+<div class="viewcode-block" id="graph.isEdge"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.graph.isEdge">[docs]</a>    <span class="k">def</span> <span class="nf">isEdge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">):</span>        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getEdge</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">)</span></div>
 <div class="viewcode-block" id="graph.getNeighborsFor"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.graph.getNeighborsFor">[docs]</a>    <span class="k">def</span> <span class="nf">getNeighborsFor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  
     </div>
 <div class="viewcode-block" id="graph.getDegreeFor"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.graph.getDegreeFor">[docs]</a>    <span class="k">def</span> <span class="nf">getDegreeFor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
@@ -212,7 +213,7 @@
 
 <span class="c"># Landscape: Subclass of Graph, TreeSet Objects</span>
 </div></div>
-<div class="viewcode-block" id="landscape"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape">[docs]</a><span class="k">class</span> <span class="nc">landscape</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span><span class="n">treeSet</span><span class="p">,</span><span class="n">base</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+<div class="viewcode-block" id="landscape"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape">[docs]</a><span class="k">class</span> <span class="nc">landscape</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span><span class="n">treeSet</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Defines an entire phylogenetic tree space. &#39;&#39;&#39;</span>
     
@@ -291,6 +292,12 @@
         
         <span class="k">return</span> <span class="n">numberUnrootedTrees</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leaves</span><span class="p">)</span>
     </div>
+<div class="viewcode-block" id="landscape.getRoot"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.getRoot">[docs]</a>    <span class="k">def</span> <span class="nf">getRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Returns the index to the root (starting) tree of the space. &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+    </div>
 <div class="viewcode-block" id="landscape.getRootTree"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.getRootTree">[docs]</a>    <span class="k">def</span> <span class="nf">getRootTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Acquire the first tree that was placed in this space. &#39;&#39;&#39;</span>
@@ -315,8 +322,8 @@
         <span class="c"># Add its structure to an auxilary PATRICIA tree structure.</span>
         <span class="n">insert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchTree</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tobj</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">insert</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s">&#39;Tree (</span><span class="si">%d</span><span class="s">) by structure &lt;</span><span class="si">%s</span><span class="s">&gt; already exists in space!&#39;</span> <span class="o">%</span> <span class="p">(</span>
-                <span class="n">tobj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">tobj</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())))</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s">&#39;Tree (</span><span class="si">%s</span><span class="s">) by structure &lt;</span><span class="si">%s</span><span class="s">&gt; already exists in space!&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">tobj</span><span class="o">.</span><span class="n">name</span><span class="p">),</span><span class="nb">str</span><span class="p">(</span><span class="n">tobj</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())))</span>
         <span class="n">i</span> <span class="o">=</span> <span class="n">insert</span> <span class="o">-</span> <span class="mi">1</span>
         
         <span class="c"># See if name indicates an integer.</span>
@@ -330,6 +337,7 @@
         <span class="c"># Create the node.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">node</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="n">i</span>
         <span class="n">node</span><span class="p">[</span><span class="s">&#39;explored&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">tobj</span>
         <span class="n">node</span><span class="p">[</span><span class="s">&#39;failed&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="bp">False</span>
@@ -354,16 +362,10 @@
     
 <div class="viewcode-block" id="landscape.getTree"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.getTree">[docs]</a>    <span class="k">def</span> <span class="nf">getTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Get the tree object for a tree by its ID or name i. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get the object for a tree by its name. &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span>
-</div>
-<div class="viewcode-block" id="landscape.iterTrees"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.iterTrees">[docs]</a>    <span class="k">def</span> <span class="nf">iterTrees</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        
-        <span class="sd">&#39;&#39;&#39; Iterate over all trees found in this landscape. &#39;&#39;&#39;</span>
-        
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span> <span class="k">yield</span> <span class="n">t</span>
     </div>
     <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -377,29 +379,33 @@
 <span class="sd">        additional functionality. Object created upon invocation of</span>
 <span class="sd">        this function. &#39;&#39;&#39;</span>
         
-        <span class="k">return</span> <span class="n">vertex</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vertex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="landscape.removeTreeByName"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.removeTreeByName">[docs]</a>    <span class="k">def</span> <span class="nf">removeTreeByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Remove a tree from the landscape by name. &#39;&#39;&#39;</span>
+        
+        <span class="n">tr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">tr</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchTree</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="landscape.removeTree"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.removeTree">[docs]</a>    <span class="k">def</span> <span class="nf">removeTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tree</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Remove a tree from the landscape by object. &#39;&#39;&#39;</span>
-        
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="n">tree</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchTree</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())</span>
-                <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">removeTreeByName</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         </div>
 <div class="viewcode-block" id="landscape.addTree"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.addTree">[docs]</a>    <span class="k">def</span> <span class="nf">addTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tree</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Add a tree to the landscape. Will return its index. &#39;&#39;&#39;</span>
             
-        <span class="c"># Add node to graph.</span>
-        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_newNode</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
-        
-        <span class="c"># Return its index.</span>
-        <span class="k">return</span> <span class="n">index</span>
-</div>
+        <span class="c"># Add node to graph and return its index.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_newNode</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+    </div>
 <div class="viewcode-block" id="landscape.exploreRandomTree"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.exploreRandomTree">[docs]</a>    <span class="k">def</span> <span class="nf">exploreRandomTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="n">TYPE_SPR</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Acquire a single neighbor to a tree in the landscape by performing</span>
@@ -444,7 +450,7 @@
                 <span class="n">inlandscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">stt</span><span class="p">)</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
                     <span class="c"># Is in landscape; has connection to tree?</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">==</span> <span class="n">i</span><span class="p">):</span> 
+                    <span class="k">if</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="n">i</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">)):</span> 
                         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">getEdge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">)[</span><span class="s">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaultWeight</span>
@@ -510,7 +516,7 @@
             <span class="n">inlandscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">stt</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
                 <span class="c"># Is in landscape; has connection to tree?</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">==</span> <span class="n">i</span><span class="p">):</span> 
+                <span class="k">if</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="n">i</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">)):</span> 
                     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">getEdge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">)[</span><span class="s">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaultWeight</span>
@@ -661,7 +667,7 @@
         
         <span class="sd">&#39;&#39;&#39; Find a tree by topology, not taking into account branch lengths. &#39;&#39;&#39;</span>
         
-        <span class="n">s</span> <span class="o">=</span> <span class="n">parser</span><span class="p">(</span><span class="n">newick</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">newickParser</span><span class="p">(</span><span class="n">newick</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
         <span class="n">removeBranchLengths</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
@@ -813,8 +819,8 @@
     <span class="sd">&#39;&#39;&#39; Encapsulate a single vertex in the landscape and add convenient</span>
 <span class="sd">    functionality to alias parent landscape functions. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">obj</span><span class="p">,</span><span class="n">ls</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span>  <span class="o">=</span> <span class="n">i</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj</span><span class="p">,</span><span class="n">ls</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span>  <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ls</span> <span class="o">=</span> <span class="n">ls</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ali</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">alignment</span>
@@ -864,7 +870,7 @@
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ls</span><span class="o">.</span><span class="n">getBestImprovement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
     </div>
-<div class="viewcode-block" id="vertex.getPathOfBestImprovement"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.getPathOfBestImprovement">[docs]</a>    <span class="k">def</span> <span class="nf">getPathOfBestImprovement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    
+<div class="viewcode-block" id="vertex.getPathOfBestImprovement"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.getPathOfBestImprovement">[docs]</a>    <span class="k">def</span> <span class="nf">getPathOfBestImprovement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
         <span class="sd">&#39;&#39;&#39; Alias function for function of same name in parent</span>
 <span class="sd">        landscape. &#39;&#39;&#39;</span>
@@ -896,10 +902,10 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ali</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNewick</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ali</span><span class="o">.</span><span class="n">reinterpretNewick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getNewick</span><span class="p">())</span>
     </div>
-<div class="viewcode-block" id="vertex.getBipartitions"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.getBipartitions">[docs]</a>    <span class="k">def</span> <span class="nf">getBipartitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    
-        <span class="sd">&#39;&#39;&#39; Get all bipartitions for this vertex. &#39;&#39;&#39;</span>
+<div class="viewcode-block" id="vertex.iterBipartitions"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.iterBipartitions">[docs]</a>    <span class="k">def</span> <span class="nf">iterBipartitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
+        <span class="sd">&#39;&#39;&#39; Return a generator to iterate over all bipartitions for this vertex. &#39;&#39;&#39;</span>
+    
         <span class="c"># Get tree object.</span>
         <span class="n">tr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">()</span>
         
@@ -913,11 +919,15 @@
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">br</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">b</span><span class="p">:</span>
                 <span class="n">bi</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">bipartition</span><span class="p">(</span><span class="n">topo</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
-                <span class="n">bp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bi</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span> <span class="n">bp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">bi</span>
+            <span class="k">else</span><span class="p">:</span> <span class="k">yield</span> <span class="bp">None</span>
+    </div>
+<div class="viewcode-block" id="vertex.getBipartitions"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.getBipartitions">[docs]</a>    <span class="k">def</span> <span class="nf">getBipartitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    
+        <span class="sd">&#39;&#39;&#39; Get all bipartitions for this vertex. &#39;&#39;&#39;</span>
         
         <span class="c"># Return the bipartitions.</span>
-        <span class="k">return</span> <span class="n">bp</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">bipart</span> <span class="k">for</span> <span class="n">bipart</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterBipartitions</span><span class="p">()]</span>
     </div>
 <div class="viewcode-block" id="vertex.getBipartitionScores"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.getBipartitionScores">[docs]</a>    <span class="k">def</span> <span class="nf">getBipartitionScores</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -977,13 +987,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015, Alex Safatli.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

@@ -36,6 +36,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pylogeny.tree.html" title="pylogeny.tree module"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -51,8 +54,137 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="pylogeny-scoring-module">
-<h1>pylogeny.scoring module<a class="headerlink" href="#pylogeny-scoring-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pylogeny.scoring">
+<span id="pylogeny-scoring-module"></span><h1>pylogeny.scoring module<a class="headerlink" href="#module-pylogeny.scoring" title="Permalink to this headline">¶</a></h1>
+<p>Functions for phylogenetic tree goodness-of-fit scoring.</p>
+<dl class="function">
+<dt id="pylogeny.scoring.beaglegetLogLikelihood">
+<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">beaglegetLogLikelihood</tt><big>(</big><em>tree</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#beaglegetLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.beaglegetLogLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire log-likelihood via C++ library
+BEAGLE via use of pybeaglethon wrapper library.
+Currently uses HKY85 model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tree</strong> &#8211; A tree object.</li>
+<li><strong>alignment</strong> &#8211; An alignment object.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A floating point value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.scoring.getLogLikelihood">
+<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getLogLikelihood</tt><big>(</big><em>tree</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getLogLikelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire log-likelihood via C library libpll.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tree</strong> &#8211; A tree object.</li>
+<li><strong>alignment</strong> &#8211; An alignment object.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A floating point value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.scoring.getParsimony">
+<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getParsimony</tt><big>(</big><em>newick</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getParsimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getParsimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire parsimony via a C++ implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>newick</strong> &#8211; A New Hampshire (Newick) tree string.</li>
+<li><strong>alignment</strong> &#8211; An alignment object.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An integer value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.scoring.getParsimonyForTopology">
+<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getParsimonyForTopology</tt><big>(</big><em>topo</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getParsimonyForTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getParsimonyForTopology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire parsimony via a C++ implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>topo</strong> &#8211; A topology object.</li>
+<li><strong>alignment</strong> &#8211; An alignment object.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An integer value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.scoring.getParsimonyFromProfiles">
+<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getParsimonyFromProfiles</tt><big>(</big><em>newick</em>, <em>profiles</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getParsimonyFromProfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getParsimonyFromProfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire parsimony via a C++ implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>newick</strong> &#8211; A New Hampshire (Newick) tree string.</li>
+<li><strong>profiles</strong> &#8211; A set of profiles corresponding to an alignment.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An integer value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.scoring.getParsimonyFromProfilesForTopology">
+<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getParsimonyFromProfilesForTopology</tt><big>(</big><em>topology</em>, <em>profiles</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getParsimonyFromProfilesForTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getParsimonyFromProfilesForTopology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire parsimony via a C++ implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>topo</strong> &#8211; A topology object.</li>
+<li><strong>profiles</strong> &#8211; A set of profiles corresponding to an alignment.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An integer value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 
 
@@ -95,6 +227,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pylogeny.tree.html" title="pylogeny.tree module"
              >next</a> |</li>

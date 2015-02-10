@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.heuristic &mdash; Pylogeny 0.3.6.9 documentation</title>
+    <title>pylogeny.heuristic &mdash; Pylogeny 0.3.8.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.9',
+        VERSION:     '0.3.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.9 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -57,7 +57,7 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span> <span class="k">as</span> <span class="n">removeFolder</span>
-<span class="kn">from</span> <span class="nn">scoring</span> <span class="kn">import</span> <span class="n">getLogLikelihoodForTopology</span> <span class="k">as</span> <span class="n">ll</span>
+<span class="kn">from</span> <span class="nn">scoring</span> <span class="kn">import</span> <span class="n">getLogLikelihood</span> <span class="k">as</span> <span class="n">ll</span>
 <span class="kn">from</span> <span class="nn">executable</span> <span class="kn">import</span> <span class="n">raxml</span>
 <span class="kn">from</span> <span class="nn">tree</span> <span class="kn">import</span> <span class="n">tree</span>
 
@@ -73,7 +73,7 @@
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">G</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span> <span class="o">=</span> <span class="n">G</span>      <span class="c"># State Graph</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start</span>     <span class="o">=</span> <span class="n">start</span>  <span class="c"># Start State\</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span>     <span class="o">=</span> <span class="n">start</span>  <span class="c"># Start State</span>
 <div class="viewcode-block" id="heuristic.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span></div>
 <div class="viewcode-block" id="heuristic.getStateGraph"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.getStateGraph">[docs]</a>    <span class="k">def</span> <span class="nf">getStateGraph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span></div>
 <div class="viewcode-block" id="heuristic.getStartState"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.getStartState">[docs]</a>    <span class="k">def</span> <span class="nf">getStartState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
@@ -84,9 +84,9 @@
 <span class="sd">    and only possesses a single path (of search). &#39;&#39;&#39;</span>
     
     <span class="n">path</span><span class="p">,</span> <span class="n">bestTree</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="bp">None</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">phylogeneticLinearHeuristic</span><span class="p">,</span><span class="bp">self</span>
-              <span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">)</span>
+              <span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
 <div class="viewcode-block" id="phylogeneticLinearHeuristic.getPath"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.phylogeneticLinearHeuristic.getPath">[docs]</a>    <span class="k">def</span> <span class="nf">getPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span></div>
 <div class="viewcode-block" id="phylogeneticLinearHeuristic.getBestTree"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.phylogeneticLinearHeuristic.getBestTree">[docs]</a>    <span class="k">def</span> <span class="nf">getBestTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bestTree</span>
     
@@ -96,8 +96,8 @@
     
     <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of parsimony. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">parsimonyGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">parsimonyGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
         
 <div class="viewcode-block" id="parsimonyGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
@@ -116,10 +116,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
 
             <span class="c"># Explore the current tree and only score via parsimony.</span>
-            <span class="n">landscape</span><span class="o">.</span><span class="n">exploreTree</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">landscape</span><span class="o">.</span><span class="n">exploreTree</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span>
             
             <span class="c"># Rank by parsimony.</span>
-            <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">landscape</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">it</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">it</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -141,8 +141,8 @@
     
     <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of likelihood. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">likelihoodGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">likelihoodGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
         
 <div class="viewcode-block" id="likelihoodGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
@@ -161,13 +161,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
 
             <span class="c"># Explore the current tree and only score via parsimony.</span>
-            <span class="n">landscape</span><span class="o">.</span><span class="n">exploreTree</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">landscape</span><span class="o">.</span><span class="n">exploreTree</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span>
             
             <span class="c"># Rank by likelihood.</span>
-            <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">getNeighborsFor</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">getNeighborsFor</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">landscape</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">it</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">it</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
-            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">landscape</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">scoreLikelihood</span><span class="p">(),</span><span class="n">nodes</span><span class="p">)</span>
+            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">landscape</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">scoreLikelihood</span><span class="p">(),</span><span class="n">nodes</span><span class="p">)</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             
             <span class="c"># Get best likelihood tree.</span>
@@ -188,8 +188,8 @@
     <span class="sd">&#39;&#39;&#39; Parsimony-driven greedy landscape exploration </span>
 <span class="sd">    by comparsion of likelihoods. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">smoothGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startTree</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">smoothGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
         
 <div class="viewcode-block" id="smoothGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.smoothGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
@@ -210,10 +210,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span>
 
             <span class="c"># Explore the current tree and only score via parsimony.</span>
-            <span class="n">landscape</span><span class="o">.</span><span class="n">exploreTree</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">landscape</span><span class="o">.</span><span class="n">exploreTree</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span>
             
             <span class="c"># Rank by parsimony.</span>
-            <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">landscape</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">it</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">it</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -228,7 +228,7 @@
             <span class="c"># Get likelihood of current tree if necessary.</span>
             <span class="n">cL</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">cL</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
-                <span class="n">cL</span> <span class="o">=</span> <span class="n">ll</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">toTopology</span><span class="p">(),</span><span class="n">ali</span><span class="p">)</span>
+                <span class="n">cL</span> <span class="o">=</span> <span class="n">ll</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">],</span><span class="n">ali</span><span class="p">)</span>
                 <span class="n">cursor</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">cL</span><span class="p">,</span><span class="n">cPars</span><span class="p">)</span>            
             
             <span class="c"># Set new current tree if greater in parsimony.</span>
@@ -240,7 +240,7 @@
                 <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">[:</span><span class="n">numtodo</span><span class="p">]:</span>                
                     <span class="c"># Get log-likelihood of this neighbor.</span>
                     <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
-                        <span class="n">ml</span> <span class="o">=</span> <span class="n">ll</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">toTopology</span><span class="p">(),</span><span class="n">ali</span><span class="p">)</span>
+                        <span class="n">ml</span> <span class="o">=</span> <span class="n">ll</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">],</span><span class="n">ali</span><span class="p">)</span>
                         <span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">ml</span><span class="p">,</span><span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
                     <span class="k">else</span><span class="p">:</span> <span class="n">ml</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="k">if</span> <span class="p">(</span><span class="n">cL</span> <span class="o">&lt;</span> <span class="n">ml</span><span class="p">):</span>
@@ -373,13 +373,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015, Alex Safatli.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

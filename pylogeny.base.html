@@ -36,6 +36,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pylogeny.database.html" title="pylogeny.database module"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -51,8 +54,293 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="pylogeny-base-module">
-<h1>pylogeny.base module<a class="headerlink" href="#pylogeny-base-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pylogeny.base">
+<span id="pylogeny-base-module"></span><h1>pylogeny.base module<a class="headerlink" href="#module-pylogeny.base" title="Permalink to this headline">¶</a></h1>
+<p>Definitions for generalized containers and objects used by other structures in this framework.</p>
+<dl class="function">
+<dt id="pylogeny.base.longest_common_substring">
+<tt class="descclassname">pylogeny.base.</tt><tt class="descname">longest_common_substring</tt><big>(</big><em>s1</em>, <em>s2</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#longest_common_substring"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.longest_common_substring" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simplified, traditional LCS algorithm implementation.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.base.patriciaTree">
+<em class="property">class </em><tt class="descclassname">pylogeny.base.</tt><tt class="descname">patriciaTree</tt><a class="reference internal" href="_modules/pylogeny/base.html#patriciaTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.patriciaTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.base.trie" title="pylogeny.base.trie"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.base.trie</span></tt></a></p>
+<p>Defines a PATRICIA tree (condensed trie) across a range of strings.</p>
+<dl class="method">
+<dt id="pylogeny.base.patriciaTree.delete">
+<tt class="descname">delete</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#patriciaTree.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.patriciaTree.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a sequence from the PATRICIA tree. Will not remove 
+added characters to alphabet.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.patriciaTree.insert">
+<tt class="descname">insert</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#patriciaTree.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.patriciaTree.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dynamically insert a sequence into the PATRICIA tree. Returns the
+unique index in the tree for that string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.patriciaTree.search">
+<tt class="descname">search</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#patriciaTree.search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.patriciaTree.search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search for a sequence in the PATRICIA tree. Returns its position in
+addition sequence if it exists. Else, returns 0.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.base.treeBranch">
+<em class="property">class </em><tt class="descclassname">pylogeny.base.</tt><tt class="descname">treeBranch</tt><big>(</big><em>parent=None</em>, <em>child=None</em>, <em>label=''</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A branch in a tree.</p>
+<dl class="attribute">
+<dt id="pylogeny.base.treeBranch.child">
+<tt class="descname">child</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeBranch.child" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeBranch.getChild">
+<tt class="descname">getChild</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.getChild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.getChild" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeBranch.getLabel">
+<tt class="descname">getLabel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.getLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.getLabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeBranch.getParent">
+<tt class="descname">getParent</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.getParent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.getParent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.base.treeBranch.label">
+<tt class="descname">label</tt><em class="property"> = ''</em><a class="headerlink" href="#pylogeny.base.treeBranch.label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.base.treeBranch.parent">
+<tt class="descname">parent</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeBranch.parent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.base.treeNode">
+<em class="property">class </em><tt class="descclassname">pylogeny.base.</tt><tt class="descname">treeNode</tt><big>(</big><em>lbl=None</em>, <em>children=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A node in a tree.</p>
+<dl class="method">
+<dt id="pylogeny.base.treeNode.addChild">
+<tt class="descname">addChild</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.addChild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.addChild" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.base.treeNode.children">
+<tt class="descname">children</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeNode.children" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeNode.getChildByIndex">
+<tt class="descname">getChildByIndex</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.getChildByIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.getChildByIndex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeNode.getChildren">
+<tt class="descname">getChildren</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.getChildren"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.getChildren" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeNode.getLabel">
+<tt class="descname">getLabel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.getLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.getLabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeNode.getParent">
+<tt class="descname">getParent</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.getParent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.getParent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeNode.isInternalNode">
+<tt class="descname">isInternalNode</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.isInternalNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.isInternalNode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeNode.isLeaf">
+<tt class="descname">isLeaf</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.isLeaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.isLeaf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.base.treeNode.label">
+<tt class="descname">label</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeNode.label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.base.treeNode.parent">
+<tt class="descname">parent</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeNode.parent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.base.treeStructure">
+<em class="property">class </em><tt class="descclassname">pylogeny.base.</tt><tt class="descname">treeStructure</tt><big>(</big><em>root=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">_abcoll.Container</span></tt></p>
+<p>Defines a base collection of treeNodes and treeBranches in a
+hierarchical tree structure.</p>
+<dl class="method">
+<dt id="pylogeny.base.treeStructure.getAllLeaves">
+<tt class="descname">getAllLeaves</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.getAllLeaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.getAllLeaves" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeStructure.getAllNodes">
+<tt class="descname">getAllNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.getAllNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.getAllNodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeStructure.getPostOrderTraversal">
+<tt class="descname">getPostOrderTraversal</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.getPostOrderTraversal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.getPostOrderTraversal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeStructure.getRoot">
+<tt class="descname">getRoot</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.getRoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.getRoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the top-level, root, node of 
+the tree.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pylogeny.base.treeStructure.leaves">
+<em class="property">static </em><tt class="descname">leaves</tt><big>(</big><em>root</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.leaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.leaves" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="pylogeny.base.treeStructure.nodes">
+<em class="property">static </em><tt class="descname">nodes</tt><big>(</big><em>root</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="pylogeny.base.treeStructure.postOrderTraversal">
+<em class="property">static </em><tt class="descname">postOrderTraversal</tt><big>(</big><em>root</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.postOrderTraversal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.postOrderTraversal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.base.treeStructure.root">
+<tt class="descname">root</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeStructure.root" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.base.trie">
+<em class="property">class </em><tt class="descclassname">pylogeny.base.</tt><tt class="descname">trie</tt><a class="reference internal" href="_modules/pylogeny/base.html#trie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">_abcoll.Sized</span></tt>, <a class="reference internal" href="#pylogeny.base.treeStructure" title="pylogeny.base.treeStructure"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.base.treeStructure</span></tt></a></p>
+<p>Defines a trie across a range of strings.</p>
+<dl class="attribute">
+<dt id="pylogeny.base.trie.alphabet">
+<tt class="descname">alphabet</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.trie.alphabet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.base.trie.count">
+<tt class="descname">count</tt><em class="property"> = 0</em><a class="headerlink" href="#pylogeny.base.trie.count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trie.delete">
+<tt class="descname">delete</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a sequence from the trie. Will not remove
+added characters to alphabet.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trie.getAlphabet">
+<tt class="descname">getAlphabet</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.getAlphabet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.getAlphabet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trie.getRoot">
+<tt class="descname">getRoot</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.getRoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.getRoot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trie.insert">
+<tt class="descname">insert</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dynamically insert a sequence into the trie.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.base.trie.nextLabel">
+<tt class="descname">nextLabel</tt><em class="property"> = 1</em><a class="headerlink" href="#pylogeny.base.trie.nextLabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.base.trie.root">
+<tt class="descname">root</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.trie.root" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trie.search">
+<tt class="descname">search</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search for a sequence in the trie. Returns true
+if it exists.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.base.trieNode">
+<em class="property">class </em><tt class="descclassname">pylogeny.base.</tt><tt class="descname">trieNode</tt><big>(</big><em>lbl=None</em>, <em>children=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.base.treeNode</span></tt></a></p>
+<p>A subclass of treeNode that allows for checking 
+non-zero members amongst children branches and other
+conveniences.</p>
+<dl class="method">
+<dt id="pylogeny.base.trieNode.getNonEmptyChildrenBranchLabels">
+<tt class="descname">getNonEmptyChildrenBranchLabels</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.getNonEmptyChildrenBranchLabels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.getNonEmptyChildrenBranchLabels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trieNode.getNonEmptyChildrenBranches">
+<tt class="descname">getNonEmptyChildrenBranches</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.getNonEmptyChildrenBranches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.getNonEmptyChildrenBranches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire a list of all non-empty children.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trieNode.getNonEmptyChildrenNodes">
+<tt class="descname">getNonEmptyChildrenNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.getNonEmptyChildrenNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.getNonEmptyChildrenNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire a list of all non-empty children.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trieNode.getParentNode">
+<tt class="descname">getParentNode</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.getParentNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.getParentNode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trieNode.iterNonEmptyChildrenNodes">
+<tt class="descname">iterNonEmptyChildrenNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.iterNonEmptyChildrenNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.iterNonEmptyChildrenNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over all children that are not empty.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trieNode.numEmptyChildrenNodes">
+<tt class="descname">numEmptyChildrenNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.numEmptyChildrenNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.numEmptyChildrenNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire the number of children nodes that are marked 0 
+or nonexistent.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.trieNode.setChildNode">
+<tt class="descname">setChildNode</tt><big>(</big><em>child</em>, <em>newchild</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.setChildNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.setChildNode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -95,6 +383,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pylogeny.database.html" title="pylogeny.database module"
              >next</a> |</li>

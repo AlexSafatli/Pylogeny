@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.scoring &mdash; Pylogeny 0.3.6.9 documentation</title>
+    <title>pylogeny.scoring &mdash; Pylogeny 0.3.8.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.9',
+        VERSION:     '0.3.8.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.9 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -47,13 +47,13 @@
           <div class="body">
             
   <h1>Source code for pylogeny.scoring</h1><div class="highlight"><pre>
-<span class="sd">&#39;&#39;&#39; Phylogenetic tree scoring. &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39; Functions for phylogenetic tree goodness-of-fit scoring. &#39;&#39;&#39;</span>
 
 <span class="c"># Date:   Jan 29 2014</span>
 <span class="c"># Author: Alex Safatli</span>
 <span class="c"># E-mail: safatli@cs.dal.ca</span>
 
-<span class="kn">import</span> <span class="nn">pll</span><span class="o">,</span> <span class="nn">parsimony</span><span class="o">,</span> <span class="nn">fitch</span><span class="o">,</span> <span class="nn">p4</span>
+<span class="kn">import</span> <span class="nn">pll</span><span class="o">,</span> <span class="nn">parsimony</span><span class="o">,</span> <span class="nn">fitch</span><span class="o">,</span> <span class="nn">p4</span><span class="o">,</span> <span class="nn">tree</span><span class="o">,</span> <span class="nn">rearrangement</span><span class="o">,</span> <span class="nn">alignment</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="n">DiscreteStateModel</span> <span class="k">as</span> <span class="n">State</span>
     <span class="kn">from</span> <span class="nn">pytbeaglehon.disc_state_cont_time_model</span> <span class="kn">import</span> <span class="n">HKY85Model</span>
@@ -67,8 +67,15 @@
     
     <span class="sd">&#39;&#39;&#39; Acquire log-likelihood via C++ library</span>
 <span class="sd">    BEAGLE via use of pybeaglethon wrapper library.</span>
-<span class="sd">    Parameters: newick.tree object and alignment</span>
-<span class="sd">    object. Currently uses HKY85 model. &#39;&#39;&#39;</span>
+<span class="sd">    Currently uses HKY85 model. </span>
+<span class="sd">    </span>
+<span class="sd">    :param tree: A tree object.</span>
+<span class="sd">    :type tree: :class: `tree.tree`</span>
+<span class="sd">    :param alignment: An alignment object.</span>
+<span class="sd">    :type alignment: :class: `alignment.alignment`</span>
+<span class="sd">    :returns: A floating point value.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="c"># Construct appropriate BEAGLE instance.</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">alignment</span><span class="o">.</span><span class="n">getDim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span><span class="p">):</span>
@@ -80,33 +87,36 @@
     <span class="n">scorer</span> <span class="o">=</span> <span class="n">Scorer</span><span class="p">(</span><span class="n">model_list</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="p">],</span><span class="n">data</span><span class="o">=</span><span class="n">states</span><span class="p">,</span><span class="n">tree</span><span class="o">=</span><span class="n">T</span><span class="p">(</span><span class="n">newi</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">scorer</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="getLogLikelihoodForTopology"><a class="viewcode-back" href="../../pylogeny.scoring.html#pylogeny.scoring.getLogLikelihoodForTopology">[docs]</a><span class="k">def</span> <span class="nf">getLogLikelihoodForTopology</span><span class="p">(</span><span class="n">topo</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
+<div class="viewcode-block" id="getLogLikelihood"><a class="viewcode-back" href="../../pylogeny.scoring.html#pylogeny.scoring.getLogLikelihood">[docs]</a><span class="k">def</span> <span class="nf">getLogLikelihood</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Acquire log-likelihood via C library libpll.</span>
-<span class="sd">    Parameters: rearrangement.topology object and alignment</span>
-<span class="sd">    object. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Acquire log-likelihood via C library libpll. </span>
 
+<span class="sd">    :param tree: A tree object.</span>
+<span class="sd">    :type tree: :class: `tree.tree`</span>
+<span class="sd">    :param alignment: An alignment object.</span>
+<span class="sd">    :type alignment: :class: `alignment.phylipFriendlyAlignment`</span>
+<span class="sd">    :returns: A floating point value.    </span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">topo</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">toTopology</span><span class="p">()</span>
+    
     <span class="c"># Acquire a data model for libpll.</span>
     <span class="k">try</span><span class="p">:</span> <span class="n">p</span> <span class="o">=</span> <span class="n">pll</span><span class="o">.</span><span class="n">dataModel</span><span class="p">(</span><span class="n">topo</span><span class="p">,</span><span class="n">alignment</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
-    
+
     <span class="c"># Try and acquire the actual log-likelihood.</span>
     <span class="k">try</span><span class="p">:</span> <span class="n">sc</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">getLogLikelihood</span><span class="p">()</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">None</span>
-
-    <span class="n">p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">sc</span>
-</div>
-<div class="viewcode-block" id="getLogLikelihood"><a class="viewcode-back" href="../../pylogeny.scoring.html#pylogeny.scoring.getLogLikelihood">[docs]</a><span class="k">def</span> <span class="nf">getLogLikelihood</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Acquire log-likelihood via C library libpll.</span>
-<span class="sd">    Parameters: newick.tree object and alignment</span>
-<span class="sd">    object. &#39;&#39;&#39;</span>
-
-    <span class="k">return</span> <span class="n">getLogLikelihoodForTopology</span><span class="p">(</span>
-        <span class="n">tree</span><span class="o">.</span><span class="n">toTopology</span><span class="p">(),</span><span class="n">alignment</span><span class="p">)</span>
+    <span class="c"># Update the tree&#39;s Newick string based on new branch lengths.</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">setNewick</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getNewickString</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    
+    <span class="c"># Close instance and return.</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">sc</span>    
 </div>
 <span class="k">def</span> <span class="nf">_pygetParsimonyFromProfiles</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span><span class="n">profiles</span><span class="p">):</span>
     
@@ -127,16 +137,28 @@
 <div class="viewcode-block" id="getParsimony"><a class="viewcode-back" href="../../pylogeny.scoring.html#pylogeny.scoring.getParsimony">[docs]</a><span class="k">def</span> <span class="nf">getParsimony</span><span class="p">(</span><span class="n">newick</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Acquire parsimony via a C++ implementation.</span>
-<span class="sd">    Parameters: newick string and alignment object. &#39;&#39;&#39;</span>    
+<span class="sd">    </span>
+<span class="sd">    :param newick: A New Hampshire (Newick) tree string.</span>
+<span class="sd">    :param alignment: An alignment object.</span>
+<span class="sd">    :type alignment: :class: `alignment.alignment`</span>
+<span class="sd">    :returns: An integer value.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>    
     
     <span class="n">profiles</span> <span class="o">=</span> <span class="n">parsimony</span><span class="o">.</span><span class="n">profile_set</span><span class="p">(</span><span class="n">alignment</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">getParsimonyFromProfiles</span><span class="p">(</span><span class="n">newick</span><span class="p">,</span><span class="n">profiles</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="getParsimonyForTopology"><a class="viewcode-back" href="../../pylogeny.scoring.html#pylogeny.scoring.getParsimonyForTopology">[docs]</a><span class="k">def</span> <span class="nf">getParsimonyForTopology</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
+<div class="viewcode-block" id="getParsimonyForTopology"><a class="viewcode-back" href="../../pylogeny.scoring.html#pylogeny.scoring.getParsimonyForTopology">[docs]</a><span class="k">def</span> <span class="nf">getParsimonyForTopology</span><span class="p">(</span><span class="n">topo</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Acquire parsimony via a C++ implementation.</span>
-<span class="sd">    Parameters: rearrangement.topology and </span>
-<span class="sd">    alignment object. &#39;&#39;&#39;</span>    
+<span class="sd">    </span>
+<span class="sd">    :param topo: A topology object.</span>
+<span class="sd">    :type topo: :class: `rearrangement.topology`</span>
+<span class="sd">    :param alignment: An alignment object.</span>
+<span class="sd">    :type alignment: :class: `alignment.alignment`</span>
+<span class="sd">    :returns: An integer value.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>    
     
     <span class="n">profiles</span> <span class="o">=</span> <span class="n">parsimony</span><span class="o">.</span><span class="n">profile_set</span><span class="p">(</span><span class="n">alignment</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">getParsimonyFromProfiles</span><span class="p">(</span>
@@ -145,8 +167,13 @@
 <div class="viewcode-block" id="getParsimonyFromProfiles"><a class="viewcode-back" href="../../pylogeny.scoring.html#pylogeny.scoring.getParsimonyFromProfiles">[docs]</a><span class="k">def</span> <span class="nf">getParsimonyFromProfiles</span><span class="p">(</span><span class="n">newick</span><span class="p">,</span><span class="n">profiles</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Acquire parsimony via a C++ implementation.</span>
-<span class="sd">    Parameters: newick string and parsimony.profile_set </span>
-<span class="sd">    object. &#39;&#39;&#39;</span>        
+<span class="sd">    </span>
+<span class="sd">    :param newick: A New Hampshire (Newick) tree string.</span>
+<span class="sd">    :param profiles: A set of profiles corresponding to an alignment.</span>
+<span class="sd">    :type profiles: :class: `parsimony.profile_set`</span>
+<span class="sd">    :returns: An integer value.    </span>
+
+<span class="sd">    &#39;&#39;&#39;</span>        
     
     <span class="n">prolist</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">profiles</span><span class="o">.</span><span class="n">profiles</span><span class="p">]</span>
     <span class="n">weilist</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">.</span><span class="n">weights</span>
@@ -156,8 +183,14 @@
 <div class="viewcode-block" id="getParsimonyFromProfilesForTopology"><a class="viewcode-back" href="../../pylogeny.scoring.html#pylogeny.scoring.getParsimonyFromProfilesForTopology">[docs]</a><span class="k">def</span> <span class="nf">getParsimonyFromProfilesForTopology</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span><span class="n">profiles</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Acquire parsimony via a C++ implementation.</span>
-<span class="sd">    Parameters: rearrangement.topology and parsimony.profile_set </span>
-<span class="sd">    object. &#39;&#39;&#39;</span>        
+<span class="sd">    </span>
+<span class="sd">    :param topo: A topology object.</span>
+<span class="sd">    :type topo: :class: `rearrangement.topology`</span>
+<span class="sd">    :param profiles: A set of profiles corresponding to an alignment.</span>
+<span class="sd">    :type profiles: :class: `parsimony.profile_set`</span>
+<span class="sd">    :returns: An integer value.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>        
     
     <span class="n">prolist</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">profiles</span><span class="o">.</span><span class="n">profiles</span><span class="p">]</span>
     <span class="n">weilist</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">.</span><span class="n">weights</span>
@@ -199,13 +232,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015, Alex Safatli.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

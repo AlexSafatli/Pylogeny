@@ -36,6 +36,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -51,8 +54,58 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="pylogeny-parsimony-module">
-<h1>pylogeny.parsimony module<a class="headerlink" href="#pylogeny-parsimony-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pylogeny.parsimony">
+<span id="pylogeny-parsimony-module"></span><h1>pylogeny.parsimony module<a class="headerlink" href="#module-pylogeny.parsimony" title="Permalink to this headline">¶</a></h1>
+<p>Toolkit for performance of Parsimonious Criterion (Parsimony) methods of optimization of a phylogenetic topology with a particular set of data.</p>
+<dl class="function">
+<dt id="pylogeny.parsimony.fitch">
+<tt class="descclassname">pylogeny.parsimony.</tt><tt class="descname">fitch</tt><big>(</big><em>topology</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#fitch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.fitch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the Fitch algorithm on a given
+tree topology and associated alignment. Deprecated: 
+Python implementation of the Fitch algorithm; 
+see fitch C++ module for a C++ implementation 
+that is roughly four times faster.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pylogeny.parsimony.fitch_cost">
+<tt class="descclassname">pylogeny.parsimony.</tt><tt class="descname">fitch_cost</tt><big>(</big><em>topology</em>, <em>profiles</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#fitch_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.fitch_cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the cost using Fitch algorithm on 
+profile set and alignment. Deprecated: Python implementation 
+of the Fitch algorithm; see fitch C++ module for 
+a C++ implementation that is roughly four times faster.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.parsimony.profile_set">
+<em class="property">class </em><tt class="descclassname">pylogeny.parsimony.</tt><tt class="descname">profile_set</tt><big>(</big><em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hold a set of site_profile profiles for an 
+entire alignment.</p>
+<dl class="method">
+<dt id="pylogeny.parsimony.profile_set.get">
+<tt class="descname">get</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.parsimony.profile_set.getForTaxa">
+<tt class="descname">getForTaxa</tt><big>(</big><em>val</em>, <em>tax</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.getForTaxa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.getForTaxa" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.parsimony.profile_set.weight">
+<tt class="descname">weight</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.parsimony.site_profile">
+<em class="property">class </em><tt class="descclassname">pylogeny.parsimony.</tt><tt class="descname">site_profile</tt><big>(</big><em>alignment</em>, <em>site</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#site_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.site_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Consolidate the single-column alignment at
+a region into a set of components on the basis
+of similarity alone.</p>
+</dd></dl>
+
 </div>
 
 
@@ -95,6 +148,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              >next</a> |</li>

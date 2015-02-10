@@ -36,6 +36,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="pylogeny.executable.html" title="pylogeny.executable module"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -51,8 +54,215 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="pylogeny-database-module">
-<h1>pylogeny.database module<a class="headerlink" href="#pylogeny-database-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pylogeny.database">
+<span id="pylogeny-database-module"></span><h1>pylogeny.database module<a class="headerlink" href="#module-pylogeny.database" title="Permalink to this headline">¶</a></h1>
+<p>Connect, access, + manipulate external tree data from a remote SQL server or from a sqlite file.</p>
+<dl class="class">
+<dt id="pylogeny.database.DatabaseLandscape">
+<em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">DatabaseLandscape</tt><big>(</big><em>ali</em>, <em>starting_tree=None</em>, <em>root=True</em>, <em>operator='SPR'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#DatabaseLandscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.DatabaseLandscape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pylogeny.landscape.html#pylogeny.landscape.landscape" title="pylogeny.landscape.landscape"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.landscape.landscape</span></tt></a></p>
+<p>Abstract the landscape to one comprising a landscape.</p>
+<dl class="method">
+<dt id="pylogeny.database.DatabaseLandscape.getNode">
+<tt class="descname">getNode</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#DatabaseLandscape.getNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.DatabaseLandscape.getNode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.database.SQLDatabase">
+<em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">SQLDatabase</tt><big>(</big><em>host</em>, <em>user</em>, <em>pw</em>, <em>db</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.database.database" title="pylogeny.database.database"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.database.database</span></tt></a></p>
+<p>Database object to allow reading from a MySQL database.</p>
+<dl class="method">
+<dt id="pylogeny.database.SQLDatabase.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLDatabase.connect">
+<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLDatabase.getColumns">
+<tt class="descname">getColumns</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.getColumns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.getColumns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return column information for a given table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLDatabase.getTables">
+<tt class="descname">getTables</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.getTables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.getTables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLDatabase.query">
+<tt class="descname">query</tt><big>(</big><em>q</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLDatabase.querymany">
+<tt class="descname">querymany</tt><big>(</big><em>q</em>, <em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.querymany"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.querymany" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.database.SQLExhaustiveLandscape">
+<em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">SQLExhaustiveLandscape</tt><big>(</big><em>dbobj</em>, <em>aliname</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLExhaustiveLandscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLExhaustiveLandscape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.database.DatabaseLandscape" title="pylogeny.database.DatabaseLandscape"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.database.DatabaseLandscape</span></tt></a></p>
+<dl class="method">
+<dt id="pylogeny.database.SQLExhaustiveLandscape.exploreRandomTree">
+<tt class="descname">exploreRandomTree</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLExhaustiveLandscape.exploreRandomTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLExhaustiveLandscape.exploreRandomTree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLExhaustiveLandscape.exploreTree">
+<tt class="descname">exploreTree</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLExhaustiveLandscape.exploreTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLExhaustiveLandscape.exploreTree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLExhaustiveLandscape.getDatabaseNode">
+<tt class="descname">getDatabaseNode</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLExhaustiveLandscape.getDatabaseNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLExhaustiveLandscape.getDatabaseNode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.database.SQLiteDatabase">
+<em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">SQLiteDatabase</tt><big>(</big><em>filepath</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pylogeny.database.database" title="pylogeny.database.database"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.database.database</span></tt></a></p>
+<dl class="method">
+<dt id="pylogeny.database.SQLiteDatabase.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLiteDatabase.getColumns">
+<tt class="descname">getColumns</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.getColumns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.getColumns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return column information for a given table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLiteDatabase.getTables">
+<tt class="descname">getTables</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.getTables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.getTables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLiteDatabase.query">
+<tt class="descname">query</tt><big>(</big><em>q</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.SQLiteDatabase.querymany">
+<tt class="descname">querymany</tt><big>(</big><em>q</em>, <em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.querymany"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.querymany" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.database.SQLiteLandscape">
+<em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">SQLiteLandscape</tt><big>(</big><em>dbobj</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteLandscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteLandscape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pylogeny.landscape.html#pylogeny.landscape.landscape" title="pylogeny.landscape.landscape"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.landscape.landscape</span></tt></a></p>
+<p>Allow random access of all landscape data from an sqlite file found on the 
+hard disk.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pylogeny.database.database">
+<em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">database</tt><a class="reference internal" href="_modules/pylogeny/database.html#database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Allow interfacing with a SQL/sqlite database.</p>
+<dl class="method">
+<dt id="pylogeny.database.database.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylogeny.database.database.cursor">
+<tt class="descname">cursor</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.database.database.cursor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.filterRecords">
+<tt class="descname">filterRecords</tt><big>(</big><em>table</em>, <em>condn</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.filterRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.filterRecords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all records from a given table following a condition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.getColumns">
+<tt class="descname">getColumns</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getColumns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getColumns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.getHeaders">
+<tt class="descname">getHeaders</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get only header names for a given table&#8217;s columns.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.getRecords">
+<tt class="descname">getRecords</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getRecords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all records from a given table in the database.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.getRecordsAsDict">
+<tt class="descname">getRecordsAsDict</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getRecordsAsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getRecordsAsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquires records using getRecords() and then leverages
+access using a dictionary data structure.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.getRecordsColumn">
+<tt class="descname">getRecordsColumn</tt><big>(</big><em>table</em>, <em>col</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getRecordsColumn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getRecordsColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all data for a single colmun from records for a table.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.getTables">
+<tt class="descname">getTables</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getTables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getTables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.insertRecord">
+<tt class="descname">insertRecord</tt><big>(</big><em>tablename</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.insertRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.insertRecord" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.insertRecords">
+<tt class="descname">insertRecords</tt><big>(</big><em>tablename</em>, <em>items</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.insertRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.insertRecords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.isEmpty">
+<tt class="descname">isEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.isEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.isEmpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the database is empty.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.iterRecords">
+<tt class="descname">iterRecords</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.iterRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.iterRecords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a record, one at a time, from a table in the database.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.newTable">
+<tt class="descname">newTable</tt><big>(</big><em>tablename</em>, <em>*args</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.newTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.newTable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.query">
+<tt class="descname">query</tt><big>(</big><em>q</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.database.database.querymany">
+<tt class="descname">querymany</tt><big>(</big><em>q</em>, <em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.querymany"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.querymany" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -95,6 +305,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="pylogeny.executable.html" title="pylogeny.executable module"
              >next</a> |</li>
