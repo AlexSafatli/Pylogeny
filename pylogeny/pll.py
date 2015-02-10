@@ -29,7 +29,7 @@ class dataModel:
         
         # Ensure that given alignment object is of correct type.
         if type(alignm) != alignment.phylipFriendlyAlignment:
-            raise TypeError('Data model for libpll likelihood scoring needs phylipFriendlyAlignment.')
+            raise TypeError('libpll interfacing needs phylipFriendlyAlignment.')
         
         # Declarations
         isProtein = (alignm.data.dataType == 'protein')

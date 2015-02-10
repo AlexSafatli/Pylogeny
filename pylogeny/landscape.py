@@ -70,6 +70,7 @@ class graph(object):
     def getEdgesFor(self,i):     return [self.getEdge(i,j) for j in self.graph.neighbors(i)]
     def getNode(self,i):         return self.graph.node[i] 
     def getEdge(self,i,j):       return self.graph.get_edge_data(i,j)
+    def isEdge(self,i,j):        return (self.getEdge(i,j) != None)
     def getNeighborsFor(self,i): return self.graph.neighbors(i)  
     
     def getDegreeFor(self,i):
@@ -272,8 +273,8 @@ class landscape(graph,treeSet):
         # Add its structure to an auxilary PATRICIA tree structure.
         insert = self.newickSearchTree.insert(tobj.getStructure())
         if insert == 0:
-            raise AssertionError('Tree (%d) by structure <%s> already exists in space!' % (
-                tobj.name,str(tobj.getStructure())))
+            raise AssertionError('Tree (%s) by structure <%s> already exists in space!' % (
+                str(tobj.name),str(tobj.getStructure())))
         i = insert - 1
         
         # See if name indicates an integer.
@@ -312,7 +313,7 @@ class landscape(graph,treeSet):
     
     def getTree(self,i):
         
-        ''' Get the tree object for a tree by its ID or name i. '''
+        ''' Get the object for a tree by its name. '''
         
         if not i in self.graph.node: return None
         return self.getNode(i)['tree']
@@ -331,27 +332,31 @@ class landscape(graph,treeSet):
         
         return vertex(self.getNode(i),self)
 
+    def removeTreeByName(self,i):
+        
+        ''' Remove a tree from the landscape by name. '''
+        
+        tr = self.getTree(i)
+        if (tr == None): return False
+        self.graph.remove_node(i)
+        self.newickSearchTree.delete(tr.getStructure())
+        return True
+
     def removeTree(self,tree):
         
         ''' Remove a tree from the landscape by object. '''
-        
-        for t in self.graph.node:
-            if self.getTree(t) == tree:
-                self.graph.remove_node(t)
-                self.newickSearchTree.delete(tree.getStructure())
-                return True
-        return False
+
+        t = self.indexOf(tree)
+        if (t < 0): return False
+        return self.removeTreeByName(t)
         
     def addTree(self,tree):
         
         ''' Add a tree to the landscape. Will return its index. '''
             
-        # Add node to graph.
-        index = self._newNode(tree)
-        
-        # Return its index.
-        return index
-
+        # Add node to graph and return its index.
+        return self._newNode(tree)
+    
     def exploreRandomTree(self,i,type=TYPE_SPR):
         
         ''' Acquire a single neighbor to a tree in the landscape by performing

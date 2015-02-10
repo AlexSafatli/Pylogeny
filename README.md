@@ -1,14 +1,15 @@
 Pylogeny
 ========
 
-A Python library and code framework for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation, heuristic search, and analysis of the phylogenetic tree combinatorial space. Also possesses features to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
+A software library and code framework, written in the Python programming language, for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation, heuristic search, and analysis of the phylogenetic tree combinatorial space. Functionality also exists in the framework to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
 
-Allows one to perform the following tasks:
+The following tasks are capable of being performed with this library:
 
   - Generate and maintain phylogenetic tree landscapes.
-  - Build and rearrange phylogenetic trees using preset operators such as NNI, SPR, and TBR.
-  - Score phylogenetic trees by Log-likelihood and Parsimony.
-  - Build confidence sets of trees using CONSEL.
+  - Construct and analyse heuristic methods to search these spaces.
+  - Build and rearrange phylogenetic trees using preset operators (such as NNI, SPR, and TBR).
+  - Score phylogenetic trees by Maximum Likelihood (calculated as log-likelihood) and Parsimony.
+  - Build confidence sets of trees using the widely known [CONSEL](http://www.sigmath.es.osaka-u.ac.jp/shimo-lab/prog/consel/ "CONSEL") application.
 
 Code Example
 -------------
@@ -42,17 +43,22 @@ The API is currently being output to a Github page located [here](http://AlexSaf
 Dependencies
 -------------
 
- * Numpy
- * NetworkX
- * Pandas
+ * [NumPy](http://www.numpy.org/)
+ * [NetworkX](https://networkx.github.io/)
+ * [Pandas](http://pandas.pydata.org/)
  * MySQLdb for Python
- * P4 Phylogenetic Library
- * libpll Phylogenetic Likelihood Library (currently compiled with [ver. 1.0.0 with SSE3](http://www.libpll.org/Downloads/libpll-1.0.0-sse3-64.tar.gz))
+ * [P4](https://code.google.com/p/p4-phylogenetics/) Phylogenetic Library
+ * [libpll](http://libpll.org) Phylogenetic Likelihood Library (currently compiled with latest [version 1.0.2 with SSE3](http://libpll.org/Downloads/libpll-1.0.2-sse3-64.tar.gz))
 
 Works With
 -------------
 
- * FastTree
- * RAxML
- * CONSEL
- * PytBEAGLEhon
+ * [FastTree](http://www.microbesonline.org/fasttree/)
+ * [RAxML](http://sco.h-its.org/exelixis/software.html)
+ * [CONSEL](http://www.sigmath.es.osaka-u.ac.jp/shimo-lab/prog/consel/)
+ * [PytBEAGLEhon](https://github.com/mtholder/pytbeaglehon)
+
+Contributing
+-------------
+
+To contribute to this project, feel free to make a pull request and it will be reviewed by the code maintainers.

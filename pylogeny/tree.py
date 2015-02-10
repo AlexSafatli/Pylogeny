@@ -97,7 +97,10 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
     
     # Internals
         
-    def __eq__(self,o): return (o.struct == self.struct)
+    def __eq__(self,o):
+        if (o == None): return False
+        return (o.struct == self.struct)
+    
     def __ne__(self,o): return not (self.__eq__(o))
     def __str__(self): return self.newick
     

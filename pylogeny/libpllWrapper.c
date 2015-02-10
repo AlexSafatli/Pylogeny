@@ -56,7 +56,7 @@ static PyObject * phylo_rearr_to_pylist(problem_t * probl) {
       // Commit the move.
       pllRearrangeCommit(probl->instance,probl->partitions,
                          &(rlist->rearr[i]),PLL_TRUE);
-      Tree2String(probl->instance->tree_string,probl->instance,
+      pllTreeToNewick(probl->instance->tree_string,probl->instance,
                   probl->partitions,probl->instance->start->back,
                   PLL_TRUE,PLL_TRUE,0,0,0,PLL_SUMMARIZE_LH,0,0);
 
@@ -74,7 +74,7 @@ static PyObject * phylo_rearr_to_pylist(problem_t * probl) {
 
    }
 
-   pllEvaluateGeneric(probl->instance,probl->partitions,
+   pllEvaluateLikelihood(probl->instance,probl->partitions,
                       probl->instance->start,PLL_TRUE,PLL_FALSE);
    return list;
 
@@ -150,13 +150,13 @@ static PyObject * phylo_init(PyObject *self, PyObject *args) {
    pllInstance     *inst = problem->instance;
    problem->partitions   = pllPartitionsCommit(partinfo,ali);
    pllTreeInitTopologyNewick(inst,problem->tree,PLL_TRUE);
-   if (!pllLoadAlignment(inst,ali,problem->partitions,PLL_DEEP_COPY)) {
+   if (!pllLoadAlignment(inst,ali,problem->partitions)) {
       PyErr_SetString(PyExc_IOError,"Could not find correct correspondances.");
       return NULL;
    }
 
    // Start model.
-   pllInitModel(inst,problem->partitions,ali);
+   pllInitModel(inst,problem->partitions);
    pllQueuePartitionsDestroy(&partinfo);
 
    /* Setup rearrangement list as NULL. */
@@ -202,7 +202,7 @@ static PyObject * phylo_getml(PyObject *self, PyObject *args) {
    } pp = (problem_t*)PyCObject_AsVoidPtr(p);
 
    // Get log-likelihood.
-   pllTreeEvaluate(pp->instance,pp->partitions,64);
+   pllOptimizeBranchLengths(pp->instance,pp->partitions,3);
 
    // Return it.
    if (pp->instance->likelihood)
@@ -224,7 +224,7 @@ static PyObject * phylo_getnewick(PyObject *self, PyObject *args) {
    } pp = (problem_t*)PyCObject_AsVoidPtr(p);
    
    // Get the tree string.
-   Tree2String(pp->instance->tree_string,pp->instance,
+   pllTreeToNewick(pp->instance->tree_string,pp->instance,
                pp->partitions,pp->instance->start->back,
                PLL_TRUE,PLL_TRUE,0,0,0,PLL_SUMMARIZE_LH,0,0);
    char *rnewick = pp->instance->tree_string;

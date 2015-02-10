@@ -5,16 +5,19 @@
 # E-mail: safatli@cs.dal.ca
 
 import tree
+from base import longest_common_substring
 from abc import ABCMeta as abstractclass, abstractmethod
 from os import mkdir, getcwd, chdir, name as os_name
 from os.path import abspath, isdir, isfile
 from subprocess import call, PIPE, Popen as system
+from tempfile import NamedTemporaryFile
 
 # Constants
 
 E_FASTTREE = 'fasttree'
 E_RAXML    = 'raxmlHPC'
 E_TREEPUZZ = 'puzzle'
+E_RSPR     = 'rspr'
 L_TEMPDIR  = 'pylogeny'
 
 # Executable Existence Function
@@ -228,3 +231,67 @@ class raxml(executable):
         self.alg = alg
         self.run()
 
+class rspr(executable):
+
+    ''' Denotes a single run of the rSPR executable by Dr. Chris Whidden (2014), a software package for computing rooted subtree-prune-and-regraft (SPR) distances. See http://kiwi.cs.dal.ca/Software/RSPR. Requires the executable to be on PATH. '''
+
+    exeName = E_RSPR
+    RSPR_ALG_DEFAULT = ''
+    RSPR_ALG_APPROX  = '-approx'
+    RSPR_ALG_BB      = '-bb'
+    RSPR_ALG_FPT     = '-fpt'
+
+    def __init__(self,treeA,treeB,algorithm=RSPR_ALG_DEFAULT,overlap=True):
+        
+        ''' Algorithm choices are defined in this class. If overlap is set to True, 
+        will attempt to consolidate taxa names such that they are overlapping 
+        (otherwise, RSPR will return an error if they do not match). '''
+        
+        self.inputA   = treeA
+        self.inputB   = treeB
+        self.treeFile = ''
+        self.algthm   = algorithm
+        self._output  = ''
+        if overlap: self._overlapTaxa(treeA,treeB)
+        self._makeTemporaryFile()
+        
+    def _makeTemporaryFile(self):
+        t1,t2 = self.inputA,self.inputB
+        fi    = NamedTemporaryFile(delete=False)
+        fi.close()
+        o = open(fi.name,'w')
+        o.write('%s\n%s' % (t1.newick,t2.newick))
+        o.close()
+        self.treeFile = fi.name        
+        
+    def _overlapTaxa(self,a,b):
+        topol = a.toTopology()
+        other = b.toTopology()
+        anodes = topol.getAllLeaves()
+        bnodes = other.getAllLeaves()
+        if (len(anodes) != len(bnodes)): raise IOError('Non-overlapping taxa lengths.')
+        runnli = []
+        for n in anodes:
+            corresp    = None
+            correspstr = ''
+            for i in [x for x in bnodes if not x in runnli]:
+                lcstr = longest_common_substring(n.label,i.label)
+                if (len(lcstr) > len(n.label)*(3./4) 
+                    and len(lcstr) > len(i.label)*(3./4) and
+                    len(lcstr) > len(correspstr)):
+                    corresp    = i
+                    correspstr = lcstr
+            if corresp:
+                n.label       = correspstr
+                corresp.label = correspstr
+                runnli.append(corresp)
+            else: raise IOError('Could not find overlapping taxa for %s.' % (n.label))
+        self.inputA = topol.toTree()
+        self.inputB = other.toTree()         
+
+    def getSPRDistance(self):
+        self._output = self.run()
+        return (int(self._output.split('drSPR=')[-1]))
+
+    def getInstructionString(self):
+        return '%s %s < %s' % (self.exeName,self.algthm,self.treeFile)
