@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.scoring module &mdash; Pylogeny 0.3.8.0 documentation</title>
+    <title>pylogeny.scoring module &mdash; Pylogeny 0.3.9.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.8.0',
+        VERSION:     '0.3.9.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.0 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.tree module" href="pylogeny.tree.html" />
     <link rel="prev" title="pylogeny.rearrangement module" href="pylogeny.rearrangement.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.rearrangement.html" title="pylogeny.rearrangement module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.9.0 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -82,7 +82,7 @@ Currently uses HKY85 model.</p>
 
 <dl class="function">
 <dt id="pylogeny.scoring.getLogLikelihood">
-<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getLogLikelihood</tt><big>(</big><em>tree</em>, <em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getLogLikelihood" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getLogLikelihood</tt><big>(</big><em>tree</em>, <em>alignment</em>, <em>updateBranchLengths=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getLogLikelihood" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquire log-likelihood via C library libpll.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -91,6 +91,7 @@ Currently uses HKY85 model.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>tree</strong> &#8211; A tree object.</li>
 <li><strong>alignment</strong> &#8211; An alignment object.</li>
+<li><strong>updateBranchLengths</strong> &#8211; Whether or not to update the branch lengths in the provided tree with optimized ones.</li>
 </ul>
 </td>
 </tr>
@@ -236,7 +237,7 @@ Currently uses HKY85 model.</p>
         <li class="right" >
           <a href="pylogeny.rearrangement.html" title="pylogeny.rearrangement module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.9.0 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscape &mdash; Pylogeny 0.3.8.0 documentation</title>
+    <title>pylogeny.landscape &mdash; Pylogeny 0.3.9.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.8.0',
+        VERSION:     '0.3.9.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -238,8 +238,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span>               <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">operator</span>           <span class="o">=</span> <span class="n">operator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parsimony_profiles</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchTree</span>   <span class="o">=</span> <span class="n">patriciaTree</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchMap</span>    <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchDict</span>   <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         
         <span class="c"># Analyze alignment.</span>
         <span class="k">if</span> <span class="n">ali</span><span class="p">:</span>
@@ -319,20 +318,19 @@
         
         <span class="sd">&#39;&#39;&#39; PRIVATE: Add a new node. &#39;&#39;&#39;</span>
         
-        <span class="c"># Add its structure to an auxilary PATRICIA tree structure.</span>
-        <span class="n">insert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchTree</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tobj</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">insert</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s">&#39;Tree (</span><span class="si">%s</span><span class="s">) by structure &lt;</span><span class="si">%s</span><span class="s">&gt; already exists in space!&#39;</span> <span class="o">%</span> <span class="p">(</span>
-                <span class="nb">str</span><span class="p">(</span><span class="n">tobj</span><span class="o">.</span><span class="n">name</span><span class="p">),</span><span class="nb">str</span><span class="p">(</span><span class="n">tobj</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())))</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="n">insert</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="c"># Extract data from the object.</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tobj</span><span class="p">)</span> <span class="o">!=</span> <span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Nodes in space must be constructed from tree objects.&#39;</span><span class="p">)</span>
+        <span class="n">name</span>      <span class="o">=</span> <span class="n">tobj</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
+        <span class="n">structure</span> <span class="o">=</span> <span class="n">tobj</span><span class="o">.</span><span class="n">getStructure</span><span class="p">()</span>
         
-        <span class="c"># See if name indicates an integer.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tobj</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()):</span>
-            <span class="n">mapInd</span> <span class="o">=</span> <span class="n">i</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tobj</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&#39;Tree already exists in landscape with that index (</span><span class="si">%d</span><span class="s">).&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchMap</span><span class="p">[</span><span class="n">mapInd</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="c"># Add its structure to a dictionary structure.</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">query</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s">&#39;Tree (</span><span class="si">%s</span><span class="s">) &lt;</span><span class="si">%s</span><span class="s">&gt; already exists in space!&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="nb">str</span><span class="p">(</span><span class="n">structure</span><span class="p">)))</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c"># Get next possible value for insertion unique integer.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchDict</span><span class="p">[</span><span class="n">structure</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
         
         <span class="c"># Create the node.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -381,14 +379,14 @@
         
         <span class="k">return</span> <span class="n">vertex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="bp">self</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="landscape.removeTreeByName"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.removeTreeByName">[docs]</a>    <span class="k">def</span> <span class="nf">removeTreeByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+<div class="viewcode-block" id="landscape.removeTreeByIndex"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.removeTreeByIndex">[docs]</a>    <span class="k">def</span> <span class="nf">removeTreeByIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Remove a tree from the landscape by name. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Remove a tree from the landscape by index. &#39;&#39;&#39;</span>
         
         <span class="n">tr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">tr</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="bp">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchTree</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchDict</span><span class="p">[</span><span class="n">tr</span><span class="o">.</span><span class="n">getStructure</span><span class="p">()]</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="landscape.removeTree"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.removeTree">[docs]</a>    <span class="k">def</span> <span class="nf">removeTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tree</span><span class="p">):</span>
@@ -397,7 +395,7 @@
 
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="bp">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">removeTreeByName</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">removeTreeByIndex</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         </div>
 <div class="viewcode-block" id="landscape.addTree"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.addTree">[docs]</a>    <span class="k">def</span> <span class="nf">addTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tree</span><span class="p">):</span>
         
@@ -409,7 +407,8 @@
 <div class="viewcode-block" id="landscape.exploreRandomTree"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.exploreRandomTree">[docs]</a>    <span class="k">def</span> <span class="nf">exploreRandomTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="n">TYPE_SPR</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Acquire a single neighbor to a tree in the landscape by performing</span>
-<span class="sd">        a random rearrangement of type SPR (by default), NNI, or TBR. Rearrangement</span>
+<span class="sd">        a random rearrangement of type SPR (by default), NNI, or TBR -- this is done by</span>
+<span class="sd">        performing a rearrangement on a random branch in the topology. Rearrangement</span>
 <span class="sd">        type is provided as a rearrangement module type definition of form, for example,</span>
 <span class="sd">        TYPE_SPR, TYPE_NNI, etc. &#39;&#39;&#39;</span>
         
@@ -430,13 +429,13 @@
                 <span class="n">hasthis</span> <span class="o">=</span> <span class="n">topol</span><span class="o">.</span><span class="n">getBranchFromBipartition</span><span class="p">(</span><span class="n">lock</span><span class="p">)</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">hasthis</span><span class="p">):</span> <span class="n">topol</span><span class="o">.</span><span class="n">lockBranch</span><span class="p">(</span><span class="n">hasthis</span><span class="p">)</span>
         
-        <span class="c"># Perform an exploration not yet done.</span>
+        <span class="c"># Perform an exploration (not yet done).</span>
         <span class="n">branches</span> <span class="o">=</span> <span class="n">topol</span><span class="o">.</span><span class="n">getBranches</span><span class="p">()</span>
-        <span class="k">while</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">branches</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">branches</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c"># Keep performing until unique rearrangement.</span>
             
             <span class="n">bra</span>  <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="n">branches</span><span class="p">)</span>
             <span class="n">branches</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">bra</span><span class="p">)</span>
-            <span class="n">enum</span> <span class="o">=</span> <span class="n">topol</span><span class="o">.</span><span class="n">iterTypeForBranch</span><span class="p">(</span><span class="n">bra</span><span class="p">,</span><span class="nb">type</span><span class="p">)</span>
+            <span class="n">enum</span> <span class="o">=</span> <span class="n">topol</span><span class="o">.</span><span class="n">iterTypeForBranch</span><span class="p">(</span><span class="n">bra</span><span class="p">,</span><span class="nb">type</span><span class="p">)</span> <span class="c"># Iterate over each rearrangement.</span>
         
             <span class="k">for</span> <span class="n">en</span> <span class="ow">in</span> <span class="n">enum</span><span class="p">:</span>
                 
@@ -444,13 +443,12 @@
                 <span class="n">typ</span> <span class="o">=</span> <span class="n">en</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
                 <span class="n">t</span>   <span class="o">=</span> <span class="n">en</span><span class="o">.</span><span class="n">toTree</span><span class="p">()</span>
                 <span class="n">new</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">getNewick</span><span class="p">()</span>
-                <span class="n">stt</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">getStructure</span><span class="p">()</span>
     
                 <span class="c"># See if already been found.</span>
-                <span class="n">inlandscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">stt</span><span class="p">)</span>
+                <span class="n">inlandscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
-                    <span class="c"># Is in landscape; has connection to tree?</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="n">i</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">)):</span> 
+                    <span class="c"># Is already in landscape; has connection to tree?</span>
+                    <span class="k">if</span> <span class="p">((</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="n">i</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">)):</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">getEdge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">)[</span><span class="s">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaultWeight</span>
@@ -510,13 +508,12 @@
             <span class="n">typ</span> <span class="o">=</span> <span class="n">en</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
             <span class="n">t</span>   <span class="o">=</span> <span class="n">en</span><span class="o">.</span><span class="n">toTree</span><span class="p">()</span>
             <span class="n">new</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">getNewick</span><span class="p">()</span>
-            <span class="n">stt</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">getStructure</span><span class="p">()</span>
 
             <span class="c"># See if already been found.</span>
-            <span class="n">inlandscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">stt</span><span class="p">)</span>
+            <span class="n">inlandscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">getStructure</span><span class="p">())</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
                 <span class="c"># Is in landscape; has connection to tree?</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="n">i</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">)):</span> 
+                <span class="k">if</span> <span class="p">((</span><span class="n">inlandscape</span> <span class="o">!=</span> <span class="n">i</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_node</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">)):</span> 
                     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">getEdge</span><span class="p">(</span><span class="n">inlandscape</span><span class="p">,</span><span class="n">i</span><span class="p">)[</span><span class="s">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaultWeight</span>
@@ -677,12 +674,10 @@
         <span class="sd">&#39;&#39;&#39; Find a tree by topology, not taking into account branch lengths,</span>
 <span class="sd">        given the topology. &#39;&#39;&#39;</span>
         
-        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchTree</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">struct</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">query</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="n">query</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchMap</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchMap</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">index</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="p">(</span><span class="n">struct</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchDict</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">query</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newickSearchDict</span><span class="p">[</span><span class="n">struct</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">index</span>
         <span class="k">return</span> <span class="bp">None</span>
         </div>
 <div class="viewcode-block" id="landscape.getBestImprovement"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.getBestImprovement">[docs]</a>    <span class="k">def</span> <span class="nf">getBestImprovement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
@@ -987,7 +982,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

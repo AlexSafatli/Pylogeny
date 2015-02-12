@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.rearrangement &mdash; Pylogeny 0.3.8.0 documentation</title>
+    <title>pylogeny.rearrangement &mdash; Pylogeny 0.3.9.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.8.0',
+        VERSION:     '0.3.9.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.8.0 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -115,7 +115,9 @@
         <span class="sd">&#39;&#39;&#39; Commit the actual move and return the</span>
 <span class="sd">        topology. &#39;&#39;&#39;</span>
         
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">topol</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">)</span>
+        <span class="n">topo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topol</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">)</span>
+        <span class="n">topo</span><span class="o">.</span><span class="n">rerootToLeaf</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">topo</span>
     </div>
 <div class="viewcode-block" id="rearrangement.toNewick"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.toNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -130,11 +132,11 @@
         
         <span class="sd">&#39;&#39;&#39; Commit the move and transform to tree object. &#39;&#39;&#39;</span>
         
-        <span class="n">out</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toNewick</span><span class="p">())</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">toTopology</span><span class="p">()</span><span class="o">.</span><span class="n">toTree</span><span class="p">()</span>
         <span class="n">out</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">out</span>
     </div>
-<div class="viewcode-block" id="rearrangement.doMove"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.doMove">[docs]</a>    <span class="k">def</span> <span class="nf">doMove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTopology</span><span class="p">()</span>
+<div class="viewcode-block" id="rearrangement.doMove"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.doMove">[docs]</a>    <span class="k">def</span> <span class="nf">doMove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">toTopology</span><span class="p">()</span>
     </div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -695,7 +697,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.8.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
