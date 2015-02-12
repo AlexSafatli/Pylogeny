@@ -1,17 +1,15 @@
 from base import *
-from pylogeny import heuristic
+from Odin import heuristic
 
 class heuristicTest(pylogenyTest):
 
-    landscape = None
-    
     def runLinearHeuristic(self,heu,start=0):
         if issubclass(heu,heuristic.phylogeneticLinearHeuristic):
-            h = heu(self.landscape,self.landscape.getNode(start))
-            h.explore()
-            self.assertGreater(len(self.landscape),1)
+            self.runHeuristic(heu,start)
             return
         self.fail('Not a proper heuristic.')
+
+class implementedHeuristicsTest(heuristicTest):
 
     def test_runParsimonyGreedyHeuristic(self):
         self.resetLandscape()
@@ -27,5 +25,5 @@ class heuristicTest(pylogenyTest):
 
 if __name__ == '__main__':
 
-    suite = loader().loadTestsFromTestCase(heuristicTest)
+    suite = loader().loadTestsFromTestCase(implementedHeuristicsTest)
     tests(verbosity=2).run(suite)

@@ -66,7 +66,9 @@ class rearrangement:
         ''' Commit the actual move and return the
         topology. '''
         
-        return self.topol.move(self.target,self.destination)
+        topo = self.topol.move(self.target,self.destination)
+        topo.rerootToLeaf()
+        return topo
     
     def toNewick(self):
         
@@ -81,11 +83,11 @@ class rearrangement:
         
         ''' Commit the move and transform to tree object. '''
         
-        out = tree.tree(self.toNewick())
+        out = self.toTopology().toTree()
         out.origin = self.getType()
         return out
     
-    def doMove(self): return self.getTopology()
+    def doMove(self): return self.toTopology()
     
     def __str__(self):
         

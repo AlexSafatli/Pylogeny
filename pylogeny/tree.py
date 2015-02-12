@@ -34,7 +34,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         self.origin = None
         self.newick = newi
         if (check): self._checkNewick(newi)        
-        else:       self.setNewick(newi)
+        else:       self._setNewick(newi)
     
     # Getters, Mutators
     
@@ -53,13 +53,26 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         
     def getNewick(self):   return self.newick
     def toNewick(self):    return self.newick
-    def setNewick(self,n):
+    def _setNewick(self,n):
         
-        ''' Set Newick string to n; also reacquires corresponding
-        "structure" or Newick string without branch lengths. '''
+        ''' PRIVATE: Set Newick string to n; also reacquires 
+        corresponding "structure" or Newick string without 
+        branch lengths. '''
         
         self.newick = n
-        self.struct = self._getStructure()   
+        self.struct = self._getStructure()
+        
+    def updateNewick(self,n,reroot=False):
+        
+        ''' Update the contained Newick string only as long
+        as the structure obtained (after rerooting, which is
+        an optional parameter) is identical to the contained
+        structure. '''
+        
+        thisStruct = self._getStructure(reroot=reroot)
+        if (thisStruct != self.getStructure()):
+            raise ValueError('Updated string infers structural change of tree!')
+        self.newick = n
         
     def getStructure(self):
         
@@ -110,20 +123,24 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         parse pass and reroot to lowest-order leaf in
         order to ensure a consistent Newick string. '''
         
-        newi        = newi.strip('\n').strip(';') + ';'   
+        newi        = newi.strip('\n').strip(';') + ';'
         prsd        = newick.newickParser(newi).parse()
-        self.newick = rearrangement.topology(prsd).toNewick()
-        self.struct = self._getStructure(prsd)
+        topo        = rearrangement.topology(prsd)
+        self.newick = topo.toNewick()
+        self.struct = self._getStructure(topo.getRoot())
     
-    def _getStructure(self,prsd=None):
+    def _getStructure(self,prsd=None,reroot=False):
         
         ''' PRIVATE: Acquires a newick string without any
         defined branch lengths. '''
         
         if prsd: p = prsd
-        else: p = newick.newickParser(self.newick).parse()    
+        else: p = newick.newickParser(self.newick).parse()
+        if reroot:
+            topo = rearrangement.topology(p)
+            p = topo.getRoot()
         newick.removeBranchLengths(p)
-        return str(p) + ';'  
+        return str(p) + ';'
     
 class treeSet(base.Sized,base.Iterable):
     
@@ -384,11 +401,11 @@ class bipartition(object):
         
         # Investigate all rearrangements.
         rearrangements = self.getSPRRearrangements()
-        resultants = [x.toTree().struct for x in rearrangements]
+        resultants = [x.toTree().getStructure() for x in rearrangements]
         for neighbor in neighbors:
             node   = ls.getNode(neighbor)
             tree   = ls.getTree(neighbor)
-            struct = tree.struct
+            struct = tree.getStructure()
             if struct in resultants:
                 scores.append(tree.score[0])
         return scores

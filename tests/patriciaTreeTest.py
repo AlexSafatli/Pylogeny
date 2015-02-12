@@ -2,18 +2,19 @@
 
 import platform, random
 from unittest import TestLoader as loader, TestCase as testCase, TextTestRunner as tests
-from pylogeny.landscape import landscape
-from pylogeny.base import patriciaTree
-from pylogeny import tree as otree
-from pylogeny.landscapeWriter import landscapeWriter, landscapeParser
-from pylogeny.alignment import phylipFriendlyAlignment as alignment
+from base import pylogenyTest
+from Odin.landscape import landscape
+from Odin.base import patriciaTree
+from Odin import tree as otree
+from Odin.landscapeWriter import landscapeWriter, landscapeParser
+from Odin.alignment import phylipFriendlyAlignment as alignment
+from Odin.heuristic import parsimonyGreedy
 
-NUM_WORDS_TO_TEST = 20000
+NUM_WORDS_TO_TEST = 60000
 
-class patriciaTreeTest(testCase):
+class patriciaTreeTest(pylogenyTest):
 
     words       = None
-    landscape   = None
     wordPatTree = None
     newiPatTree = None
     
@@ -35,7 +36,6 @@ class patriciaTreeTest(testCase):
         ali = alignment('al.fasta')
         cls.landscape = landscape(ali,starting_tree=ali.getApproxMLTree(),
                                    root=True,operator='SPR')
-        cls.landscape.exploreTree(0)
         
         # Set up two PATRICIA trees.
         cls.wordPatTree = patriciaTree()
@@ -79,6 +79,7 @@ class patriciaTreeTest(testCase):
         self.assertTrue(newick in self.newiPatTree)
     
     def test_addMultipleNewickTrees(self):
+        self.runHeuristic(parsimonyGreedy)
         prevlen = len(self.newiPatTree)
         for tree in self.landscape.iterTrees():
             self.assertTrue(type(tree) == otree.tree)

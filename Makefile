@@ -19,7 +19,7 @@ install: build
 dist: build
 	${PY} setup.py ${DIST}
 
-docs: ${FILES} install dist check_environment
+docs: ${FILES} check_environment install
 	${EDOC} --pdf --name ${NAME} --url "http://AlexSafatli.github.io/Pylogeny" --graph all ${FILES} -o ${DOCS}
 	${SDOC} -F -e -H ${NAME} -A "Alex Safatli" -V ${VER} -R ${VER} -o ${DOCS} ${PKG}
 	@cd ${DOCS} && make html

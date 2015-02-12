@@ -38,7 +38,7 @@ def beaglegetLogLikelihood(tree,alignment):
     scorer = Scorer(model_list=[model],data=states,tree=T(newi))
     return scorer()
 
-def getLogLikelihood(tree,alignment):
+def getLogLikelihood(tree,alignment,updateBranchLengths=True):
     
     ''' Acquire log-likelihood via C library libpll. 
 
@@ -46,6 +46,7 @@ def getLogLikelihood(tree,alignment):
     :type tree: :class: `tree.tree`
     :param alignment: An alignment object.
     :type alignment: :class: `alignment.phylipFriendlyAlignment`
+    :param updateBranchLengths: Whether or not to update the branch lengths in the provided tree with optimized ones.
     :returns: A floating point value.    
     
     '''
@@ -63,7 +64,9 @@ def getLogLikelihood(tree,alignment):
         return None
     
     # Update the tree's Newick string based on new branch lengths.
-    tree.setNewick(p.getNewickString().strip())
+    if updateBranchLengths:
+        try: tree.updateNewick(p.getNewickString().strip(),reroot=True)
+        except ValueError, e: pass
     
     # Close instance and return.
     p.close()

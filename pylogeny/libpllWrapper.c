@@ -1,7 +1,7 @@
 /* libpllWrapper.c / Date: Jan 31, 2014 /Author: Alex E. Safatli
 ----------------------------------------------------------------------
 Uncomprehensive bindings with libpll - phylogenetic functions 
-intended for tree scoring and rearrangement. Designed for libpll 1.0.0 */
+intended for tree scoring and rearrangement. Designed for libpll 1.0.2 (tested with SSE3) */
 
 #include <pll/pll.h>
 #include <Python.h>

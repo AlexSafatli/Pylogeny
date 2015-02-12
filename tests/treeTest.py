@@ -1,7 +1,7 @@
 from unittest import TestLoader as loader, TestCase as testCase, TextTestRunner as tests
 from os.path import isfile
-from pylogeny.tree import tree, treeSet
-from pylogeny.alignment import alignment
+from Odin.tree import tree, treeSet
+from Odin.alignment import alignment
 
 class treeTest(testCase):
 
@@ -22,7 +22,7 @@ class treeTest(testCase):
     
     def test_tree_init(self):
         
-        t = tree(self.tree_.getNewick())
+        t = tree(self.tree_.getNewick(),check=True)
         self.assertTrue(type(t) == tree)
     
     def test_tree_initNoCheck(self):

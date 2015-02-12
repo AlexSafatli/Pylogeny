@@ -40,9 +40,9 @@ class landscapeWriter(object):
         
         # Create all content tables.
         dbobj.newTable('alignment',('seqid','integer'),('seqname','text'),('sequence','text'))
-        dbobj.newTable('trees',('treeid','integer'),('newick','text'),
+        dbobj.newTable('trees',('treeid','integer'),('name','text'),('newick','text'),
                        ('origin','text'),('ml','real'),('pars','real'),('explored','boolean'))
-        dbobj.newTable('graph',('source','text'),('origin','text'))
+        dbobj.newTable('graph',('source','integer'),('origin','integer'))
         dbobj.newTable('locks',('treeid','integer'),('branchid','integer'))
         
         # Create a table to store metadata.
@@ -74,19 +74,22 @@ class landscapeWriter(object):
         for i in self.landscape.iterNodes():
             t = self.landscape.getTree(i)
             find = self.landscape.findTreeTopologyByStructure(t.getStructure())
-            if (find == i):
-                # Verify identity of this tree.
-                o.insertRecord('trees',[int(i),t.getNewick(),t.getOrigin(
-                    ),t.getScore()[0],t.getScore()[1],
-                    self.landscape.getNode(i)['explored']])
+            if (find == None):
+                raise AssertionError('Tree %s was in landscape but no stored structure.' % (str(i)))
+            elif (find == i):
+                # Verify unique identity of this tree.
+                o.insertRecord('trees',[i,t.getName(),t.getNewick(),t.getOrigin(),
+                                        t.getScore()[0],t.getScore()[1],
+                                        self.landscape.getNode(i)['explored']])
             else:
-                print 'Warning: Tree %s found to have identical identity with %s.' % (
+                print 'Warning: Tree %s has identical structure to %s.' % (
                     str(find),str(i))
         
         # Add the graph in its entirety as its adjacency list.
         adj_list = self.graph.edges_iter()
         for tupl in adj_list:
-            o.insertRecord('graph',[int(x) for x in tupl])
+            source,target = [int(x) for x in tupl]
+            o.insertRecord('graph',[source,target])
         
         # Add all of the locks.
         for l in self.landscape.getLocks():
@@ -117,6 +120,7 @@ class landscapeParser(object):
         self.name = None
         self.database = None
         self.alignment = None
+        self.treemap = {}
         self.trees = []
         self.explored = {}
         self.landscape = None
@@ -138,8 +142,7 @@ class landscapeParser(object):
         ''' Check metadata in landscape if present. '''
         
         tables = self.database.getTables()
-        if 'metadata' in tables:
-            return self.database.getRecords('metadata')
+        if 'metadata' in tables: return self.database.getRecords('metadata')
         else: return []
 
     def _makeAlignment(self):
@@ -160,22 +163,31 @@ class landscapeParser(object):
         floatIfNotNone = lambda d: float(d) if d != None else d
         intIfNotNone   = lambda d: int(d) if d != None else d
         for t in self.database.iterRecords('trees'):
-            id,newick,orig,ml,pars,exp = t
+            treeid,name,newick,orig,ml,pars,exp = t
             if newick != '':
                 trobj = tree.tree(str(newick))
                 trobj.origin = str(orig)
-                trobj.name = int(id)
+                trobj.name = name
                 trobj.score = [floatIfNotNone(ml),intIfNotNone(pars)]
-                self.trees.append(trobj)
+                self.treemap[int(treeid)] = trobj
                 self.explored[trobj] = bool(exp)
-        self.trees = sorted(self.trees,key=lambda d: d.name)
+        for t in sorted(self.treemap.keys()):
+            self.trees.append(self.treemap[t])
 
     def _getGraph(self):
         
+        getIDForTree = lambda d: self.landscape.findTreeTopologyByStructure(d.getStructure())
         for e in self.database.iterRecords('graph'):
-            source,target = e
-            self.landscape.graph.add_edge(int(source),int(target))
+            raw_s,raw_t = e
+            source,target = getIDForTree(self.treemap[raw_s]),getIDForTree(self.treemap[raw_t])
+            self.landscape.graph.add_edge(source,target)
 
+    def _doLocks(self):
+
+        for l in self.database.iterRecords('locks'):
+            i,b = l
+            self.landscape.lockBranchFoundInTreeByIndex(self.treemap[i],b)
+        
     def parse(self):
         
         ''' Parse the file. '''
@@ -204,5 +216,8 @@ class landscapeParser(object):
         
         # Ensure all edges are established.
         self._getGraph()
+        
+        # Apply locks.
+        self._doLocks()
 
         return (self.landscape,self.getName())

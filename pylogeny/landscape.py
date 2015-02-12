@@ -189,8 +189,7 @@ class landscape(graph,treeSet):
         self.root               = None
         self.operator           = operator
         self.parsimony_profiles = None
-        self.newickSearchTree   = patriciaTree()
-        self.newickSearchMap    = dict()
+        self.newickSearchDict   = dict()
         
         # Analyze alignment.
         if ali:
@@ -270,20 +269,19 @@ class landscape(graph,treeSet):
         
         ''' PRIVATE: Add a new node. '''
         
-        # Add its structure to an auxilary PATRICIA tree structure.
-        insert = self.newickSearchTree.insert(tobj.getStructure())
-        if insert == 0:
-            raise AssertionError('Tree (%s) by structure <%s> already exists in space!' % (
-                str(tobj.name),str(tobj.getStructure())))
-        i = insert - 1
+        # Extract data from the object.
+        if type(tobj) != tree.tree:
+            raise TypeError('Nodes in space must be constructed from tree objects.')
+        name      = tobj.getName()
+        structure = tobj.getStructure()
         
-        # See if name indicates an integer.
-        if (str(tobj.getName()).isdigit()):
-            mapInd = i
-            i = int(tobj.getName())
-            if i in self.graph.node:
-                raise KeyError('Tree already exists in landscape with that index (%d).' % (i))
-            self.newickSearchMap[mapInd] = i
+        # Add its structure to a dictionary structure.
+        query = self.findTreeTopologyByStructure(structure)
+        if query != None:
+            raise AssertionError('Tree (%s) <%s> already exists in space!' % (
+                str(name),str(structure)))
+        i = len(self) # Get next possible value for insertion unique integer.
+        self.newickSearchDict[structure] = i
         
         # Create the node.
         self.graph.add_node(i)
@@ -332,14 +330,14 @@ class landscape(graph,treeSet):
         
         return vertex(self.getNode(i),self)
 
-    def removeTreeByName(self,i):
+    def removeTreeByIndex(self,i):
         
-        ''' Remove a tree from the landscape by name. '''
+        ''' Remove a tree from the landscape by index. '''
         
         tr = self.getTree(i)
         if (tr == None): return False
         self.graph.remove_node(i)
-        self.newickSearchTree.delete(tr.getStructure())
+        del self.newickSearchDict[tr.getStructure()]
         return True
 
     def removeTree(self,tree):
@@ -348,7 +346,7 @@ class landscape(graph,treeSet):
 
         t = self.indexOf(tree)
         if (t < 0): return False
-        return self.removeTreeByName(t)
+        return self.removeTreeByIndex(t)
         
     def addTree(self,tree):
         
@@ -360,7 +358,8 @@ class landscape(graph,treeSet):
     def exploreRandomTree(self,i,type=TYPE_SPR):
         
         ''' Acquire a single neighbor to a tree in the landscape by performing
-        a random rearrangement of type SPR (by default), NNI, or TBR. Rearrangement
+        a random rearrangement of type SPR (by default), NNI, or TBR -- this is done by
+        performing a rearrangement on a random branch in the topology. Rearrangement
         type is provided as a rearrangement module type definition of form, for example,
         TYPE_SPR, TYPE_NNI, etc. '''
         
@@ -381,13 +380,13 @@ class landscape(graph,treeSet):
                 hasthis = topol.getBranchFromBipartition(lock)
                 if (hasthis): topol.lockBranch(hasthis)
         
-        # Perform an exploration not yet done.
+        # Perform an exploration (not yet done).
         branches = topol.getBranches()
-        while (len(branches) > 0):
+        while (len(branches) > 0): # Keep performing until unique rearrangement.
             
             bra  = choice(branches)
             branches.remove(bra)
-            enum = topol.iterTypeForBranch(bra,type)
+            enum = topol.iterTypeForBranch(bra,type) # Iterate over each rearrangement.
         
             for en in enum:
                 
@@ -395,13 +394,12 @@ class landscape(graph,treeSet):
                 typ = en.getType()
                 t   = en.toTree()
                 new = t.getNewick()
-                stt = t.getStructure()
     
                 # See if already been found.
-                inlandscape = self.findTreeTopologyByStructure(stt)
+                inlandscape = self.findTreeTopologyByStructure(t.getStructure())
                 if (inlandscape != None):
-                    # Is in landscape; has connection to tree?
-                    if (inlandscape != i and self.graph.has_node(inlandscape)): 
+                    # Is already in landscape; has connection to tree?
+                    if ((inlandscape != i) and self.graph.has_node(inlandscape)):
                         if not self.graph.has_edge(inlandscape,i):
                             self.graph.add_edge(inlandscape,i)
                             self.getEdge(inlandscape,i)['weight'] = self.defaultWeight
@@ -461,13 +459,12 @@ class landscape(graph,treeSet):
             typ = en.getType()
             t   = en.toTree()
             new = t.getNewick()
-            stt = t.getStructure()
 
             # See if already been found.
-            inlandscape = self.findTreeTopologyByStructure(stt)
+            inlandscape = self.findTreeTopologyByStructure(t.getStructure())
             if (inlandscape != None):
                 # Is in landscape; has connection to tree?
-                if (inlandscape != i and self.graph.has_node(inlandscape)): 
+                if ((inlandscape != i) and self.graph.has_node(inlandscape)): 
                     if not self.graph.has_edge(inlandscape,i):
                         self.graph.add_edge(inlandscape,i)
                         self.getEdge(inlandscape,i)['weight'] = self.defaultWeight
@@ -628,12 +625,10 @@ class landscape(graph,treeSet):
         ''' Find a tree by topology, not taking into account branch lengths,
         given the topology. '''
         
-        query = self.newickSearchTree.search(struct)
-        if query != 0:
-            index = (query - 1)
-            if index in self.newickSearchMap:
-                return self.newickSearchMap[index]
-            else: return index
+        query = (struct in self.newickSearchDict)
+        if query is True:
+            index = self.newickSearchDict[struct]
+            return index
         return None
         
     def getBestImprovement(self,i):
