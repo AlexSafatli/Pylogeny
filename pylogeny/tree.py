@@ -55,7 +55,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
     def toNewick(self):    return self.newick
     def _setNewick(self,n):
         
-        ''' PRIVATE: Set Newick string to n; also reacquires 
+        ''' PRIVATE: Set Newick string to n; also acquires 
         corresponding "structure" or Newick string without 
         branch lengths. '''
         
