@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree &mdash; Pylogeny 0.3.9.1 documentation</title>
+    <title>pylogeny.tree &mdash; Pylogeny 0.3.9.3 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.9.1',
+        VERSION:     '0.3.9.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.9.1 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.3 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -47,7 +47,9 @@
           <div class="body">
             
   <h1>Source code for pylogeny.tree</h1><div class="highlight"><pre>
-<span class="sd">&#39;&#39;&#39; Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings, collections of them, and for splits of these trees. &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39; Container definition for (phylogenetic) bifurcating or multifurcating trees</span>
+<span class="sd">defined using Newick strings, collections of them, and for splits of these</span>
+<span class="sd">trees. &#39;&#39;&#39;</span>
 
 <span class="c"># Date:   Oct 20 2014</span>
 <span class="c"># Author: Alex Safatli</span>
@@ -125,7 +127,8 @@
         </div>
 <div class="viewcode-block" id="tree.getStructure"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getStructure">[docs]</a>    <span class="k">def</span> <span class="nf">getStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Returns &quot;structure&quot;, a Newick string without branch lengths. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Returns the tree&#39;s &quot;structure&quot;, a Newick string without any branch</span>
+<span class="sd">        lengths. &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> 
     </div>
@@ -273,7 +276,13 @@
     </div>
 <div class="viewcode-block" id="bipartition"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition">[docs]</a><span class="k">class</span> <span class="nc">bipartition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="sd">&#39;&#39;&#39; A tree bipartition. Requires a tree topology. Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; A tree bipartition. Requires a tree topology. Using the term borrowed</span>
+<span class="sd">    from nomenclature of a bipartite graph, a bipartition for a phylogenetic</span>
+<span class="sd">    tree coincides with the definition of two disjoint sets U and V . A branch</span>
+<span class="sd">    in a phylogenetic tree defines a single bipartition that divides the tree</span>
+<span class="sd">    into two disjoint sets U and V . The set U comprises all of the children</span>
+<span class="sd">    leaf of the subtree associated with that branch. The set V contains the rest</span>
+<span class="sd">    of the leaves or taxa in the tree. &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">topol</span><span class="p">,</span><span class="n">bra</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
@@ -281,7 +290,8 @@
 <span class="sd">        </span>
 <span class="sd">        :param topol: A topology.</span>
 <span class="sd">        :type topol: :class: `rearrangement.topology`</span>
-<span class="sd">        :param bra: An optional argument; can still acquire a bipartition from a string.</span>
+<span class="sd">        :param bra: An optional argument; can still acquire a bipartition from a</span>
+<span class="sd">        string.</span>
 <span class="sd">        :type bra: :class: `newick.branch`</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -404,14 +414,16 @@
     </div>
 <div class="viewcode-block" id="bipartition.getShortStringRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getShortStringRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">getShortStringRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Get the shorter string representation corresponding to this bipartition. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get the shorter string representation corresponding to this</span>
+<span class="sd">        bipartition. &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getShortStringRepresentation</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span>
     </div>
 <div class="viewcode-block" id="bipartition.getShortStringMappings"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getShortStringMappings">[docs]</a>    <span class="k">def</span> <span class="nf">getShortStringMappings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Get the mapping of symbols from taxa names for the shorter string representation. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get the mapping of symbols from taxa names for the shorter</span>
+<span class="sd">        string representation. &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getShortStringRepresentation</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortmap</span>
@@ -431,8 +443,8 @@
     </div>
 <div class="viewcode-block" id="bipartition.getSPRScores"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getSPRScores">[docs]</a>    <span class="k">def</span> <span class="nf">getSPRScores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">node</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Given a landscape, return all possible scores, not actively performing</span>
-<span class="sd">        scoring if not done. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Given a landscape, return all possible scores, not actively</span>
+<span class="sd">        performing scoring if not done. &#39;&#39;&#39;</span>
         
         <span class="c"># Get starting information.</span>
         <span class="n">scores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span> <span class="c"># Output scoreset.</span>
@@ -507,7 +519,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

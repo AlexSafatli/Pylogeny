@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree module &mdash; Pylogeny 0.3.9.1 documentation</title>
+    <title>pylogeny.tree module &mdash; Pylogeny 0.3.9.3 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.9.1',
+        VERSION:     '0.3.9.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.9.1 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.3 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="prev" title="pylogeny.scoring module" href="pylogeny.scoring.html" /> 
   </head>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.9.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -52,12 +52,20 @@
             
   <div class="section" id="module-pylogeny.tree">
 <span id="pylogeny-tree-module"></span><h1>pylogeny.tree module<a class="headerlink" href="#module-pylogeny.tree" title="Permalink to this headline">¶</a></h1>
-<p>Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings, collections of them, and for splits of these trees.</p>
+<p>Container definition for (phylogenetic) bifurcating or multifurcating trees
+defined using Newick strings, collections of them, and for splits of these
+trees.</p>
 <dl class="class">
 <dt id="pylogeny.tree.bipartition">
 <em class="property">class </em><tt class="descclassname">pylogeny.tree.</tt><tt class="descname">bipartition</tt><big>(</big><em>topol</em>, <em>bra=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>A tree bipartition. Requires a tree topology. Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree.</p>
+<p>A tree bipartition. Requires a tree topology. Using the term borrowed
+from nomenclature of a bipartite graph, a bipartition for a phylogenetic
+tree coincides with the definition of two disjoint sets U and V . A branch
+in a phylogenetic tree defines a single bipartition that divides the tree
+into two disjoint sets U and V . The set U comprises all of the children
+leaf of the subtree associated with that branch. The set V contains the rest
+of the leaves or taxa in the tree.</p>
 <dl class="method">
 <dt id="pylogeny.tree.bipartition.fromStringRepresentation">
 <tt class="descname">fromStringRepresentation</tt><big>(</big><em>st</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.fromStringRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.fromStringRepresentation" title="Permalink to this definition">¶</a></dt>
@@ -121,20 +129,22 @@ of the topology.</p>
 <dl class="method">
 <dt id="pylogeny.tree.bipartition.getSPRScores">
 <tt class="descname">getSPRScores</tt><big>(</big><em>ls</em>, <em>node=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getSPRScores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getSPRScores" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a landscape, return all possible scores, not actively performing
-scoring if not done.</p>
+<dd><p>Given a landscape, return all possible scores, not actively
+performing scoring if not done.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.bipartition.getShortStringMappings">
 <tt class="descname">getShortStringMappings</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getShortStringMappings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getShortStringMappings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the mapping of symbols from taxa names for the shorter string representation.</p>
+<dd><p>Get the mapping of symbols from taxa names for the shorter
+string representation.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.bipartition.getShortStringRepresentation">
 <tt class="descname">getShortStringRepresentation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getShortStringRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getShortStringRepresentation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the shorter string representation corresponding to this bipartition.</p>
+<dd><p>Get the shorter string representation corresponding to this
+bipartition.</p>
 </dd></dl>
 
 <dl class="method">
@@ -197,7 +207,8 @@ successive integers.</p>
 <dl class="method">
 <dt id="pylogeny.tree.tree.getStructure">
 <tt class="descname">getStructure</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getStructure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns &#8220;structure&#8221;, a Newick string without branch lengths.</p>
+<dd><p>Returns the tree&#8217;s &#8220;structure&#8221;, a Newick string without any branch
+lengths.</p>
 </dd></dl>
 
 <dl class="method">
@@ -338,7 +349,7 @@ newlines, as a text file saved at the given path.</p>
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.9.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

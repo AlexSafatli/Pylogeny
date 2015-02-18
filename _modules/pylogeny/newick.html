@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.newick &mdash; Pylogeny 0.3.9.1 documentation</title>
+    <title>pylogeny.newick &mdash; Pylogeny 0.3.9.3 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.9.1',
+        VERSION:     '0.3.9.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.9.1 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.3 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -47,7 +47,8 @@
           <div class="body">
             
   <h1>Source code for pylogeny.newick</h1><div class="highlight"><pre>
-<span class="sd">&#39;&#39;&#39; Newick string parsing and object interaction. A Newick string can represent a phylogenetic tree. &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39; Newick string parsing and object interaction. A Newick string can represent</span>
+<span class="sd">a phylogenetic tree. &#39;&#39;&#39;</span>
 
 <span class="c"># Date:   Feb 16 2014</span>
 <span class="c"># Author: Alex Safatli</span>
@@ -71,7 +72,6 @@
     <span class="sd">&#39;&#39;&#39; Newick node. &#39;&#39;&#39;</span>
         
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbl</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">children</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        
         <span class="nb">super</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">lbl</span><span class="p">,</span><span class="n">children</span><span class="p">,</span><span class="n">parent</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -228,7 +228,8 @@
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newick</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">newick</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">newick</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Input &lt;</span><span class="si">%s</span><span class="s">&gt; is not a valid string!&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">newick</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Input &lt;</span><span class="si">%s</span><span class="s">&gt; is not a valid string!&#39;</span> <span class="o">%</span>
+                             <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">newick</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">newick</span>           <span class="o">=</span> <span class="n">newick</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parsed_structure</span> <span class="o">=</span> <span class="bp">None</span>
         
@@ -283,7 +284,8 @@
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">try</span><span class="p">:</span> <span class="n">out</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">runningstr</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParsingError</span><span class="p">(</span><span class="s">&#39;Could not parse branch length as float at </span><span class="si">%d</span><span class="s"> in </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">newick</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">ParsingError</span><span class="p">(</span><span class="s">&#39;Could not parse branch length as float at </span><span class="si">%d</span><span class="s"> in </span><span class="si">%s</span><span class="s">.&#39;</span>
+                           <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">newick</span><span class="p">))</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">out</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="getLeafName"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.getLeafName">[docs]</a><span class="k">def</span> <span class="nf">getLeafName</span><span class="p">(</span><span class="n">newick</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
@@ -383,7 +385,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
