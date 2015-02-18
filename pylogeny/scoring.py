@@ -46,7 +46,8 @@ def getLogLikelihood(tree,alignment,updateBranchLengths=True):
     :type tree: :class: `tree.tree`
     :param alignment: An alignment object.
     :type alignment: :class: `alignment.phylipFriendlyAlignment`
-    :param updateBranchLengths: Whether or not to update the branch lengths in the provided tree with optimized ones.
+    :param updateBranchLengths: Whether or not to update the branch lengths
+    in the provided tree with optimized ones.
     :returns: A floating point value.    
     
     '''

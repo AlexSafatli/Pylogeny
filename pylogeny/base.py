@@ -1,4 +1,5 @@
-''' Definitions for generalized containers and objects used by other structures in this framework. '''
+''' Definitions for generalized containers and objects used by other structures
+in this framework. '''
 
 # Date:   Nov 26 2014
 # Author: Alex Safatli

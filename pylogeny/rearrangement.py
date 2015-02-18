@@ -1,4 +1,12 @@
-''' Phylogenetic tree structure encapsulation; allow rearrangement of said structure. Tree rearrangements inducing other topologies include Nearest Neighbor Interchange (NNI), Subtree Pruning and Regrafting (SPR), and Tree Bisection and Reconstruction (TBR). Each of these describe a transfer of one node in phylogenetic trees from one parent of a tree to a new parent. Respectively, these operators describe transformations that are subsets of those possible by the successive operator. For example, an NNI operator can perform transformations that are a subset of the transformations possible by the SPR operator. '''
+''' Phylogenetic tree structure encapsulation; allow rearrangement of said
+structure. Tree rearrangements inducing other topologies include Nearest
+Neighbor Interchange (NNI), Subtree Pruning and Regrafting (SPR), and Tree
+Bisection and Reconstruction (TBR). Each of these describe a transfer of one
+node in phylogenetic trees from one parent of a tree to a new parent.
+Respectively, these operators describe transformations that are subsets of those
+possible by the successive operator. For example, an NNI operator can perform
+transformations that are a subset of the transformations possible by the SPR
+operator. '''
 
 # Date:   Feb 10 2014
 # Author: Alex Safatli
@@ -177,9 +185,8 @@ class topology(base.treeStructure):
 
     def _getPartition(self,b):
         
-        ''' PRIVATE: Acquire the list of branches: those this particular
-        branch could move to without violation of any locks 
-        and itself. '''
+        ''' PRIVATE: Acquire the list of branches: those this particular branch
+        could move to without violation of any locks and itself. '''
         
         possible = [x for x in self.branches]
         for lo in self.locked:
@@ -217,8 +224,8 @@ class topology(base.treeStructure):
 
     def rerootToLeaf(self,toleaf=None):
         
-        ''' PRIVATE: Reroots the given tree structure such
-        that it is rooted nearest the lowest-order leaf. '''
+        ''' PRIVATE: Reroots the given tree structure such that it is rooted
+        nearest the lowest-order leaf. '''
         
         # Determine lowest-order leaf.
         if not toleaf:
@@ -292,8 +299,7 @@ class topology(base.treeStructure):
     
     def getStrBipartitionFromBranch(self,br):
         
-        ''' Given a branch, return corresponding 
-        bipartition. '''
+        ''' Given a branch, return corresponding bipartition. '''
         
         right  = base.treeStructure.leaves(br.child)
         others = self.getAllLeaves()
@@ -304,9 +310,8 @@ class topology(base.treeStructure):
     
     def getBranchFromStrBipartition(self,bip):
         
-        ''' Given a bipartition of taxa, return a 
-        branch that creates that partition of tree
-        taxa. '''
+        ''' Given a bipartition of taxa, return a branch that creates that
+        partition of tree taxa. '''
         
         l,r = sorted(bip[0]),sorted(bip[1])
         
@@ -319,17 +324,16 @@ class topology(base.treeStructure):
     
     def getBranchFromBipartition(self,bip):
         
-        ''' Given a bipartition object, return
-        a branch that creates that partition of
-        taxa. '''
+        ''' Given a bipartition object, return a branch that creates that
+        partition of taxa. '''
         
         return self.getBranchFromStrBipartition(
             bip.getStringRepresentation())
 
     def lockBranch(self,branch):
         
-        ''' Given a branch, lock it such that no 
-        transitions can ever occur across it. '''
+        ''' Given a branch, lock it such that no transitions can ever occur
+        across it. '''
         
         # Transform to bipartition object.
         bipart = tree.bipartition(self,branch)
@@ -345,9 +349,8 @@ class topology(base.treeStructure):
 
     def move(self,branch,destination,returnStruct=True):
         
-        ''' Move a branch and attach to a destination 
-        branch. Return new structure, or return merely 
-        the resultant Newick string. '''
+        ''' Move a branch and attach to a destination branch. Return new
+        structure, or return merely the resultant Newick string. '''
         
         # Cannot move to these.
         forbidden = self.forbidden[branch]
@@ -417,21 +420,19 @@ class topology(base.treeStructure):
         
     def SPR(self,branch,destination):
         
-        ''' Perform an SPR move of a branch to a destination 
-        branch, creating a new node there. Returns a 
-        rearrangement structure (not the actual new structure) 
-        that can then be polled for the actual move; this 
-        is in order to save memory. '''
+        ''' Perform an SPR move of a branch to a destination branch, creating a
+        new node there. Returns a rearrangement structure (not the actual new
+        structure) that can then be polled for the actual move; this is in order
+        to save memory. '''
         
         return rearrangement(self,TYPE_SPR,branch,destination)
     
     def NNI(self,branch,destination):
         
-        ''' Perform an NNI move of a branch to a destination, 
-        only if that destination branch is a parent's parent 
-        or a parent's sibling. Returns a rearrangement structure
-        (not the actual new structure) that can then be polled
-        for the actual move; this is in order to save memory. '''
+        ''' Perform an NNI move of a branch to a destination, only if that
+        destination branch is a parent's parent or a parent's sibling. Returns a
+        rearrangement structure (not the actual new structure) that can then be
+        polled for the actual move; this is in order to save memory. '''
         
         if newick.isSibling(branch.parent,destination) or \
            (branch.parent and destination == 
@@ -467,15 +468,15 @@ class topology(base.treeStructure):
     
     def allSPRForBranch(self,br,flip=True):
         
-        ''' Consider all valid SPR moves for a given branch 
-        in the topology and return all possible rearrangements. '''
+        ''' Consider all valid SPR moves for a given branch in the topology and
+        return all possible rearrangements. '''
         
         return [x for x in self.iterSPRForBranch(br,flip)]
     
     def allSPR(self):
         
-        ''' Consider all valid SPR moves for a given topology
-        and return all possible rearrangements. '''
+        ''' Consider all valid SPR moves for a given topology and return all
+        possible rearrangements. '''
 
         # Output list of structures.
         li = []        
@@ -488,9 +489,8 @@ class topology(base.treeStructure):
 
     def iterNNIForBranch(self,br,flip=True):
 
-        ''' Consider all valid NNI moves for a given branch
-        in the topology and and yield all possible rearrangements
-        as a generator. '''
+        ''' Consider all valid NNI moves for a given branch in the topology and
+        and yield all possible rearrangements as a generator. '''
         
         # Go through possible moves.
         partition = self._getPartition(br)
@@ -514,15 +514,15 @@ class topology(base.treeStructure):
 
     def allNNIForBranch(self,br,flip=True):
         
-        ''' Consider all valid NNI moves for a given branch 
-        in the topology and return all possible rearrangements. '''
+        ''' Consider all valid NNI moves for a given branch in the topology and
+        return all possible rearrangements. '''
         
         return [x for x in self.iterNNIForBranch(br,flip)]
 
     def allNNI(self):
         
-        ''' Consider all valid NNI moves for a given topology
-        and return all possible rearrangements. '''
+        ''' Consider all valid NNI moves for a given topology and return all
+        possible rearrangements. '''
 
         # Output list of structures.
         li,nni = [],self.allNNIForBranch        
@@ -531,27 +531,28 @@ class topology(base.treeStructure):
     
     def allType(self,type=TYPE_SPR):
     
-        ''' Consider all valid moves of a given rearrangement
-        operator for a given topology. Uses a given rearrangement 
-        operator type defined in this module. For example, calling this 
-        function by providing TYPE_NNI as the type will iterate over all 
-        NNI operations. By default, the type is TYPE_SPR. '''
+        ''' Consider all valid moves of a given rearrangement operator for a
+        given topology. Uses a given rearrangement operator type defined in this
+        module. For example, calling this function by providing TYPE_NNI as the
+        type will iterate over all NNI operations. By default, the type is
+        TYPE_SPR. '''
         
         if (type == TYPE_SPR):   return self.allSPR()
         elif (type == TYPE_NNI): return self.allNNI()
-        else: raise RearrangementError('No rearrangement type of that form is defined.')
+        else: raise RearrangementError('No rearrangement type of that form is\
+         defined.')
     
     def iterTypeForBranch(self,br,type=TYPE_SPR,flip=True):
         
-        ''' Iterate over all possible rearrangements for a
-        branch using a given rearrangement operator type defined
-        in this module. For example, calling this function by providing
-        TYPE_NNI as the type will iterate over all NNI operations. By
-        default, the type is TYPE_SPR. '''
+        ''' Iterate over all possible rearrangements for a branch using a given
+        rearrangement operator type defined in this module. For example, calling
+        this function by providing TYPE_NNI as the type will iterate over all
+        NNI operations. By default, the type is TYPE_SPR. '''
         
         if (type == TYPE_SPR):   return self.iterSPRForBranch(br,flip)
         elif (type == TYPE_NNI): return self.iterNNIForBranch(br,flip)
-        else: raise RearrangementError('No rearrangement type of that form is defined.')
+        else: raise RearrangementError('No rearrangement type of that form is\
+         defined.')
     
     def fromNewick(self,newickstr):
         
@@ -561,8 +562,8 @@ class topology(base.treeStructure):
     
     def parse(self,newickstr):
         
-        ''' Parse a newick string and assign the tree to this
-        object. Cannot already be initialized with a tree. '''
+        ''' Parse a newick string and assign the tree to this object. Cannot
+        already be initialized with a tree. '''
     
         if self.root != None:
             raise RearrangementError(
@@ -584,8 +585,8 @@ class topology(base.treeStructure):
     
     def toUnrootedNewick(self):
         
-        ''' Return the newick string of the tree as an
-        unrooted topology with a multifurcating top-level node. '''
+        ''' Return the newick string of the tree as an unrooted topology with a
+        multifurcating top-level node. '''
         
         r,a,b = self.root,self.root.children[0],self.root.children[1]
         r.children.remove(a)

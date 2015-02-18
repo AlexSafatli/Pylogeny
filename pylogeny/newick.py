@@ -1,4 +1,5 @@
-''' Newick string parsing and object interaction. A Newick string can represent a phylogenetic tree. '''
+''' Newick string parsing and object interaction. A Newick string can represent
+a phylogenetic tree. '''
 
 # Date:   Feb 16 2014
 # Author: Alex Safatli
@@ -22,7 +23,6 @@ class node(base.treeNode):
     ''' Newick node. '''
         
     def __init__(self,lbl='',children=None,parent=None):
-        
         super(node,self).__init__(lbl,children,parent)
         
     def __str__(self):
@@ -179,7 +179,8 @@ class newickParser:
     
     def __init__(self, newick):
         if newick == None or type(newick) != str:
-            raise ValueError('Input <%s> is not a valid string!' % (repr(newick)))
+            raise ValueError('Input <%s> is not a valid string!' %
+                             (repr(newick)))
         self.newick           = newick
         self.parsed_structure = None
         
@@ -234,7 +235,8 @@ def getBranchLength(newick,i):
         i += 1
     try: out = float(runningstr)
     except:
-        raise ParsingError('Could not parse branch length as float at %d in %s.' % (i,newick))
+        raise ParsingError('Could not parse branch length as float at %d in %s.'
+                           % (i,newick))
     return (i,out)
 
 def getLeafName(newick,i):

@@ -1,4 +1,5 @@
-''' Connect, access, + manipulate external tree data from a remote SQL server or from a sqlite file. '''
+''' Connect, access, + manipulate external tree data from a remote SQL server or
+from a sqlite file. '''
 
 # Date:   Nov 7 2013
 # Author: Alex Safatli
@@ -114,8 +115,8 @@ class SQLExhaustiveLandscape(DatabaseLandscape):
 
 class SQLiteLandscape(landscape):
     
-    ''' Allow random access of all landscape data from an sqlite file found on the 
-    hard disk. '''
+    ''' Allow random access of all landscape data from an sqlite file found on
+    the hard disk. '''
     
     def __init__(self,dbobj):
         

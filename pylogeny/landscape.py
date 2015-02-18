@@ -1,4 +1,13 @@
-''' Encapsulate a phylogenetic tree space. A phylogenetic landscape or tree space refers to the entire combinatorial space comprising all possible phylogenetic tree topologies for a set of M{n} taxa. The landscape of M{n} taxa can be defined as consisting of a finite set M{T} of tree topologies. Tree topologies can be associated with a fitness function M{f(t_i)} describing their fit. This forms a discrete solution search space and finite graph M{(T, E) = G}. M{E(G)} refers to the neighborhood relation on M{T(G)}. Edges in this graph are bidirectional and represent transformation from one tree topology to another by a tree rearrangement operator. An edge between M{t_i} and M{t_j} would be notated as M{e_{ij}} in M{E(G)}. '''
+''' Encapsulate a phylogenetic tree space. A phylogenetic landscape or tree
+space refers to the entire combinatorial space comprising all possible
+phylogenetic tree topologies for a set of n taxa. The landscape of n taxa can be
+defined as consisting of a finite set T of tree topologies. Tree topologies can
+be associated with a fitness function f(t_i) describing their fit. This forms a
+discrete solution search space and finite graph (T, E) = G. E(G) refers to the
+neighborhood relation on T(G). Edges in this graph are bidirectional and
+represent transformation from one tree topology to another by a tree
+rearrangement operator. An edge between t_i and t_j would be notated as e_{ij}
+in E(G). '''
 
 # Date:   Jan 24 2014
 # Author: Alex Safatli
@@ -8,7 +17,8 @@
 
 import networkx, tree, alignment, base
 from random import choice
-from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as ll
+from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as\
+     ll
 from parsimony import profile_set as profiles
 from networkx import components as comp, algorithms as alg
 from base import patriciaTree
@@ -66,8 +76,10 @@ class graph(object):
         for node in self.graph.node: yield node
         
     def getNodes(self):          return self.graph.node.values()
-    def getEdges(self):          return [self.getEdge(i,j) for i,j in self.graph.edges_iter()]
-    def getEdgesFor(self,i):     return [self.getEdge(i,j) for j in self.graph.neighbors(i)]
+    def getEdges(self):
+        return [self.getEdge(i,j) for i,j in self.graph.edges_iter()]
+    def getEdgesFor(self,i):
+        return [self.getEdge(i,j) for j in self.graph.neighbors(i)]
     def getNode(self,i):         return self.graph.node[i] 
     def getEdge(self,i,j):       return self.graph.get_edge_data(i,j)
     def isEdge(self,i,j):        return (self.getEdge(i,j) != None)
@@ -173,9 +185,13 @@ class landscape(graph,treeSet):
         ''' Initialize the landscape. 
         
         :param ali: An :class:`alignment.alignment` object.
-        :param starting_tree: An optional tree object to start the landscape with.
-        :param root: Whether or not to acquire an approximate maximum likelihood tree (FastTree) or start the landscape with a given starting tree.
-        :param operator: A string that describes what operator the landscape is mostly comprised of.
+        :param starting_tree: An optional tree object to start
+        the landscape with.
+        :param root: Whether or not to acquire an approximate
+        maximum likelihood tree (FastTree) or start the landscape
+        with a given starting tree.
+        :param operator: A string that describes what operator the
+        landscape is mostly comprised of.
         
         '''        
         
@@ -228,7 +244,7 @@ class landscape(graph,treeSet):
 
     def getPossibleNumberRootedTrees(self):
         
-        ''' Assuming all of the trees in the space are rooted, return the 
+        ''' Assuming all of the trees in the space are rooted, return the
         maximum possible number of unrooted trees that can possibly be generated
         for the number of taxa of trees in the landscape. '''
         
@@ -357,11 +373,11 @@ class landscape(graph,treeSet):
     
     def exploreRandomTree(self,i,type=TYPE_SPR):
         
-        ''' Acquire a single neighbor to a tree in the landscape by performing
-        a random rearrangement of type SPR (by default), NNI, or TBR -- this is done by
-        performing a rearrangement on a random branch in the topology. Rearrangement
-        type is provided as a rearrangement module type definition of form, for example,
-        TYPE_SPR, TYPE_NNI, etc. '''
+        ''' Acquire a single neighbor to a tree in the landscape by performing a
+        random rearrangement of type SPR (by default), NNI, or TBR -- this is
+        done by performing a rearrangement on a random branch in the topology.
+        Rearrangement type is provided as a rearrangement module type definition
+        of form, for example, TYPE_SPR, TYPE_NNI, etc. '''
         
         # Get parsimony profiles.
         p = self.parsimony_profiles
@@ -428,10 +444,11 @@ class landscape(graph,treeSet):
 
     def exploreTree(self,i,type=TYPE_SPR):
         
-        ''' Get all neighbors to a tree named i in the landscape using a respective
-        rearrangement operator as defined in the rearrangement module. Rearrangement
-        type is provided as a rearrangement module type definition of form, for example,
-        TYPE_SPR, TYPE_NNI, etc. By default, this is TYPE_SPR. '''
+        ''' Get all neighbors to a tree named i in the landscape using a
+        respective rearrangement operator as defined in the rearrangement
+        module. Rearrangement type is provided as a rearrangement module type
+        definition of form, for example, TYPE_SPR, TYPE_NNI, etc. By default,
+        this is TYPE_SPR. '''
         
         # Get parsimony profiles.
         p = self.parsimony_profiles
@@ -595,8 +612,8 @@ class landscape(graph,treeSet):
 
     def indexOf(self, tr):
         
-        ''' Acquire the index/name in this landscape of a tree object. Returns -1
-        if not found. '''
+        ''' Acquire the index/name in this landscape of a tree object. Returns
+        -1 if not found. '''
         
         for t in self.graph.node:
             if self.getTree(t) == tr: return t
@@ -604,8 +621,8 @@ class landscape(graph,treeSet):
 
     def findTree(self,newick):
         
-        ''' Find a tree by Newick string, taking into account branch lengths. Returns
-        the name of this tree in the landscape. '''
+        ''' Find a tree by Newick string, taking into account branch lengths.
+        Returns the name of this tree in the landscape. '''
         
         for t in self.graph.node:
             if self.getTree(t).newick == newick: return t
@@ -651,8 +668,8 @@ class landscape(graph,treeSet):
         
     def getPathOfBestImprovement(self,i):
         
-        ''' For a tree in the landscape, investigate neighbors iteratively
-        until a best path of score improvement is found on basis of likelihood. '''
+        ''' For a tree in the landscape, investigate neighbors iteratively until
+        a best path of score improvement is found on basis of likelihood. '''
         
         path  = []
         nodes = self.graph.node
@@ -740,9 +757,9 @@ class landscape(graph,treeSet):
 
     def toProperNewickTreeSet(self):
         
-        ''' Convert this landscape into an unorganized set of trees 
-        where taxa names are transformed to their original form (
-        i.e. not transformed to a state friendly for the Phylip format). '''
+        ''' Convert this landscape into an unorganized set of trees where taxa
+        names are transformed to their original form ( i.e. not transformed to a
+        state friendly for the Phylip format). '''
         
         treeset = treeSet()
         for t in self.getNodeNames():
@@ -850,7 +867,8 @@ class vertex(object):
     
     def iterBipartitions(self):
         
-        ''' Return a generator to iterate over all bipartitions for this vertex. '''
+        ''' Return a generator to iterate over all bipartitions for this vertex.
+        '''
     
         # Get tree object.
         tr = self.getTree()
@@ -883,7 +901,8 @@ class vertex(object):
     
     def getNeighborsOfBipartition(self,bi):
         
-        ''' Get corresponding neighbors of a bipartition in this vertex's tree. '''
+        ''' Get corresponding neighbors of a bipartition in this vertex's tree.
+        '''
         
         l     = self.ls
         re    = bi.getSPRRearrangements()

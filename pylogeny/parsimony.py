@@ -1,4 +1,5 @@
-''' Toolkit for performance of Parsimonious Criterion (Parsimony) methods of optimization of a phylogenetic topology with a particular set of data. '''
+''' Toolkit for performance of Parsimonious Criterion (Parsimony) methods of
+optimization of a phylogenetic topology with a particular set of data. '''
 
 # Date:   Mar 3 2014
 # Author: Alex Safatli

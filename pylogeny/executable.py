@@ -1,4 +1,7 @@
-''' Defines an interface to manage interfacing with the system for respective application calls and implements some of these for executables such as FastTree and RAxML. Currently requires a UNIX-like environment (e.g., Mac OS X or a Linux-based environment). '''
+''' Defines an interface to manage interfacing with the system for respective
+application calls and implements some of these for executables such as FastTree
+and RAxML. Currently requires a UNIX-like environment (e.g., Mac OS X or a
+Linux-based environment). '''
 
 # Date:   Oct 16 2014
 # Author: Alex Safatli
@@ -48,7 +51,8 @@ class aTemporaryDirectory(object):
 
 class executable(object):
     
-    ''' An interface for the instantation and running of a single instance for a given application. '''
+    ''' An interface for the instantation and running of a single instance for a
+    given application. '''
 
     exeName = None
     __metaclass__ = abstractclass
@@ -63,28 +67,34 @@ class executable(object):
         if (os_name != 'posix'):
             import platform
             pf = platform.system()
-            raise SystemError('Using an executable application requires a UNIX-like environment. ' + 
-                              'You are currently using platform %s, which does not appear to possess ' % (pf) +
-                              'the ability to run a binary in a shell.')
+            raise SystemError('No UNIX-like environment. ' + 
+                              'You are currently using platform %s, ' % (pf) +
+                              'and cannot run a binary in a shell.')
+        elif (self.exeName == '' or self.exeName == None):
+            raise UnboundLocalError('No executable associated with this call.')
         elif (self.exeName and not exeExists(self.exeName)):
-            raise SystemError('%s is not installed on your system.' % (self.exeName))
-        sproc = system(self.getInstructionString(),stdout=PIPE,stderr=PIPE,shell=True)
+            raise SystemError("'%s' is not installed on your system." % (
+                self.exeName))
+        sproc = system(self.getInstructionString(),stdout=PIPE,
+                       stderr=PIPE,shell=True)
         return sproc.communicate()[0]
 
 # Executable Classes
 
 class treepuzzle(executable):
     
-    ''' Wrap TREE-PUZZLE in order to create an intermediate file for CONSEL to read and assign confidence to a set of trees. Requires TREE-PUZZLE to be installed. '''
+    ''' Wrap TREE-PUZZLE in order to create an intermediate file for CONSEL to
+    read and assign confidence to a set of trees. Requires TREE-PUZZLE to be
+    installed. '''
 
     exeName = E_TREEPUZZ
 
     def __init__(self,ali,treefile):
         self.treefile  = treefile
         self.alignment = ali
-        if self.alignment == None:
-            raise AttributeError('No alignment defined.')
-        
+        if self.alignment == None:  raise AttributeError('No alignment defined.')
+        elif self.treefile == None: raise AttributeError('No treefile defined.')
+
     def getInstructionString(self):
         return 'echo "y" | %s %s %s -wsl' % (
             self.exeName,self.alignment.getPhylip(),self.treefile)
@@ -92,12 +102,15 @@ class treepuzzle(executable):
     def getSiteLikelihoodFile(self):
         self._output = self.run()
         if not isfile('%s.sitelh' % (self.treefile)):
-            raise IOError('TREE-PUZZLE did not create site-likelihood output.')
+            raise IOError("No site-likelihood output. Executed: %s (%s)." % (
+                self.getInstructionString(),self._output))
         else: return '%s.sitelh' % (self.treefile) 
 
 class consel(executable):
     
-    ''' Denotes a single run of the CONSEL workflow in order to acquire a confidence interval and perform an AU test on a set of trees. Requires CONSEL to be installed. '''
+    ''' Denotes a single run of the CONSEL workflow in order to acquire a
+    confidence interval and perform an AU test on a set of trees. Requires
+    CONSEL to be installed. '''
     
     def __init__(self,treeset,alignment,name):
         
@@ -118,7 +131,8 @@ class consel(executable):
     def _convertRawData(self):
         
         if not isfile('%s.mt' % (self.name)):
-            self.instruction = 'seqmt --puzzle %s %s.mt' % (self.sitelh,self.name)
+            self.instruction = 'seqmt --puzzle %s %s.mt' %\
+                (self.sitelh,self.name)
             self._out = self.run()
             if not isfile('%s.mt' % (self.name)):
                 raise IOError('CONSEL seqmt did not create mt file.') 
@@ -172,7 +186,10 @@ class consel(executable):
 
 class fasttree(executable):
     
-    ''' Denotes a single run of the FastTree executable in order to acquire an approximate maximum likelihood tree for the input alignment. See http://www.microbesonline.org/fasttree/ for more information on FastTree. Requires FastTree to be installed. '''
+    ''' Denotes a single run of the FastTree executable in order to acquire an
+    approximate maximum likelihood tree for the input alignment. See
+    http://www.microbesonline.org/fasttree/ for more information on FastTree.
+    Requires FastTree to be installed. '''
     
     exeName = E_FASTTREE
     
@@ -180,6 +197,8 @@ class fasttree(executable):
         self.alignment = inp_align
         self.isProtein = isProtein
         self.out       = out_file
+        if (self.alignment == None):
+            raise IOError('No alignment defined.')
         
     def getInstructionString(self):
         s = '%s -quiet -nopr < %s' % (self.exeName,self.alignment)
@@ -188,7 +207,9 @@ class fasttree(executable):
     
 class raxml(executable):
     
-    ''' Denotes a single run of the RAxML executable. See http://sco.h-its.org/exelixis/software.html for more information on RAxML. Requires RAxML to be installed. '''
+    ''' Denotes a single run of the RAxML executable. See
+    http://sco.h-its.org/exelixis/software.html for more information on RAxML.
+    Requires RAxML to be installed. '''
     
     exeName = E_RAXML
     
@@ -215,7 +236,8 @@ class raxml(executable):
             else:          self.model = 'GTRGAMMA'
             
     def getInstructionString(self):
-        s = '%s -s %s -n %s -m %s' % (self.exeName,self.alignment,self.out,self.model)
+        s = '%s -s %s -n %s -m %s' %\
+            (self.exeName,self.alignment,self.out,self.model)
         if self.alg: s += ' -f %s' % (self.alg)
         if self.intermediates: s += ' -j'
         if self.startingTree: s += ' -t %s' % (self.startingTree)
@@ -233,7 +255,10 @@ class raxml(executable):
 
 class rspr(executable):
 
-    ''' Denotes a single run of the rSPR executable by Dr. Chris Whidden (2014), a software package for computing rooted subtree-prune-and-regraft (SPR) distances. See http://kiwi.cs.dal.ca/Software/RSPR. Requires the executable to be on PATH. '''
+    ''' Denotes a single run of the rSPR executable by Dr. Chris Whidden (2014),
+    a software package for computing rooted subtree-prune-and-regraft (SPR)
+    distances. See http://kiwi.cs.dal.ca/Software/RSPR. Requires the executable
+    to be on PATH. '''
 
     exeName = E_RSPR
     RSPR_ALG_DEFAULT = ''
@@ -243,9 +268,10 @@ class rspr(executable):
 
     def __init__(self,treeA,treeB,algorithm=RSPR_ALG_DEFAULT,overlap=True):
         
-        ''' Algorithm choices are defined in this class. If overlap is set to True, 
-        will attempt to consolidate taxa names such that they are overlapping 
-        (otherwise, RSPR will return an error if they do not match). '''
+        ''' Algorithm choices are defined in this class. If overlap is set to
+        True, will attempt to consolidate taxa names such that they are
+        overlapping (otherwise, RSPR will return an error if they do not match).
+        '''
         
         self.inputA   = treeA
         self.inputB   = treeB

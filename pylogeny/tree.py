@@ -1,4 +1,6 @@
-''' Container definition for (phylogenetic) bifurcating or multifurcating trees defined using Newick strings, collections of them, and for splits of these trees. '''
+''' Container definition for (phylogenetic) bifurcating or multifurcating trees
+defined using Newick strings, collections of them, and for splits of these
+trees. '''
 
 # Date:   Oct 20 2014
 # Author: Alex Safatli
@@ -76,7 +78,8 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         
     def getStructure(self):
         
-        ''' Returns "structure", a Newick string without branch lengths. '''
+        ''' Returns the tree's "structure", a Newick string without any branch
+        lengths. '''
         
         return self.struct 
     
@@ -224,7 +227,13 @@ class treeSet(base.Sized,base.Iterable):
     
 class bipartition(object):
 
-    ''' A tree bipartition. Requires a tree topology. Using the term borrowed from nomenclature of a bipartite graph, a bipartition for a phylogenetic tree coincides with the definition of two disjoint sets U and V . A branch in a phylogenetic tree defines a single bipartition that divides the tree into two disjoint sets U and V . The set U comprises all of the children leaf of the subtree associated with that branch. The set V contains the rest of the leaves or taxa in the tree. '''
+    ''' A tree bipartition. Requires a tree topology. Using the term borrowed
+    from nomenclature of a bipartite graph, a bipartition for a phylogenetic
+    tree coincides with the definition of two disjoint sets U and V . A branch
+    in a phylogenetic tree defines a single bipartition that divides the tree
+    into two disjoint sets U and V . The set U comprises all of the children
+    leaf of the subtree associated with that branch. The set V contains the rest
+    of the leaves or taxa in the tree. '''
 
     def __init__(self,topol,bra=None):
         
@@ -232,7 +241,8 @@ class bipartition(object):
         
         :param topol: A topology.
         :type topol: :class: `rearrangement.topology`
-        :param bra: An optional argument; can still acquire a bipartition from a string.
+        :param bra: An optional argument; can still acquire a bipartition from a
+        string.
         :type bra: :class: `newick.branch`
         
         '''
@@ -355,14 +365,16 @@ class bipartition(object):
     
     def getShortStringRepresentation(self):
         
-        ''' Get the shorter string representation corresponding to this bipartition. '''
+        ''' Get the shorter string representation corresponding to this
+        bipartition. '''
         
         if self.shortstr == '': self._getShortStringRepresentation()
         return self.shortstr
     
     def getShortStringMappings(self):
         
-        ''' Get the mapping of symbols from taxa names for the shorter string representation. '''
+        ''' Get the mapping of symbols from taxa names for the shorter
+        string representation. '''
         
         if self.shortstr == '': self._getShortStringRepresentation()
         return self.shortmap
@@ -382,8 +394,8 @@ class bipartition(object):
     
     def getSPRScores(self,ls,node=None):
         
-        ''' Given a landscape, return all possible scores, not actively performing
-        scoring if not done. '''
+        ''' Given a landscape, return all possible scores, not actively
+        performing scoring if not done. '''
         
         # Get starting information.
         scores = list() # Output scoreset.

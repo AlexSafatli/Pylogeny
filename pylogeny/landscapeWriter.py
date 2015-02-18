@@ -1,4 +1,6 @@
-''' Serialize a phylogenetic landscape into an SQLlite database file made up of three components: all tree IDs and respective scores, the alignment file as a set of sequences, and a representation of the graph as an edge list. '''
+''' Serialize a phylogenetic landscape into an SQLlite database file made up of
+three components: all tree IDs and respective scores, the alignment file as a
+set of sequences, and a representation of the graph as an edge list. '''
 
 # Date:   Apr 9 2014
 # Author: Alex Safatli
