@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscapeWriter &mdash; Pylogeny 0.3.9.7 documentation</title>
+    <title>pylogeny.landscapeWriter &mdash; Pylogeny 0.3.9.8 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.9.7',
+        VERSION:     '0.3.9.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.9.7 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.8 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.8 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -172,20 +172,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">database</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">treemap</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">trees</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">explored</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span> <span class="o">=</span> <span class="bp">None</span>
 
 <div class="viewcode-block" id="landscapeParser.getName"><a class="viewcode-back" href="../../pylogeny.landscapeWriter.html#pylogeny.landscapeWriter.landscapeParser.getName">[docs]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Acquire the name of the parsed landscape. &#39;&#39;&#39;</span>
         
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">metadata</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;name&#39;</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 </div>
     <span class="k">def</span> <span class="nf">_getLandscapeMetadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -193,8 +190,9 @@
         <span class="sd">&#39;&#39;&#39; Check metadata in landscape if present. &#39;&#39;&#39;</span>
         
         <span class="n">tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">getTables</span><span class="p">()</span>
-        <span class="k">if</span> <span class="s">&#39;metadata&#39;</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">getRecords</span><span class="p">(</span><span class="s">&#39;metadata&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="s">&#39;metadata&#39;</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">getRecords</span><span class="p">(</span><span class="s">&#39;metadata&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
 
     <span class="k">def</span> <span class="nf">_makeAlignment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -216,14 +214,13 @@
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">iterRecords</span><span class="p">(</span><span class="s">&#39;trees&#39;</span><span class="p">):</span>
             <span class="n">treeid</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">newick</span><span class="p">,</span><span class="n">orig</span><span class="p">,</span><span class="n">ml</span><span class="p">,</span><span class="n">pars</span><span class="p">,</span><span class="n">exp</span> <span class="o">=</span> <span class="n">t</span>
             <span class="k">if</span> <span class="n">newick</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
-                <span class="n">trobj</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newick</span><span class="p">))</span>
-                <span class="n">trobj</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span>
-                <span class="n">trobj</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-                <span class="n">trobj</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="p">[</span><span class="n">floatIfNotNone</span><span class="p">(</span><span class="n">ml</span><span class="p">),</span><span class="n">intIfNotNone</span><span class="p">(</span><span class="n">pars</span><span class="p">)]</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">addTreeByNewick</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newick</span><span class="p">))</span>
+                <span class="n">trobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">trobj</span><span class="o">.</span><span class="n">setOrigin</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">orig</span><span class="p">))</span>
+                <span class="n">trobj</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">trobj</span><span class="o">.</span><span class="n">setScore</span><span class="p">([</span><span class="n">floatIfNotNone</span><span class="p">(</span><span class="n">ml</span><span class="p">),</span><span class="n">intIfNotNone</span><span class="p">(</span><span class="n">pars</span><span class="p">)])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">treemap</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">treeid</span><span class="p">)]</span> <span class="o">=</span> <span class="n">trobj</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">explored</span><span class="p">[</span><span class="n">trobj</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treemap</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treemap</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">setExplored</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">exp</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_getGraph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -231,6 +228,8 @@
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">iterRecords</span><span class="p">(</span><span class="s">&#39;graph&#39;</span><span class="p">):</span>
             <span class="n">raw_s</span><span class="p">,</span><span class="n">raw_t</span> <span class="o">=</span> <span class="n">e</span>
             <span class="n">source</span><span class="p">,</span><span class="n">target</span> <span class="o">=</span> <span class="n">getIDForTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treemap</span><span class="p">[</span><span class="n">raw_s</span><span class="p">]),</span><span class="n">getIDForTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treemap</span><span class="p">[</span><span class="n">raw_t</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">target</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;Could not establish an edge between trees.&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_doLocks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -255,15 +254,17 @@
         <span class="c"># Get the alignment.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_makeAlignment</span><span class="p">()</span>
         
-        <span class="c"># Get all of the trees.</span>
+        <span class="c"># Create an empty landscape structure.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span> <span class="o">=</span> <span class="n">landscape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">,</span><span class="n">root</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>     
+        
+        <span class="c"># Add all of the trees.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_getTrees</span><span class="p">()</span>
         
-        <span class="c"># Construct the landscape.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span> <span class="o">=</span> <span class="n">landscape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">,</span><span class="n">starting_tree</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                   <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getOrigin</span><span class="p">(),</span><span class="n">root</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">:</span>
-            <span class="n">add</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">add</span><span class="p">)</span><span class="o">.</span><span class="n">setExplored</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explored</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+        <span class="c"># Set landscape operator.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">getNodeNames</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">setOperator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span>
+                <span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">getOrigin</span><span class="p">())</span>
         
         <span class="c"># Ensure all edges are established.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_getGraph</span><span class="p">()</span>
@@ -305,7 +306,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.8 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
