@@ -123,20 +123,17 @@ class landscapeParser(object):
         self.database = None
         self.alignment = None
         self.treemap = {}
-        self.trees = []
-        self.explored = {}
         self.landscape = None
 
     def getName(self):
         
         ''' Acquire the name of the parsed landscape. '''
         
-        if self.name is None:
-            if len(self.metadata) > 0:
+        if self.name is None and self.metadata != None:
                 for metadata in self.metadata:
-                    if metadata[0] == 'name':
-                        self.name = metadata[1]
-            else: self.name = os.path.splitext(os.path.basename(self.file))[0]
+                    if metadata[0] == 'name': self.name = metadata[1]
+        elif self.name is None: self.name = os.path.splitext(
+            os.path.basename(self.file))[0]
         return self.name
 
     def _getLandscapeMetadata(self):
@@ -144,8 +141,9 @@ class landscapeParser(object):
         ''' Check metadata in landscape if present. '''
         
         tables = self.database.getTables()
-        if 'metadata' in tables: return self.database.getRecords('metadata')
-        else: return []
+        if 'metadata' in tables:
+            return self.database.getRecords('metadata')
+        else: return None
 
     def _makeAlignment(self):
         
@@ -167,14 +165,13 @@ class landscapeParser(object):
         for t in self.database.iterRecords('trees'):
             treeid,name,newick,orig,ml,pars,exp = t
             if newick != '':
-                trobj = tree.tree(str(newick))
-                trobj.origin = str(orig)
-                trobj.name = name
-                trobj.score = [floatIfNotNone(ml),intIfNotNone(pars)]
+                i = self.landscape.addTreeByNewick(str(newick))
+                trobj = self.landscape.getTree(i)
+                trobj.setOrigin(str(orig))
+                trobj.setName(name)
+                trobj.setScore([floatIfNotNone(ml),intIfNotNone(pars)])
                 self.treemap[int(treeid)] = trobj
-                self.explored[trobj] = bool(exp)
-        for t in sorted(self.treemap.keys()):
-            self.trees.append(self.treemap[t])
+                self.landscape.getVertex(i).setExplored(bool(exp))
 
     def _getGraph(self):
         
@@ -182,6 +179,8 @@ class landscapeParser(object):
         for e in self.database.iterRecords('graph'):
             raw_s,raw_t = e
             source,target = getIDForTree(self.treemap[raw_s]),getIDForTree(self.treemap[raw_t])
+            if source is None or target is None:
+                raise IOError('Could not establish an edge between trees.')
             self.landscape.graph.add_edge(source,target)
 
     def _doLocks(self):
@@ -206,15 +205,17 @@ class landscapeParser(object):
         # Get the alignment.
         self._makeAlignment()
         
-        # Get all of the trees.
+        # Create an empty landscape structure.
+        self.landscape = landscape(self.alignment,root=False)     
+        
+        # Add all of the trees.
         self._getTrees()
         
-        # Construct the landscape.
-        self.landscape = landscape(self.alignment,starting_tree=self.trees[0],
-                                   operator=self.trees[0].getOrigin(),root=False)
-        for t in self.trees:
-            add = self.landscape.addTree(t)
-            self.landscape.getVertex(add).setExplored(self.explored[t])
+        # Set landscape operator.
+        if len(self.landscape) > 0:
+            index = self.landscape.getNodeNames()[-1]
+            self.landscape.setOperator(self.landscape.getTree(
+                index).getOrigin())
         
         # Ensure all edges are established.
         self._getGraph()

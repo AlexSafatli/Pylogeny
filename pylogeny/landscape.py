@@ -278,6 +278,12 @@ class landscape(graph,treeSet):
         self.alignment          = ali
         self.leaves             = ali.getNumSeqs()
         self.parsimony_profiles = profiles(ali)
+        
+    def setOperator(self,op):
+        
+        ''' Set the operator assigned to this landscape. '''
+        
+        self.operator = op
     
     # Node Management
                 
@@ -373,7 +379,12 @@ class landscape(graph,treeSet):
         tobj = tree.tree(tr.toNewick(),check=True)
         tobj.setScore(tr.getScore())
         tobj.setOrigin(tr.getOrigin())
-        return self._newNode(tobj)
+        index = self._newNode(tobj)
+        if (self.root is None):
+            if (len(self) != 1):
+                raise AssertionError('Landscape unrooted with 1+ tree.')
+            self.root = index
+        return index
     
     def exploreRandomTree(self,i,type=TYPE_SPR):
         

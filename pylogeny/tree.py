@@ -164,7 +164,7 @@ class treeSet(base.Sized,base.Iterable):
         ''' Add a tree to the structure by Newick string. '''
         
         t = tree(newick)
-        self.addTree(t)    
+        return self.addTree(t)    
         
     def removeTree(self,tr):
         
