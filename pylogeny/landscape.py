@@ -371,6 +371,8 @@ class landscape(graph,treeSet):
         # Add node to graph and return its index. First reconstruct the tree
         # ensuring consistent configuration/naming.
         tobj = tree.tree(tr.toNewick(),check=True)
+        tobj.setScore(tr.getScore())
+        tobj.setOrigin(tr.getOrigin())
         return self._newNode(tobj)
     
     def exploreRandomTree(self,i,type=TYPE_SPR):
