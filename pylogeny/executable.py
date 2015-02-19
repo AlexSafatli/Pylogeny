@@ -28,7 +28,7 @@ L_TEMPDIR  = 'pylogeny'
 def exeExists(cmd):
     
     ''' Determines whether a function exists in a UNIX environment. '''
-    
+  
     return call('type %s' % (cmd),shell=True,stdout=PIPE,stderr=PIPE) == 0
 
 # Temporary Directory Context
@@ -68,7 +68,7 @@ class executable(object):
             import platform
             pf = platform.system()
             raise SystemError('No UNIX-like environment. ' + 
-                              'You are currently using platform %s, ' % (pf) +
+                              "You are currently using platform '%s', " % (pf) +
                               'and cannot run a binary in a shell.')
         elif (self.exeName == '' or self.exeName == None):
             raise UnboundLocalError('No executable associated with this call.')
@@ -102,7 +102,7 @@ class treepuzzle(executable):
     def getSiteLikelihoodFile(self):
         self._output = self.run()
         if not isfile('%s.sitelh' % (self.treefile)):
-            raise IOError("No site-likelihood output. Executed: %s (%s)." % (
+            raise IOError("No site-likelihood output. Executed '%s' (%s)." % (
                 self.getInstructionString(),self._output))
         else: return '%s.sitelh' % (self.treefile) 
 
@@ -135,7 +135,7 @@ class consel(executable):
                 (self.sitelh,self.name)
             self._out = self.run()
             if not isfile('%s.mt' % (self.name)):
-                raise IOError('CONSEL seqmt did not create mt file.') 
+                raise IOError("CONSEL 'seqmt' did not create mt file.") 
         self.raw = '%s.mt' % (self.name)
         
     def _createReplicates(self):
@@ -144,7 +144,7 @@ class consel(executable):
             self.instruction = 'makermt %s' % (self.raw)
             self._out = self.run()
             if not isfile('%s.rmt' % (self.name)):
-                raise IOError('CONSEL markermt did not create rmt file.')
+                raise IOError("CONSEL 'markermt' did not create rmt file.")
         self.rmt = '%s.rmt' % (self.name)
         
     def _run(self):
@@ -157,7 +157,7 @@ class consel(executable):
     def _getAU(self):
         
         self.instruction = 'catpv %s' % (self.pv)
-        pvout = self.out()
+        pvout = self.run()
         for line in pvout.split('\n'):
             spl = line.split()
             if len(spl) < 3: continue

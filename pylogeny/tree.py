@@ -44,7 +44,6 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
     def setName(self,n):   self.name = n
     def getScore(self):    return self.score
     def setScore(self,s):  self.score = s
-    
     def getOrigin(self):   return self.origin
     def setOrigin(self,o):
         
@@ -126,9 +125,9 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         parse pass and reroot to lowest-order leaf in
         order to ensure a consistent Newick string. '''
         
-        newi        = newi.strip('\n').strip(';') + ';'
-        prsd        = newick.newickParser(newi).parse()
-        topo        = rearrangement.topology(prsd)
+        newi = newi.strip('\n').strip(';') + ';'
+        topo = rearrangement.topology()
+        topo.fromNewick(newi)
         self.newick = topo.toNewick()
         self.struct = self._getStructure(topo.getRoot())
     
@@ -381,7 +380,8 @@ class bipartition(object):
     
     def getBranchListRepresentation(self):
         
-        ''' Get the tuple of lists of branches that represent this bipartition. '''
+        ''' Get the tuple of lists of branches that represent this bipartition.
+        '''
         
         return self.btuple
     
@@ -399,14 +399,14 @@ class bipartition(object):
         
         # Get starting information.
         scores = list() # Output scoreset.
-        if not node:
+        if node is None:
             origin = self.topology # Starting topology.
-            if not hasattr(origin,'orig'): ornewi = origin.toNewick()
-            else: ornewi = origin.orig
+            orstruct = origin.toTree().getStructure()
             # Acquire node corresponding to this topology.
-            start = ls.findTreeTopology(ornewi)
-            if (start == None): return list() # Could not find.
-        else: start = node 
+            start = ls.findTreeTopologyByStructure(orstruct)
+            if (start == None):
+                raise ValueError('Could not find topology corresponding to bipartition.')
+        else: start = node
             
         # Get neighbors.
         neighbors = ls.graph.neighbors(start)

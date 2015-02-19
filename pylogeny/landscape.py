@@ -364,12 +364,14 @@ class landscape(graph,treeSet):
         if (t < 0): return False
         return self.removeTreeByIndex(t)
         
-    def addTree(self,tree):
+    def addTree(self,tr):
         
         ''' Add a tree to the landscape. Will return its index. '''
             
-        # Add node to graph and return its index.
-        return self._newNode(tree)
+        # Add node to graph and return its index. First reconstruct the tree
+        # ensuring consistent configuration/naming.
+        tobj = tree.tree(tr.toNewick(),check=True)
+        return self._newNode(tobj)
     
     def exploreRandomTree(self,i,type=TYPE_SPR):
         
@@ -432,7 +434,7 @@ class landscape(graph,treeSet):
                 t.origin = typ
                 
                 # Add to landscape.
-                j = self.addTree(t)
+                j = self._newNode(t)
                 self.graph.add_edge(i,j)
                 self.getEdge(i,j)['weight'] = self.defaultWeight
                 return j
@@ -498,7 +500,7 @@ class landscape(graph,treeSet):
             t.origin = typ
             
             # Add to landscape.
-            j = self.addTree(t)
+            j = self._newNode(t)
             self.graph.add_edge(i,j)
             self.getEdge(i,j)['weight'] = self.defaultWeight
         
