@@ -41,7 +41,7 @@ class pylogenyTest(testCase):
         treeNewick = self.landscape.getTree(treeid).getNewick()
         parserObj  = newickParser(treeNewick)
         shuffleLeaves(parserObj.parse())
-        return treeObject(str(parserObj.parsed_structure)+';')
+        return treeObject(str(parserObj.parsed_structure)+';',check=True)
     
     def runHeuristic(self,heu,start=0,*args):
         h = heu(self.landscape,self.landscape.getNode(start),*args)

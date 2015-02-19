@@ -133,7 +133,7 @@ class alignment(object):
         ''' Get a tree object for an approximation of the maximum likelihood
         tree for this data using FastTree. '''
         
-        return tree.tree(self.getApproxMLNewick())
+        return tree.tree(self.getApproxMLNewick(),check=True)
 
     def getFastTreeNewick(self):
         
