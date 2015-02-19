@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree &mdash; Pylogeny 0.3.9.3 documentation</title>
+    <title>pylogeny.tree &mdash; Pylogeny 0.3.9.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.9.3',
+        VERSION:     '0.3.9.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.9.3 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -92,8 +92,7 @@
 <div class="viewcode-block" id="tree.getName"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getName">[docs]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 <div class="viewcode-block" id="tree.setName"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setName">[docs]</a>    <span class="k">def</span> <span class="nf">setName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>   <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">n</span></div>
 <div class="viewcode-block" id="tree.getScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getScore">[docs]</a>    <span class="k">def</span> <span class="nf">getScore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span></div>
-<div class="viewcode-block" id="tree.setScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setScore">[docs]</a>    <span class="k">def</span> <span class="nf">setScore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">s</span><span class="p">):</span>  <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">s</span>
-    </div>
+<div class="viewcode-block" id="tree.setScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setScore">[docs]</a>    <span class="k">def</span> <span class="nf">setScore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">s</span><span class="p">):</span>  <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">s</span></div>
 <div class="viewcode-block" id="tree.getOrigin"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">getOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span></div>
 <div class="viewcode-block" id="tree.setOrigin"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">setOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span>
         
@@ -175,9 +174,9 @@
 <span class="sd">        parse pass and reroot to lowest-order leaf in</span>
 <span class="sd">        order to ensure a consistent Newick string. &#39;&#39;&#39;</span>
         
-        <span class="n">newi</span>        <span class="o">=</span> <span class="n">newi</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>
-        <span class="n">prsd</span>        <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">newickParser</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
-        <span class="n">topo</span>        <span class="o">=</span> <span class="n">rearrangement</span><span class="o">.</span><span class="n">topology</span><span class="p">(</span><span class="n">prsd</span><span class="p">)</span>
+        <span class="n">newi</span> <span class="o">=</span> <span class="n">newi</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>
+        <span class="n">topo</span> <span class="o">=</span> <span class="n">rearrangement</span><span class="o">.</span><span class="n">topology</span><span class="p">()</span>
+        <span class="n">topo</span><span class="o">.</span><span class="n">fromNewick</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">newick</span> <span class="o">=</span> <span class="n">topo</span><span class="o">.</span><span class="n">toNewick</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getStructure</span><span class="p">(</span><span class="n">topo</span><span class="o">.</span><span class="n">getRoot</span><span class="p">())</span>
     
@@ -430,7 +429,8 @@
     </div>
 <div class="viewcode-block" id="bipartition.getBranchListRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getBranchListRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">getBranchListRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Get the tuple of lists of branches that represent this bipartition. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get the tuple of lists of branches that represent this bipartition.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">btuple</span>
     </div>
@@ -448,14 +448,14 @@
         
         <span class="c"># Get starting information.</span>
         <span class="n">scores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span> <span class="c"># Output scoreset.</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology</span> <span class="c"># Starting topology.</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span><span class="s">&#39;orig&#39;</span><span class="p">):</span> <span class="n">ornewi</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">toNewick</span><span class="p">()</span>
-            <span class="k">else</span><span class="p">:</span> <span class="n">ornewi</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">orig</span>
+            <span class="n">orstruct</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">toTree</span><span class="p">()</span><span class="o">.</span><span class="n">getStructure</span><span class="p">()</span>
             <span class="c"># Acquire node corresponding to this topology.</span>
-            <span class="n">start</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">findTreeTopology</span><span class="p">(</span><span class="n">ornewi</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="nb">list</span><span class="p">()</span> <span class="c"># Could not find.</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">start</span> <span class="o">=</span> <span class="n">node</span> 
+            <span class="n">start</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">orstruct</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find topology corresponding to bipartition.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">start</span> <span class="o">=</span> <span class="n">node</span>
             
         <span class="c"># Get neighbors.</span>
         <span class="n">neighbors</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
@@ -519,7 +519,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

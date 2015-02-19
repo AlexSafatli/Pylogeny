@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.executable &mdash; Pylogeny 0.3.9.3 documentation</title>
+    <title>pylogeny.executable &mdash; Pylogeny 0.3.9.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.9.3',
+        VERSION:     '0.3.9.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.9.3 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -77,7 +77,7 @@
 <div class="viewcode-block" id="exeExists"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.exeExists">[docs]</a><span class="k">def</span> <span class="nf">exeExists</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Determines whether a function exists in a UNIX environment. &#39;&#39;&#39;</span>
-    
+  
     <span class="k">return</span> <span class="n">call</span><span class="p">(</span><span class="s">&#39;type </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cmd</span><span class="p">),</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 
 <span class="c"># Temporary Directory Context</span>
@@ -117,7 +117,7 @@
             <span class="kn">import</span> <span class="nn">platform</span>
             <span class="n">pf</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
             <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s">&#39;No UNIX-like environment. &#39;</span> <span class="o">+</span> 
-                              <span class="s">&#39;You are currently using platform </span><span class="si">%s</span><span class="s">, &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pf</span><span class="p">)</span> <span class="o">+</span>
+                              <span class="s">&quot;You are currently using platform &#39;</span><span class="si">%s</span><span class="s">&#39;, &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pf</span><span class="p">)</span> <span class="o">+</span>
                               <span class="s">&#39;and cannot run a binary in a shell.&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exeName</span> <span class="o">==</span> <span class="s">&#39;&#39;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">exeName</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">UnboundLocalError</span><span class="p">(</span><span class="s">&#39;No executable associated with this call.&#39;</span><span class="p">)</span>
@@ -151,7 +151,7 @@
 <div class="viewcode-block" id="treepuzzle.getSiteLikelihoodFile"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.treepuzzle.getSiteLikelihoodFile">[docs]</a>    <span class="k">def</span> <span class="nf">getSiteLikelihoodFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.sitelh&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treefile</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&quot;No site-likelihood output. Executed: </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">).&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&quot;No site-likelihood output. Executed &#39;</span><span class="si">%s</span><span class="s">&#39; (</span><span class="si">%s</span><span class="s">).&quot;</span> <span class="o">%</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">getInstructionString</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.sitelh&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treefile</span><span class="p">)</span> 
 </div></div>
@@ -184,7 +184,7 @@
                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sitelh</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.mt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
-                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;CONSEL seqmt did not create mt file.&#39;</span><span class="p">)</span> 
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&quot;CONSEL &#39;seqmt&#39; did not create mt file.&quot;</span><span class="p">)</span> 
         <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.mt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">_createReplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -193,7 +193,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span> <span class="o">=</span> <span class="s">&#39;makermt </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.rmt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)):</span>
-                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;CONSEL markermt did not create rmt file.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&quot;CONSEL &#39;markermt&#39; did not create rmt file.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rmt</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.rmt&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -206,7 +206,7 @@
     <span class="k">def</span> <span class="nf">_getAU</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">instruction</span> <span class="o">=</span> <span class="s">&#39;catpv </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pv</span><span class="p">)</span>
-        <span class="n">pvout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">()</span>
+        <span class="n">pvout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">pvout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">):</span>
             <span class="n">spl</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spl</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span> <span class="k">continue</span>
@@ -403,7 +403,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.3 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
