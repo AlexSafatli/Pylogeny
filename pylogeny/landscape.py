@@ -287,7 +287,7 @@ class landscape(graph,treeSet):
     
     # Node Management
                 
-    def _newNode(self,tobj):
+    def _newNode(self,tobj,score=False):
         
         ''' PRIVATE: Add a new node. '''
         
@@ -314,19 +314,20 @@ class landscape(graph,treeSet):
         node['failed']   = False
         
         # Preliminary scoring.
-        if tobj.score == None:
-            # Get the parsimony since this is fast; set likelihood
-            # to nothing.
-            if self.alignment:
-                tobj.score = (None,parsimony(
-                    tobj.newick,self.parsimony_profiles))
-            else: tobj.score = (None,None)
-        elif tobj.score[1] == None:
-            # Get the parsimony since this is fast; set likelihood
-            # to nothing.
-            if self.alignment:
-                tobj.score = (tobj.score[0],parsimony(
-                    tobj.newick,self.parsimony_profiles))  
+        if score:
+            if tobj.score == None:
+                # Get the parsimony since this is fast; set likelihood
+                # to nothing.
+                if self.alignment:
+                    tobj.score = (None,parsimony(
+                        tobj.newick,self.parsimony_profiles))
+                else: tobj.score = (None,None)
+            elif tobj.score[1] == None:
+                # Get the parsimony since this is fast; set likelihood
+                # to nothing.
+                if self.alignment:
+                    tobj.score = (tobj.score[0],parsimony(
+                        tobj.newick,self.parsimony_profiles))  
         
         # Return the index.
         return i
@@ -370,7 +371,14 @@ class landscape(graph,treeSet):
         if (t < 0): return False
         return self.removeTreeByIndex(t)
         
-    def addTree(self,tr):
+    def addTreeByNewick(self,newick,score=True):
+        
+        ''' Add a tree to the landscape by Newick string. Will return an index. '''
+        
+        tobj = tree.tree(newick)
+        return self.addTree(tobj,score=score)
+        
+    def addTree(self,tr,score=True):
         
         ''' Add a tree to the landscape. Will return its index. '''
             
@@ -379,7 +387,7 @@ class landscape(graph,treeSet):
         tobj = tree.tree(tr.toNewick(),check=True)
         tobj.setScore(tr.getScore())
         tobj.setOrigin(tr.getOrigin())
-        index = self._newNode(tobj)
+        index = self._newNode(tobj,score=score)
         if (self.root is None):
             if (len(self) != 1):
                 raise AssertionError('Landscape unrooted with 1+ tree.')
@@ -447,7 +455,7 @@ class landscape(graph,treeSet):
                 t.origin = typ
                 
                 # Add to landscape.
-                j = self._newNode(t)
+                j = self._newNode(t,score=True)
                 self.graph.add_edge(i,j)
                 self.getEdge(i,j)['weight'] = self.defaultWeight
                 return j
@@ -513,7 +521,7 @@ class landscape(graph,treeSet):
             t.origin = typ
             
             # Add to landscape.
-            j = self._newNode(t)
+            j = self._newNode(t,score=True)
             self.graph.add_edge(i,j)
             self.getEdge(i,j)['weight'] = self.defaultWeight
         

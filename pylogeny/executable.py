@@ -70,8 +70,6 @@ class executable(object):
             raise SystemError('No UNIX-like environment. ' + 
                               "You are currently using platform '%s', " % (pf) +
                               'and cannot run a binary in a shell.')
-        elif (self.exeName == '' or self.exeName == None):
-            raise UnboundLocalError('No executable associated with this call.')
         elif (self.exeName and not exeExists(self.exeName)):
             raise SystemError("'%s' is not installed on your system." % (
                 self.exeName))

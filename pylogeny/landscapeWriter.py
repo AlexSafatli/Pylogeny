@@ -165,7 +165,7 @@ class landscapeParser(object):
         for t in self.database.iterRecords('trees'):
             treeid,name,newick,orig,ml,pars,exp = t
             if newick != '':
-                i = self.landscape.addTreeByNewick(str(newick))
+                i = self.landscape.addTreeByNewick(str(newick),score=False)
                 trobj = self.landscape.getTree(i)
                 trobj.setOrigin(str(orig))
                 trobj.setName(name)
