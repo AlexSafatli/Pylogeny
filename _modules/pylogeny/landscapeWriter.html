@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscapeWriter &mdash; Pylogeny 0.3.9.8 documentation</title>
+    <title>pylogeny.landscapeWriter &mdash; Pylogeny 0.3.9.9 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.9.8',
+        VERSION:     '0.3.9.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.9.8 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.9.9 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.8 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.9 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -214,7 +214,7 @@
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">iterRecords</span><span class="p">(</span><span class="s">&#39;trees&#39;</span><span class="p">):</span>
             <span class="n">treeid</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">newick</span><span class="p">,</span><span class="n">orig</span><span class="p">,</span><span class="n">ml</span><span class="p">,</span><span class="n">pars</span><span class="p">,</span><span class="n">exp</span> <span class="o">=</span> <span class="n">t</span>
             <span class="k">if</span> <span class="n">newick</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">addTreeByNewick</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newick</span><span class="p">))</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">addTreeByNewick</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">newick</span><span class="p">),</span><span class="n">score</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
                 <span class="n">trobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                 <span class="n">trobj</span><span class="o">.</span><span class="n">setOrigin</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">orig</span><span class="p">))</span>
                 <span class="n">trobj</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -306,7 +306,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.8 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.9.9 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
