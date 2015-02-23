@@ -33,7 +33,15 @@ You can print the Newick string for the global optimum or tree with the maximum 
 Installation
 -------------
 
-You can install automatically using `pip` or `easy_install` with the command `pip install pylogeny`.
+You must first install non-Python dependencies, which currently stand as only [libpll](http://libpll.org). Acquire the appropriate binary or install, from source, version 1.0.2 with SSE3 support.
+
+Once you have acquired and installed all of the necessary non-Python dependencies, you can install this software automatically using `pip` or `easy_install` with the command
+
+    pip install pylogeny
+
+or the command
+
+    easy_install pylogeny
 
 Documentation
 -------------
