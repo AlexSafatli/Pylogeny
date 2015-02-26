@@ -19,7 +19,8 @@ class landscapeTest(pylogenyTest):
         
     def test_getTreeNewick(self):
         treeNewick = self.landscape.getTree(0).getNewick()
-        self.assertTrue(type(treeNewick) == str and treeNewick != None)    
+        self.assertTrue(type(treeNewick) == str and treeNewick != None)
+        self.assertTrue(len(treeNewick) > 0)
     
     def test_addDuplicateTree(self):
         randomTree = None
@@ -56,6 +57,11 @@ class landscapeTest(pylogenyTest):
         for i in self.landscape.iterNodes():
             stringList.append(self.landscape.getVertex(i).getProperNewick())
         self.assertEquals(len(stringList),len(self.landscape))
+
+    def test_getPathOfBestImprovement(self):
+        ids = [0] + self.landscape.getPathOfBestImprovement(0)
+        ml = lambda i: self.landscape.getTree(i).getScore()[0]
+        self.assertTrue(all([ml(ids[i]) <= ml(ids[i+1]) for i in xrange(1,len(ids))]))
     
     def test_readAndWrite(self):
         writer = landscapeWriter(self.landscape,'al')

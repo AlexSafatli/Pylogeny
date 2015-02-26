@@ -51,7 +51,7 @@ class aTemporaryDirectory(object):
 
 class executable(object):
     
-    ''' An interface for the instantation and running of a single instance for a
+    ''' An abstract class for the instantation and running of a single instance for a
     given application. '''
 
     exeName = None

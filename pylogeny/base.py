@@ -11,8 +11,6 @@ from collections import Sized, Iterable, Container
 
 # Function Definitions
 
-def LCS(str1,str2): return longest_common_substring(str1,str2)
-
 def longest_common_substring(s1,s2):
     
     ''' Simplified, traditional LCS algorithm implementation. '''

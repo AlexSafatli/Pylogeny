@@ -677,16 +677,17 @@ class landscape(graph,treeSet):
         a tree that leads to the best improvement of fitness function score
         on the basis of likelihood. '''
         
-        nodes = self.graph.node
+        nodes = self.getNode
         tree  = self.getTree
-        ml    = lambda d: tree(d).score[0]
-        if (not i in nodes):
+        ml    = lambda d: tree(d).getScore()[0]
+        if (not i in self.getNodeNames()):
             raise LookupError('No tree by that name in landscape.' % (i))
-        node  = nodes[i]
+        node  = nodes(i)
         near  = self.graph.neighbors(i)
         if (len(near) == 0): return None
         best  = max(near,key=ml)
-        if (best != None and ml(best) > ml(i)): return best
+        if (best != None and ml(best) > ml(i)):
+            return best
         else: return None
         
     def getPathOfBestImprovement(self,i):
@@ -694,22 +695,15 @@ class landscape(graph,treeSet):
         ''' For a tree in the landscape, investigate neighbors iteratively until
         a best path of score improvement is found on basis of likelihood. '''
         
-        path  = []
-        nodes = self.graph.node
-        if (not i in nodes):
-            raise LookupError('No tree by that name in landscape.' % (i))
-        node = nodes[i]
-        curs = node
+        path  = list()
+        node = self.getNode(i)
         impr = self.getBestImprovement(i)
-        if not impr: return list()
-        else: besc = self.getTree(impr).score[0]
+        curs = node
+        if impr == None: return path
         
-        while (besc != None and besc > curs['tree'].score[0]):
+        while (impr != None):
             path.append(impr)
-            curs = nodes[impr]
-            impr = self.getBestImprovement(i)
-            if not impr: besc = None
-            else:        besc = self.getTree(impr).score[0]
+            impr = self.getBestImprovement(impr)
         
         return path
     
@@ -717,7 +711,7 @@ class landscape(graph,treeSet):
         
         ''' Return all paths of best improvement as a dictionary. '''
         
-        paths = {}
+        paths = dict()
         for node in self.graph.node:
             paths[node] = self.getPathOfBestImprovement(node)
         return paths    
