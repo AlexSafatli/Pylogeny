@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscape &mdash; Pylogeny 0.3.9.9 documentation</title>
+    <title>pylogeny.landscape &mdash; Pylogeny 0.3.4.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.9.9',
+        VERSION:     '0.3.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.9.9 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -726,16 +726,17 @@
 <span class="sd">        a tree that leads to the best improvement of fitness function score</span>
 <span class="sd">        on the basis of likelihood. &#39;&#39;&#39;</span>
         
-        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNode</span>
         <span class="n">tree</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span>
-        <span class="n">ml</span>    <span class="o">=</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">tree</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">):</span>
+        <span class="n">ml</span>    <span class="o">=</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">tree</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">getScore</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNodeNames</span><span class="p">()):</span>
             <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s">&#39;No tree by that name in landscape.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">))</span>
-        <span class="n">node</span>  <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">node</span>  <span class="o">=</span> <span class="n">nodes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="n">near</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">near</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="bp">None</span>
         <span class="n">best</span>  <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">near</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="n">ml</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">best</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ml</span><span class="p">(</span><span class="n">best</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">ml</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span> <span class="k">return</span> <span class="n">best</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">best</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ml</span><span class="p">(</span><span class="n">best</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">ml</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">best</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
         </div>
 <div class="viewcode-block" id="landscape.getPathOfBestImprovement"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.getPathOfBestImprovement">[docs]</a>    <span class="k">def</span> <span class="nf">getPathOfBestImprovement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
@@ -743,22 +744,15 @@
         <span class="sd">&#39;&#39;&#39; For a tree in the landscape, investigate neighbors iteratively until</span>
 <span class="sd">        a best path of score improvement is found on basis of likelihood. &#39;&#39;&#39;</span>
         
-        <span class="n">path</span>  <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span>
-        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="s">&#39;No tree by that name in landscape.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">))</span>
-        <span class="n">node</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">curs</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="n">path</span>  <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="n">impr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBestImprovement</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">impr</span><span class="p">:</span> <span class="k">return</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">besc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">impr</span><span class="p">)</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">curs</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">if</span> <span class="n">impr</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span> <span class="n">path</span>
         
-        <span class="k">while</span> <span class="p">(</span><span class="n">besc</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">besc</span> <span class="o">&gt;</span> <span class="n">curs</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">impr</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
             <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">impr</span><span class="p">)</span>
-            <span class="n">curs</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">impr</span><span class="p">]</span>
-            <span class="n">impr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBestImprovement</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">impr</span><span class="p">:</span> <span class="n">besc</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="k">else</span><span class="p">:</span>        <span class="n">besc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTree</span><span class="p">(</span><span class="n">impr</span><span class="p">)</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">impr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBestImprovement</span><span class="p">(</span><span class="n">impr</span><span class="p">)</span>
         
         <span class="k">return</span> <span class="n">path</span>
     </div>
@@ -766,7 +760,7 @@
         
         <span class="sd">&#39;&#39;&#39; Return all paths of best improvement as a dictionary. &#39;&#39;&#39;</span>
         
-        <span class="n">paths</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">:</span>
             <span class="n">paths</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPathOfBestImprovement</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">paths</span>    
@@ -1024,7 +1018,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.9.9 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.0 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
