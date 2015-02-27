@@ -45,13 +45,7 @@ class graph(object):
         
         if gr == None: self.graph = networkx.Graph()
         else: self.graph = gr
-        self.defaultWeight = 0.
-    
-    def getNetworkXObject(self):
-        
-        ''' Return the internal networkx graph object. '''
-        
-        return self.graph    
+        self.defaultWeight = 0. 
     
     def __len__(self): return len(self.graph.node)
     def __iter__(self):
@@ -540,7 +534,8 @@ class landscape(graph,treeSet):
         present; otherwise, remove it. Return status of lock. '''
         
         toggle = False
-        if lock in self.getLocks(): self.locks.remove(lock)
+        if lock in self.getLocks():
+            self.locks.remove(lock)
         else:
             self.locks.append(lock)
             toggle = True
@@ -549,7 +544,8 @@ class landscape(graph,treeSet):
     def lockBranchFoundInTree(self,tr,br):
         
         ''' Given a tree node and a branch object, add a given 
-        bipartition to the bipartition lock list. Returns true if locked. '''
+        bipartition to the bipartition lock list. Returns 
+        bipartition if locked. '''
 
         # Check for presence of tree.
         g = self.graph.node
@@ -590,8 +586,9 @@ class landscape(graph,treeSet):
             
     def lockBranchFoundInTreeByIndex(self,tr,brind):
         
-        ''' Given a tree node and a branch index, add a given 
-        bipartition to the bipartition lock list. Returns true if locked. '''
+        ''' Given a tree node and a branch index, add an associated 
+        bipartition to the bipartition lock list. Returns the
+        bipartition if locked. '''
 
         # Check for presence of tree.
         if (not tr in self.graph.node): return None
@@ -645,7 +642,7 @@ class landscape(graph,treeSet):
     def findTree(self,newick):
         
         ''' Find a tree by Newick string, taking into account branch lengths.
-        Returns the name of this tree in the landscape. '''
+        Returns the index of this tree in the landscape. '''
         
         for t in self.graph.node:
             if self.getTree(t).newick == newick: return t
@@ -725,7 +722,14 @@ class landscape(graph,treeSet):
     
     def isLocalOptimum(self,i):
         
-        ''' Determine if a tree is, without any doubt, a local optimum. '''
+        ''' Determine if a tree is a local optimum. This means it has the
+        following properties: 
+        
+          (1) Possesses a likelihood score.
+          (2) Local neighborhood completely enumerated (and scored).
+          (3) None of its neighbors is a better improvement.
+        
+        '''
         
         nodes = self.graph.node
         if (self.getTree(i).score[0] == None):
@@ -775,7 +779,7 @@ class landscape(graph,treeSet):
     def toProperNewickTreeSet(self):
         
         ''' Convert this landscape into an unorganized set of trees where taxa
-        names are transformed to their original form ( i.e. not transformed to a
+        names are transformed to their original form (i.e. not transformed to a
         state friendly for the Phylip format). '''
         
         treeset = treeSet()

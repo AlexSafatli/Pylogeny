@@ -66,9 +66,7 @@ class treeStructure(Container):
             li.extend(treeStructure.leaves(branch.getChild()))
         return li        
         
-    def getAllLeaves(self): 
-        
-        return treeStructure.leaves(self.root)
+    def getAllLeaves(self): return treeStructure.leaves(self.root)
     
     @staticmethod
     def nodes(root):
@@ -79,9 +77,7 @@ class treeStructure(Container):
             li.extend(treeStructure.nodes(branch.getChild()))
         return li    
     
-    def getAllNodes(self):
-        
-        return treeStructure.nodes(self.root)
+    def getAllNodes(self): return treeStructure.nodes(self.root)
     
     @staticmethod
     def postOrderTraversal(root):
@@ -93,7 +89,6 @@ class treeStructure(Container):
         return li
         
     def getPostOrderTraversal(self):
-        
         return treeStructure.postOrderTraversal(self.root)
 
     def _createStringLinesForNode(self,root,levelsDeep=0):
