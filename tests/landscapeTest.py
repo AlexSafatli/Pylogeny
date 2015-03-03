@@ -1,7 +1,7 @@
 from base import *
 from random import sample
 
-class landscapeTest(pylogenyTest):
+class landscapeTest(phylogeneticLandscapeTest):
 
     def test_findTreeTopologyByStructure(self):
         tree = self.landscape.getTree(0)

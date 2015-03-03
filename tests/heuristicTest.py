@@ -1,7 +1,7 @@
 from base import *
 from Odin import heuristic
 
-class heuristicTest(pylogenyTest):
+class heuristicTest(phylogeneticLandscapeTest):
 
     def runLinearHeuristic(self,heu,start=0):
         if issubclass(heu,heuristic.phylogeneticLinearHeuristic):

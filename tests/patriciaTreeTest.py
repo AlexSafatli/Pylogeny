@@ -2,7 +2,7 @@
 
 import platform, random
 from unittest import TestLoader as loader, TestCase as testCase, TextTestRunner as tests
-from base import pylogenyTest
+from base import phylogeneticLandscapeTest
 from Odin.landscape import landscape
 from Odin.base import patriciaTree
 from Odin import tree as otree
@@ -12,7 +12,7 @@ from Odin.heuristic import parsimonyGreedy
 
 NUM_WORDS_TO_TEST = 60000
 
-class patriciaTreeTest(pylogenyTest):
+class patriciaTreeTest(phylogeneticLandscapeTest):
 
     words       = None
     wordPatTree = None

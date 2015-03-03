@@ -10,7 +10,7 @@ from os import unlink
 TESTS_ALIGNMENT = 'al.fasta'
 TESTS_OPERATOR  = 'SPR'
 
-class pylogenyTest(testCase):
+class phylogeneticLandscapeTest(testCase):
     
     landscape = None
     
