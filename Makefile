@@ -2,7 +2,7 @@ NAME=Pylogeny
 PKG=pylogeny
 DOCS=docs
 FILES=$(shell find ${PKG} -type f -iname "*.py")
-TESTS=$(shell find tests -type -f -iname "*.py")
+TESTS=$(shell find ./tests -type -f -iname "*.py")
 VER=$(shell python -c "from ${PKG}.__version__ import VERSION; print VERSION")
 DIST=sdist upload
 EDOC=epydoc
@@ -27,7 +27,7 @@ docs: ${FILES} check_environment install
 	cp -r ${DOCS}/_build/html/* $(GH_DOC_REPO)
 	@cd $(GH_DOC_REPO) && git add * && git commit -m "Version ${VER} documentation." && git push origin gh-pages
 
-tests: ${FILES} ${TESTS}
+tests: ${TESTS}
 	cd tests && ${PY} allTests.py
 
 clean:
