@@ -9,5 +9,6 @@ before_install:
    - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20
    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
    - ./install-pll.sh
+   - export PYTHONPATH=$PYTHONPATH:.
 install: make install
 script: make tests
