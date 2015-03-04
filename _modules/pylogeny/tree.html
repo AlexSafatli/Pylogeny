@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree &mdash; Pylogeny 0.3.4.0 documentation</title>
+    <title>pylogeny.tree &mdash; Pylogeny 0.3.4.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.0',
+        VERSION:     '0.3.4.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.0 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -73,19 +73,22 @@
     <span class="sd">&#39;&#39;&#39; Defines a single (phylogenetic) tree by newick string;</span>
 <span class="sd">    can possess other metadata. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newi</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newi</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">structure</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; If enabled, &quot;check&quot; will force the structure to reroot</span>
 <span class="sd">        the given Newick string tree to a lowest-order leaf in order</span>
 <span class="sd">        to ensure a consistent Newick string among any duplicate</span>
-<span class="sd">        topologies. &#39;&#39;&#39;</span>
+<span class="sd">        topologies. If a structure is provided and check is disabled,</span>
+<span class="sd">        all parsing routines are bypassed and the Newick and Structure</span>
+<span class="sd">        fields of this tree are overriden by the appropriate arguments. &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span>   <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">score</span>  <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">newick</span> <span class="o">=</span> <span class="n">newi</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">check</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkNewick</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span>        
-        <span class="k">else</span><span class="p">:</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_setNewick</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">structure</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setNewick</span><span class="p">(</span><span class="n">newi</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="o">=</span> <span class="n">structure</span>
     
     <span class="c"># Getters, Mutators</span>
     
@@ -519,7 +522,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
