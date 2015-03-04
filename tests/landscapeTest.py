@@ -69,9 +69,9 @@ class landscapeTest(phylogeneticLandscapeTest):
     def test_readAndWrite(self):
         struct = lambda i,l: l.getTree(i).getStructure()
         writer = landscapeWriter(self.landscape,'al')
-        writer.writeFile()
-        self.assertTrue(isfile('al.landscape'))
-        reader = landscapeParser('al.landscape')
+        writer.writeFile('tests')
+        self.assertTrue(isfile('tests/al.landscape'))
+        reader = landscapeParser('tests/al.landscape')
         l,n = reader.parse()
         self.assertEqual(len(l),len(self.landscape))
         for i in self.landscape.getNodeNames():

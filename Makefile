@@ -15,7 +15,6 @@ build: ${FILES} setup.py
 install: build
 	-sudo pip uninstall ${PKG}
 	sudo pip install .
-	sudo pip install -r requirements.txt
 
 dist: build
 	${PY} setup.py ${DIST}
@@ -28,7 +27,7 @@ docs: ${FILES} check_environment install
 	@cd $(GH_DOC_REPO) && git add * && git commit -m "Version ${VER} documentation." && git push origin gh-pages
 
 tests:
-	cd tests && ${PY} allTests.py
+	${PY} tests/allTests.py
 
 clean:
 	-find ${DOCS} -type f -not -name api.pdf -delete

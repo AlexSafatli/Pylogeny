@@ -1,3 +1,3 @@
 from base import *
-suite = loader().discover('.',pattern='*Test.py')
+suite = loader().discover('tests',pattern='*Test.py')
 tests(verbosity=2).run(suite)

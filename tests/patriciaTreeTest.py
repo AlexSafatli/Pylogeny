@@ -33,7 +33,7 @@ class patriciaTreeTest(phylogeneticLandscapeTest):
             cls.words.append(word)
         
         # Set up the landscape for another source of data.
-        ali = alignment('al.fasta')
+        ali = alignment('tests/al.fasta')
         cls.landscape = landscape(ali,starting_tree=ali.getApproxMLTree(),
                                    root=True,operator='SPR')
         

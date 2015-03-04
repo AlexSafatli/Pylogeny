@@ -7,7 +7,7 @@ from unittest import TestLoader as loader, TestCase as testCase, TextTestRunner 
 from os.path import isfile
 from os import unlink
 
-TESTS_ALIGNMENT = 'al.fasta'
+TESTS_ALIGNMENT = 'tests/al.fasta'
 TESTS_OPERATOR  = 'SPR'
 
 class phylogeneticLandscapeTest(testCase):
@@ -22,7 +22,7 @@ class phylogeneticLandscapeTest(testCase):
             
     @classmethod
     def tearDownClass(cls):
-        if isfile('al.landscape'): unlink('al.landscape')    
+        if isfile('tests/al.landscape'): unlink('tests/al.landscape')    
     
     def assertHasNoDuplicateTrees(self):                                
         for i in self.landscape.iterNodes():             

@@ -12,7 +12,7 @@ class treeTest(testCase):
     @classmethod
     def setUpClass(cls):
         if cls.alignm == None:
-            cls.alignm = alignment('al.fasta')
+            cls.alignm = alignment('tests/al.fasta')
             cls.tree_  = cls.alignm.getApproxMLTree()
             cls.trees  = treeSet()
             cls.trees.addTree(cls.tree_)
