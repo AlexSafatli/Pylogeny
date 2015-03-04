@@ -3,12 +3,12 @@
 import platform, random
 from unittest import TestLoader as loader, TestCase as testCase, TextTestRunner as tests
 from base import phylogeneticLandscapeTest
-from Odin.landscape import landscape
-from Odin.base import patriciaTree
-from Odin import tree as otree
-from Odin.landscapeWriter import landscapeWriter, landscapeParser
-from Odin.alignment import phylipFriendlyAlignment as alignment
-from Odin.heuristic import parsimonyGreedy
+from pylogeny.landscape import landscape
+from pylogeny.base import patriciaTree
+from pylogeny import tree as otree
+from pylogeny.landscapeWriter import landscapeWriter, landscapeParser
+from pylogeny.alignment import phylipFriendlyAlignment as alignment
+from pylogeny.heuristic import parsimonyGreedy
 
 NUM_WORDS_TO_TEST = 60000
 

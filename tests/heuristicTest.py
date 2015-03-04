@@ -1,5 +1,5 @@
 from base import *
-from Odin import heuristic
+from pylogeny import heuristic
 
 class heuristicTest(phylogeneticLandscapeTest):
 
