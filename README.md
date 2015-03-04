@@ -1,7 +1,9 @@
 Pylogeny
 ========
 
-A software library and code framework, written in the Python programming language, for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation, heuristic search, and analysis of the phylogenetic tree combinatorial space. Functionality also exists in the framework to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
+[![Build Status](https://travis-ci.org/AlexSafatli/Pylogeny.svg?branch=master)](https://travis-ci.org/AlexSafatli/Pylogeny)
+
+A software library and code framework, written in the Python programming language for Python 2.6+, for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation, heuristic search, and analysis of the phylogenetic tree combinatorial space. Functionality also exists in the framework to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
 
 The following tasks are capable of being performed with this library:
 
@@ -10,6 +12,8 @@ The following tasks are capable of being performed with this library:
   - Build and rearrange phylogenetic trees using preset operators (such as NNI, SPR, and TBR).
   - Score phylogenetic trees by Maximum Likelihood (calculated as log-likelihood) and Parsimony.
   - Build confidence sets of trees using the widely known [CONSEL](http://www.sigmath.es.osaka-u.ac.jp/shimo-lab/prog/consel/ "CONSEL") application.
+
+[[ Note that C and C++ extensions are not built to work with Python 3.3+. You are advised to use a version 2 of the Python interpreter to run this package. ]]
 
 Code Example
 -------------
