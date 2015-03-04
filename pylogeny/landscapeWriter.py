@@ -43,7 +43,8 @@ class landscapeWriter(object):
         # Create all content tables.
         dbobj.newTable('alignment',('seqid','integer'),('seqname','text'),('sequence','text'))
         dbobj.newTable('trees',('treeid','integer'),('name','text'),('newick','text'),
-                       ('origin','text'),('ml','real'),('pars','real'),('explored','boolean'))
+                       ('origin','text'),('ml','real'),('pars','real'),('explored','boolean'),
+                       ('structure','text'))
         dbobj.newTable('graph',('source','integer'),('origin','integer'))
         dbobj.newTable('locks',('treeid','integer'),('branchid','integer'))
         
@@ -82,7 +83,8 @@ class landscapeWriter(object):
                 # Verify unique identity of this tree.
                 o.insertRecord('trees',[i,t.getName(),t.getNewick(),t.getOrigin(),
                                         t.getScore()[0],t.getScore()[1],
-                                        self.landscape.getNode(i)['explored']])
+                                        self.landscape.getNode(i)['explored'],
+                                        t.getStructure()])
             else:
                 print 'Warning: Tree %s has identical structure to %s.' % (
                     str(find),str(i))
@@ -143,7 +145,7 @@ class landscapeParser(object):
         tables = self.database.getTables()
         if 'metadata' in tables:
             return self.database.getRecords('metadata')
-        else: return None
+        else: raise IOError('Incompatible landscape file format.')
 
     def _makeAlignment(self):
         
@@ -163,9 +165,18 @@ class landscapeParser(object):
         floatIfNotNone = lambda d: float(d) if d != None else d
         intIfNotNone   = lambda d: int(d) if d != None else d
         for t in self.database.iterRecords('trees'):
-            treeid,name,newick,orig,ml,pars,exp = t
+            struct = None
+            if len(t) == 7:
+                treeid,name,newick,orig,ml,pars,exp = t
+            else:
+                treeid,name,newick,orig,ml,pars,exp,struct = t
             if newick != '':
-                i = self.landscape.addTreeByNewick(str(newick),score=False)
+                if (struct == None):
+                    i = self.landscape.addTreeByNewick(str(
+                        newick),score=False,check=False)
+                else:
+                    i = self.landscape.addTreeByNewick(str(
+                        newick),score=False,check=False,struct=struct)
                 trobj = self.landscape.getTree(i)
                 trobj.setOrigin(str(orig))
                 trobj.setName(name)
@@ -175,19 +186,20 @@ class landscapeParser(object):
 
     def _getGraph(self):
         
-        getIDForTree = lambda d: self.landscape.findTreeTopologyByStructure(d.getStructure())
+        getIDForTree = lambda d: self.landscape.findTreeTopologyByStructure(
+            d.getStructure())
         for e in self.database.iterRecords('graph'):
             raw_s,raw_t = e
-            source,target = getIDForTree(self.treemap[raw_s]),getIDForTree(self.treemap[raw_t])
+            source,target = getIDForTree(self.treemap[raw_s]),getIDForTree(
+                self.treemap[raw_t])
             if source is None or target is None:
                 raise IOError('Could not establish an edge between trees.')
             self.landscape.graph.add_edge(source,target)
 
-    def _doLocks(self):
+    def _applyLocks(self):
 
         for l in self.database.iterRecords('locks'):
-            i,b = l
-            self.landscape.lockBranchFoundInTreeByIndex(self.treemap[i],b)
+            self.landscape.lockBranchFoundInTreeByIndex(self.treemap[l[0]],l[1])
         
     def parse(self):
         
@@ -221,6 +233,6 @@ class landscapeParser(object):
         self._getGraph()
         
         # Apply locks.
-        self._doLocks()
+        self._applyLocks()
 
         return (self.landscape,self.getName())

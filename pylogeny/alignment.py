@@ -46,7 +46,7 @@ class alignment(object):
     # Internals
 
     def __getitem__(self,i): return self.data.sequences[i]
-    def __str__(self):       return str(self.data)
+    def __str__(self):       return '\n'.join(self.toStrList())
     def __len__(self):       return len(self.data)
     
     def __iter__(self):

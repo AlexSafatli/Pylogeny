@@ -4,6 +4,6 @@ python:
    - "2.7"
    - "2.6"
 before_install:
-   - ./install_pll.sh
+   - ./install-pll.sh
 install: make install
 script: make tests

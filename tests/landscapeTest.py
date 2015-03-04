@@ -5,7 +5,10 @@ class landscapeTest(phylogeneticLandscapeTest):
 
     def test_findTreeTopologyByStructure(self):
         tree = self.landscape.getTree(0)
-        self.assertFalse(self.landscape.findTreeTopologyByStructure(tree.getStructure()) == None)
+        find = self.landscape.findTreeTopologyByStructure(tree.getStructure())
+        self.assertFalse(find == None)
+        self.assertTrue(type(self.landscape.getTree(find)) == treeObject)
+        self.assertEquals(0,find)
 
     def _exploreTreeByName(self,treeid):
         self.landscape.exploreTree(treeid)
@@ -64,13 +67,15 @@ class landscapeTest(phylogeneticLandscapeTest):
         self.assertTrue(all([ml(ids[i]) <= ml(ids[i+1]) for i in xrange(1,len(ids))]))
     
     def test_readAndWrite(self):
+        struct = lambda i,l: l.getTree(i).getStructure()
         writer = landscapeWriter(self.landscape,'al')
         writer.writeFile()
         self.assertTrue(isfile('al.landscape'))
         reader = landscapeParser('al.landscape')
         l,n = reader.parse()
         self.assertEqual(len(l),len(self.landscape))
-        tr = l.getTree(0)
+        for i in self.landscape.getNodeNames():
+            self.assertEquals(struct(i,l),struct(i,self.landscape))
 
 if __name__ == '__main__':
 

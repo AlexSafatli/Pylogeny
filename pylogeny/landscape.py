@@ -210,7 +210,7 @@ class landscape(graph,treeSet):
                 
         # Set up the root.
         if root:
-            if not starting_tree:
+            if starting_tree == None:
                 approx      = ali.getApproxMLTree()
                 self.root   = self.addTree(approx)
             else: self.root = self.addTree(starting_tree)
@@ -365,22 +365,29 @@ class landscape(graph,treeSet):
         if (t < 0): return False
         return self.removeTreeByIndex(t)
         
-    def addTreeByNewick(self,newick,score=True):
+    def addTreeByNewick(self,newick,score=True,check=True,struct=None):
         
         ''' Add a tree to the landscape by Newick string. Will return an index. '''
         
-        tobj = tree.tree(newick)
-        return self.addTree(tobj,score=score)
+        return self.addTree(None,score=score,check=check,newick=newick,struct=struct)
         
-    def addTree(self,tr,score=True):
+    def addTree(self,tr,score=True,check=True,newick=None,struct=None):
         
         ''' Add a tree to the landscape. Will return its index. '''
             
-        # Add node to graph and return its index. First reconstruct the tree
-        # ensuring consistent configuration/naming.
-        tobj = tree.tree(tr.toNewick(),check=True)
-        tobj.setScore(tr.getScore())
-        tobj.setOrigin(tr.getOrigin())
+        # (Re)construct the tree ensuring consistent configuration/naming.
+        if tr == None and newick == None:
+            raise ValueError('Require tree object OR newick string for tree addition.')
+        if newick == None: newick = tr.toNewick()
+        tobj = tree.tree(newick,check=check,structure=struct)
+        
+        # See if needs to be scored.
+        if not score and tr != None: tobj.setScore(tr.getScore())
+        
+        # Origin needs to be defined?
+        if tr != None: tobj.setOrigin(tr.getOrigin())
+        
+        # Add to graph.
         index = self._newNode(tobj,score=score)
         if (self.root is None):
             if (len(self) != 1):

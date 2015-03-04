@@ -24,19 +24,22 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
     ''' Defines a single (phylogenetic) tree by newick string;
     can possess other metadata. '''
     
-    def __init__(self,newi='',check=False):
+    def __init__(self,newi='',check=False,structure=None):
         
         ''' If enabled, "check" will force the structure to reroot
         the given Newick string tree to a lowest-order leaf in order
         to ensure a consistent Newick string among any duplicate
-        topologies. '''
+        topologies. If a structure is provided and check is disabled,
+        all parsing routines are bypassed and the Newick and Structure
+        fields of this tree are overriden by the appropriate arguments. '''
         
         self.name   = ''
         self.score  = None
         self.origin = None
         self.newick = newi
         if (check): self._checkNewick(newi)        
-        else:       self._setNewick(newi)
+        elif (structure == None): self._setNewick(newi)
+        else: self.struct = structure
     
     # Getters, Mutators
     
