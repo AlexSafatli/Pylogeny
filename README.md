@@ -13,7 +13,7 @@ The following tasks are capable of being performed with this library:
   - Score phylogenetic trees by Maximum Likelihood (calculated as log-likelihood) and Parsimony.
   - Build confidence sets of trees using the widely known [CONSEL](http://www.sigmath.es.osaka-u.ac.jp/shimo-lab/prog/consel/ "CONSEL") application.
 
-[[ Note that C and C++ extensions are not built to work with Python 3.3+. You are advised to use a version 2 of the Python interpreter to run this package. ]]
+Note that C and C++ extensions are not built to work with Python 3.3+. You are advised to use a version 2 of the Python interpreter to run this package.
 
 Code Example
 -------------
@@ -37,7 +37,9 @@ You can print the Newick string for the global optimum or tree with the maximum 
 Installation
 -------------
 
-You must first install non-Python dependencies, which currently stand as only [libpll](http://libpll.org). Acquire the appropriate binary or install, from source, version 1.0.2 with SSE3 support.
+Installation requires access to some manner of UNIX-like system or terminal.
+
+You must first install non-Python dependencies, which currently stand as only [libpll](http://libpll.org). Acquire the appropriate binary or install, from source, version 1.0.2 with SSE3 support. A convenient shell script is located in the root directory of this repository that will perform this installation.
 
 Once you have acquired and installed all of the necessary non-Python dependencies, you can install this software automatically using `pip` or `easy_install` with the command
 
