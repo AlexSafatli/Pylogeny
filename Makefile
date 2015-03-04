@@ -14,7 +14,8 @@ build: ${FILES} setup.py
 
 install: build
 	-sudo pip uninstall ${PKG}
-	sudo ${PY} setup.py install
+	sudo pip install .
+	sudo pip install -r requirements.txt
 
 dist: build
 	${PY} setup.py ${DIST}
