@@ -1,8 +1,6 @@
 Pylogeny
 ========
 
-[![Build Status](https://travis-ci.org/AlexSafatli/Pylogeny.svg?branch=master)](https://travis-ci.org/AlexSafatli/Pylogeny)
-
 A software library and code framework, written in the Python programming language for Python 2.6+, for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation, heuristic search, and analysis of the phylogenetic tree combinatorial space. Functionality also exists in the framework to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
 
 The following tasks are capable of being performed with this library:
