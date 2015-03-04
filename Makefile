@@ -15,6 +15,7 @@ build: ${FILES} setup.py
 install: build
 	-sudo pip uninstall ${PKG}
 	sudo pip install .
+	sudo pip install hg+https://code.google.com/p/p4-phylogenetics/
 
 dist: build
 	${PY} setup.py ${DIST}
