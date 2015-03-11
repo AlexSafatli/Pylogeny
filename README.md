@@ -1,7 +1,7 @@
 Pylogeny
 ========
 
-A software library and code framework, written in the Python programming language for Python 2.6+, for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation, heuristic search, and analysis of the phylogenetic tree combinatorial space. Functionality also exists in the framework to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
+A software library and code framework, written in the Python programming language for Python 2.6+, for phylogenetic tree reconstruction, rearrangement, scoring, and for the manipulation, heuristic search, and analysis of the phylogenetic tree combinatorial space. Scoring of trees in this library is accomplished by bindings to the [libpll](http://libpll.org) phylogenetic C library. Functionality also exists in the framework to execute popular heuristic programs such as FastTree and RAxML to acquire approximate ML trees.
 
 The following tasks are capable of being performed with this library:
 
@@ -27,7 +27,7 @@ You can create a landscape for a given sequence alignment, add a tree to the lan
     heu = parsimonyGreedy(ls,ls.getRootTree())
     heu.explore()     
 
-You can print the Newick string for the global optimum or tree with the maximum likelihood by calling the following function on that object.
+You can print the Newick string for the global optimum or tree with the maximum likelihood by calling the following functions.
 
     globalMax = ls.getGlobalOptimum()
     print ls.getTree(globalMax)
