@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.newick &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.newick &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -62,7 +62,7 @@
 <span class="c"># Exception Handling</span>
 
 <div class="viewcode-block" id="ParsingError"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.ParsingError">[docs]</a><span class="k">class</span> <span class="nc">ParsingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span>
+<div class="viewcode-block" id="ParsingError.__init__"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.ParsingError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span></div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
 <span class="c"># Class Definitions</span>
@@ -71,9 +71,9 @@
     
     <span class="sd">&#39;&#39;&#39; Newick node. &#39;&#39;&#39;</span>
         
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbl</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">children</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="node.__init__"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.node.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbl</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">children</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">lbl</span><span class="p">,</span><span class="n">children</span><span class="p">,</span><span class="n">parent</span><span class="p">)</span>
-        
+        </div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sT</span><span class="p">,</span> <span class="n">sl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -86,12 +86,12 @@
     
     <span class="sd">&#39;&#39;&#39; Newick branch. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">chi</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="branch.__init__"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.branch.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">chi</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent</span>         <span class="o">=</span> <span class="n">parent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">child</span>          <span class="o">=</span> <span class="n">chi</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branch_length</span>  <span class="o">=</span> <span class="n">l</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branch_support</span> <span class="o">=</span> <span class="n">s</span>
-        
+        </div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">st</span><span class="p">,</span> <span class="n">sl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch_length</span>
         <span class="k">if</span> <span class="n">sl</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">st</span><span class="p">),</span><span class="nb">str</span><span class="p">(</span><span class="n">sl</span><span class="p">))</span> <span class="c"># Branch Length</span>
@@ -226,13 +226,13 @@
     
     <span class="sd">&#39;&#39;&#39; Parsing object for Newick strings. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newick</span><span class="p">):</span>
+<div class="viewcode-block" id="newickParser.__init__"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.newickParser.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newick</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">newick</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">newick</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Input &lt;</span><span class="si">%s</span><span class="s">&gt; is not a valid string!&#39;</span> <span class="o">%</span>
                              <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">newick</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">newick</span>           <span class="o">=</span> <span class="n">newick</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parsed_structure</span> <span class="o">=</span> <span class="bp">None</span>
-        
+        </div>
 <div class="viewcode-block" id="newickParser.parse"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.newickParser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Parse the stored newick string into a topological structure. &#39;&#39;&#39;</span>
@@ -385,7 +385,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

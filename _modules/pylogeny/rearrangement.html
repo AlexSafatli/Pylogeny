@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.rearrangement &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.rearrangement &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -66,7 +66,7 @@
 <span class="c"># Exception Handling</span>
 
 <div class="viewcode-block" id="RearrangementError"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.RearrangementError">[docs]</a><span class="k">class</span> <span class="nc">RearrangementError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span>
+<div class="viewcode-block" id="RearrangementError.__init__"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.RearrangementError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">val</span></div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
 <span class="c"># Movement Type Definitions</span>
@@ -93,7 +93,7 @@
     <span class="sd">&#39;&#39;&#39; Encapsulates a single rearrangement move</span>
 <span class="sd">    of type SPR, NNI, ... &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">struct</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">targ</span><span class="p">,</span><span class="n">dest</span><span class="p">):</span>
+<div class="viewcode-block" id="rearrangement.__init__"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">struct</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">targ</span><span class="p">,</span><span class="n">dest</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Initialize by providing a pointer to</span>
 <span class="sd">        a base topology, a target branch </span>
@@ -103,7 +103,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">type</span>        <span class="o">=</span> <span class="nb">type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">target</span>      <span class="o">=</span> <span class="n">targ</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">destination</span> <span class="o">=</span> <span class="n">dest</span>    
-    
+    </div>
 <div class="viewcode-block" id="rearrangement.getType"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.getType">[docs]</a>    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Get the type of movement. &#39;&#39;&#39;</span>
@@ -158,7 +158,7 @@
     <span class="sd">&#39;&#39;&#39; Encapsulate a tree topology, wrapping the newick </span>
 <span class="sd">    tree structure. Is immutable. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">rerootToLeaf</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">toLeaf</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="topology.__init__"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">rerootToLeaf</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">toLeaf</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Initialize structure with a top-level internal </span>
 <span class="sd">        node OR nothing. &#39;&#39;&#39;</span>
@@ -177,7 +177,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_getForbiddenStates</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_clearInteriorNodeNames</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">rerootToLeaf</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lockLeafBranch</span><span class="p">()</span>       
-       
+       </div>
     <span class="k">def</span> <span class="nf">_getAllBranches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; PRIVATE: Populate branch list. &#39;&#39;&#39;</span>
@@ -698,7 +698,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

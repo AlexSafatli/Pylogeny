@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.executable module &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.executable module &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.heuristic module" href="pylogeny.heuristic.html" />
     <link rel="prev" title="pylogeny.database module" href="pylogeny.database.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.database.html" title="pylogeny.database module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -66,6 +66,11 @@ Linux-based environment).</p>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>A class intended to be used as a context manager that allows
 Python to run in a temporary directory for a finite period of time.</p>
+<dl class="method">
+<dt id="pylogeny.executable.aTemporaryDirectory.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>dir=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/executable.html#aTemporaryDirectory.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.aTemporaryDirectory.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -75,6 +80,11 @@ Python to run in a temporary directory for a finite period of time.</p>
 <p>Denotes a single run of the CONSEL workflow in order to acquire a
 confidence interval and perform an AU test on a set of trees. Requires
 CONSEL to be installed.</p>
+<dl class="method">
+<dt id="pylogeny.executable.consel.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>treeset</em>, <em>alignment</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/pylogeny/executable.html#consel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.consel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pylogeny.executable.consel.getInstructionString">
 <tt class="descname">getInstructionString</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/executable.html#consel.getInstructionString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.consel.getInstructionString" title="Permalink to this definition">¶</a></dt>
@@ -98,8 +108,8 @@ CONSEL to be installed.</p>
 <dt id="pylogeny.executable.executable">
 <em class="property">class </em><tt class="descclassname">pylogeny.executable.</tt><tt class="descname">executable</tt><a class="reference internal" href="_modules/pylogeny/executable.html#executable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.executable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>An abstract class for the instantation and running of a single instance for a
-given application.</p>
+<p>An abstract class for the instantation and running of a single instance
+for a given application.</p>
 <dl class="attribute">
 <dt id="pylogeny.executable.executable.exeName">
 <tt class="descname">exeName</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.executable.executable.exeName" title="Permalink to this definition">¶</a></dt>
@@ -126,6 +136,11 @@ given application.</p>
 approximate maximum likelihood tree for the input alignment. See
 <a class="reference external" href="http://www.microbesonline.org/fasttree/">http://www.microbesonline.org/fasttree/</a> for more information on FastTree.
 Requires FastTree to be installed.</p>
+<dl class="method">
+<dt id="pylogeny.executable.fasttree.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>inp_align</em>, <em>out_file=None</em>, <em>isProtein=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/executable.html#fasttree.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.fasttree.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pylogeny.executable.fasttree.exeName">
 <tt class="descname">exeName</tt><em class="property"> = 'fasttree'</em><a class="headerlink" href="#pylogeny.executable.fasttree.exeName" title="Permalink to this definition">¶</a></dt>
@@ -145,6 +160,11 @@ Requires FastTree to be installed.</p>
 <p>Denotes a single run of the RAxML executable. See
 <a class="reference external" href="http://sco.h-its.org/exelixis/software.html">http://sco.h-its.org/exelixis/software.html</a> for more information on RAxML.
 Requires RAxML to be installed.</p>
+<dl class="method">
+<dt id="pylogeny.executable.raxml.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>inp_align</em>, <em>out_file</em>, <em>model=None</em>, <em>is_Protein=True</em>, <em>interTrees=False</em>, <em>alg=None</em>, <em>startingTree=None</em>, <em>rapid=False</em>, <em>slow=False</em>, <em>optimizeBootstrap=False</em>, <em>numboot=100</em>, <em>log=None</em>, <em>wdir=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/executable.html#raxml.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.raxml.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pylogeny.executable.raxml.exeName">
 <tt class="descname">exeName</tt><em class="property"> = 'raxmlHPC'</em><a class="headerlink" href="#pylogeny.executable.raxml.exeName" title="Permalink to this definition">¶</a></dt>
@@ -190,6 +210,14 @@ to be on PATH.</p>
 <tt class="descname">RSPR_ALG_FPT</tt><em class="property"> = '-fpt'</em><a class="headerlink" href="#pylogeny.executable.rspr.RSPR_ALG_FPT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="pylogeny.executable.rspr.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>treeA</em>, <em>treeB</em>, <em>algorithm=''</em>, <em>overlap=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/executable.html#rspr.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.rspr.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algorithm choices are defined in this class. If overlap is set to
+True, will attempt to consolidate taxa names such that they are
+overlapping (otherwise, RSPR will return an error if they do not match).</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="pylogeny.executable.rspr.exeName">
 <tt class="descname">exeName</tt><em class="property"> = 'rspr'</em><a class="headerlink" href="#pylogeny.executable.rspr.exeName" title="Permalink to this definition">¶</a></dt>
@@ -214,6 +242,11 @@ to be on PATH.</p>
 <p>Wrap TREE-PUZZLE in order to create an intermediate file for CONSEL to
 read and assign confidence to a set of trees. Requires TREE-PUZZLE to be
 installed.</p>
+<dl class="method">
+<dt id="pylogeny.executable.treepuzzle.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>ali</em>, <em>treefile</em><big>)</big><a class="reference internal" href="_modules/pylogeny/executable.html#treepuzzle.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.executable.treepuzzle.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pylogeny.executable.treepuzzle.exeName">
 <tt class="descname">exeName</tt><em class="property"> = 'puzzle'</em><a class="headerlink" href="#pylogeny.executable.treepuzzle.exeName" title="Permalink to this definition">¶</a></dt>
@@ -282,7 +315,7 @@ installed.</p>
         <li class="right" >
           <a href="pylogeny.database.html" title="pylogeny.database module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

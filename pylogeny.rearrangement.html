@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.rearrangement module &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.rearrangement module &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.scoring module" href="pylogeny.scoring.html" />
     <link rel="prev" title="pylogeny.pll module" href="pylogeny.pll.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -69,6 +69,11 @@ operator.</p>
 <dt id="pylogeny.rearrangement.RearrangementError">
 <em class="property">exception </em><tt class="descclassname">pylogeny.rearrangement.</tt><tt class="descname">RearrangementError</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#RearrangementError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.RearrangementError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<dl class="method">
+<dt id="pylogeny.rearrangement.RearrangementError.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#RearrangementError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.RearrangementError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="function">
@@ -81,6 +86,14 @@ operator.</p>
 <em class="property">class </em><tt class="descclassname">pylogeny.rearrangement.</tt><tt class="descname">rearrangement</tt><big>(</big><em>struct</em>, <em>type</em>, <em>targ</em>, <em>dest</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encapsulates a single rearrangement move
 of type SPR, NNI, ...</p>
+<dl class="method">
+<dt id="pylogeny.rearrangement.rearrangement.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>struct</em>, <em>type</em>, <em>targ</em>, <em>dest</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize by providing a pointer to
+a base topology, a target branch 
+to be moved, and its destination.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="pylogeny.rearrangement.rearrangement.doMove">
 <tt class="descname">doMove</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.doMove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.doMove" title="Permalink to this definition">¶</a></dt>
@@ -152,6 +165,13 @@ polled for the actual move; this is in order to save memory.</p>
 new node there. Returns a rearrangement structure (not the actual new
 structure) that can then be polled for the actual move; this is in order
 to save memory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.rearrangement.topology.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>t=None</em>, <em>rerootToLeaf=True</em>, <em>toLeaf=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize structure with a top-level internal 
+node OR nothing.</p>
 </dd></dl>
 
 <dl class="method">
@@ -365,7 +385,7 @@ version of this topology.</p>
         <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

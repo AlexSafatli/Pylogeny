@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.tree &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -73,14 +73,23 @@
     <span class="sd">&#39;&#39;&#39; Defines a single (phylogenetic) tree by newick string;</span>
 <span class="sd">    can possess other metadata. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newi</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">structure</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="tree.__init__"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newi</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">structure</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; If enabled, &quot;check&quot; will force the structure to reroot</span>
 <span class="sd">        the given Newick string tree to a lowest-order leaf in order</span>
 <span class="sd">        to ensure a consistent Newick string among any duplicate</span>
 <span class="sd">        topologies. If a structure is provided and check is disabled,</span>
 <span class="sd">        all parsing routines are bypassed and the Newick and Structure</span>
-<span class="sd">        fields of this tree are overriden by the appropriate arguments. &#39;&#39;&#39;</span>
+<span class="sd">        fields of this tree are overriden by the appropriate arguments. </span>
+
+<span class="sd">        :param newi: A Newick or New Hampshire string for a tree (unrooted </span>
+<span class="sd">        or rooted).</span>
+<span class="sd">        :type newi: string</span>
+<span class="sd">        :param check: An optional argument; boolean indicating whether to</span>
+<span class="sd">        perform parsing checks on the string. May change what Newick string</span>
+<span class="sd">        is assigned without changing tree topology.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span>   <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">score</span>  <span class="o">=</span> <span class="bp">None</span>
@@ -91,21 +100,94 @@
         <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> <span class="o">=</span> <span class="n">structure</span>
     
     <span class="c"># Getters, Mutators</span>
-    
-<div class="viewcode-block" id="tree.getName"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getName">[docs]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
-<div class="viewcode-block" id="tree.setName"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setName">[docs]</a>    <span class="k">def</span> <span class="nf">setName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>   <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">n</span></div>
-<div class="viewcode-block" id="tree.getScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getScore">[docs]</a>    <span class="k">def</span> <span class="nf">getScore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span></div>
-<div class="viewcode-block" id="tree.setScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setScore">[docs]</a>    <span class="k">def</span> <span class="nf">setScore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">s</span><span class="p">):</span>  <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">s</span></div>
-<div class="viewcode-block" id="tree.getOrigin"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">getOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span></div>
+    </div>
+<div class="viewcode-block" id="tree.getName"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getName">[docs]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Gets the name of this tree if it has been defined.</span>
+
+<span class="sd">        :return: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</div>
+<div class="viewcode-block" id="tree.setName"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setName">[docs]</a>    <span class="k">def</span> <span class="nf">setName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Sets the name of this tree (object).</span>
+
+<span class="sd">        :param n: A string indicating this tree&#39;s name.</span>
+<span class="sd">        :type n: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">n</span>
+</div>
+<div class="viewcode-block" id="tree.getScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getScore">[docs]</a>    <span class="k">def</span> <span class="nf">getScore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Gets the score(s) (objective function) for this tree if it/they </span>
+<span class="sd">        has/have been defined.</span>
+
+<span class="sd">        :return: a tuple of floats or integers</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span>
+</div>
+<div class="viewcode-block" id="tree.setScore"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setScore">[docs]</a>    <span class="k">def</span> <span class="nf">setScore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">s</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Sets the score(s) for this tree. Should be performed by a scorer</span>
+<span class="sd">        (see scoring functions in the appropriate module).</span>
+
+<span class="sd">        :param s: A set of objective function scores.</span>
+<span class="sd">        :type s: a tuple of floats or integers</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">s</span>
+</div>
+<div class="viewcode-block" id="tree.getOrigin"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">getOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Gets the &quot;origin&quot; of this tree, or where this tree was acquired</span>
+<span class="sd">        or constructed from. Usually set by other code or an interface.</span>
+
+<span class="sd">        :return: string or None</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span>
+</div>
 <div class="viewcode-block" id="tree.setOrigin"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.setOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">setOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Set the &quot;origin&quot; or specification of where this tree</span>
-<span class="sd">        was acquired or constructed from; a string. &#39;&#39;&#39;</span>
+<span class="sd">        was acquired or constructed from.</span>
+
+<span class="sd">        :param o: A string indicating where the tree came from.</span>
+<span class="sd">        :type o: string or None</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">o</span>    
         </div>
-<div class="viewcode-block" id="tree.getNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span></div>
-<div class="viewcode-block" id="tree.toNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.toNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span></div>
+<div class="viewcode-block" id="tree.getNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Gets the Newick (New Hampshire) string for this tree.</span>
+
+<span class="sd">        :return: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span>
+</div>
+<div class="viewcode-block" id="tree.toNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.toNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Gets the Newick (New Hampshire) string for this tree.</span>
+
+<span class="sd">        :return: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span>
+</div>
     <span class="k">def</span> <span class="nf">_setNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; PRIVATE: Set Newick string to n; also acquires </span>
@@ -120,30 +202,52 @@
         <span class="sd">&#39;&#39;&#39; Update the contained Newick string only as long</span>
 <span class="sd">        as the structure obtained (after rerooting, which is</span>
 <span class="sd">        an optional parameter) is identical to the contained</span>
-<span class="sd">        structure. &#39;&#39;&#39;</span>
-        
+<span class="sd">        structure. </span>
+
+<span class="sd">        :param n: A Newick or New Hampshire formatted string.</span>
+<span class="sd">        :type n: a string</span>
+<span class="sd">        :param reroot: A boolean indicating whether to reroot the provided</span>
+<span class="sd">        Newick string to a lexicographically lowest-order taxa name to ensure</span>
+<span class="sd">        redundant topologies across other trees.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
         <span class="n">thisStruct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getStructure</span><span class="p">(</span><span class="n">reroot</span><span class="o">=</span><span class="n">reroot</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">thisStruct</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStructure</span><span class="p">()):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Updated string infers structural change of tree!&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s">&#39;Updated string infers structural change of tree!&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">newick</span> <span class="o">=</span> <span class="n">n</span>
         </div>
 <div class="viewcode-block" id="tree.getStructure"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getStructure">[docs]</a>    <span class="k">def</span> <span class="nf">getStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        
-        <span class="sd">&#39;&#39;&#39; Returns the tree&#39;s &quot;structure&quot;, a Newick string without any branch</span>
-<span class="sd">        lengths. &#39;&#39;&#39;</span>
+
+        <span class="sd">&#39;&#39;&#39; Returns the tree&#39;s &quot;structure&quot;, a Newick string without any </span>
+<span class="sd">        branch lengths. </span>
+
+<span class="sd">        :return: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">struct</span> 
     </div>
 <div class="viewcode-block" id="tree.getRerootedNoBranchLengthNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getRerootedNoBranchLengthNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getRerootedNoBranchLengthNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
     
-        <span class="sd">&#39;&#39;&#39; See getStructure(). &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Returns the tree&#39;s &quot;structure&quot;, a Newick string without any </span>
+<span class="sd">        branch lengths. </span>
+
+<span class="sd">        :return: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStructure</span><span class="p">()</span>
     </div>
 <div class="viewcode-block" id="tree.getSimpleNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.getSimpleNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getSimpleNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Return a Newick string with all taxa name replaced with</span>
-<span class="sd">        successive integers. &#39;&#39;&#39;</span>
+<span class="sd">        successive integers. </span>
+
+<span class="sd">        :return: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
     
         <span class="n">o</span> <span class="o">=</span> <span class="n">newick</span><span class="o">.</span><span class="n">newickParser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
@@ -155,8 +259,12 @@
     </div>
 <div class="viewcode-block" id="tree.toTopology"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.toTopology">[docs]</a>    <span class="k">def</span> <span class="nf">toTopology</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Return a rearrangement.topology instance for this tree to allow for </span>
-<span class="sd">        rearrangement of the actual structure of the tree. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Return a topology object instance for this tree to allow </span>
+<span class="sd">        for rearrangement of the actual structure of the tree. </span>
+
+<span class="sd">        :return: a :class: `rearrangement.topology` object</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">t</span> <span class="o">=</span> <span class="n">rearrangement</span><span class="o">.</span><span class="n">topology</span><span class="p">()</span>
         <span class="n">t</span><span class="o">.</span><span class="n">fromNewick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newick</span><span class="p">)</span>
@@ -201,26 +309,41 @@
     <span class="sd">&#39;&#39;&#39; Represents an ordered, disorganized collection of trees </span>
 <span class="sd">    that do not necessarily comprise a combinatorial space. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="treeSet.__init__"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
        
         <span class="bp">self</span><span class="o">.</span><span class="n">trees</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>    
-    
+    </div>
 <div class="viewcode-block" id="treeSet.addTree"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.addTree">[docs]</a>    <span class="k">def</span> <span class="nf">addTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span> 
 
-        <span class="sd">&#39;&#39;&#39; Add a tree object to the collection. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Add a tree object to the collection. </span>
+
+<span class="sd">        :param tr: A tree object.</span>
+<span class="sd">        :type tr: :class: `tree`</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
     
         <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="treeSet.addTreeByNewick"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.addTreeByNewick">[docs]</a>    <span class="k">def</span> <span class="nf">addTreeByNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newick</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Add a tree to the structure by Newick string. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Add a tree to the structure by Newick string. </span>
+
+<span class="sd">        :param newick: A New Hampshire or Newick string.</span>
+<span class="sd">        :type newick: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">t</span> <span class="o">=</span> <span class="n">tree</span><span class="p">(</span><span class="n">newick</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>    
         </div>
 <div class="viewcode-block" id="treeSet.removeTree"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.removeTree">[docs]</a>    <span class="k">def</span> <span class="nf">removeTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Remove a tree object from the collection if present. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Remove a tree object from the collection if present. </span>
+
+<span class="sd">        :param tr: A tree object (present in the collection).</span>
+<span class="sd">        :type tr: :class: `tree`</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
@@ -228,7 +351,13 @@
 <div class="viewcode-block" id="treeSet.indexOf"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.indexOf">[docs]</a>    <span class="k">def</span> <span class="nf">indexOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Acquire the index in this collection of a tree object. </span>
-<span class="sd">        Returns -1 if not found. &#39;&#39;&#39;</span>
+<span class="sd">        Returns -1 if not found. </span>
+
+<span class="sd">        :param tr: A tree object.</span>
+<span class="sd">        :type tr: :class: `tree`</span>
+<span class="sd">        :return: an integer [-1,length of collection)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
@@ -250,7 +379,12 @@
 <div class="viewcode-block" id="treeSet.toTreeFile"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.treeSet.toTreeFile">[docs]</a>    <span class="k">def</span> <span class="nf">toTreeFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fout</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Output this landscape as a series of trees, separated by</span>
-<span class="sd">        newlines, as a text file saved at the given path. &#39;&#39;&#39;</span>        
+<span class="sd">        newlines, as a text file saved at the given path. </span>
+
+<span class="sd">        :param fout: A string indicating a file system path to a file.</span>
+<span class="sd">        :type fout: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">o</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fout</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
         <span class="n">o</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
@@ -286,7 +420,7 @@
 <span class="sd">    leaf of the subtree associated with that branch. The set V contains the rest</span>
 <span class="sd">    of the leaves or taxa in the tree. &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">topol</span><span class="p">,</span><span class="n">bra</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="bipartition.__init__"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">topol</span><span class="p">,</span><span class="n">bra</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Construct a bipartition from a branch in a topology. </span>
 <span class="sd">        </span>
@@ -307,7 +441,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">reconfis</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># Possible reconfigurations as rearrangement objects.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_getStringRepresentation</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_getBranchListRepresentation</span><span class="p">()</span>
-    
+    </div>
     <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span>
@@ -400,7 +534,11 @@
 <div class="viewcode-block" id="bipartition.getBranchIndex"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getBranchIndex">[docs]</a>    <span class="k">def</span> <span class="nf">getBranchIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Return an index of the branch with respect to a post order traversal</span>
-<span class="sd">        of the topology. &#39;&#39;&#39;</span>
+<span class="sd">        of the topology. </span>
+
+<span class="sd">        :return: an integer</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">nodes</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="o">.</span><span class="n">postOrderTraversal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">getRoot</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)):</span>
@@ -410,14 +548,22 @@
     </div>
 <div class="viewcode-block" id="bipartition.getStringRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getStringRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">getStringRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Get the string representation corresponding to this bipartition. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get the string representation corresponding to this bipartition. </span>
+
+<span class="sd">        :return: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">strrep</span>
     </div>
 <div class="viewcode-block" id="bipartition.getShortStringRepresentation"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.bipartition.getShortStringRepresentation">[docs]</a>    <span class="k">def</span> <span class="nf">getShortStringRepresentation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Get the shorter string representation corresponding to this</span>
-<span class="sd">        bipartition. &#39;&#39;&#39;</span>
+<span class="sd">        bipartition. </span>
+
+<span class="sd">        :return: a string</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getShortStringRepresentation</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortstr</span>
@@ -457,7 +603,8 @@
             <span class="c"># Acquire node corresponding to this topology.</span>
             <span class="n">start</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">findTreeTopologyByStructure</span><span class="p">(</span><span class="n">orstruct</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find topology corresponding to bipartition.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s">&#39;Could not find topology corresponding to bipartition.&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span> <span class="n">start</span> <span class="o">=</span> <span class="n">node</span>
             
         <span class="c"># Get neighbors.</span>
@@ -522,7 +669,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

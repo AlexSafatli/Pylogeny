@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.heuristic &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.heuristic &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -71,9 +71,9 @@
 
     <span class="sd">&#39;&#39;&#39; A base interface for a heuristic that explores a state graph. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">G</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="heuristic.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">G</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span> <span class="o">=</span> <span class="n">G</span>      <span class="c"># State Graph</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start</span>     <span class="o">=</span> <span class="n">start</span>  <span class="c"># Start State</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span>     <span class="o">=</span> <span class="n">start</span>  <span class="c"># Start State</span></div>
 <div class="viewcode-block" id="heuristic.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span></div>
 <div class="viewcode-block" id="heuristic.getStateGraph"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.getStateGraph">[docs]</a>    <span class="k">def</span> <span class="nf">getStateGraph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span></div>
 <div class="viewcode-block" id="heuristic.getStartState"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.heuristic.getStartState">[docs]</a>    <span class="k">def</span> <span class="nf">getStartState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
@@ -84,9 +84,9 @@
 <span class="sd">    and only possesses a single path (of search). &#39;&#39;&#39;</span>
     
     <span class="n">path</span><span class="p">,</span> <span class="n">bestTree</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="bp">None</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+<div class="viewcode-block" id="phylogeneticLinearHeuristic.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.phylogeneticLinearHeuristic.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">phylogeneticLinearHeuristic</span><span class="p">,</span><span class="bp">self</span>
-              <span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
+              <span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span></div>
 <div class="viewcode-block" id="phylogeneticLinearHeuristic.getPath"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.phylogeneticLinearHeuristic.getPath">[docs]</a>    <span class="k">def</span> <span class="nf">getPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span></div>
 <div class="viewcode-block" id="phylogeneticLinearHeuristic.getBestTree"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.phylogeneticLinearHeuristic.getBestTree">[docs]</a>    <span class="k">def</span> <span class="nf">getBestTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bestTree</span>
     
@@ -96,9 +96,9 @@
     
     <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of parsimony. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+<div class="viewcode-block" id="parsimonyGreedy.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">parsimonyGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
-        
+        </div>
 <div class="viewcode-block" id="parsimonyGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
         <span class="sd">&#39;&#39;&#39; Perform greedy search of the landscape using</span>
@@ -141,9 +141,9 @@
     
     <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of likelihood. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+<div class="viewcode-block" id="likelihoodGreedy.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">likelihoodGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
-        
+        </div>
 <div class="viewcode-block" id="likelihoodGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
         <span class="sd">&#39;&#39;&#39; Perform greedy search of the landscape using</span>
@@ -188,9 +188,9 @@
     <span class="sd">&#39;&#39;&#39; Parsimony-driven greedy landscape exploration </span>
 <span class="sd">    by comparsion of likelihoods. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+<div class="viewcode-block" id="smoothGreedy.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.smoothGreedy.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">smoothGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
-        
+        </div>
 <div class="viewcode-block" id="smoothGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.smoothGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
         <span class="sd">&#39;&#39;&#39; Perform greedy search of the landscape using</span>
@@ -264,7 +264,7 @@
 <span class="sd">    of intermediate checkpoint trees output from the </span>
 <span class="sd">    RAxML executable. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">,</span><span class="n">workdir</span><span class="o">=</span><span class="s">&#39;.rxml&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="RAxMLIdentify.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.RAxMLIdentify.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">,</span><span class="n">workdir</span><span class="o">=</span><span class="s">&#39;.rxml&#39;</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">RAxMLIdentify</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span>    <span class="o">=</span> <span class="n">workdir</span>        
@@ -272,7 +272,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">logFile</span>    <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">workdir</span><span class="p">,</span><span class="s">&#39;logfi&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__setupWorkDir__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__setupExecutable__</span><span class="p">()</span>
-    
+    </div>
     <span class="k">def</span> <span class="nf">__setupWorkDir__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workdir</span><span class="p">)</span>
@@ -373,7 +373,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

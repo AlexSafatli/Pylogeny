@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.parsimony &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.parsimony &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -62,7 +62,7 @@
     <span class="sd">&#39;&#39;&#39; Hold a set of site_profile profiles for an </span>
 <span class="sd">    entire alignment. &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
+<div class="viewcode-block" id="profile_set.__init__"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.profile_set.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">alignment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numSites</span>  <span class="o">=</span> <span class="n">alignment</span><span class="o">.</span><span class="n">getSize</span><span class="p">()</span>
@@ -72,7 +72,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sites</span>     <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_constructSet</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_buildTaxaDict</span><span class="p">()</span>
-    
+    </div>
     <span class="k">def</span> <span class="nf">_constructSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; PRIVATE: Build all site_profiles. &#39;&#39;&#39;</span>
@@ -116,14 +116,14 @@
 <span class="sd">    a region into a set of components on the basis</span>
 <span class="sd">    of similarity alone. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alignment</span><span class="p">,</span><span class="n">site</span><span class="p">):</span>
+<div class="viewcode-block" id="site_profile.__init__"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.site_profile.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alignment</span><span class="p">,</span><span class="n">site</span><span class="p">):</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">alignment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">site</span>      <span class="o">=</span> <span class="n">site</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alphabet</span>  <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vector</span>    <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_buildVector</span><span class="p">()</span>
-        
+        </div>
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">o</span><span class="p">):</span>
         
         <span class="k">if</span> <span class="p">(</span><span class="n">o</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span> <span class="k">return</span> <span class="bp">False</span>
@@ -228,7 +228,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.alignment module &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.alignment module &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.base module" href="pylogeny.base.html" />
     <link rel="prev" title="pylogeny.JSONWriter module" href="pylogeny.JSONWriter.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.JSONWriter.html" title="pylogeny.JSONWriter module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,7 +56,9 @@
             
   <div class="section" id="module-pylogeny.alignment">
 <span id="pylogeny-alignment-module"></span><h1>pylogeny.alignment module<a class="headerlink" href="#module-pylogeny.alignment" title="Permalink to this headline">¶</a></h1>
-<p>Handle input biological sequence alignment files for the purposes of phylogenetic inference. Will read all types of alignment files by utilizing the P4 python phylogenetic library.</p>
+<p>Handle input biological sequence alignment files for the purposes of
+phylogenetic inference. Will read all types of alignment files by utilizing the 
+P4 python phylogenetic library.</p>
 <dl class="class">
 <dt id="pylogeny.alignment.alignment">
 <em class="property">class </em><tt class="descclassname">pylogeny.alignment.</tt><tt class="descname">alignment</tt><big>(</big><em>inal=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment" title="Permalink to this definition">¶</a></dt>
@@ -64,6 +66,21 @@
 <p>Wrap a biological sequence alignment to enable functionality
 necessary for phylogenetic inference. Makes use of temporary
 files; requires to be closed once no longer needed.</p>
+<dl class="method">
+<dt id="pylogeny.alignment.alignment.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>inal=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate an object intended to wrap an alignment for the
+purposes of running phylogenetic inference.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inal</strong> &#8211; An alignment file path (most formats are accepted).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="pylogeny.alignment.alignment.bootstrap">
 <tt class="descname">bootstrap</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.bootstrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.bootstrap" title="Permalink to this definition">¶</a></dt>
@@ -163,6 +180,11 @@ there are in each respective item in the alignment.</p>
 <p>An alignment object that renames all comprising taxa in order
 to be able to be written as a strict Phylip file.</p>
 <dl class="method">
+<dt id="pylogeny.alignment.phylipFriendlyAlignment.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>inal=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pylogeny.alignment.phylipFriendlyAlignment.getPhylip">
 <tt class="descname">getPhylip</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.getPhylip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.getPhylip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a path to a temporary Phylip file. This will 
@@ -185,7 +207,7 @@ that was reassigned at initialization.</p>
 <dl class="method">
 <dt id="pylogeny.alignment.phylipFriendlyAlignment.reassignFromReinterpretedNewick">
 <tt class="descname">reassignFromReinterpretedNewick</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.reassignFromReinterpretedNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.reassignFromReinterpretedNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Replace all proper names with reassigned names in a Newick tree.</p>
+<dd><p>Replace all proper names with reassigned names in Newick tree.</p>
 </dd></dl>
 
 <dl class="method">
@@ -197,7 +219,7 @@ that was reassigned at initialization.</p>
 <dl class="method">
 <dt id="pylogeny.alignment.phylipFriendlyAlignment.reinterpretNewick">
 <tt class="descname">reinterpretNewick</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.reinterpretNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.reinterpretNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Replaces all reassigned names to proper names in a Newick tree.</p>
+<dd><p>Replaces all reassigned names to proper names in Newick tree.</p>
 </dd></dl>
 
 <dl class="method">
@@ -259,7 +281,7 @@ that was reassigned at initialization.</p>
         <li class="right" >
           <a href="pylogeny.JSONWriter.html" title="pylogeny.JSONWriter module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

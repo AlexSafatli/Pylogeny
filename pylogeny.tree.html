@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree module &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.tree module &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="prev" title="pylogeny.scoring module" href="pylogeny.scoring.html" /> 
   </head>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -66,6 +66,26 @@ in a phylogenetic tree defines a single bipartition that divides the tree
 into two disjoint sets U and V . The set U comprises all of the children
 leaf of the subtree associated with that branch. The set V contains the rest
 of the leaves or taxa in the tree.</p>
+<dl class="method">
+<dt id="pylogeny.tree.bipartition.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>topol</em>, <em>bra=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a bipartition from a branch in a topology.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topol</strong> &#8211; A topology.</li>
+<li><strong>bra</strong> &#8211; An optional argument; can still acquire a bipartition from a</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>string.
+:type bra: :class: <cite>newick.branch</cite></p>
+</dd></dl>
+
 <dl class="method">
 <dt id="pylogeny.tree.bipartition.fromStringRepresentation">
 <tt class="descname">fromStringRepresentation</tt><big>(</big><em>st</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.fromStringRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.fromStringRepresentation" title="Permalink to this definition">¶</a></dt>
@@ -106,6 +126,14 @@ of a bipartition.</p>
 <tt class="descname">getBranchIndex</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getBranchIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getBranchIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return an index of the branch with respect to a post order traversal
 of the topology.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -145,12 +173,28 @@ string representation.</p>
 <tt class="descname">getShortStringRepresentation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getShortStringRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getShortStringRepresentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the shorter string representation corresponding to this
 bipartition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.bipartition.getStringRepresentation">
 <tt class="descname">getStringRepresentation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#bipartition.getStringRepresentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.bipartition.getStringRepresentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the string representation corresponding to this bipartition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -172,72 +216,203 @@ bipartition.</p>
 <p>Defines a single (phylogenetic) tree by newick string;
 can possess other metadata.</p>
 <dl class="method">
+<dt id="pylogeny.tree.tree.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>newi=''</em>, <em>check=False</em>, <em>structure=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>If enabled, &#8220;check&#8221; will force the structure to reroot
+the given Newick string tree to a lowest-order leaf in order
+to ensure a consistent Newick string among any duplicate
+topologies. If a structure is provided and check is disabled,
+all parsing routines are bypassed and the Newick and Structure
+fields of this tree are overriden by the appropriate arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>newi</strong> &#8211; A Newick or New Hampshire string for a tree (unrooted</td>
+</tr>
+</tbody>
+</table>
+<p>or rooted).
+:type newi: string
+:param check: An optional argument; boolean indicating whether to
+perform parsing checks on the string. May change what Newick string
+is assigned without changing tree topology.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pylogeny.tree.tree.getName">
 <tt class="descname">getName</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getName" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the name of this tree if it has been defined.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.getNewick">
 <tt class="descname">getNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getNewick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the Newick (New Hampshire) string for this tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.getOrigin">
 <tt class="descname">getOrigin</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getOrigin" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the &#8220;origin&#8221; of this tree, or where this tree was acquired
+or constructed from. Usually set by other code or an interface.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">string or None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.getRerootedNoBranchLengthNewick">
 <tt class="descname">getRerootedNoBranchLengthNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getRerootedNoBranchLengthNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getRerootedNoBranchLengthNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>See getStructure().</p>
+<dd><p>Returns the tree&#8217;s &#8220;structure&#8221;, a Newick string without any 
+branch lengths.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.getScore">
 <tt class="descname">getScore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getScore" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the score(s) (objective function) for this tree if it/they 
+has/have been defined.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a tuple of floats or integers</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.getSimpleNewick">
 <tt class="descname">getSimpleNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getSimpleNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getSimpleNewick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a Newick string with all taxa name replaced with
 successive integers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.getStructure">
 <tt class="descname">getStructure</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.getStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.getStructure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the tree&#8217;s &#8220;structure&#8221;, a Newick string without any branch
-lengths.</p>
+<dd><p>Returns the tree&#8217;s &#8220;structure&#8221;, a Newick string without any 
+branch lengths.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.setName">
 <tt class="descname">setName</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.setName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.setName" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the name of this tree (object).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>a string</em>) &#8211; A string indicating this tree&#8217;s name.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.setOrigin">
 <tt class="descname">setOrigin</tt><big>(</big><em>o</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.setOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.setOrigin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the &#8220;origin&#8221; or specification of where this tree
-was acquired or constructed from; a string.</p>
+was acquired or constructed from.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>o</strong> (<em>string or None</em>) &#8211; A string indicating where the tree came from.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.setScore">
 <tt class="descname">setScore</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.setScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.setScore" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the score(s) for this tree. Should be performed by a scorer
+(see scoring functions in the appropriate module).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<em>a tuple of floats or integers</em>) &#8211; A set of objective function scores.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.toNewick">
 <tt class="descname">toNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.toNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.toNewick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the Newick (New Hampshire) string for this tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.tree.toTopology">
 <tt class="descname">toTopology</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.toTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.toTopology" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a rearrangement.topology instance for this tree to allow for 
-rearrangement of the actual structure of the tree.</p>
+<dd><p>Return a topology object instance for this tree to allow 
+for rearrangement of the actual structure of the tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a :class: <cite>rearrangement.topology</cite> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -247,6 +422,20 @@ rearrangement of the actual structure of the tree.</p>
 as the structure obtained (after rerooting, which is
 an optional parameter) is identical to the contained
 structure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>a string</em>) &#8211; A Newick or New Hampshire formatted string.</li>
+<li><strong>reroot</strong> &#8211; A boolean indicating whether to reroot the provided</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Newick string to a lexicographically lowest-order taxa name to ensure
+redundant topologies across other trees.</p>
 </dd></dl>
 
 </dd></dl>
@@ -258,15 +447,36 @@ structure.</p>
 <p>Represents an ordered, disorganized collection of trees 
 that do not necessarily comprise a combinatorial space.</p>
 <dl class="method">
+<dt id="pylogeny.tree.treeSet.__init__">
+<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pylogeny.tree.treeSet.addTree">
 <tt class="descname">addTree</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.addTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.addTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a tree object to the collection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> &#8211; A tree object.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.tree.treeSet.addTreeByNewick">
 <tt class="descname">addTreeByNewick</tt><big>(</big><em>newick</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.addTreeByNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.addTreeByNewick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a tree to the structure by Newick string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>newick</strong> (<em>a string</em>) &#8211; A New Hampshire or Newick string.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -281,6 +491,16 @@ an instance of treeSet from those trees.</p>
 <tt class="descname">indexOf</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.indexOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.indexOf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquire the index in this collection of a tree object. 
 Returns -1 if not found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> &#8211; A tree object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an integer [-1,length of collection)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -293,6 +513,14 @@ Returns -1 if not found.</p>
 <dt id="pylogeny.tree.treeSet.removeTree">
 <tt class="descname">removeTree</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.removeTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.removeTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a tree object from the collection if present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> &#8211; A tree object (present in the collection).</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -300,6 +528,14 @@ Returns -1 if not found.</p>
 <tt class="descname">toTreeFile</tt><big>(</big><em>fout</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#treeSet.toTreeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.treeSet.toTreeFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Output this landscape as a series of trees, separated by
 newlines, as a text file saved at the given path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fout</strong> (<em>a string</em>) &#8211; A string indicating a file system path to a file.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -349,7 +585,7 @@ newlines, as a text file saved at the given path.</p>
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

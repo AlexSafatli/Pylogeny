@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.database module &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.database module &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.executable module" href="pylogeny.executable.html" />
     <link rel="prev" title="pylogeny.base module" href="pylogeny.base.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.base.html" title="pylogeny.base module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -75,6 +75,11 @@ from a sqlite file.</p>
 <em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">SQLDatabase</tt><big>(</big><em>host</em>, <em>user</em>, <em>pw</em>, <em>db</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pylogeny.database.database" title="pylogeny.database.database"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.database.database</span></tt></a></p>
 <p>Database object to allow reading from a MySQL database.</p>
+<dl class="method">
+<dt id="pylogeny.database.SQLDatabase.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>host</em>, <em>user</em>, <em>pw</em>, <em>db</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pylogeny.database.SQLDatabase.close">
 <tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLDatabase.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLDatabase.close" title="Permalink to this definition">¶</a></dt>
@@ -113,6 +118,11 @@ from a sqlite file.</p>
 <em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">SQLExhaustiveLandscape</tt><big>(</big><em>dbobj</em>, <em>aliname</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLExhaustiveLandscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLExhaustiveLandscape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pylogeny.database.DatabaseLandscape" title="pylogeny.database.DatabaseLandscape"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.database.DatabaseLandscape</span></tt></a></p>
 <dl class="method">
+<dt id="pylogeny.database.SQLExhaustiveLandscape.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>dbobj</em>, <em>aliname</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLExhaustiveLandscape.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLExhaustiveLandscape.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pylogeny.database.SQLExhaustiveLandscape.exploreRandomTree">
 <tt class="descname">exploreRandomTree</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLExhaustiveLandscape.exploreRandomTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLExhaustiveLandscape.exploreRandomTree" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -133,6 +143,11 @@ from a sqlite file.</p>
 <dt id="pylogeny.database.SQLiteDatabase">
 <em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">SQLiteDatabase</tt><big>(</big><em>filepath</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pylogeny.database.database" title="pylogeny.database.database"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.database.database</span></tt></a></p>
+<dl class="method">
+<dt id="pylogeny.database.SQLiteDatabase.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>filepath</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pylogeny.database.SQLiteDatabase.close">
 <tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.close" title="Permalink to this definition">¶</a></dt>
@@ -167,6 +182,11 @@ from a sqlite file.</p>
 <dd><p>Bases: <a class="reference internal" href="pylogeny.landscape.html#pylogeny.landscape.landscape" title="pylogeny.landscape.landscape"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.landscape.landscape</span></tt></a></p>
 <p>Allow random access of all landscape data from an sqlite file found on
 the hard disk.</p>
+<dl class="method">
+<dt id="pylogeny.database.SQLiteLandscape.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>dbobj</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteLandscape.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteLandscape.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -315,7 +335,7 @@ access using a dictionary data structure.</p>
         <li class="right" >
           <a href="pylogeny.base.html" title="pylogeny.base module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

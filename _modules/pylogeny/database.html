@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.database &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.database &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -83,7 +83,7 @@
 </div></div>
 <div class="viewcode-block" id="SQLExhaustiveLandscape"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLExhaustiveLandscape">[docs]</a><span class="k">class</span> <span class="nc">SQLExhaustiveLandscape</span><span class="p">(</span><span class="n">DatabaseLandscape</span><span class="p">):</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbobj</span><span class="p">,</span><span class="n">aliname</span><span class="p">):</span>
+<div class="viewcode-block" id="SQLExhaustiveLandscape.__init__"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLExhaustiveLandscape.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbobj</span><span class="p">,</span><span class="n">aliname</span><span class="p">):</span>
         
         <span class="c"># Set up fields.</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SQLLandscape</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
@@ -98,7 +98,7 @@
             <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;Could not find alignment table &lt;</span><span class="si">%s</span><span class="s">&gt;.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">aliname</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fetchTreeFromDatabase</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># Get root tree.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_acquireNumberOfTaxa</span><span class="p">()</span>
-    
+    </div>
     <span class="k">def</span> <span class="nf">_fetchTreeFromDatabase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
         
         <span class="c"># Overrides lookup in graph object first. Looks in database.</span>
@@ -167,11 +167,11 @@
     <span class="sd">&#39;&#39;&#39; Allow random access of all landscape data from an sqlite file found on</span>
 <span class="sd">    the hard disk. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbobj</span><span class="p">):</span>
+<div class="viewcode-block" id="SQLiteLandscape.__init__"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteLandscape.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbobj</span><span class="p">):</span>
         
         <span class="k">pass</span>
         
-</div>
+</div></div>
 <div class="viewcode-block" id="database"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database">[docs]</a><span class="k">class</span> <span class="nc">database</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="sd">&#39;&#39;&#39; Allow interfacing with a SQL/sqlite database. &#39;&#39;&#39;</span>
@@ -247,13 +247,13 @@
     
     <span class="sd">&#39;&#39;&#39; Database object to allow reading from a MySQL database. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">host</span><span class="p">,</span><span class="n">user</span><span class="p">,</span><span class="n">pw</span><span class="p">,</span><span class="n">db</span><span class="p">):</span>
+<div class="viewcode-block" id="SQLDatabase.__init__"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">host</span><span class="p">,</span><span class="n">user</span><span class="p">,</span><span class="n">pw</span><span class="p">,</span><span class="n">db</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">host</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">user</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">pw</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">database</span> <span class="o">=</span> <span class="n">db</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-    
+    </div>
 <div class="viewcode-block" id="SQLDatabase.connect"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">socket</span>   <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
                                       <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
@@ -293,11 +293,11 @@
 </div></div>
 <div class="viewcode-block" id="SQLiteDatabase"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase">[docs]</a><span class="k">class</span> <span class="nc">SQLiteDatabase</span><span class="p">(</span><span class="n">database</span><span class="p">):</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
+<div class="viewcode-block" id="SQLiteDatabase.__init__"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">socket</span>   <span class="o">=</span> <span class="n">sqllite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-
+</div>
 <div class="viewcode-block" id="SQLiteDatabase.getColumns"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.getColumns">[docs]</a>    <span class="k">def</span> <span class="nf">getColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Return column information for a given table. &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;PRAGMA table_info(</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
@@ -353,7 +353,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

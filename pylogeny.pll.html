@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.pll module &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.pll module &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.rearrangement module" href="pylogeny.rearrangement.html" />
     <link rel="prev" title="pylogeny.parsimony module" href="pylogeny.parsimony.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.parsimony.html" title="pylogeny.parsimony module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -63,6 +63,24 @@
 <dd><p>Encapsulating a phylogenetic tree (as topology) + corresponding alignment
 into a libpll-associated data structure. Allows for log-likelihood
 scoring of this model. <strong>MUST BE CLOSED AFTER USE.</strong></p>
+<dl class="method">
+<dt id="pylogeny.pll.dataModel.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>topo</em>, <em>alignm</em>, <em>model=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the data model and respective structures.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topo</strong> &#8211; A topology object.</li>
+<li><strong>alignm</strong> &#8211; A phylipFriendlyAlignment object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="pylogeny.pll.dataModel.close">
 <tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel.close" title="Permalink to this definition">¶</a></dt>
@@ -87,6 +105,11 @@ scoring of this model. <strong>MUST BE CLOSED AFTER USE.</strong></p>
 <dt id="pylogeny.pll.partitionModel">
 <em class="property">class </em><tt class="descclassname">pylogeny.pll.</tt><tt class="descname">partitionModel</tt><big>(</big><em>ali</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>A partition model intended for libpll.</p>
+<dl class="method">
+<dt id="pylogeny.pll.partitionModel.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>ali</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pylogeny.pll.partitionModel.close">
 <tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.close" title="Permalink to this definition">¶</a></dt>
@@ -164,7 +187,7 @@ scoring of this model. <strong>MUST BE CLOSED AFTER USE.</strong></p>
         <li class="right" >
           <a href="pylogeny.parsimony.html" title="pylogeny.parsimony module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

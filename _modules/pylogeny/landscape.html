@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscape &mdash; Pylogeny 0.3.4.5 documentation</title>
+    <title>pylogeny.landscape &mdash; Pylogeny 0.3.4.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.5',
+        VERSION:     '0.3.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.5 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -84,7 +84,7 @@
     
     <span class="sd">&#39;&#39;&#39; Define an empty graph object. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">gr</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="graph.__init__"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.graph.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">gr</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Instantiate a graph.</span>
 <span class="sd">        </span>
@@ -95,7 +95,7 @@
         <span class="k">if</span> <span class="n">gr</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">gr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">defaultWeight</span> <span class="o">=</span> <span class="mf">0.</span> 
-    
+    </div>
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="k">yield</span> <span class="n">node</span>
@@ -217,26 +217,23 @@
         
         <span class="k">return</span> <span class="n">alg</span><span class="o">.</span><span class="n">shortest_path_length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span><span class="n">nodA</span><span class="p">,</span><span class="n">nodB</span><span class="p">)</span>
 
-<span class="c"># Landscape: Subclass of Graph, TreeSet Objects</span>
 </div></div>
 <div class="viewcode-block" id="landscape"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape">[docs]</a><span class="k">class</span> <span class="nc">landscape</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span><span class="n">treeSet</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Defines an entire phylogenetic tree space. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Defines an entire phylogenetic tree space. </span>
+<span class="sd">    </span>
+<span class="sd">    :param ali: An :class:`alignment.alignment` object.</span>
+<span class="sd">    :param starting_tree: An optional tree object to start</span>
+<span class="sd">    the landscape with.</span>
+<span class="sd">    :param root: Whether or not to acquire an approximate</span>
+<span class="sd">    maximum likelihood tree (FastTree) or start the landscape</span>
+<span class="sd">    with a given starting tree.</span>
+<span class="sd">    :param operator: A string that describes what operator the</span>
+<span class="sd">    landscape is mostly comprised of.    </span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ali</span><span class="p">,</span><span class="n">starting_tree</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">root</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">operator</span><span class="o">=</span><span class="s">&#39;SPR&#39;</span><span class="p">):</span>
-        
-        <span class="sd">&#39;&#39;&#39; Initialize the landscape. </span>
-<span class="sd">        </span>
-<span class="sd">        :param ali: An :class:`alignment.alignment` object.</span>
-<span class="sd">        :param starting_tree: An optional tree object to start</span>
-<span class="sd">        the landscape with.</span>
-<span class="sd">        :param root: Whether or not to acquire an approximate</span>
-<span class="sd">        maximum likelihood tree (FastTree) or start the landscape</span>
-<span class="sd">        with a given starting tree.</span>
-<span class="sd">        :param operator: A string that describes what operator the</span>
-<span class="sd">        landscape is mostly comprised of.</span>
-<span class="sd">        </span>
-<span class="sd">        &#39;&#39;&#39;</span>        
+<div class="viewcode-block" id="landscape.__init__"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ali</span><span class="p">,</span><span class="n">starting_tree</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">root</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">operator</span><span class="o">=</span><span class="s">&#39;SPR&#39;</span><span class="p">):</span>
         
         <span class="nb">super</span><span class="p">(</span><span class="n">landscape</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         
@@ -271,7 +268,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">tre</span><span class="o">.</span><span class="n">score</span><span class="p">):</span>
                 <span class="n">sc</span> <span class="o">=</span> <span class="n">parsimony</span><span class="p">(</span><span class="n">new</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
                 <span class="n">tre</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="n">sc</span><span class="p">)</span>            
-        
+        </div>
 <div class="viewcode-block" id="landscape.getAlignment"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.getAlignment">[docs]</a>    <span class="k">def</span> <span class="nf">getAlignment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
         
         <span class="sd">&#39;&#39;&#39; Acquire the alignment object associated with this space. &#39;&#39;&#39;</span>
@@ -416,9 +413,10 @@
         </div>
 <div class="viewcode-block" id="landscape.addTreeByNewick"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.addTreeByNewick">[docs]</a>    <span class="k">def</span> <span class="nf">addTreeByNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newick</span><span class="p">,</span><span class="n">score</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">struct</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Add a tree to the landscape by Newick string. Will return an index. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Add tree to the landscape by Newick string. Will return index. &#39;&#39;&#39;</span>
         
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="n">score</span><span class="o">=</span><span class="n">score</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">,</span><span class="n">newick</span><span class="o">=</span><span class="n">newick</span><span class="p">,</span><span class="n">struct</span><span class="o">=</span><span class="n">struct</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="n">score</span><span class="o">=</span><span class="n">score</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">,</span><span class="n">newick</span><span class="o">=</span><span class="n">newick</span><span class="p">,</span>
+                            <span class="n">struct</span><span class="o">=</span><span class="n">struct</span><span class="p">)</span>
         </div>
 <div class="viewcode-block" id="landscape.addTree"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.landscape.addTree">[docs]</a>    <span class="k">def</span> <span class="nf">addTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">,</span><span class="n">score</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">newick</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">struct</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
@@ -859,12 +857,12 @@
     <span class="sd">&#39;&#39;&#39; Encapsulate a single vertex in the landscape and add convenient</span>
 <span class="sd">    functionality to alias parent landscape functions. &#39;&#39;&#39;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj</span><span class="p">,</span><span class="n">ls</span><span class="p">):</span>
+<div class="viewcode-block" id="vertex.__init__"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj</span><span class="p">,</span><span class="n">ls</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span>  <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ls</span> <span class="o">=</span> <span class="n">ls</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ali</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">alignment</span>
-    
+    </div>
 <div class="viewcode-block" id="vertex.getIndex"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.getIndex">[docs]</a>    <span class="k">def</span> <span class="nf">getIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span></div>
 <div class="viewcode-block" id="vertex.getDict"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.getDict">[docs]</a>    <span class="k">def</span> <span class="nf">getDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span></div>
 <div class="viewcode-block" id="vertex.getObject"><a class="viewcode-back" href="../../pylogeny.landscape.html#pylogeny.landscape.vertex.getObject">[docs]</a>    <span class="k">def</span> <span class="nf">getObject</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDict</span><span class="p">()</span></div>
@@ -1029,7 +1027,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.5 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
