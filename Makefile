@@ -13,14 +13,14 @@ build: ${FILES} setup.py
 
 install: build
 	-sudo pip uninstall ${PKG}
-	${PY} setup.py install
+	sudo ${PY} setup.py install
 
 dist: build
 	${PY} setup.py ${DIST}
 
 docs: ${FILES} check_environment install
 	${SDOC} -F -e -H ${NAME} -A "Alex Safatli" -V ${VER} -R ${VER} -o ${DOCS} ${PKG}
-	@cd ${DOCS} && cat conf >> conf.py && make html && make latex
+	@cd ${DOCS} && cat conf >> conf.py && make html && make latex && make latexpdf
 	cp -r ${DOCS}/_build/html/* $(GH_DOC_REPO)
 	cp ${DOCS}/_build/latex/*.pdf docs/api.pdf
 	@cd $(GH_DOC_REPO) && git add * && git commit -m "Version ${VER} documentation." && git push origin gh-pages

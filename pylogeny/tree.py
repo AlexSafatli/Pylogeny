@@ -33,12 +33,10 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         all parsing routines are bypassed and the Newick and Structure
         fields of this tree are overriden by the appropriate arguments. 
 
-        :param newi: A Newick or New Hampshire string for a tree (unrooted 
-        or rooted).
-        :type newi: string
-        :param check: An optional argument; boolean indicating whether to
-        perform parsing checks on the string. May change what Newick string
-        is assigned without changing tree topology.
+        :param newi: A Newick or New Hampshire string for a tree.
+        :type newi: a string
+        :param check: Perform parsing checks on the string input.
+        :type check: a boolean
 
         '''
         
@@ -157,9 +155,8 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
 
         :param n: A Newick or New Hampshire formatted string.
         :type n: a string
-        :param reroot: A boolean indicating whether to reroot the provided
-        Newick string to a lexicographically lowest-order taxa name to ensure
-        redundant topologies across other trees.
+        :param reroot: Reroot to lexicographically lowest-order leaf.
+        :type reroot: a boolean
 
         '''
 
@@ -377,8 +374,7 @@ class bipartition(object):
         
         :param topol: A topology.
         :type topol: :class: `rearrangement.topology`
-        :param bra: An optional argument; can still acquire a bipartition from a
-        string.
+        :param bra: An optional branch object.
         :type bra: :class: `newick.branch`
         
         '''
@@ -485,7 +481,11 @@ class bipartition(object):
     def getBranchIndex(self):
         
         ''' Return an index of the branch with respect to a post order traversal
-        of the topology. '''
+        of the topology. 
+
+        :return: an integer
+
+        '''
         
         nodes = base.treeStructure.postOrderTraversal(self.topology.getRoot())
         for i in xrange(len(nodes)):
@@ -495,14 +495,22 @@ class bipartition(object):
     
     def getStringRepresentation(self):
         
-        ''' Get the string representation corresponding to this bipartition. '''
+        ''' Get the string representation corresponding to this bipartition. 
+
+        :return: a string
+
+        '''
         
         return self.strrep
     
     def getShortStringRepresentation(self):
         
         ''' Get the shorter string representation corresponding to this
-        bipartition. '''
+        bipartition. 
+
+        :return: a string
+
+        '''
         
         if self.shortstr == '': self._getShortStringRepresentation()
         return self.shortstr
