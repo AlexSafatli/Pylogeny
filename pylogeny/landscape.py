@@ -168,26 +168,23 @@ class graph(object):
         
         return alg.shortest_path_length(self.graph,nodA,nodB)
 
-# Landscape: Subclass of Graph, TreeSet Objects
 
 class landscape(graph,treeSet):
     
-    ''' Defines an entire phylogenetic tree space. '''
+    ''' Defines an entire phylogenetic tree space. 
+    
+    :param ali: An :class:`alignment.alignment` object.
+    :param starting_tree: An optional tree object to start
+    the landscape with.
+    :param root: Whether or not to acquire an approximate
+    maximum likelihood tree (FastTree) or start the landscape
+    with a given starting tree.
+    :param operator: A string that describes what operator the
+    landscape is mostly comprised of.    
+    
+    '''
     
     def __init__(self,ali,starting_tree=None,root=True,operator='SPR'):
-        
-        ''' Initialize the landscape. 
-        
-        :param ali: An :class:`alignment.alignment` object.
-        :param starting_tree: An optional tree object to start
-        the landscape with.
-        :param root: Whether or not to acquire an approximate
-        maximum likelihood tree (FastTree) or start the landscape
-        with a given starting tree.
-        :param operator: A string that describes what operator the
-        landscape is mostly comprised of.
-        
-        '''        
         
         super(landscape,self).__init__()
         
@@ -367,9 +364,10 @@ class landscape(graph,treeSet):
         
     def addTreeByNewick(self,newick,score=True,check=True,struct=None):
         
-        ''' Add a tree to the landscape by Newick string. Will return an index. '''
+        ''' Add tree to the landscape by Newick string. Will return index. '''
         
-        return self.addTree(None,score=score,check=check,newick=newick,struct=struct)
+        return self.addTree(None,score=score,check=check,newick=newick,
+                            struct=struct)
         
     def addTree(self,tr,score=True,check=True,newick=None,struct=None):
         

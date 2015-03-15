@@ -31,7 +31,16 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         to ensure a consistent Newick string among any duplicate
         topologies. If a structure is provided and check is disabled,
         all parsing routines are bypassed and the Newick and Structure
-        fields of this tree are overriden by the appropriate arguments. '''
+        fields of this tree are overriden by the appropriate arguments. 
+
+        :param newi: A Newick or New Hampshire string for a tree (unrooted 
+        or rooted).
+        :type newi: string
+        :param check: An optional argument; boolean indicating whether to
+        perform parsing checks on the string. May change what Newick string
+        is assigned without changing tree topology.
+
+        '''
         
         self.name   = ''
         self.score  = None
@@ -43,20 +52,93 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
     
     # Getters, Mutators
     
-    def getName(self):     return self.name
-    def setName(self,n):   self.name = n
-    def getScore(self):    return self.score
-    def setScore(self,s):  self.score = s
-    def getOrigin(self):   return self.origin
+    def getName(self):
+
+        ''' Gets the name of this tree if it has been defined.
+
+        :return: a string
+
+        '''
+
+        return self.name
+
+    def setName(self,n):
+
+        ''' Sets the name of this tree (object).
+
+        :param n: A string indicating this tree's name.
+        :type n: a string
+
+        '''
+
+        self.name = n
+
+    def getScore(self):
+
+        ''' Gets the score(s) (objective function) for this tree if it/they 
+        has/have been defined.
+
+        :return: a tuple of floats or integers
+
+        '''
+
+        return self.score
+
+    def setScore(self,s):
+
+        ''' Sets the score(s) for this tree. Should be performed by a scorer
+        (see scoring functions in the appropriate module).
+
+        :param s: A set of objective function scores.
+        :type s: a tuple of floats or integers
+
+        '''
+
+        self.score = s
+
+    def getOrigin(self):
+
+        ''' Gets the "origin" of this tree, or where this tree was acquired
+        or constructed from. Usually set by other code or an interface.
+
+        :return: string or None
+
+        '''
+
+        return self.origin
+
     def setOrigin(self,o):
         
         ''' Set the "origin" or specification of where this tree
-        was acquired or constructed from; a string. '''
+        was acquired or constructed from.
+
+        :param o: A string indicating where the tree came from.
+        :type o: string or None
+
+        '''
         
         self.origin = o    
         
-    def getNewick(self):   return self.newick
-    def toNewick(self):    return self.newick
+    def getNewick(self):
+
+        ''' Gets the Newick (New Hampshire) string for this tree.
+
+        :return: a string
+
+        '''
+
+        return self.newick
+
+    def toNewick(self):
+
+        ''' Gets the Newick (New Hampshire) string for this tree.
+
+        :return: a string
+
+        '''
+
+        return self.newick
+
     def _setNewick(self,n):
         
         ''' PRIVATE: Set Newick string to n; also acquires 
@@ -71,30 +153,52 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         ''' Update the contained Newick string only as long
         as the structure obtained (after rerooting, which is
         an optional parameter) is identical to the contained
-        structure. '''
-        
+        structure. 
+
+        :param n: A Newick or New Hampshire formatted string.
+        :type n: a string
+        :param reroot: A boolean indicating whether to reroot the provided
+        Newick string to a lexicographically lowest-order taxa name to ensure
+        redundant topologies across other trees.
+
+        '''
+
         thisStruct = self._getStructure(reroot=reroot)
         if (thisStruct != self.getStructure()):
-            raise ValueError('Updated string infers structural change of tree!')
+            raise ValueError(
+                'Updated string infers structural change of tree!')
         self.newick = n
         
     def getStructure(self):
-        
-        ''' Returns the tree's "structure", a Newick string without any branch
-        lengths. '''
+
+        ''' Returns the tree's "structure", a Newick string without any 
+        branch lengths. 
+
+        :return: a string
+
+        '''
         
         return self.struct 
     
     def getRerootedNoBranchLengthNewick(self): 
     
-        ''' See getStructure(). '''
+        ''' Returns the tree's "structure", a Newick string without any 
+        branch lengths. 
+
+        :return: a string
+
+        '''
         
         return self.getStructure()
     
     def getSimpleNewick(self):
 
         ''' Return a Newick string with all taxa name replaced with
-        successive integers. '''
+        successive integers. 
+
+        :return: a string
+
+        '''
     
         o = newick.newickParser(self.newick).parse()
         t = base.treeStructure(o)
@@ -106,8 +210,12 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
     
     def toTopology(self):
         
-        ''' Return a rearrangement.topology instance for this tree to allow for 
-        rearrangement of the actual structure of the tree. '''
+        ''' Return a topology object instance for this tree to allow 
+        for rearrangement of the actual structure of the tree. 
+
+        :return: a :class: `rearrangement.topology` object
+
+        '''
         
         t = rearrangement.topology()
         t.fromNewick(self.newick)
@@ -158,20 +266,35 @@ class treeSet(base.Sized,base.Iterable):
     
     def addTree(self,tr): 
 
-        ''' Add a tree object to the collection. '''
+        ''' Add a tree object to the collection. 
+
+        :param tr: A tree object.
+        :type tr: :class: `tree`
+
+        '''
     
         self.trees.append(tr)
 
     def addTreeByNewick(self,newick):
         
-        ''' Add a tree to the structure by Newick string. '''
+        ''' Add a tree to the structure by Newick string. 
+
+        :param newick: A New Hampshire or Newick string.
+        :type newick: a string
+
+        '''
         
         t = tree(newick)
         return self.addTree(t)    
         
     def removeTree(self,tr):
         
-        ''' Remove a tree object from the collection if present. '''
+        ''' Remove a tree object from the collection if present. 
+
+        :param tr: A tree object (present in the collection).
+        :type tr: :class: `tree`
+
+        '''
         
         if tr in self.trees:
             self.trees.remove(tr)
@@ -179,7 +302,13 @@ class treeSet(base.Sized,base.Iterable):
     def indexOf(self,tr):
         
         ''' Acquire the index in this collection of a tree object. 
-        Returns -1 if not found. '''
+        Returns -1 if not found. 
+
+        :param tr: A tree object.
+        :type tr: :class: `tree`
+        :return: an integer [-1,length of collection)
+
+        '''
         
         if tr in self.trees: return self.trees.index(tr)
         else: return -1
@@ -201,7 +330,12 @@ class treeSet(base.Sized,base.Iterable):
     def toTreeFile(self,fout):
         
         ''' Output this landscape as a series of trees, separated by
-        newlines, as a text file saved at the given path. '''        
+        newlines, as a text file saved at the given path. 
+
+        :param fout: A string indicating a file system path to a file.
+        :type fout: a string
+
+        '''
         
         o = open(fout,'w')
         o.write(str(self))
@@ -408,7 +542,8 @@ class bipartition(object):
             # Acquire node corresponding to this topology.
             start = ls.findTreeTopologyByStructure(orstruct)
             if (start == None):
-                raise ValueError('Could not find topology corresponding to bipartition.')
+                raise ValueError(
+                    'Could not find topology corresponding to bipartition.')
         else: start = node
             
         # Get neighbors.

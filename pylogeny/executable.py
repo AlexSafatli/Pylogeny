@@ -51,8 +51,8 @@ class aTemporaryDirectory(object):
 
 class executable(object):
     
-    ''' An abstract class for the instantation and running of a single instance for a
-    given application. '''
+    ''' An abstract class for the instantation and running of a single instance
+    for a given application. '''
 
     exeName = None
     __metaclass__ = abstractclass
@@ -68,7 +68,7 @@ class executable(object):
             import platform
             pf = platform.system()
             raise SystemError('No UNIX-like environment. ' + 
-                              "You are currently using platform '%s', " % (pf) +
+                              "You are currently using platform '%s', " % (pf)+
                               'and cannot run a binary in a shell.')
         elif (self.exeName and not exeExists(self.exeName)):
             raise SystemError("'%s' is not installed on your system." % (
@@ -90,7 +90,7 @@ class treepuzzle(executable):
     def __init__(self,ali,treefile):
         self.treefile  = treefile
         self.alignment = ali
-        if self.alignment == None:  raise AttributeError('No alignment defined.')
+        if self.alignment == None: raise AttributeError('No alignment defined.')
         elif self.treefile == None: raise AttributeError('No treefile defined.')
 
     def getInstructionString(self):
@@ -293,7 +293,8 @@ class rspr(executable):
         other = b.toTopology()
         anodes = topol.getAllLeaves()
         bnodes = other.getAllLeaves()
-        if (len(anodes) != len(bnodes)): raise IOError('Non-overlapping taxa lengths.')
+        if (len(anodes) != len(bnodes)):
+            raise IOError('Non-overlapping taxa lengths.')
         runnli = []
         for n in anodes:
             corresp    = None
@@ -309,7 +310,9 @@ class rspr(executable):
                 n.label       = correspstr
                 corresp.label = correspstr
                 runnli.append(corresp)
-            else: raise IOError('Could not find overlapping taxa for %s.' % (n.label))
+            else:
+                raise IOError('Could not find overlapping taxa for %s.' 
+                              % (n.label))
         self.inputA = topol.toTree()
         self.inputB = other.toTree()         
 
