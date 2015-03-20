@@ -284,7 +284,8 @@ class landscape(graph,treeSet):
         
         # Extract data from the object.
         if type(tobj) != tree.tree:
-            raise TypeError('Nodes in space must be constructed from tree objects.')
+            raise TypeError(
+                'Nodes in space must be constructed from tree objects.')
         name      = tobj.getName()
         structure = tobj.getStructure()
         
@@ -375,7 +376,8 @@ class landscape(graph,treeSet):
             
         # (Re)construct the tree ensuring consistent configuration/naming.
         if tr == None and newick == None:
-            raise ValueError('Require tree object OR newick string for tree addition.')
+            raise ValueError(
+                'Require tree object OR newick string for tree addition.')
         if newick == None: newick = tr.toNewick()
         tobj = tree.tree(newick,check=check,structure=struct)
         
@@ -424,7 +426,7 @@ class landscape(graph,treeSet):
             
             bra  = choice(branches)
             branches.remove(bra)
-            enum = topol.iterTypeForBranch(bra,type) # Iterate over each rearrangement.
+            enum = topol.iterTypeForBranch(bra,type) # Iterate over each.
         
             for en in enum:
                 
@@ -437,10 +439,11 @@ class landscape(graph,treeSet):
                 inlandscape = self.findTreeTopologyByStructure(t.getStructure())
                 if (inlandscape != None):
                     # Is already in landscape; has connection to tree?
-                    if ((inlandscape != i) and self.graph.has_node(inlandscape)):
+                    if (inlandscape != i and self.graph.has_node(inlandscape)):
                         if not self.graph.has_edge(inlandscape,i):
                             self.graph.add_edge(inlandscape,i)
-                            self.getEdge(inlandscape,i)['weight'] = self.defaultWeight
+                            self.getEdge(inlandscape,i)['weight'] = \
+                                self.defaultWeight
                     continue
     
                 # See if tree violating existing locks.
@@ -506,7 +509,8 @@ class landscape(graph,treeSet):
                 if ((inlandscape != i) and self.graph.has_node(inlandscape)): 
                     if not self.graph.has_edge(inlandscape,i):
                         self.graph.add_edge(inlandscape,i)
-                        self.getEdge(inlandscape,i)['weight'] = self.defaultWeight
+                        self.getEdge(inlandscape,i)['weight'] = \
+                            self.defaultWeight
                 continue
 
             # See if tree violating existing locks.
@@ -766,6 +770,7 @@ class landscape(graph,treeSet):
         
         ''' Get the global optimum of the current space. '''
         
+        # TODO: store global optimum as trees are added?
         optima = self.getLocalOptima()
         return max(optima,key=lambda d: self.getTree(d).score[0])
 
@@ -773,7 +778,7 @@ class landscape(graph,treeSet):
     
     def __str__(self): return self._dump()
     
-    def _dump(self,proper=True):
+    def _dump(self):
         
         trees = []
         for t in self.getNodeNames(): trees.append(self.getVertex(t))
@@ -781,53 +786,91 @@ class landscape(graph,treeSet):
             return '\n'.join([t.getProperNewick() for t in trees])
         else: return '\n'.join([t.getNewick() for t in trees])
 
+    def _toTreeSet(self, func):
+        
+        treeset = treeSet()
+        for t in self.getNodeNames():
+            treeset.addTree(func(t))
+        return treeset
+
     def toProperNewickTreeSet(self):
         
         ''' Convert this landscape into an unorganized set of trees where taxa
         names are transformed to their original form (i.e. not transformed to a
         state friendly for the Phylip format). '''
         
-        treeset = treeSet()
-        for t in self.getNodeNames():
-            treeset.addTree(tree(self.getVertex(t).getProperNewick()))
-        return treeset
+        return self._toTreeSet(
+            lambda t: tree(self.getVertex(t).getProperNewick()))
     
     def toTreeSet(self):
 
         ''' Convert this landscape into an unorganized set of trees. '''
         
-        treeset = treeSet()
-        for t in self.getNodeNames():
-            treeset.addTree(self.getTree(t))
-        return treeset
+        return self._toTreeSet(lambda t: self.getTree(t))
 
 # Comprising Vertices of Landscapes
+
 
 class vertex(object):
     
     ''' Encapsulate a single vertex in the landscape and add convenient
     functionality to alias parent landscape functions. '''
     
-    def __init__(self,obj,ls):
+    def __init__(self, obj, ls):
         self.id  = obj['index']
         self.obj = obj
         self.ls = ls
         self.ali = ls.alignment
     
-    def getIndex(self):       return self.id
-    def getDict(self):        return self.obj
-    def getObject(self):      return self.getDict()
-    def getTree(self):        return self.obj['tree']
-    def getNewick(self):      return self.getTree().getNewick()
-    def getScore(self):       return self.getTree().score
-    def getOrigin(self):      return self.getTree().origin
-    def getNeighbors(self):   return self.ls.graph.neighbors(self.id)
-    def getDegree(self):      return len(self.getNeighbors())
-    def isLocalOptimum(self): return self.ls.isLocalOptimum(self.id)
-    def isExplored(self):     return self.obj['explored']
-    def isFailed(self):       return ('failed' in self.obj and self.obj['failed'])
+    def getIndex(self):
+        
+        return self.id
     
-    def setExplored(self,exp):
+    def getDict(self):
+        
+        return self.obj
+    
+    def getObject(self):
+        
+        return self.getDict()
+    
+    def getTree(self):
+        
+        return self.obj['tree']
+    
+    def getNewick(self):
+        
+        return self.getTree().getNewick()
+    
+    def getScore(self):
+        
+        return self.getTree().score
+    
+    def getOrigin(self):
+        
+        return self.getTree().origin
+    
+    def getNeighbors(self):
+        
+        return self.ls.graph.neighbors(self.id)
+    
+    def getDegree(self):
+        
+        return len(self.getNeighbors())
+    
+    def isLocalOptimum(self):
+        
+        return self.ls.isLocalOptimum(self.id)
+    
+    def isExplored(self):
+        
+        return self.obj['explored']
+    
+    def isFailed(self):
+        
+        return ('failed' in self.obj and self.obj['failed'])
+    
+    def setExplored(self, exp):
         
         ''' Sets the "explored" flag of this node in the landscape. '''
         
@@ -925,7 +968,7 @@ class vertex(object):
         
         return [x.getSPRScores() for x in self.getBipartitions()]
     
-    def getNeighborsOfBipartition(self,bi):
+    def getNeighborsOfBipartition(self, bi):
         
         ''' Get corresponding neighbors of a bipartition in this vertex's tree.
         '''
@@ -935,7 +978,7 @@ class vertex(object):
         lsids = [l.findTreeTopology(x.toTree().getStructure()) for x in re]
         return lsids
     
-    def getNeighborsOfBranch(self,br):
+    def getNeighborsOfBranch(self, br):
         
         ''' Get corresponding neighbors of a branch in this vertex's tree. '''
         

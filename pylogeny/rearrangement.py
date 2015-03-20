@@ -17,8 +17,10 @@ import newick, tree, base
 # Exception Handling
 
 class RearrangementError(Exception):
-    def __init__(self,val): self.value = val
-    def __str__(self): return repr(self.value)
+    def __init__(self,val):
+        self.value = val
+    def __str__(self):
+        return repr(self.value)
 
 # Movement Type Definitions
 
@@ -40,15 +42,13 @@ def dup(topo,where=None):
 # Rearrangement structure.
 
 class rearrangement:
-    
-    ''' Encapsulates a single rearrangement move
-    of type SPR, NNI, ... '''
-    
+
+    ''' Encapsulates a single rearrangement move of type SPR, NNI, ... '''
+
     def __init__(self,struct,type,targ,dest):
-        
-        ''' Initialize by providing a pointer to
-        a base topology, a target branch 
-        to be moved, and its destination. '''
+
+        ''' Initialize by providing a pointer to a base topology, a target
+        branch to be moved, and its destination. '''
         
         self.topol       = struct
         self.type        = type
@@ -65,14 +65,21 @@ class rearrangement:
         else:                type = 'UNKNOWN'
         return type
     
-    def isNNI(self): return (self.type == TYPE_NNI)
-    def isSPR(self): return (self.type == TYPE_SPR)
-    def isTBR(self): return (self.type == TYPE_TBR)
+    def isNNI(self):
+        
+        return (self.type == TYPE_NNI)
+    
+    def isSPR(self):
+        
+        return (self.type == TYPE_SPR)
+    
+    def isTBR(self):
+        
+        return (self.type == TYPE_TBR)
     
     def toTopology(self):
         
-        ''' Commit the actual move and return the
-        topology. '''
+        ''' Commit the actual move and return the topology. '''
         
         topo = self.topol.move(self.target,self.destination)
         topo.rerootToLeaf()
@@ -80,9 +87,8 @@ class rearrangement:
     
     def toNewick(self):
         
-        ''' Commit the move but do not create a 
-        new structure. Only retrieve resultant
-        Newick string; will be more efficient.'''
+        ''' Commit the move but do not create a new structure. Only retrieve 
+        resultant Newick string; will be more efficient.'''
         
         return self.topol.move(self.target,self.destination,
                                returnStruct=False)
@@ -95,7 +101,9 @@ class rearrangement:
         out.origin = self.getType()
         return out
     
-    def doMove(self): return self.toTopology()
+    def doMove(self):
+        
+        return self.toTopology()
     
     def __str__(self):
         
@@ -106,13 +114,12 @@ class rearrangement:
 
 class topology(base.treeStructure):
     
-    ''' Encapsulate a tree topology, wrapping the newick 
-    tree structure. Is immutable. '''
+    ''' Encapsulate a tree topology, wrapping the newick tree structure as a
+    richer, rooted tree data structure object. Is immutable. '''
     
     def __init__(self,t=None,rerootToLeaf=True,toLeaf=None):
 
-        ''' Initialize structure with a top-level internal 
-        node OR nothing. '''
+        ''' Initialize structure with a top-level internal node OR nothing. '''
         
         self.root        = t
         self.forbidden  = {}
@@ -158,8 +165,8 @@ class topology(base.treeStructure):
         
     def _clearInteriorNodeNames(self):
         
-        ''' PRIVATE: Clear all interior node names 
-        but store them in case are needed. '''
+        ''' PRIVATE: Clear all interior node names but store them in case are 
+        needed. '''
         
         # Make sure interior nodes are unnamed.
         nodes = self.getAllNodes()
@@ -170,8 +177,7 @@ class topology(base.treeStructure):
 
     def _lockLeafBranch(self):
         
-        ''' PRIVATE: Lock the branch hanging 
-        off the root with a leaf. '''
+        ''' PRIVATE: Lock the branch hanging off the root with a leaf. '''
         
         # Get this branch.
         lbranch = None
@@ -192,7 +198,7 @@ class topology(base.treeStructure):
         for lo in self.locked:
             l,r = lo.getBranchListRepresentation()
             if b in l: o = r
-            else:      o = l
+            else: o = l
             for i in o:
                 if i in possible: possible.remove(i)
         return possible
@@ -206,7 +212,7 @@ class topology(base.treeStructure):
         bipart = tree.bipartition(self,br)
         # Get a leaf that can be rerooted to.
         newleaf = None
-        leaves  = base.treeStructure.leaves(br.child)
+        leaves = base.treeStructure.leaves(br.child)
         curleaf = sorted(
             self.getAllLeaves(),key=lambda d: d.label)[0]
         for leaf in leaves:
@@ -283,8 +289,13 @@ class topology(base.treeStructure):
                 fakebr = f
         self.fakebranch = fakebr      
     
-    def getBranches(self): return self.branches
-    def getLeaves(self): return self.getAllLeaves()
+    def getBranches(self):
+        
+        return self.branches
+    
+    def getLeaves(self):
+        
+        return self.getAllLeaves()
     
     def getBipartitions(self):
         
@@ -303,9 +314,8 @@ class topology(base.treeStructure):
         
         right  = base.treeStructure.leaves(br.child)
         others = self.getAllLeaves()
-        r      = [x.label for x in right]
-        l      = [x.label for x in others 
-                  if not x.label in r]
+        r = [x.label for x in right]
+        l = [x.label for x in others if not x.label in r]
         return l,r
     
     def getBranchFromStrBipartition(self,bip):
@@ -355,14 +365,12 @@ class topology(base.treeStructure):
         # Cannot move to these.
         forbidden = self.forbidden[branch]
         if destination in forbidden:
-            raise RearrangementError(
-                'Cannot move into subtree or to sibling.')
+            raise RearrangementError('Cannot move into subtree or to sibling.')
         
         # Check partitions.
         partition = self._getPartition(branch)
         if destination not in partition:
-            raise RearrangementError(
-                'Cannot move outside of locked partition.')
+            raise RearrangementError('Cannot move outside of locked partition.')
         
         # Get parents.
         s_parent = branch.parent       # Source parent. 
@@ -389,13 +397,13 @@ class topology(base.treeStructure):
             
             # Check degree of source parent; combine edges if necessary.
             if len(s_parent.children) == 1:
-                a           = s_parent.children[0]
-                b           = s_parent.parent
-                end         = a.child
-                start       = b.parent
-                comb        = a.branch_length + b.branch_length
-                fakebr      = newick.branch(end,comb,start)
-                end.parent  = fakebr
+                a = s_parent.children[0]
+                b = s_parent.parent
+                end = a.child
+                start = b.parent
+                comb = a.branch_length + b.branch_length
+                fakebr = newick.branch(end,comb,start)
+                end.parent = fakebr
                 start.children.remove(b)
                 start.children.append(fakebr)
             
@@ -407,7 +415,7 @@ class topology(base.treeStructure):
             # Undo changes.
             s_parent.children.append(branch)
             if len(s_parent.children) == 2:
-                end.parent  = a
+                end.parent = a
                 start.children.append(b)
                 start.children.remove(fakebr)
             t_parent.children.append(destination)
@@ -435,8 +443,7 @@ class topology(base.treeStructure):
         polled for the actual move; this is in order to save memory. '''
         
         if newick.isSibling(branch.parent,destination) or \
-           (branch.parent and destination == 
-            branch.parent.parent):
+           (branch.parent and destination == branch.parent.parent):
             return rearrangement(self,TYPE_NNI,branch,destination)
         else: return None
     
@@ -449,12 +456,9 @@ class topology(base.treeStructure):
         # Go through possible moves.
         partition = self._getPartition(br)
         if (partition == None):
-            raise RearrangementError(
-                'Branch not in any partition of topology.')
+            raise RearrangementError('Branch not in any partition of topology.')
         forbidden = self.forbidden[br]
-        possible  = [x for x in partition if not
-                     x in forbidden and not
-                     x == br]
+        possible  = [x for x in partition if not x in forbidden and not x == br]
         
         # Pass rearrangement structure as yielded object.
         for dest in possible:
@@ -480,9 +484,7 @@ class topology(base.treeStructure):
 
         # Output list of structures.
         li = []        
-        
-        for branch in self.branches:
-            li.extend(self.allSPRForBranch(branch))
+        for branch in self.branches: li.extend(self.allSPRForBranch(branch))
         
         # Return the list.
         return li
@@ -495,8 +497,7 @@ class topology(base.treeStructure):
         # Go through possible moves.
         partition = self._getPartition(br)
         if (partition == None):
-            raise RearrangementError(
-                'Branch not in any partition of topology.')
+            raise RearrangementError('Branch not in any partition of topology.')
         possible  = [br.parent.parent] + br.parent.children
         forbidden = self.forbidden[br]
         possible  = [x for x in partition if x in possible and 
@@ -537,7 +538,7 @@ class topology(base.treeStructure):
         type will iterate over all NNI operations. By default, the type is
         TYPE_SPR. '''
         
-        if (type == TYPE_SPR):   return self.allSPR()
+        if (type == TYPE_SPR): return self.allSPR()
         elif (type == TYPE_NNI): return self.allNNI()
         else: raise RearrangementError('No rearrangement type of that form is\
          defined.')
@@ -549,7 +550,7 @@ class topology(base.treeStructure):
         this function by providing TYPE_NNI as the type will iterate over all
         NNI operations. By default, the type is TYPE_SPR. '''
         
-        if (type == TYPE_SPR):   return self.iterSPRForBranch(br,flip)
+        if (type == TYPE_SPR): return self.iterSPRForBranch(br,flip)
         elif (type == TYPE_NNI): return self.iterNNIForBranch(br,flip)
         else: raise RearrangementError('No rearrangement type of that form is\
          defined.')

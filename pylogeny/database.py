@@ -120,8 +120,8 @@ class SQLiteLandscape(landscape):
     
     def __init__(self,dbobj):
         
-        pass
-        
+        # Needs to be implemented.
+        raise NotImplementedError()
 
 class database(object):
 
@@ -206,10 +206,8 @@ class SQLDatabase(database):
         self.connect()
     
     def connect(self):
-        self.socket   = mysql.connect(host=self.hostname,
-                                      user=self.username,
-                                      passwd=self.password,
-                                      db=self.database)
+        self.socket   = mysql.connect(host=self.hostname,user=self.username,
+                                      passwd=self.password,db=self.database)
         self.cursor   = self.socket.cursor()        
         
     def getTables(self):
