@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.rearrangement module &mdash; Pylogeny 0.3.4.6 documentation</title>
+    <title>pylogeny.rearrangement module &mdash; Pylogeny 0.3.4.7 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.6',
+        VERSION:     '0.3.4.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.scoring module" href="pylogeny.scoring.html" />
     <link rel="prev" title="pylogeny.pll module" href="pylogeny.pll.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -84,14 +84,12 @@ operator.</p>
 <dl class="class">
 <dt id="pylogeny.rearrangement.rearrangement">
 <em class="property">class </em><tt class="descclassname">pylogeny.rearrangement.</tt><tt class="descname">rearrangement</tt><big>(</big><em>struct</em>, <em>type</em>, <em>targ</em>, <em>dest</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement" title="Permalink to this definition">¶</a></dt>
-<dd><p>Encapsulates a single rearrangement move
-of type SPR, NNI, ...</p>
+<dd><p>Encapsulates a single rearrangement move of type SPR, NNI, ...</p>
 <dl class="method">
 <dt id="pylogeny.rearrangement.rearrangement.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>struct</em>, <em>type</em>, <em>targ</em>, <em>dest</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize by providing a pointer to
-a base topology, a target branch 
-to be moved, and its destination.</p>
+<dd><p>Initialize by providing a pointer to a base topology, a target
+branch to be moved, and its destination.</p>
 </dd></dl>
 
 <dl class="method">
@@ -123,16 +121,14 @@ to be moved, and its destination.</p>
 <dl class="method">
 <dt id="pylogeny.rearrangement.rearrangement.toNewick">
 <tt class="descname">toNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.toNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.toNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Commit the move but do not create a 
-new structure. Only retrieve resultant
-Newick string; will be more efficient.</p>
+<dd><p>Commit the move but do not create a new structure. Only retrieve 
+resultant Newick string; will be more efficient.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.rearrangement.toTopology">
 <tt class="descname">toTopology</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.toTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.toTopology" title="Permalink to this definition">¶</a></dt>
-<dd><p>Commit the actual move and return the
-topology.</p>
+<dd><p>Commit the actual move and return the topology.</p>
 </dd></dl>
 
 <dl class="method">
@@ -147,8 +143,8 @@ topology.</p>
 <dt id="pylogeny.rearrangement.topology">
 <em class="property">class </em><tt class="descclassname">pylogeny.rearrangement.</tt><tt class="descname">topology</tt><big>(</big><em>t=None</em>, <em>rerootToLeaf=True</em>, <em>toLeaf=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pylogeny.base.html#pylogeny.base.treeStructure" title="pylogeny.base.treeStructure"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.base.treeStructure</span></tt></a></p>
-<p>Encapsulate a tree topology, wrapping the newick 
-tree structure. Is immutable.</p>
+<p>Encapsulate a tree topology, wrapping the newick tree structure as a
+richer, rooted tree data structure object. Is immutable.</p>
 <dl class="method">
 <dt id="pylogeny.rearrangement.topology.NNI">
 <tt class="descname">NNI</tt><big>(</big><em>branch</em>, <em>destination</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.NNI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.NNI" title="Permalink to this definition">¶</a></dt>
@@ -170,8 +166,7 @@ to save memory.</p>
 <dl class="method">
 <dt id="pylogeny.rearrangement.topology.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>t=None</em>, <em>rerootToLeaf=True</em>, <em>toLeaf=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize structure with a top-level internal 
-node OR nothing.</p>
+<dd><p>Initialize structure with a top-level internal node OR nothing.</p>
 </dd></dl>
 
 <dl class="method">
@@ -385,7 +380,7 @@ version of this topology.</p>
         <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree &mdash; Pylogeny 0.3.4.6 documentation</title>
+    <title>pylogeny.tree &mdash; Pylogeny 0.3.4.7 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.6',
+        VERSION:     '0.3.4.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -82,12 +82,10 @@
 <span class="sd">        all parsing routines are bypassed and the Newick and Structure</span>
 <span class="sd">        fields of this tree are overriden by the appropriate arguments. </span>
 
-<span class="sd">        :param newi: A Newick or New Hampshire string for a tree (unrooted </span>
-<span class="sd">        or rooted).</span>
-<span class="sd">        :type newi: string</span>
-<span class="sd">        :param check: An optional argument; boolean indicating whether to</span>
-<span class="sd">        perform parsing checks on the string. May change what Newick string</span>
-<span class="sd">        is assigned without changing tree topology.</span>
+<span class="sd">        :param newi: A Newick or New Hampshire string for a tree.</span>
+<span class="sd">        :type newi: a string</span>
+<span class="sd">        :param check: Perform parsing checks on the string input.</span>
+<span class="sd">        :type check: a boolean</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -206,9 +204,8 @@
 
 <span class="sd">        :param n: A Newick or New Hampshire formatted string.</span>
 <span class="sd">        :type n: a string</span>
-<span class="sd">        :param reroot: A boolean indicating whether to reroot the provided</span>
-<span class="sd">        Newick string to a lexicographically lowest-order taxa name to ensure</span>
-<span class="sd">        redundant topologies across other trees.</span>
+<span class="sd">        :param reroot: Reroot to lexicographically lowest-order leaf.</span>
+<span class="sd">        :type reroot: a boolean</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
 
@@ -426,8 +423,7 @@
 <span class="sd">        </span>
 <span class="sd">        :param topol: A topology.</span>
 <span class="sd">        :type topol: :class: `rearrangement.topology`</span>
-<span class="sd">        :param bra: An optional argument; can still acquire a bipartition from a</span>
-<span class="sd">        string.</span>
+<span class="sd">        :param bra: An optional branch object.</span>
 <span class="sd">        :type bra: :class: `newick.branch`</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -669,7 +665,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

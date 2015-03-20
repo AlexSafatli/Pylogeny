@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree module &mdash; Pylogeny 0.3.4.6 documentation</title>
+    <title>pylogeny.tree module &mdash; Pylogeny 0.3.4.7 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.6',
+        VERSION:     '0.3.4.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="prev" title="pylogeny.scoring module" href="pylogeny.scoring.html" /> 
   </head>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -76,14 +76,12 @@ of the leaves or taxa in the tree.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>topol</strong> &#8211; A topology.</li>
-<li><strong>bra</strong> &#8211; An optional argument; can still acquire a bipartition from a</li>
+<li><strong>bra</strong> &#8211; An optional branch object.</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>string.
-:type bra: :class: <cite>newick.branch</cite></p>
 </dd></dl>
 
 <dl class="method">
@@ -228,15 +226,14 @@ fields of this tree are overriden by the appropriate arguments.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>newi</strong> &#8211; A Newick or New Hampshire string for a tree (unrooted</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>newi</strong> (<em>a string</em>) &#8211; A Newick or New Hampshire string for a tree.</li>
+<li><strong>check</strong> (<em>a boolean</em>) &#8211; Perform parsing checks on the string input.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
-<p>or rooted).
-:type newi: string
-:param check: An optional argument; boolean indicating whether to
-perform parsing checks on the string. May change what Newick string
-is assigned without changing tree topology.</p>
 </dd></dl>
 
 <dl class="method">
@@ -428,14 +425,12 @@ structure.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>n</strong> (<em>a string</em>) &#8211; A Newick or New Hampshire formatted string.</li>
-<li><strong>reroot</strong> &#8211; A boolean indicating whether to reroot the provided</li>
+<li><strong>reroot</strong> (<em>a boolean</em>) &#8211; Reroot to lexicographically lowest-order leaf.</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Newick string to a lexicographically lowest-order taxa name to ensure
-redundant topologies across other trees.</p>
 </dd></dl>
 
 </dd></dl>
@@ -585,7 +580,7 @@ newlines, as a text file saved at the given path.</p>
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

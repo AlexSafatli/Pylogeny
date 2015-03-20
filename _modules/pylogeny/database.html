@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.database &mdash; Pylogeny 0.3.4.6 documentation</title>
+    <title>pylogeny.database &mdash; Pylogeny 0.3.4.7 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.6',
+        VERSION:     '0.3.4.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.6 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -169,8 +169,8 @@
     
 <div class="viewcode-block" id="SQLiteLandscape.__init__"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteLandscape.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbobj</span><span class="p">):</span>
         
-        <span class="k">pass</span>
-        
+        <span class="c"># Needs to be implemented.</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div></div>
 <div class="viewcode-block" id="database"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database">[docs]</a><span class="k">class</span> <span class="nc">database</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
@@ -255,10 +255,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     </div>
 <div class="viewcode-block" id="SQLDatabase.connect"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span>   <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
-                                      <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
-                                      <span class="n">passwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
-                                      <span class="n">db</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span>   <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                                      <span class="n">passwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span><span class="n">db</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>        
         </div>
 <div class="viewcode-block" id="SQLDatabase.getTables"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.getTables">[docs]</a>    <span class="k">def</span> <span class="nf">getTables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -353,7 +351,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
