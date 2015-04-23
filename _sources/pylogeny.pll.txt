@@ -1,3 +1,6 @@
+pylogeny.pll module
+===================
+
 .. automodule:: pylogeny.pll
     :members:
     :undoc-members:

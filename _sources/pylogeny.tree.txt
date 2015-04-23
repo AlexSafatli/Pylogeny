@@ -1,3 +1,6 @@
+pylogeny.tree module
+====================
+
 .. automodule:: pylogeny.tree
     :members:
     :undoc-members:

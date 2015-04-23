@@ -1,3 +1,6 @@
+pylogeny.landscapeWriter module
+===============================
+
 .. automodule:: pylogeny.landscapeWriter
     :members:
     :undoc-members:

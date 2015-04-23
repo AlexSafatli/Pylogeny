@@ -1,3 +1,6 @@
+pylogeny.landscape module
+=========================
+
 .. automodule:: pylogeny.landscape
     :members:
     :undoc-members:
