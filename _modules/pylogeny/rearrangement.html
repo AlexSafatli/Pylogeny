@@ -100,7 +100,7 @@
 <span class="sd">        branch to be moved, and its destination.</span>
 <span class="sd">        </span>
 <span class="sd">        :param struct: a topology object</span>
-<span class="sd">        :type struct: a :class:`topology` object</span>
+<span class="sd">        :type struct: a :class:`.topology` object</span>
 <span class="sd">        :param type: the type of movement to perform</span>
 <span class="sd">        :param targ: a target branch</span>
 <span class="sd">        :param dest: a destination branch</span>
@@ -142,7 +142,7 @@
         
         <span class="sd">&#39;&#39;&#39; Commit the actual move and return the topology.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a new :class:`topology` object</span>
+<span class="sd">        :return: a new :class:`.topology` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -166,7 +166,7 @@
         
         <span class="sd">&#39;&#39;&#39; Commit the move and transform to tree object.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`tree.tree` object</span>
+<span class="sd">        :return: a :class:`pylogeny.tree.tree` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -178,7 +178,7 @@
         
         <span class="sd">&#39;&#39;&#39; Commit the move and return the topology. </span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`topology` object</span>
+<span class="sd">        :return: a :class:`.topology` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -319,7 +319,7 @@
 <span class="sd">        nearest the lowest-order leaf or a provided leaf.</span>
 <span class="sd">        </span>
 <span class="sd">        :param toleaf: a leaf node from this topology</span>
-<span class="sd">        :type toleaf: a :class:`newick.node` object</span>
+<span class="sd">        :type toleaf: a :class:`pylogeny.newick.node` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -383,7 +383,7 @@
         
         <span class="sd">&#39;&#39;&#39; Return all branches from this topology. </span>
 <span class="sd">        </span>
-<span class="sd">        :return: a list of :class:`newick.branch` objects</span>
+<span class="sd">        :return: a list of :class:`pylogeny.newick.branch` objects</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -393,7 +393,7 @@
         
         <span class="sd">&#39;&#39;&#39; Return all leaves from this topology. </span>
 <span class="sd">        </span>
-<span class="sd">        :return: a list of :class:`newick.node` objects</span>
+<span class="sd">        :return: a list of :class:`pylogeny.newick.node` objects</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -403,7 +403,7 @@
         
         <span class="sd">&#39;&#39;&#39; Get all bipartitions.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a list of :class:`tree.bipartition` objects</span>
+<span class="sd">        :return: a list of :class:`pylogeny.tree.bipartition` objects</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -419,8 +419,8 @@
         <span class="sd">&#39;&#39;&#39; Given a branch, return corresponding bipartition.</span>
 <span class="sd">        </span>
 <span class="sd">        :param br: a branch</span>
-<span class="sd">        :type br: a :class:`newick.branch` object</span>
-<span class="sd">        :return: a :class:`tree.bipartition` object</span>
+<span class="sd">        :type br: a :class:`pylogeny.newick.branch` object</span>
+<span class="sd">        :return: a :class:`pylogeny.tree.bipartition` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -436,7 +436,7 @@
 <span class="sd">        partition of tree taxa.</span>
 <span class="sd">        </span>
 <span class="sd">        :param bip: a tuple of taxa names</span>
-<span class="sd">        :return: a :class:`newick.branch` object</span>
+<span class="sd">        :return: a :class:`pylogeny.newick.branch` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -455,8 +455,8 @@
 <span class="sd">        partition of taxa.</span>
 <span class="sd">        </span>
 <span class="sd">        :param bip: a bipartition</span>
-<span class="sd">        :type bip: a :class:`tree.bipartition` object</span>
-<span class="sd">        :return: a :class:`newick.branch` object</span>
+<span class="sd">        :type bip: a :class:`pylogeny.tree.bipartition` object</span>
+<span class="sd">        :return: a :class:`pylogeny.newick.branch` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -469,7 +469,7 @@
 <span class="sd">        across it.</span>
 <span class="sd">        </span>
 <span class="sd">        :param branch: a branch</span>
-<span class="sd">        :type branch: a :class:`newick.branch` object</span>
+<span class="sd">        :type branch: a :class:`pylogeny.newick.branch` object</span>
 <span class="sd">        :return: a boolean (True if success)</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -744,7 +744,7 @@
         
         <span class="sd">&#39;&#39;&#39; Return the tree object for this topology.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a new :class:`tree.tree` object</span>
+<span class="sd">        :return: a new :class:`pylogeny.tree.tree` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         

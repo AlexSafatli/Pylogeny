@@ -155,12 +155,22 @@
 
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">getSequenceString</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getNumSeqs</span><span class="p">())]</span>
 </div>
+<div class="viewcode-block" id="alignment.getDataType"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getDataType">[docs]</a>    <span class="k">def</span> <span class="nf">getDataType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get the data type associated with this alignment (e.g., protein). </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a string indicating the data type (&#39;protein&#39;, &#39;DNA&#39;)</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dataType</span>
+</div>
 <div class="viewcode-block" id="alignment.getStateModel"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getStateModel">[docs]</a>    <span class="k">def</span> <span class="nf">getStateModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Get the state model associated with this alignment. See model</span>
 <span class="sd">        module for more information.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`model.DiscreteStateModel` object</span>
+<span class="sd">        :return: a :class:`.model.DiscreteStateModel` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
@@ -242,7 +252,7 @@
         <span class="sd">&#39;&#39;&#39; Get a tree object for an approximation of the maximum likelihood</span>
 <span class="sd">        tree for this data using FastTree. </span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`tree.tree` object</span>
+<span class="sd">        :return: a :class:`pylogeny.tree.tree` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
 

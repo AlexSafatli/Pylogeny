@@ -64,6 +64,13 @@
 
 <div class="viewcode-block" id="profile_set.__init__"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.profile_set.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alignment</span><span class="p">):</span>
         
+        <span class="sd">&#39;&#39;&#39; Initialize this profile set by indicating an alignment. </span>
+<span class="sd">        </span>
+<span class="sd">        :param alignment: an alignment object</span>
+<span class="sd">        :type alignment: an :class:`pylogeny.alignment.alignment` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">alignment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numSites</span>  <span class="o">=</span> <span class="n">alignment</span><span class="o">.</span><span class="n">getSize</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">taxa</span>      <span class="o">=</span> <span class="p">{}</span>
@@ -100,23 +107,57 @@
     
 <div class="viewcode-block" id="profile_set.weight"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.profile_set.weight">[docs]</a>    <span class="k">def</span> <span class="nf">weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
         
+        <span class="sd">&#39;&#39;&#39; Acquire the weight associated with an index. </span>
+<span class="sd">        </span>
+<span class="sd">        :param val: an index of the set</span>
+<span class="sd">        :type val: an integer</span>
+<span class="sd">        :return: a weight (integer)</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
     </div>
 <div class="viewcode-block" id="profile_set.get"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.profile_set.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Acquire the site profile at an index. </span>
+<span class="sd">        </span>
+<span class="sd">        :param val: an index of the set</span>
+<span class="sd">        :type val: an integer</span>
+<span class="sd">        :return: a :class:`.site_profile` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
     </div>
 <div class="viewcode-block" id="profile_set.getForTaxa"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.profile_set.getForTaxa">[docs]</a>    <span class="k">def</span> <span class="nf">getForTaxa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">val</span><span class="p">,</span><span class="n">tax</span><span class="p">):</span>
         
+        <span class="sd">&#39;&#39;&#39; Acquire the string of sequence alphabet characters for a taxon. </span>
+<span class="sd">        </span>
+<span class="sd">        :param val: an index of the set</span>
+<span class="sd">        :type val: an integer</span>
+<span class="sd">        :param tax: a taxon name</span>
+<span class="sd">        :type tax: a string</span>
+<span class="sd">        :return: a string of characters</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">vector</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">taxa</span><span class="p">[</span><span class="n">tax</span><span class="p">]]</span>
 </div></div>
 <div class="viewcode-block" id="site_profile"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.site_profile">[docs]</a><span class="k">class</span> <span class="nc">site_profile</span><span class="p">:</span>
     
-    <span class="sd">&#39;&#39;&#39; Consolidate the single-column alignment at</span>
-<span class="sd">    a region into a set of components on the basis</span>
-<span class="sd">    of similarity alone. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Consolidate a single column of the alignment into a set of components</span>
+<span class="sd">    with associated counts. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="site_profile.__init__"><a class="viewcode-back" href="../../pylogeny.parsimony.html#pylogeny.parsimony.site_profile.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">alignment</span><span class="p">,</span><span class="n">site</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Initialize this profile. </span>
+<span class="sd">        </span>
+<span class="sd">        :param alignment: an alignment object</span>
+<span class="sd">        :type alignment: an `pylogeny.alignment.alignment` object</span>
+<span class="sd">        :param site: a site/column index along the alignment</span>
+<span class="sd">        :type site: an integer</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">alignment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">site</span>      <span class="o">=</span> <span class="n">site</span>

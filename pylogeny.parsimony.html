@@ -85,35 +85,94 @@ entire alignment.</p>
 <dl class="method">
 <dt id="pylogeny.parsimony.profile_set.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>alignment</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Initialize this profile set by indicating an alignment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alignment</strong> (an <a class="reference internal" href="pylogeny.alignment.html#pylogeny.alignment.alignment" title="pylogeny.alignment.alignment"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.alignment.alignment</span></tt></a> object) &#8211; an alignment object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.parsimony.profile_set.get">
 <tt class="descname">get</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Acquire the site profile at an index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>val</strong> (<em>an integer</em>) &#8211; an index of the set</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.parsimony.site_profile" title="pylogeny.parsimony.site_profile"><tt class="xref py py-class docutils literal"><span class="pre">site_profile</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.parsimony.profile_set.getForTaxa">
 <tt class="descname">getForTaxa</tt><big>(</big><em>val</em>, <em>tax</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.getForTaxa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.getForTaxa" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Acquire the string of sequence alphabet characters for a taxon.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>val</strong> (<em>an integer</em>) &#8211; an index of the set</li>
+<li><strong>tax</strong> (<em>a string</em>) &#8211; a taxon name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a string of characters</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.parsimony.profile_set.weight">
 <tt class="descname">weight</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#profile_set.weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.profile_set.weight" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Acquire the weight associated with an index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>val</strong> (<em>an integer</em>) &#8211; an index of the set</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a weight (integer)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="pylogeny.parsimony.site_profile">
 <em class="property">class </em><tt class="descclassname">pylogeny.parsimony.</tt><tt class="descname">site_profile</tt><big>(</big><em>alignment</em>, <em>site</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#site_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.site_profile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Consolidate the single-column alignment at
-a region into a set of components on the basis
-of similarity alone.</p>
+<dd><p>Consolidate a single column of the alignment into a set of components
+with associated counts.</p>
 <dl class="method">
 <dt id="pylogeny.parsimony.site_profile.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>alignment</em>, <em>site</em><big>)</big><a class="reference internal" href="_modules/pylogeny/parsimony.html#site_profile.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.parsimony.site_profile.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Initialize this profile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>alignment</strong> (an <cite>pylogeny.alignment.alignment</cite> object) &#8211; an alignment object</li>
+<li><strong>site</strong> (<em>an integer</em>) &#8211; a site/column index along the alignment</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 

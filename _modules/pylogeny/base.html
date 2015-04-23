@@ -94,7 +94,7 @@
         <span class="sd">&#39;&#39;&#39; Initialize this tree structure.</span>
 <span class="sd">        </span>
 <span class="sd">        :param root: an optional node to root the tree with</span>
-<span class="sd">        :type root: a :class:`treeNode` object</span>
+<span class="sd">        :type root: a :class:`.treeNode` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -116,7 +116,7 @@
         <span class="sd">&#39;&#39;&#39; Return the top-level, root, node of </span>
 <span class="sd">        the tree. </span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`treeNode` object</span>
+<span class="sd">        :return: a :class:`.treeNode` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -129,8 +129,8 @@
 <span class="sd">        in order of how they are defined in children of nodes (DFS).</span>
 <span class="sd">        </span>
 <span class="sd">        :param root: a root node of a tree structure</span>
-<span class="sd">        :type root: a :class:`treeNode` object</span>
-<span class="sd">        :return: a list of :class:`treeNode` objects</span>
+<span class="sd">        :type root: a :class:`.treeNode` object</span>
+<span class="sd">        :return: a list of :class:`.treeNode` objects</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -144,7 +144,7 @@
         
         <span class="sd">&#39;&#39;&#39; Acquire all leaf nodes for this structure.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a list of :class:`treeNode` objects</span>
+<span class="sd">        :return: a list of :class:`.treeNode` objects</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -157,8 +157,8 @@
 <span class="sd">        in order of how they are defined in children of nodes (DFS).</span>
 
 <span class="sd">        :param root: a root node of a tree structure</span>
-<span class="sd">        :type root: a :class:`treeNode` object</span>
-<span class="sd">        :return: a list of :class:`treeNode` objects</span>
+<span class="sd">        :type root: a :class:`.treeNode` object</span>
+<span class="sd">        :return: a list of :class:`.treeNode` objects</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -173,7 +173,7 @@
         
         <span class="sd">&#39;&#39;&#39; Acquire all nodes for this structure.</span>
 
-<span class="sd">        :return: a list of :class:`treeNode` objects</span>
+<span class="sd">        :return: a list of :class:`.treeNode` objects</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>       
         
@@ -186,8 +186,8 @@
 <span class="sd">        as a post order traversal.</span>
 
 <span class="sd">        :param root: a root node of a tree structure</span>
-<span class="sd">        :type root: a :class:`treeNode` object</span>
-<span class="sd">        :return: a list of :class:`treeNode` objects</span>
+<span class="sd">        :type root: a :class:`.treeNode` object</span>
+<span class="sd">        :return: a list of :class:`.treeNode` objects</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>       
         
@@ -227,9 +227,9 @@
 <span class="sd">        :param lbl: an optional string to label this node</span>
 <span class="sd">        :type lbl: a string</span>
 <span class="sd">        :param children: an optional list of branches as children</span>
-<span class="sd">        :type children: a list of :class:`treeBranch` objects</span>
+<span class="sd">        :type children: a list of :class:`.treeBranch` objects</span>
 <span class="sd">        :param parent: an optional branch to act as parent to this one</span>
-<span class="sd">        :type parent: a :class:`treeBranch` object</span>
+<span class="sd">        :type parent: a :class:`.treeBranch` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>        
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span>  <span class="o">=</span> <span class="n">lbl</span>
@@ -252,7 +252,7 @@
 
         <span class="sd">&#39;&#39;&#39; Return the parent of this node.</span>
 
-<span class="sd">        :return: a :class:`treeBranch` object</span>
+<span class="sd">        :return: a :class:`.treeBranch` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>          
         
@@ -263,7 +263,7 @@
         <span class="sd">&#39;&#39;&#39; Add a branch as a child.</span>
 
 <span class="sd">        :param item: a branch to add as a child</span>
-<span class="sd">        :type item: a :class:`treeBranch` object</span>
+<span class="sd">        :type item: a :class:`.treeBranch` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -275,7 +275,7 @@
 
 <span class="sd">        :param i: an index</span>
 <span class="sd">        :type i: an integer</span>
-<span class="sd">        :return: a :class:`treeBranch` object</span>
+<span class="sd">        :return: a :class:`.treeBranch` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>          
         
@@ -320,9 +320,9 @@
         <span class="sd">&#39;&#39;&#39; Instantiate this branch.</span>
 
 <span class="sd">        :param parent: an optional parent node</span>
-<span class="sd">        :type parent: a :class:`treeNode` object</span>
+<span class="sd">        :type parent: a :class:`.treeNode` object</span>
 <span class="sd">        :param child: an optional child node</span>
-<span class="sd">        :type child: a :class:`treeNode` object</span>
+<span class="sd">        :type child: a :class:`.treeNode` object</span>
 <span class="sd">        :param label: an optional string label</span>
 <span class="sd">        :type label: a string</span>
 
@@ -346,7 +346,7 @@
 
         <span class="sd">&#39;&#39;&#39; Return the parent node of this branch.</span>
 
-<span class="sd">        :return: a :class:`treeNode` object</span>
+<span class="sd">        :return: a :class:`.treeNode` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>  
 
@@ -356,7 +356,7 @@
         
         <span class="sd">&#39;&#39;&#39; Return the child node of this branch.</span>
 
-<span class="sd">        :return: a :class:`treeNode` object</span>
+<span class="sd">        :return: a :class:`.treeNode` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>          
         
@@ -378,7 +378,7 @@
         <span class="sd">&#39;&#39;&#39; Set the parent node of this branch.</span>
 
 <span class="sd">        :param p: the parent node of this object</span>
-<span class="sd">        :type p: a :class:`treeNode` object</span>
+<span class="sd">        :type p: a :class:`.treeNode` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>  
 
@@ -389,7 +389,7 @@
         <span class="sd">&#39;&#39;&#39; Set the child node of this branch.</span>
 
 <span class="sd">        :param c: the child node of this object</span>
-<span class="sd">        :type c: a :class:`treeNode` object</span>
+<span class="sd">        :type c: a :class:`.treeNode` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>          
 
@@ -419,9 +419,9 @@
 <span class="sd">        of this node to a new object.</span>
 
 <span class="sd">        :param child: a child node of this object</span>
-<span class="sd">        :type child: a :class:`treeNode` object</span>
+<span class="sd">        :type child: a :class:`.treeNode` object</span>
 <span class="sd">        :param newchild: the child node to replace</span>
-<span class="sd">        :type newchild: a :class:`treeNode` object</span>
+<span class="sd">        :type newchild: a :class:`.treeNode` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>      
         
@@ -435,7 +435,7 @@
         
         <span class="sd">&#39;&#39;&#39; Iterate over all children nodes that are not empty.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a generator yielding children :class:`treeNode` objects</span>
+<span class="sd">        :return: a generator yielding children :class:`.treeNode` objects</span>
 <span class="sd">                </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -447,7 +447,7 @@
         
         <span class="sd">&#39;&#39;&#39; Acquire a list of all non-empty children nodes. </span>
 <span class="sd">        </span>
-<span class="sd">        :return: a list of :class:`treeNode` objects</span>
+<span class="sd">        :return: a list of :class:`.treeNode` objects</span>
 <span class="sd">                </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -457,7 +457,7 @@
         
         <span class="sd">&#39;&#39;&#39; Acquire a list of all non-empty children branches.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a list of :class:`treeBranch` objects</span>
+<span class="sd">        :return: a list of :class:`.treeBranch` objects</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
     
@@ -525,7 +525,7 @@
         
         <span class="sd">&#39;&#39;&#39; Get the root node of this trie.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`trieNode` object</span>
+<span class="sd">        :return: a :class:`.trieNode` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         

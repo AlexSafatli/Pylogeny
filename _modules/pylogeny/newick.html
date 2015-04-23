@@ -69,9 +69,21 @@
 </div>
 <div class="viewcode-block" id="node"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.node">[docs]</a><span class="k">class</span> <span class="nc">node</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">treeNode</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Newick node. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Node for a tree parsed from a Newick string. &#39;&#39;&#39;</span>
         
 <div class="viewcode-block" id="node.__init__"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.node.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lbl</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">children</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Initialize a node in a tree parsed from a Newick string.</span>
+<span class="sd">        </span>
+<span class="sd">        :param lbl: a label for this node</span>
+<span class="sd">        :type lbl: a string</span>
+<span class="sd">        :param children: an optional set of children (branches); default none</span>
+<span class="sd">        :type children: a list of :class:`.branch` objects</span>
+<span class="sd">        :param parent: an optional parent branch for this node; default none</span>
+<span class="sd">        :type parent: a :class:`.branch` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="nb">super</span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">lbl</span><span class="p">,</span><span class="n">children</span><span class="p">,</span><span class="n">parent</span><span class="p">)</span>
         </div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -84,9 +96,21 @@
 </div>
 <div class="viewcode-block" id="branch"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.branch">[docs]</a><span class="k">class</span> <span class="nc">branch</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">treeBranch</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Newick branch. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Branch for a tree parsed from a Newick string. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="branch.__init__"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.branch.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">chi</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Initialize a branch in a tree parsed from a Newick string. </span>
+<span class="sd">        </span>
+<span class="sd">        :param chi: a child node</span>
+<span class="sd">        :type chi: a :class:`.node` object</span>
+<span class="sd">        :param l: a branch length</span>
+<span class="sd">        :type l: a floating point value</span>
+<span class="sd">        :param parent: an optional parent node; default none</span>
+<span class="sd">        :type parent: a :class:`.node` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">parent</span>         <span class="o">=</span> <span class="n">parent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">child</span>          <span class="o">=</span> <span class="n">chi</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branch_length</span>  <span class="o">=</span> <span class="n">l</span>
@@ -103,7 +127,12 @@
     
     <span class="sd">&#39;&#39;&#39; Should be a one-time use function. Goes through</span>
 <span class="sd">    and assigns parents to the parsed newick tree structure</span>
-<span class="sd">    nodes and branches to allow for up-traversal. &#39;&#39;&#39;</span>
+<span class="sd">    nodes and branches to allow for up-traversal.</span>
+<span class="sd">    </span>
+<span class="sd">    :param top: a top-level node for a tree (root node)</span>
+<span class="sd">    :type top: a :class:`.node` object</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="c"># Is a node?</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">top</span><span class="p">)</span> <span class="o">!=</span> <span class="n">node</span><span class="p">:</span> <span class="k">return</span> <span class="bp">False</span>
@@ -117,7 +146,12 @@
 </div>
 <div class="viewcode-block" id="removeBranchLengths"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.removeBranchLengths">[docs]</a><span class="k">def</span> <span class="nf">removeBranchLengths</span><span class="p">(</span><span class="n">top</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Goes through and removes any stored branch lengths. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Goes through and removes any stored branch lengths.</span>
+<span class="sd">    </span>
+<span class="sd">    :param top: a top-level node for a tree (root node)</span>
+<span class="sd">    :type top: a :class:`.node` object</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="c"># Is a node?</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">top</span><span class="p">)</span> <span class="o">!=</span> <span class="n">node</span><span class="p">:</span> <span class="k">return</span> <span class="bp">False</span>
@@ -132,7 +166,12 @@
     
     <span class="sd">&#39;&#39;&#39; Goes through and ensures any degree-2 internal </span>
 <span class="sd">    nodes are smoothed into a single degree-3 internal </span>
-<span class="sd">    node. &#39;&#39;&#39;</span>
+<span class="sd">    node. </span>
+<span class="sd">    </span>
+<span class="sd">    :param top: a top-level node for a tree (root node)</span>
+<span class="sd">    :type top: a :class:`.node` object    </span>
+<span class="sd">        </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="n">next_item</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
@@ -155,7 +194,14 @@
     
     <span class="sd">&#39;&#39;&#39; DANGEROUS: Reverses all directionality to a given</span>
 <span class="sd">    node from a top-level node. Intended as a low-level </span>
-<span class="sd">    function for rerooting a tree. &#39;&#39;&#39;</span>
+<span class="sd">    function for rerooting a tree.</span>
+<span class="sd">    </span>
+<span class="sd">    :param target: a target node</span>
+<span class="sd">    :type target: a :class:`.node` object</span>
+<span class="sd">    :param top: a top-level node for a tree (root node)</span>
+<span class="sd">    :type top: a :class:`.node` object</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
         
     <span class="k">def</span> <span class="nf">invertDirections</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">newparent</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="n">b</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">parent</span>
@@ -186,7 +232,12 @@
 <div class="viewcode-block" id="shuffleLeaves"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.shuffleLeaves">[docs]</a><span class="k">def</span> <span class="nf">shuffleLeaves</span><span class="p">(</span><span class="n">top</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; DANGEROUS: Given a top-level node, shuffle all </span>
-<span class="sd">    leaves in this tree. &#39;&#39;&#39;</span>
+<span class="sd">    leaves in this tree.</span>
+<span class="sd">    </span>
+<span class="sd">    :param top: a top-level node for a tree (root node)</span>
+<span class="sd">    :type top: a :class:`.node` object</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">leaves</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="o">.</span><span class="n">leaves</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
     <span class="n">names</span>  <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">leaves</span><span class="p">]</span>
@@ -197,7 +248,12 @@
 <div class="viewcode-block" id="getAllBranches"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.getAllBranches">[docs]</a><span class="k">def</span> <span class="nf">getAllBranches</span><span class="p">(</span><span class="n">br</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Given a branch, traverse subtree and return </span>
-<span class="sd">    comprising branches as a list. &#39;&#39;&#39;</span>
+<span class="sd">    comprising branches as a list.</span>
+<span class="sd">    </span>
+<span class="sd">    :param br: a branch from a tree</span>
+<span class="sd">    :type br: a :class:`.branch` object</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="c"># Is a branch?</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">br</span><span class="p">)</span> <span class="o">!=</span> <span class="n">branch</span><span class="p">:</span> <span class="k">return</span> <span class="nb">list</span><span class="p">()</span>
@@ -214,7 +270,14 @@
 <div class="viewcode-block" id="isSibling"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.isSibling">[docs]</a><span class="k">def</span> <span class="nf">isSibling</span><span class="p">(</span><span class="n">br</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Given a branch, determine if that branch is </span>
-<span class="sd">    adjacent to another branch. &#39;&#39;&#39;</span>
+<span class="sd">    adjacent to another branch. </span>
+<span class="sd">    </span>
+<span class="sd">    :param br: a branch from a tree</span>
+<span class="sd">    :type br: a :class:`.branch` object</span>
+<span class="sd">    :param other: another branch from a tree</span>
+<span class="sd">    :type other: a :class:`.branch` object</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>     <span class="o">!=</span> <span class="n">branch</span><span class="p">:</span> <span class="k">return</span> <span class="bp">False</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>  <span class="o">!=</span> <span class="n">branch</span><span class="p">:</span> <span class="k">return</span> <span class="bp">False</span>
@@ -227,6 +290,14 @@
     <span class="sd">&#39;&#39;&#39; Parsing object for Newick strings. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="newickParser.__init__"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.newickParser.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newick</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Initialize this parser (with a Newick string). </span>
+<span class="sd">        </span>
+<span class="sd">        :param newick: a Newick string</span>
+<span class="sd">        :type newick: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+                
         <span class="k">if</span> <span class="n">newick</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">newick</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Input &lt;</span><span class="si">%s</span><span class="s">&gt; is not a valid string!&#39;</span> <span class="o">%</span>
                              <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">newick</span><span class="p">)))</span>
@@ -237,7 +308,7 @@
         
         <span class="sd">&#39;&#39;&#39; Parse the stored newick string into a topological structure.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: the top-level root node object</span>
+<span class="sd">        :return: the top-level root :class:`.node` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -263,7 +334,15 @@
     
     <span class="sd">&#39;&#39;&#39; Given a position of an opening bracket in a </span>
 <span class="sd">    newick string, i, output the closing bracket&#39;s</span>
-<span class="sd">    position that corresponds to this opening bracket. &#39;&#39;&#39;</span>
+<span class="sd">    position that corresponds to this opening bracket.</span>
+<span class="sd">    </span>
+<span class="sd">    :param newick: a Newick string</span>
+<span class="sd">    :type newick: a string</span>
+<span class="sd">    :param i: a position in the string (index)</span>
+<span class="sd">    :type i: an integer &lt; length of the string</span>
+<span class="sd">    :return: an integer</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="n">opencount</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">newick</span><span class="p">)):</span>
@@ -278,7 +357,15 @@
 <div class="viewcode-block" id="getBranchLength"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.getBranchLength">[docs]</a><span class="k">def</span> <span class="nf">getBranchLength</span><span class="p">(</span><span class="n">newick</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Given a position of a colon symbol (indicating a </span>
-<span class="sd">    branch length), return the branch length. &#39;&#39;&#39;</span>
+<span class="sd">    branch length), return the branch length.</span>
+<span class="sd">    </span>
+<span class="sd">    :param newick: a Newick string</span>
+<span class="sd">    :type newick: a string</span>
+<span class="sd">    :param i: a position in the string (index)</span>
+<span class="sd">    :type i: an integer &lt; length of the string</span>
+<span class="sd">    :return: an integer</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="n">runningstr</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
     <span class="k">while</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">newick</span><span class="p">)):</span>
@@ -294,7 +381,15 @@
 </div>
 <div class="viewcode-block" id="getLeafName"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.getLeafName">[docs]</a><span class="k">def</span> <span class="nf">getLeafName</span><span class="p">(</span><span class="n">newick</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Given the position of a leaf, find its complete name. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Given the position of a leaf, find its complete name.</span>
+<span class="sd">    </span>
+<span class="sd">    :param newick: a Newick string</span>
+<span class="sd">    :type newick: a string</span>
+<span class="sd">    :param i: a position in the string (index)</span>
+<span class="sd">    :type i: an integer &lt; length of the string</span>
+<span class="sd">    :return: an integer</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="n">runningstr</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
     <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">newick</span><span class="p">)):</span>
@@ -308,7 +403,18 @@
 <div class="viewcode-block" id="parseNewick"><a class="viewcode-back" href="../../pylogeny.newick.html#pylogeny.newick.parseNewick">[docs]</a><span class="k">def</span> <span class="nf">parseNewick</span><span class="p">(</span><span class="n">newick</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">top</span><span class="p">):</span>
     
     <span class="sd">&#39;&#39;&#39; Parse a newick string into a topological newick</span>
-<span class="sd">    structure given a top-level node. &#39;&#39;&#39;</span>
+<span class="sd">    structure given a top-level node.</span>
+<span class="sd">    </span>
+<span class="sd">    :param newick: a Newick string</span>
+<span class="sd">    :type newick: a string</span>
+<span class="sd">    :param i: a starting position to start parsing</span>
+<span class="sd">    :type i: an integer</span>
+<span class="sd">    :param j: an end position to stop parsing</span>
+<span class="sd">    :type j: an integer</span>
+<span class="sd">    :param top: a top-level node; start parsing with None</span>
+<span class="sd">    :type top: a :class:`.node` object</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="c"># Input is substring [i,j] and top-level node.</span>
     <span class="n">first</span> <span class="o">=</span> <span class="bp">None</span>

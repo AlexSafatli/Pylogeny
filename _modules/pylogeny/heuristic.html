@@ -56,6 +56,7 @@
 <span class="c"># E-mail: safatli@cs.dal.ca</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">landscape</span>
 <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span> <span class="k">as</span> <span class="n">removeFolder</span>
 <span class="kn">from</span> <span class="nn">scoring</span> <span class="kn">import</span> <span class="n">getLogLikelihood</span> <span class="k">as</span> <span class="n">ll</span>
 <span class="kn">from</span> <span class="nn">executable</span> <span class="kn">import</span> <span class="n">raxml</span>
@@ -97,6 +98,16 @@
     <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of parsimony. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="parsimonyGreedy.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Initialize this heuristic.</span>
+<span class="sd">        </span>
+<span class="sd">        :param ls: a landscape object</span>
+<span class="sd">        :type ls: a :class:`pylogeny.landscape.landscape` object</span>
+<span class="sd">        :param startNode: what node to start with</span>
+<span class="sd">        :type startNode: a node (dictionary) from the landscape (getNode())</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="nb">super</span><span class="p">(</span><span class="n">parsimonyGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
         </div>
 <div class="viewcode-block" id="parsimonyGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -147,6 +158,16 @@
 <span class="sd">    likelihood. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="likelihoodGreedy.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Initialize this heuristic.</span>
+
+<span class="sd">        :param ls: a landscape object</span>
+<span class="sd">        :type ls: a :class:`pylogeny.landscape.landscape` object</span>
+<span class="sd">        :param startNode: what node to start with</span>
+<span class="sd">        :type startNode: a node (dictionary) from the landscape (getNode())</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="nb">super</span><span class="p">(</span><span class="n">likelihoodGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
         </div>
 <div class="viewcode-block" id="likelihoodGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -198,6 +219,16 @@
 <span class="sd">    by comparsion of likelihoods. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="smoothGreedy.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.smoothGreedy.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Initialize this heuristic.</span>
+
+<span class="sd">        :param ls: a landscape object</span>
+<span class="sd">        :type ls: a :class:`pylogeny.landscape.landscape` object</span>
+<span class="sd">        :param startNode: what node to start with</span>
+<span class="sd">        :type startNode: a node (dictionary) from the landscape (getNode())</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>       
+       
         <span class="nb">super</span><span class="p">(</span><span class="n">smoothGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
         </div>
 <div class="viewcode-block" id="smoothGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.smoothGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -278,6 +309,16 @@
 <span class="sd">    RAxML executable. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="RAxMLIdentify.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.RAxMLIdentify.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">,</span><span class="n">workdir</span><span class="o">=</span><span class="s">&#39;.rxml&#39;</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Initialize this heuristic.</span>
+
+<span class="sd">        :param ls: a landscape object</span>
+<span class="sd">        :type ls: a :class:`pylogeny.landscape.landscape` object</span>
+<span class="sd">        :param startNode: what node to start with</span>
+<span class="sd">        :type startNode: a node (dictionary) from the landscape (getNode())</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="nb">super</span><span class="p">(</span><span class="n">RAxMLIdentify</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">workdir</span>    <span class="o">=</span> <span class="n">workdir</span>        

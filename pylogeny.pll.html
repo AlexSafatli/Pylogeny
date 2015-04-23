@@ -62,7 +62,7 @@
 <em class="property">class </em><tt class="descclassname">pylogeny.pll.</tt><tt class="descname">dataModel</tt><big>(</big><em>topo</em>, <em>alignm</em>, <em>model=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encapsulating a phylogenetic tree (as topology) + corresponding alignment
 into a libpll-associated data structure. Allows for log-likelihood
-scoring of this model. <strong>MUST BE CLOSED AFTER USE.</strong></p>
+scoring of this model. MUST BE CLOSED AFTER USE.</p>
 <dl class="method">
 <dt id="pylogeny.pll.dataModel.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>topo</em>, <em>alignm</em>, <em>model=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel.__init__" title="Permalink to this definition">¶</a></dt>
@@ -72,8 +72,8 @@ scoring of this model. <strong>MUST BE CLOSED AFTER USE.</strong></p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>topo</strong> &#8211; A topology object.</li>
-<li><strong>alignm</strong> &#8211; A phylipFriendlyAlignment object.</li>
+<li><strong>topo</strong> (<a class="reference internal" href="pylogeny.rearrangement.html#pylogeny.rearrangement.topology" title="pylogeny.rearrangement.topology"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.rearrangement.topology</span></tt></a>) &#8211; a topology object</li>
+<li><strong>alignm</strong> (<a class="reference internal" href="pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment" title="pylogeny.alignment.phylipFriendlyAlignment"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.alignment.phylipFriendlyAlignment</span></tt></a>) &#8211; a phylip-friendly alignment object.</li>
 </ul>
 </td>
 </tr>
@@ -91,12 +91,28 @@ scoring of this model. <strong>MUST BE CLOSED AFTER USE.</strong></p>
 <dt id="pylogeny.pll.dataModel.getLogLikelihood">
 <tt class="descname">getLogLikelihood</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel.getLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel.getLogLikelihood" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates log-likelihood using libpll.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a floating point value</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.pll.dataModel.getNewickString">
 <tt class="descname">getNewickString</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#dataModel.getNewickString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.dataModel.getNewickString" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquire the Newick string of the problem instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a Newick string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -108,7 +124,16 @@ scoring of this model. <strong>MUST BE CLOSED AFTER USE.</strong></p>
 <dl class="method">
 <dt id="pylogeny.pll.partitionModel.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>ali</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Initialize a partition model (for internal use by libpll).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ali</strong> (<a class="reference internal" href="pylogeny.alignment.html#pylogeny.alignment.alignment" title="pylogeny.alignment.alignment"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.alignment.alignment</span></tt></a>) &#8211; an alignment object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.pll.partitionModel.close">
@@ -120,18 +145,52 @@ scoring of this model. <strong>MUST BE CLOSED AFTER USE.</strong></p>
 <dt id="pylogeny.pll.partitionModel.createModel">
 <tt class="descname">createModel</tt><big>(</big><em>models</em>, <em>partnames</em>, <em>ranges</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.createModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.createModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Establish a more complex model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>models</strong> (<em>a list of strings</em>) &#8211; a list of model names (e.g., &#8216;WAG&#8217;, &#8216;DNA&#8217;)</li>
+<li><strong>partnames</strong> (<em>a list of strings</em>) &#8211; a list of partition names (e.g., &#8216;p1&#8217;, &#8216;p2&#8217;)</li>
+<li><strong>ranges</strong> (<em>a list of integer tuples</em>) &#8211; a list of range tuples (what ranges of alignment)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.pll.partitionModel.createSimpleModel">
-<tt class="descname">createSimpleModel</tt><big>(</big><em>protein</em>, <em>pmodel='WAG'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.createSimpleModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.createSimpleModel" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">createSimpleModel</tt><big>(</big><em>pmodel='WAG'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.createSimpleModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.createSimpleModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Establish a simple model (e.g., one type).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pmodel</strong> (<em>a string (default &#8216;WAG&#8217;)</em>) &#8211; optional; what protein model to use (as described in pll)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.pll.partitionModel.getFileName">
 <tt class="descname">getFileName</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/pll.html#partitionModel.getFileName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.pll.partitionModel.getFileName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the file name of the model file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
