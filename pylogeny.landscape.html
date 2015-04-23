@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscape module &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.landscape module &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.landscapeWriter module" href="pylogeny.landscapeWriter.html" />
     <link rel="prev" title="pylogeny.heuristic module" href="pylogeny.heuristic.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.heuristic.html" title="pylogeny.heuristic module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -68,18 +68,22 @@ rearrangement operator. An edge between t_i and t_j would be notated as e_{ij}
 in E(G).</p>
 <dl class="class">
 <dt id="pylogeny.landscape.graph">
-<em class="property">class </em><tt class="descclassname">pylogeny.landscape.</tt><tt class="descname">graph</tt><big>(</big><em>gr=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pylogeny.landscape.</tt><tt class="descname">graph</tt><big>(</big><em>gr=None</em>, <em>defWeight=0.0</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Define an empty graph object.</p>
 <dl class="method">
 <dt id="pylogeny.landscape.graph.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>gr=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instantiate a graph.</p>
+<tt class="descname">__init__</tt><big>(</big><em>gr=None</em>, <em>defWeight=0.0</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a graph. Default edge weights are 0.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gr</strong> &#8211; A networkx graph object, if already exists.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>gr</strong> (a <cite>networkx.Graph</cite> object) &#8211; a networkx graph object, if already exists.</li>
+<li><strong>defWeight</strong> (<em>a floating point number</em>) &#8211; the default edge weight of weights</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -88,7 +92,8 @@ in E(G).</p>
 <dl class="method">
 <dt id="pylogeny.landscape.graph.clearEdgeWeights">
 <tt class="descname">clearEdgeWeights</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.clearEdgeWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.clearEdgeWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set all edge weights to the default edge weight.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getCenter">
@@ -100,6 +105,14 @@ in E(G).</p>
 <dt id="pylogeny.landscape.graph.getCliqueNumber">
 <tt class="descname">getCliqueNumber</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getCliqueNumber"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getCliqueNumber" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the clique number of the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -130,6 +143,16 @@ in E(G).</p>
 <dt id="pylogeny.landscape.graph.getDegreeFor">
 <tt class="descname">getDegreeFor</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getDegreeFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getDegreeFor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return in- and out-degree for node named i.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<em>a string</em>) &#8211; a node name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -141,17 +164,54 @@ in E(G).</p>
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getEdge">
 <tt class="descname">getEdge</tt><big>(</big><em>i</em>, <em>j</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getEdge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getEdge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the data associated with an edge (including weight).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>i</strong> (<em>a string</em>) &#8211; a node name</li>
+<li><strong>j</strong> (<em>a string</em>) &#8211; a node name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">an edge (and associated data)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getEdges">
 <tt class="descname">getEdges</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getEdges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getEdges" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get all edges (as defined for NetworkX graphs). Recommended to use
+an iterator for large graphs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of edges (and associated data)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getEdgesFor">
 <tt class="descname">getEdgesFor</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getEdgesFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getEdgesFor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get all edges associated with a certain node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<em>a string</em>) &#8211; a node name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of edges (and associated data) for all neighbors</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getMST">
@@ -162,34 +222,88 @@ in E(G).</p>
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getNeighborsFor">
 <tt class="descname">getNeighborsFor</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNeighborsFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNeighborsFor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get a list of all node names neighbor to a node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<em>a string</em>) &#8211; a node name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of strings (node names)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getNode">
 <tt class="descname">getNode</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get a single node by name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<em>a string</em>) &#8211; a node name:</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getNodeNames">
 <tt class="descname">getNodeNames</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNodeNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNodeNames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the names of nodes in the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of strings</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getNodes">
 <tt class="descname">getNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNodes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get all node values. Recommended to use an iterator for large
+graphs (iterNodes()).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of node values (whatever is associated with nodes)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getNumCliques">
 <tt class="descname">getNumCliques</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNumCliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNumCliques" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the number of cliques found in the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.getNumComponents">
 <tt class="descname">getNumComponents</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getNumComponents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getNumComponents" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the number of components of the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -208,6 +322,14 @@ in E(G).</p>
 <dt id="pylogeny.landscape.graph.getSize">
 <tt class="descname">getSize</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.getSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.getSize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of nodes in the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -219,18 +341,51 @@ in E(G).</p>
 <dl class="method">
 <dt id="pylogeny.landscape.graph.isEdge">
 <tt class="descname">isEdge</tt><big>(</big><em>i</em>, <em>j</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.isEdge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.isEdge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>See if an edge exists between two nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>i</strong> (<em>a string</em>) &#8211; a node name</li>
+<li><strong>j</strong> (<em>a string</em>) &#8211; a node name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a boolean</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.iterNodes">
 <tt class="descname">iterNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.iterNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.iterNodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate over all node keys.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a generator of node keys</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.graph.setDefaultWeight">
 <tt class="descname">setDefaultWeight</tt><big>(</big><em>w</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#graph.setDefaultWeight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.graph.setDefaultWeight" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set the default weight of edges (weight of edges if not overridden).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>w</strong> (<em>a floating point</em>) &#8211; a weight</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -239,39 +394,66 @@ in E(G).</p>
 <em class="property">class </em><tt class="descclassname">pylogeny.landscape.</tt><tt class="descname">landscape</tt><big>(</big><em>ali</em>, <em>starting_tree=None</em>, <em>root=True</em>, <em>operator='SPR'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pylogeny.landscape.graph" title="pylogeny.landscape.graph"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.landscape.graph</span></tt></a>, <a class="reference internal" href="pylogeny.tree.html#pylogeny.tree.treeSet" title="pylogeny.tree.treeSet"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.tree.treeSet</span></tt></a></p>
 <p>Defines an entire phylogenetic tree space.</p>
+<dl class="method">
+<dt id="pylogeny.landscape.landscape.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>ali</em>, <em>starting_tree=None</em>, <em>root=True</em>, <em>operator='SPR'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the landscape.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>ali</strong> &#8211; An <tt class="xref py py-class docutils literal"><span class="pre">alignment.alignment</span></tt> object.</li>
-<li><strong>starting_tree</strong> &#8211; An optional tree object to start</li>
+<li><strong>ali</strong> (an <tt class="xref py py-class docutils literal"><span class="pre">alignment.alignment</span></tt> object) &#8211; an alignment</li>
+<li><strong>starting_tree</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object) &#8211; an optional tree object to start with</li>
+<li><strong>root</strong> (<em>a boolean</em>) &#8211; whether or not to compute an approximate        maximum likelihood tree (FastTree) or start the landscape        with a given starting tree.</li>
+<li><strong>operator</strong> (<em>a string</em>) &#8211; a string that describes what operator the        landscape is mostly comprised of.</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>the landscape with.
-:param root: Whether or not to acquire an approximate
-maximum likelihood tree (FastTree) or start the landscape
-with a given starting tree.
-:param operator: A string that describes what operator the
-landscape is mostly comprised of.</p>
-<dl class="method">
-<dt id="pylogeny.landscape.landscape.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>ali</em>, <em>starting_tree=None</em>, <em>root=True</em>, <em>operator='SPR'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.addTree">
 <tt class="descname">addTree</tt><big>(</big><em>tr</em>, <em>score=True</em>, <em>check=True</em>, <em>newick=None</em>, <em>struct=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.addTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.addTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a tree to the landscape. Will return its index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tr</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object) &#8211; a tree</li>
+<li><strong>score</strong> (<em>a boolean</em>) &#8211; defaults to True, whether to score this tree or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the index of the tree</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.addTreeByNewick">
 <tt class="descname">addTreeByNewick</tt><big>(</big><em>newick</em>, <em>score=True</em>, <em>check=True</em>, <em>struct=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.addTreeByNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.addTreeByNewick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add tree to the landscape by Newick string. Will return index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>newick</strong> (<em>a string</em>) &#8211; a Newick string</li>
+<li><strong>score</strong> (<em>a boolean</em>) &#8211; defaults to True, whether to score this tree or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the index of the tree</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -282,6 +464,21 @@ random rearrangement of type SPR (by default), NNI, or TBR &#8211; this is
 done by performing a rearrangement on a random branch in the topology.
 Rearrangement type is provided as a rearrangement module type definition
 of form, for example, TYPE_SPR, TYPE_NNI, etc.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>i</strong> &#8211; a tree index</li>
+<li><strong>type</strong> &#8211; the type of rearrangement (e.g., TYPE_SPR, TYPE_NNI)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the new tree index or None in case of failure</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -292,19 +489,55 @@ respective rearrangement operator as defined in the rearrangement
 module. Rearrangement type is provided as a rearrangement module type
 definition of form, for example, TYPE_SPR, TYPE_NNI, etc. By default,
 this is TYPE_SPR.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>i</strong> &#8211; a tree index</li>
+<li><strong>type</strong> &#8211; the type of rearrangement (e.g., TYPE_SPR, TYPE_NNI)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of neighbors as tree names (usually integers)</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.findTree">
 <tt class="descname">findTree</tt><big>(</big><em>newick</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.findTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.findTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a tree by Newick string, taking into account branch lengths.
-Returns the index of this tree in the landscape.</p>
+Returns the index of this tree in the landscape. Warning: naively
+performs a sequential search.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>newick</strong> (<em>a string</em>) &#8211; a Newick string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a tree name (usually an integer index) or None if not found</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.findTreeTopology">
 <tt class="descname">findTreeTopology</tt><big>(</big><em>newick</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.findTreeTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.findTreeTopology" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a tree by topology, not taking into account branch lengths.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>newick</strong> (<em>a string</em>) &#8211; a Newick string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a tree name (usually an integer index) or None if not found</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -312,18 +545,44 @@ Returns the index of this tree in the landscape.</p>
 <tt class="descname">findTreeTopologyByStructure</tt><big>(</big><em>struct</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.findTreeTopologyByStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.findTreeTopologyByStructure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a tree by topology, not taking into account branch lengths,
 given the topology.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>struct</strong> (<em>a string</em>) &#8211; a Newick string without branch lengths (a &#8220;structure&#8221;)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a tree name (usually an integer index) or None if not found</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.getAlignment">
 <tt class="descname">getAlignment</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getAlignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getAlignment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquire the alignment object associated with this space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an <tt class="xref py py-class docutils literal"><span class="pre">alignment.alignment</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.getAllPathsOfBestImprovement">
 <tt class="descname">getAllPathsOfBestImprovement</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getAllPathsOfBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getAllPathsOfBestImprovement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all paths of best improvement as a dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a dictionary of tree name to paths (lists of tree names)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -332,6 +591,16 @@ given the topology.</p>
 <dd><p>For a tree in the landscape, investigate neighbors to find 
 a tree that leads to the best improvement of fitness function score
 on the basis of likelihood.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> &#8211; a tree name (usually an integer)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a tree name (usually an integer) or None if no better tree</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -339,12 +608,35 @@ on the basis of likelihood.</p>
 <tt class="descname">getBipartitionFoundInTreeByIndex</tt><big>(</big><em>tr</em>, <em>brind</em>, <em>topol=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getBipartitionFoundInTreeByIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getBipartitionFoundInTreeByIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a tree node and a branch index, return the associated
 bipartition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tr</strong> &#8211; a tree name</li>
+<li><strong>brind</strong> &#8211; a branch index in that tree, a la post-order traversal</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <tt class="xref py py-class docutils literal"><span class="pre">tree.bipartition</span></tt> object</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.getGlobalOptimum">
 <tt class="descname">getGlobalOptimum</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getGlobalOptimum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getGlobalOptimum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the global optimum of the current space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a tree name (usually an integer)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -352,18 +644,43 @@ bipartition.</p>
 <tt class="descname">getLocalOptima</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getLocalOptima"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getLocalOptima" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all trees in the landscape that can be labelled as a local
 optimum.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of tree names (usually integers)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.getLocks">
 <tt class="descname">getLocks</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getLocks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getLocks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get all restrictions (locks which cannot be violated on splits).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <tt class="xref py py-class docutils literal"><span class="pre">tree.bipartition</span></tt> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.getNumberTaxa">
 <tt class="descname">getNumberTaxa</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getNumberTaxa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getNumberTaxa" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of different taxa present in any respective tree
 in the landscape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -371,6 +688,16 @@ in the landscape.</p>
 <tt class="descname">getPathOfBestImprovement</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getPathOfBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getPathOfBestImprovement" title="Permalink to this definition">¶</a></dt>
 <dd><p>For a tree in the landscape, investigate neighbors iteratively until
 a best path of score improvement is found on basis of likelihood.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> &#8211; a tree name (usually an integer)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of tree names (usually integers)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -379,6 +706,14 @@ a best path of score improvement is found on basis of likelihood.</p>
 <dd><p>Assuming all of the trees in the space are rooted, return the
 maximum possible number of unrooted trees that can possibly be generated
 for the number of taxa of trees in the landscape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -387,24 +722,58 @@ for the number of taxa of trees in the landscape.</p>
 <dd><p>Assuming all of the trees in the space are unrooted, return the 
 maximum possible number of unrooted trees that can possibly be generated
 for the number of taxa of trees in the landscape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.getRoot">
 <tt class="descname">getRoot</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getRoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getRoot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the index to the root (starting) tree of the space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.getRootTree">
 <tt class="descname">getRootTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getRootTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getRootTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquire the first tree that was placed in this space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.getTree">
 <tt class="descname">getTree</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.getTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.getTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the object for a tree by its name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> &#8211; a tree name (usually an integer)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -414,13 +783,33 @@ for the number of taxa of trees in the landscape.</p>
 high-level representation of a tree in the landscape with
 additional functionality. Object created upon invocation of
 this function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> &#8211; a tree name (usually an integer)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.landscape.vertex" title="pylogeny.landscape.vertex"><tt class="xref py py-class docutils literal"><span class="pre">vertex</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.indexOf">
 <tt class="descname">indexOf</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.indexOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.indexOf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquire the index/name in this landscape of a tree object. Returns
--1 if not found.</p>
+-1 if not found. Warning: naively performs a sequential search.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object) &#8211; a tree</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a tree name (usually an integer index) or -1 if not found</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -435,19 +824,44 @@ following properties:</p>
 <li>None of its neighbors is a better improvement.</li>
 </ol>
 </div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a boolean</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.isViolating">
 <tt class="descname">isViolating</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.isViolating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.isViolating" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine if a tree is violating any locks intrinsic 
-to the landscape.</p>
+to the landscape. Will also return False if the tree (name) is not
+present in the landscape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> &#8211; a tree name (usually an integer)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.iterAllPathsOfBestImprovement">
 <tt class="descname">iterAllPathsOfBestImprovement</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.iterAllPathsOfBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.iterAllPathsOfBestImprovement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return an iterator for all paths of best improvement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a generator of paths (lists of tree names)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -456,6 +870,21 @@ to the landscape.</p>
 <dd><p>Given a tree node and a branch object, add a given 
 bipartition to the bipartition lock list. Returns 
 bipartition if locked.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tr</strong> &#8211; a tree name</li>
+<li><strong>br</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">base.treeBranch</span></tt> object) &#8211; a branch in that tree</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <tt class="xref py py-class docutils literal"><span class="pre">tree.bipartition</span></tt> object that has been locked or None</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -464,18 +893,53 @@ bipartition if locked.</p>
 <dd><p>Given a tree node and a branch index, add an associated 
 bipartition to the bipartition lock list. Returns the
 bipartition if locked.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tr</strong> &#8211; a tree name</li>
+<li><strong>brind</strong> &#8211; a branch index</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <tt class="xref py py-class docutils literal"><span class="pre">tree.bipartition</span></tt> object if it has been locked</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.removeTree">
 <tt class="descname">removeTree</tt><big>(</big><em>tree</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.removeTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.removeTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a tree from the landscape by object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tree</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object) &#8211; a tree that exists in the landscape</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a boolean (success or failure)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.removeTreeByIndex">
 <tt class="descname">removeTreeByIndex</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.removeTreeByIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.removeTreeByIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a tree from the landscape by index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> &#8211; a tree name (usually an integer)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a boolean (success or failure)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -483,12 +947,28 @@ bipartition if locked.</p>
 <tt class="descname">setAlignment</tt><big>(</big><em>ali</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.setAlignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.setAlignment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the alignment present in this landscape. WARNING; will not
 modify existing scores.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ali</strong> (an <tt class="xref py py-class docutils literal"><span class="pre">alignment.alignment</span></tt> object) &#8211; an alignment</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.setOperator">
 <tt class="descname">setOperator</tt><big>(</big><em>op</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.setOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.setOperator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the operator assigned to this landscape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>op</strong> (<em>a string</em>) &#8211; an operator (string description)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -497,12 +977,28 @@ modify existing scores.</p>
 <dd><p>Convert this landscape into an unorganized set of trees where taxa
 names are transformed to their original form (i.e. not transformed to a
 state friendly for the Phylip format).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">tree.treeSet</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.landscape.toTreeSet">
 <tt class="descname">toTreeSet</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.toTreeSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.toTreeSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert this landscape into an unorganized set of trees.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">tree.treeSet</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -510,6 +1006,16 @@ state friendly for the Phylip format).</p>
 <tt class="descname">toggleLock</tt><big>(</big><em>lock</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#landscape.toggleLock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.landscape.toggleLock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a biparition to the list of locked bipartitions if not 
 present; otherwise, remove it. Return status of lock.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lock</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">tree.bipartition</span></tt> object) &#8211; a bipartition that cannot be violated</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a boolean (on or off)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -523,13 +1029,23 @@ functionality to alias parent landscape functions.</p>
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>obj</em>, <em>ls</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Initialize this vertex.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.approximatePossibleNumNeighbors">
 <tt class="descname">approximatePossibleNumNeighbors</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.approximatePossibleNumNeighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.approximatePossibleNumNeighbors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Approximate the possible number of neighbors to this vertex
-by considering the type of tree rearrangement operator.</p>
+by considering the type of tree rearrangement operator. Returns
+LS_NOT_DEFINED if the operator is not known yet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -549,27 +1065,72 @@ landscape.</p>
 <dt id="pylogeny.landscape.vertex.getBipartitions">
 <tt class="descname">getBipartitions</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getBipartitions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getBipartitions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all bipartitions for this vertex.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <tt class="xref py py-class docutils literal"><span class="pre">tree.bipartition</span></tt> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getDegree">
 <tt class="descname">getDegree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getDegree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getDegree" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the degree of this tree in the graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getDict">
 <tt class="descname">getDict</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getDict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the dictionary object (key-value pairs) associated with this
+tree as it is in the NetworkX graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a dictionary</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getIndex">
 <tt class="descname">getIndex</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getIndex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the index of this tree in the space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a tree name (usually an integer)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getNeighbors">
 <tt class="descname">getNeighbors</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getNeighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getNeighbors" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get any neighbors to this tree in the landscape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of tree names (usually integers)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getNeighborsOfBipartition">
@@ -586,17 +1147,45 @@ landscape.</p>
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getNewick">
 <tt class="descname">getNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getNewick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the Newick string of this tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getObject">
 <tt class="descname">getObject</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getObject" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the dictionary object (key-value pairs) associated with this
+tree as it is in the NetworkX graph.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a dictionary</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getOrigin">
 <tt class="descname">getOrigin</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getOrigin" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the origin of this tree (how it was acquired).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getPathOfBestImprovement">
@@ -615,33 +1204,86 @@ landscape.</p>
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getScore">
 <tt class="descname">getScore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getScore" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get (any) score(s) associated with this tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a tuple of floating point values (scores)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.getTree">
 <tt class="descname">getTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.getTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.getTree" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the tree object associated with this tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.isBestImprovement">
 <tt class="descname">isBestImprovement</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.isBestImprovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.isBestImprovement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check to see if this vertex is a best move for another node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a boolean</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.isExplored">
 <tt class="descname">isExplored</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.isExplored"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.isExplored" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>See if this tree has had all possible rearrangements performed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.isFailed">
 <tt class="descname">isFailed</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.isFailed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.isFailed" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Determine if any errors are associated with this node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.isLocalOptimum">
 <tt class="descname">isLocalOptimum</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.isLocalOptimum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.isLocalOptimum" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Determine if this tree is an optimum.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.isViolating">
@@ -660,12 +1302,28 @@ landscape.</p>
 <dt id="pylogeny.landscape.vertex.scoreLikelihood">
 <tt class="descname">scoreLikelihood</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.scoreLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.scoreLikelihood" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquire the log-likelihood for this vertex.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the log-likelihood score</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscape.vertex.setExplored">
 <tt class="descname">setExplored</tt><big>(</big><em>exp</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscape.html#vertex.setExplored"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscape.vertex.setExplored" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the &#8220;explored&#8221; flag of this node in the landscape.</p>
+<dd><p>Override the &#8220;explored&#8221; flag of this node in the landscape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>exp</strong> &#8211; a boolean</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -721,7 +1379,7 @@ landscape.</p>
         <li class="right" >
           <a href="pylogeny.heuristic.html" title="pylogeny.heuristic module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

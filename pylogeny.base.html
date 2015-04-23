@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.base module &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.base module &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.database module" href="pylogeny.database.html" />
     <link rel="prev" title="pylogeny.alignment module" href="pylogeny.alignment.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.alignment.html" title="pylogeny.alignment module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -62,6 +62,14 @@ in this framework.</p>
 <dt id="pylogeny.base.longest_common_substring">
 <tt class="descclassname">pylogeny.base.</tt><tt class="descname">longest_common_substring</tt><big>(</big><em>s1</em>, <em>s2</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#longest_common_substring"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.longest_common_substring" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simplified, traditional LCS algorithm implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string (longest common substring of s1, s2)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -74,6 +82,14 @@ in this framework.</p>
 <tt class="descname">delete</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#patriciaTree.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.patriciaTree.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a sequence from the PATRICIA tree. Will not remove 
 added characters to alphabet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>seq</strong> &#8211; a sequence present in the trie</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -100,37 +116,105 @@ addition sequence if it exists. Else, returns 0.</p>
 <dl class="method">
 <dt id="pylogeny.base.treeBranch.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>parent=None</em>, <em>child=None</em>, <em>label=''</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pylogeny.base.treeBranch.child">
-<tt class="descname">child</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeBranch.child" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Instantiate this branch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parent</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; an optional parent node</li>
+<li><strong>child</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; an optional child node</li>
+<li><strong>label</strong> (<em>a string</em>) &#8211; an optional string label</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeBranch.getChild">
 <tt class="descname">getChild</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.getChild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.getChild" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the child node of this branch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeBranch.getLabel">
 <tt class="descname">getLabel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.getLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.getLabel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the label of this branch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeBranch.getParent">
 <tt class="descname">getParent</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.getParent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.getParent" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the parent node of this branch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
-<dl class="attribute">
-<dt id="pylogeny.base.treeBranch.label">
-<tt class="descname">label</tt><em class="property"> = ''</em><a class="headerlink" href="#pylogeny.base.treeBranch.label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="method">
+<dt id="pylogeny.base.treeBranch.setChild">
+<tt class="descname">setChild</tt><big>(</big><em>c</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.setChild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.setChild" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the child node of this branch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>c</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; the child node of this object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
-<dl class="attribute">
-<dt id="pylogeny.base.treeBranch.parent">
-<tt class="descname">parent</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeBranch.parent" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="method">
+<dt id="pylogeny.base.treeBranch.setLabel">
+<tt class="descname">setLabel</tt><big>(</big><em>lbl</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.setLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.setLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the label of this branch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lbl</strong> (<em>a string</em>) &#8211; a string label</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.base.treeBranch.setParent">
+<tt class="descname">setParent</tt><big>(</big><em>p</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeBranch.setParent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeBranch.setParent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parent node of this branch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; the parent node of this object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -142,57 +226,121 @@ addition sequence if it exists. Else, returns 0.</p>
 <dl class="method">
 <dt id="pylogeny.base.treeNode.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>lbl=None</em>, <em>children=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Initialize this tree node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lbl</strong> (<em>a string</em>) &#8211; an optional string to label this node</li>
+<li><strong>children</strong> (a list of <a class="reference internal" href="#pylogeny.base.treeBranch" title="pylogeny.base.treeBranch"><tt class="xref py py-class docutils literal"><span class="pre">treeBranch</span></tt></a> objects) &#8211; an optional list of branches as children</li>
+<li><strong>parent</strong> (a <a class="reference internal" href="#pylogeny.base.treeBranch" title="pylogeny.base.treeBranch"><tt class="xref py py-class docutils literal"><span class="pre">treeBranch</span></tt></a> object) &#8211; an optional branch to act as parent to this one</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeNode.addChild">
 <tt class="descname">addChild</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.addChild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.addChild" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pylogeny.base.treeNode.children">
-<tt class="descname">children</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeNode.children" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add a branch as a child.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> (a <a class="reference internal" href="#pylogeny.base.treeBranch" title="pylogeny.base.treeBranch"><tt class="xref py py-class docutils literal"><span class="pre">treeBranch</span></tt></a> object) &#8211; a branch to add as a child</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeNode.getChildByIndex">
 <tt class="descname">getChildByIndex</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.getChildByIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.getChildByIndex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get a child branch by index in the list of children.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<em>an integer</em>) &#8211; an index</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.base.treeBranch" title="pylogeny.base.treeBranch"><tt class="xref py py-class docutils literal"><span class="pre">treeBranch</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeNode.getChildren">
 <tt class="descname">getChildren</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.getChildren"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.getChildren" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the list of children branch object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeNode.getLabel">
 <tt class="descname">getLabel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.getLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.getLabel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the label of this node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeNode.getParent">
 <tt class="descname">getParent</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.getParent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.getParent" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return the parent of this node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.base.treeBranch" title="pylogeny.base.treeBranch"><tt class="xref py py-class docutils literal"><span class="pre">treeBranch</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeNode.isInternalNode">
 <tt class="descname">isInternalNode</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.isInternalNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.isInternalNode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Determine if this node is not a leaf (has children).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeNode.isLeaf">
 <tt class="descname">isLeaf</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeNode.isLeaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeNode.isLeaf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pylogeny.base.treeNode.label">
-<tt class="descname">label</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeNode.label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pylogeny.base.treeNode.parent">
-<tt class="descname">parent</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeNode.parent" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Determine if this node is a leaf (has no children).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -200,22 +348,49 @@ addition sequence if it exists. Else, returns 0.</p>
 <dt id="pylogeny.base.treeStructure">
 <em class="property">class </em><tt class="descclassname">pylogeny.base.</tt><tt class="descname">treeStructure</tt><big>(</big><em>root=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">_abcoll.Container</span></tt></p>
-<p>Defines a base collection of treeNodes and treeBranches in a
+<p>Defines a base collection of treeNodes and treeBranches in a rooted,
 hierarchical tree structure.</p>
 <dl class="method">
 <dt id="pylogeny.base.treeStructure.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>root=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Initialize this tree structure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>root</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; an optional node to root the tree with</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeStructure.getAllLeaves">
 <tt class="descname">getAllLeaves</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.getAllLeaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.getAllLeaves" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Acquire all leaf nodes for this structure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeStructure.getAllNodes">
 <tt class="descname">getAllNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.getAllNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.getAllNodes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Acquire all nodes for this structure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.treeStructure.getPostOrderTraversal">
@@ -227,27 +402,66 @@ hierarchical tree structure.</p>
 <tt class="descname">getRoot</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.getRoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.getRoot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the top-level, root, node of 
 the tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="pylogeny.base.treeStructure.leaves">
 <em class="property">static </em><tt class="descname">leaves</tt><big>(</big><em>root</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.leaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.leaves" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Static method to acquire all leaf nodes of a tree structure
+in order of how they are defined in children of nodes (DFS).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>root</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; a root node of a tree structure</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="staticmethod">
 <dt id="pylogeny.base.treeStructure.nodes">
 <em class="property">static </em><tt class="descname">nodes</tt><big>(</big><em>root</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.nodes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Static method to acquire all nodes of a tree structure
+in order of how they are defined in children of nodes (DFS).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>root</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; a root node of a tree structure</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="staticmethod">
 <dt id="pylogeny.base.treeStructure.postOrderTraversal">
 <em class="property">static </em><tt class="descname">postOrderTraversal</tt><big>(</big><em>root</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#treeStructure.postOrderTraversal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.treeStructure.postOrderTraversal" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pylogeny.base.treeStructure.root">
-<tt class="descname">root</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.treeStructure.root" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Static method to acquire all nodes of a tree structure
+as a post order traversal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>root</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; a root node of a tree structure</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -259,56 +473,80 @@ the tree.</p>
 <dl class="method">
 <dt id="pylogeny.base.trie.__init__">
 <tt class="descname">__init__</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pylogeny.base.trie.alphabet">
-<tt class="descname">alphabet</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.trie.alphabet" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pylogeny.base.trie.count">
-<tt class="descname">count</tt><em class="property"> = 0</em><a class="headerlink" href="#pylogeny.base.trie.count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Instantiate this trie as empty.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.trie.delete">
 <tt class="descname">delete</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.delete" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove a sequence from the trie. Will not remove
-added characters to alphabet.</p>
+<dd><p>Remove a sequence from the trie. Will not remove added characters
+to alphabet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>seq</strong> &#8211; a sequence present in the trie</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.trie.getAlphabet">
 <tt class="descname">getAlphabet</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.getAlphabet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.getAlphabet" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Acquire the unique alphabet of characters present across
+strings in this trie.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of characters</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.trie.getRoot">
 <tt class="descname">getRoot</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.getRoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.getRoot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the root node of this trie.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.base.trieNode" title="pylogeny.base.trieNode"><tt class="xref py py-class docutils literal"><span class="pre">trieNode</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.trie.insert">
 <tt class="descname">insert</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.insert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dynamically insert a sequence into the trie.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the label for this inserted sequence</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
-
-<dl class="attribute">
-<dt id="pylogeny.base.trie.nextLabel">
-<tt class="descname">nextLabel</tt><em class="property"> = 1</em><a class="headerlink" href="#pylogeny.base.trie.nextLabel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="pylogeny.base.trie.root">
-<tt class="descname">root</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.base.trie.root" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.trie.search">
 <tt class="descname">search</tt><big>(</big><em>seq</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trie.search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trie.search" title="Permalink to this definition">¶</a></dt>
 <dd><p>Search for a sequence in the trie. Returns true
 if it exists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a boolean</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -323,29 +561,71 @@ conveniences.</p>
 <dl class="method">
 <dt id="pylogeny.base.trieNode.getNonEmptyChildrenBranchLabels">
 <tt class="descname">getNonEmptyChildrenBranchLabels</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.getNonEmptyChildrenBranchLabels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.getNonEmptyChildrenBranchLabels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Acquire a list of labels for all non-empty children branches.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.trieNode.getNonEmptyChildrenBranches">
 <tt class="descname">getNonEmptyChildrenBranches</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.getNonEmptyChildrenBranches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.getNonEmptyChildrenBranches" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire a list of all non-empty children.</p>
+<dd><p>Acquire a list of all non-empty children branches.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.base.treeBranch" title="pylogeny.base.treeBranch"><tt class="xref py py-class docutils literal"><span class="pre">treeBranch</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.trieNode.getNonEmptyChildrenNodes">
 <tt class="descname">getNonEmptyChildrenNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.getNonEmptyChildrenNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.getNonEmptyChildrenNodes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire a list of all non-empty children.</p>
+<dd><p>Acquire a list of all non-empty children nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.trieNode.getParentNode">
 <tt class="descname">getParentNode</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.getParentNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.getParentNode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the parent node of this node (assumes a parent branch).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the parent of the parent branch to this node</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.base.trieNode.iterNonEmptyChildrenNodes">
 <tt class="descname">iterNonEmptyChildrenNodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.iterNonEmptyChildrenNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.iterNonEmptyChildrenNodes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Iterate over all children that are not empty.</p>
+<dd><p>Iterate over all children nodes that are not empty.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a generator yielding children <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -358,7 +638,21 @@ or nonexistent.</p>
 <dl class="method">
 <dt id="pylogeny.base.trieNode.setChildNode">
 <tt class="descname">setChildNode</tt><big>(</big><em>child</em>, <em>newchild</em><big>)</big><a class="reference internal" href="_modules/pylogeny/base.html#trieNode.setChildNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.base.trieNode.setChildNode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set a given child node (traversing branches along the way)
+of this node to a new object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>child</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; a child node of this object</li>
+<li><strong>newchild</strong> (a <a class="reference internal" href="#pylogeny.base.treeNode" title="pylogeny.base.treeNode"><tt class="xref py py-class docutils literal"><span class="pre">treeNode</span></tt></a> object) &#8211; the child node to replace</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -413,7 +707,7 @@ or nonexistent.</p>
         <li class="right" >
           <a href="pylogeny.alignment.html" title="pylogeny.alignment module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.alignment &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.alignment &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -47,7 +47,8 @@
           <div class="body">
             
   <h1>Source code for pylogeny.alignment</h1><div class="highlight"><pre>
-<span class="sd">&#39;&#39;&#39; Handle input biological sequence alignment files for the purposes of</span>
+<span class="sd">&#39;&#39;&#39; Object model defining a sequence alignment (DNA, RNA, protein sequences). </span>
+<span class="sd">Handle input biological sequence alignment files for the purposes of </span>
 <span class="sd">phylogenetic inference. Will read all types of alignment files by utilizing the </span>
 <span class="sd">P4 python phylogenetic library. &#39;&#39;&#39;</span>
 
@@ -105,9 +106,17 @@
 
     <span class="c"># Internals</span>
 </div>
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sequences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>       <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toStrList</span><span class="p">())</span>
-    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>       <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sequences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toStrList</span><span class="p">())</span>
+    
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -126,7 +135,7 @@
 
 <div class="viewcode-block" id="alignment.close"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Delete all temporary files and clear data. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Forcefully delete all temporary files and clear data. &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span>  <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">None</span>
@@ -138,38 +147,67 @@
 </div>
 <div class="viewcode-block" id="alignment.toStrList"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.toStrList">[docs]</a>    <span class="k">def</span> <span class="nf">toStrList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Get all sequences as a list of strings. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get all sequences as a list of strings. </span>
 
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">getSequence</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getNumSeqs</span><span class="p">())]</span>
+<span class="sd">        :return: a list of strings</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">getSequenceString</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getNumSeqs</span><span class="p">())]</span>
 </div>
 <div class="viewcode-block" id="alignment.getStateModel"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getStateModel">[docs]</a>    <span class="k">def</span> <span class="nf">getStateModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Get the state model associated with this alignment. See model</span>
+<span class="sd">        module for more information.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a :class:`model.DiscreteStateModel` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
 </div>
 <div class="viewcode-block" id="alignment.getSize"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getSize">[docs]</a>    <span class="k">def</span> <span class="nf">getSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Return the size of the alignment, or how many characters</span>
-<span class="sd">        there are in each respective item in the alignment. &#39;&#39;&#39;</span>
+<span class="sd">        there are in each respective item in the alignment. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: an integer</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="alignment.getNumSeqs"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getNumSeqs">[docs]</a>    <span class="k">def</span> <span class="nf">getNumSeqs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Return the number of sequences that are present in the </span>
-<span class="sd">        sequence alignment. &#39;&#39;&#39;</span>
+<span class="sd">        sequence alignment. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: an integer</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sequences</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="alignment.getDim"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getDim">[docs]</a>    <span class="k">def</span> <span class="nf">getDim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Return the dimensionality of the sequence alignment (how </span>
-<span class="sd">        many different types of characters). &#39;&#39;&#39;</span>
+<span class="sd">        many different types of characters). </span>
+<span class="sd">        </span>
+<span class="sd">        :return: an integer</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dim</span>
 </div>
-<div class="viewcode-block" id="alignment.getSequence"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getSequence">[docs]</a>    <span class="k">def</span> <span class="nf">getSequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+<div class="viewcode-block" id="alignment.getSequenceString"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getSequenceString">[docs]</a>    <span class="k">def</span> <span class="nf">getSequenceString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Acquire the ith sequence. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Acquire the ith sequence as a string. </span>
+<span class="sd">        </span>
+<span class="sd">        :param i: an index in the alignment (associated with a sequence)</span>
+<span class="sd">        :type i: an integer</span>
+<span class="sd">        :return: a string associated with the sequence</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sequence</span>
 </div>
@@ -177,7 +215,11 @@
 
         <span class="sd">&#39;&#39;&#39; Get (and create if not already) a path to a temporary </span>
 <span class="sd">        FASTA file. This will be deleted upon closure of the alignment</span>
-<span class="sd">        instance. &#39;&#39;&#39;</span>
+<span class="sd">        instance. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a string associated with a path in the file system</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_makeFASTAFile</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;fasta&#39;</span><span class="p">]</span>
@@ -185,7 +227,11 @@
 <div class="viewcode-block" id="alignment.getApproxMLNewick"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getApproxMLNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getApproxMLNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Get a tree in newick format via use of FastTree that serves as</span>
-<span class="sd">        an approximation of the maximum likelihood tree for this data. &#39;&#39;&#39;</span>
+<span class="sd">        an approximation of the maximum likelihood tree for this data. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a Newick or New Hampshire string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="n">ft</span> <span class="o">=</span> <span class="n">fasttree</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">getFASTA</span><span class="p">(),</span> <span class="n">isProtein</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dataType</span><span class="o">==</span><span class="s">&#39;protein&#39;</span><span class="p">))</span>
@@ -194,35 +240,23 @@
 <div class="viewcode-block" id="alignment.getApproxMLTree"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getApproxMLTree">[docs]</a>    <span class="k">def</span> <span class="nf">getApproxMLTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Get a tree object for an approximation of the maximum likelihood</span>
-<span class="sd">        tree for this data using FastTree. &#39;&#39;&#39;</span>
+<span class="sd">        tree for this data using FastTree. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a :class:`tree.tree` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getApproxMLNewick</span><span class="p">(),</span><span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="alignment.getFastTreeNewick"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getFastTreeNewick">[docs]</a>    <span class="k">def</span> <span class="nf">getFastTreeNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="sd">&#39;&#39;&#39; Alias for the &quot;getApproxMLNewick()&quot; function. &#39;&#39;&#39;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getApproxMLNewick</span><span class="p">()</span>
-</div>
 <div class="viewcode-block" id="alignment.getTaxa"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getTaxa">[docs]</a>    <span class="k">def</span> <span class="nf">getTaxa</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Return taxa names. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get a list of taxa names associated with the alignment. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of strings</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">taxNames</span>
-
-    <span class="c"># Interface Revealing</span>
-</div>
-<div class="viewcode-block" id="alignment.getAlignment"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.getAlignment">[docs]</a>    <span class="k">def</span> <span class="nf">getAlignment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="sd">&#39;&#39;&#39; Acquire the alignment data structure (P4 module). &#39;&#39;&#39;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
-</div>
-<div class="viewcode-block" id="alignment.bootstrap"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.alignment.bootstrap">[docs]</a>    <span class="k">def</span> <span class="nf">bootstrap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="sd">&#39;&#39;&#39; Perform bootstrapping on the alignment data. &#39;&#39;&#39;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">bootstrap</span><span class="p">()</span>    
 
 </div></div>
 <div class="viewcode-block" id="phylipFriendlyAlignment"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment">[docs]</a><span class="k">class</span> <span class="nc">phylipFriendlyAlignment</span><span class="p">(</span><span class="n">alignment</span><span class="p">):</span>
@@ -282,22 +316,39 @@
 
 <div class="viewcode-block" id="phylipFriendlyAlignment.getPhylip"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment.getPhylip">[docs]</a>    <span class="k">def</span> <span class="nf">getPhylip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Get a path to a temporary Phylip file. This will </span>
-<span class="sd">        be deleted upon closure of the alignment instance. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get (and create if not already) a path to a temporary </span>
+<span class="sd">        Phylip file. This will be deleted upon closure of the alignment</span>
+<span class="sd">        instance. </span>
+
+<span class="sd">        :return: a string associated with a path in the file system</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_makePhylipFile</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;phylip&#39;</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="phylipFriendlyAlignment.writeProperNexus"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment.writeProperNexus">[docs]</a>    <span class="k">def</span> <span class="nf">writeProperNexus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wri</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Write a Nexus file with proper names. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Write a Nexus file with proper names. </span>
+<span class="sd">        </span>
+<span class="sd">        :param wri: a path to a (existent or unexistent) file to write to</span>
+<span class="sd">        :type wri: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="n">copyfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;nexus&#39;</span><span class="p">],</span><span class="n">wri</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="phylipFriendlyAlignment.reassignFromReinterpretedNewick"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment.reassignFromReinterpretedNewick">[docs]</a>    <span class="k">def</span> <span class="nf">reassignFromReinterpretedNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Replace all proper names with reassigned names in Newick tree. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Return a Newick string with taxa names replaced with shortened forms</span>
+<span class="sd">        as they are defined in this object. </span>
+<span class="sd">        </span>
+<span class="sd">        :param tr: a Newick string</span>
+<span class="sd">        :type tr: a string</span>
+<span class="sd">        :return: a Newick string with all replaced names</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="n">p</span> <span class="o">=</span> <span class="n">newickParser</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">getAllNodes</span><span class="p">()</span>
@@ -312,7 +363,14 @@
 </div>
 <div class="viewcode-block" id="phylipFriendlyAlignment.reinterpretNewick"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment.reinterpretNewick">[docs]</a>    <span class="k">def</span> <span class="nf">reinterpretNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Replaces all reassigned names to proper names in Newick tree. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Revert the replacing of taxa names with shortened names by changing</span>
+<span class="sd">        them back to their original form.</span>
+<span class="sd">        </span>
+<span class="sd">        :param tr: a Newick string</span>
+<span class="sd">        :type tr: a string</span>
+<span class="sd">        :return: a Newick string with all replaced names</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="n">p</span> <span class="o">=</span> <span class="n">newickParser</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">getAllNodes</span><span class="p">()</span>
@@ -324,14 +382,24 @@
 <div class="viewcode-block" id="phylipFriendlyAlignment.getProperName"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment.getProperName">[docs]</a>    <span class="k">def</span> <span class="nf">getProperName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Return the actual name for an integer-based sequence name </span>
-<span class="sd">        that was reassigned at initialization. &#39;&#39;&#39;</span>
+<span class="sd">        that was reassigned at initialization. </span>
+<span class="sd">        </span>
+<span class="sd">        :param n: a shortened taxon name from this object</span>
+<span class="sd">        :type n: a string</span>
+<span class="sd">        :return: a string (replaced with the original taxon name)</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">namedict</span><span class="p">:</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">namedict</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
 </div>
 <div class="viewcode-block" id="phylipFriendlyAlignment.getTaxa"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment.getTaxa">[docs]</a>    <span class="k">def</span> <span class="nf">getTaxa</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Return current taxa names in the alignment. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Return current taxa names in the alignment.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of shortened taxa names</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">namedict</span><span class="p">]</span>
 </div>
@@ -373,7 +441,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

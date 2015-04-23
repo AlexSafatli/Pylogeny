@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.rearrangement &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.rearrangement &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -97,7 +97,15 @@
 <div class="viewcode-block" id="rearrangement.__init__"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">struct</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">targ</span><span class="p">,</span><span class="n">dest</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Initialize by providing a pointer to a base topology, a target</span>
-<span class="sd">        branch to be moved, and its destination. &#39;&#39;&#39;</span>
+<span class="sd">        branch to be moved, and its destination.</span>
+<span class="sd">        </span>
+<span class="sd">        :param struct: a topology object</span>
+<span class="sd">        :type struct: a :class:`topology` object</span>
+<span class="sd">        :param type: the type of movement to perform</span>
+<span class="sd">        :param targ: a target branch</span>
+<span class="sd">        :param dest: a destination branch</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">topol</span>       <span class="o">=</span> <span class="n">struct</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">type</span>        <span class="o">=</span> <span class="nb">type</span>
@@ -106,7 +114,11 @@
     </div>
 <div class="viewcode-block" id="rearrangement.getType"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.getType">[docs]</a>    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Get the type of movement. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get the type of movement.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isSPR</span><span class="p">()):</span>   <span class="nb">type</span> <span class="o">=</span> <span class="s">&#39;SPR&#39;</span>
         <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isNNI</span><span class="p">()):</span> <span class="nb">type</span> <span class="o">=</span> <span class="s">&#39;NNI&#39;</span>
@@ -128,7 +140,11 @@
     </div>
 <div class="viewcode-block" id="rearrangement.toTopology"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.toTopology">[docs]</a>    <span class="k">def</span> <span class="nf">toTopology</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Commit the actual move and return the topology. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Commit the actual move and return the topology.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a new :class:`topology` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">topo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topol</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">)</span>
         <span class="n">topo</span><span class="o">.</span><span class="n">rerootToLeaf</span><span class="p">()</span>
@@ -137,20 +153,34 @@
 <div class="viewcode-block" id="rearrangement.toNewick"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.toNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Commit the move but do not create a new structure. Only retrieve </span>
-<span class="sd">        resultant Newick string; will be more efficient.&#39;&#39;&#39;</span>
+<span class="sd">        resultant Newick string; will be more efficient.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a Newick string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">topol</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">,</span>
                                <span class="n">returnStruct</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
     </div>
 <div class="viewcode-block" id="rearrangement.toTree"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.toTree">[docs]</a>    <span class="k">def</span> <span class="nf">toTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Commit the move and transform to tree object. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Commit the move and transform to tree object.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a :class:`tree.tree` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">toTopology</span><span class="p">()</span><span class="o">.</span><span class="n">toTree</span><span class="p">()</span>
         <span class="n">out</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">out</span>
     </div>
 <div class="viewcode-block" id="rearrangement.doMove"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.rearrangement.doMove">[docs]</a>    <span class="k">def</span> <span class="nf">doMove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Commit the move and return the topology. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a :class:`topology` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">toTopology</span><span class="p">()</span>
     </div>
@@ -168,7 +198,14 @@
     
 <div class="viewcode-block" id="topology.__init__"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">rerootToLeaf</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">toLeaf</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Initialize structure with a top-level internal node OR nothing. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Initialize structure with a top-level internal node OR nothing.</span>
+<span class="sd">        </span>
+<span class="sd">        :param t: a top-level internal node</span>
+<span class="sd">        :param rerootToLeaf: whether to not reroot the structure to a\</span>
+<span class="sd">        lowest-lexicographic order taxon name</span>
+<span class="sd">        :param toLeaf: reroot to a specifically provided leaf</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span>        <span class="o">=</span> <span class="n">t</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">forbidden</span>  <span class="o">=</span> <span class="p">{}</span>
@@ -196,8 +233,7 @@
        
     <span class="k">def</span> <span class="nf">_getForbiddenStates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; PRIVATE: Construct forbidden state lists for </span>
-<span class="sd">        each branch. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; PRIVATE: Construct forbidden state lists for each branch. &#39;&#39;&#39;</span>
         
         <span class="c"># Set up list for each branch.</span>
         <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="p">:</span>
@@ -279,8 +315,13 @@
 
 <div class="viewcode-block" id="topology.rerootToLeaf"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.rerootToLeaf">[docs]</a>    <span class="k">def</span> <span class="nf">rerootToLeaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">toleaf</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; PRIVATE: Reroots the given tree structure such that it is rooted</span>
-<span class="sd">        nearest the lowest-order leaf. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Reroots the given tree structure such that it is rooted</span>
+<span class="sd">        nearest the lowest-order leaf or a provided leaf.</span>
+<span class="sd">        </span>
+<span class="sd">        :param toleaf: a leaf node from this topology</span>
+<span class="sd">        :type toleaf: a :class:`newick.node` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Determine lowest-order leaf.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">toleaf</span><span class="p">:</span>
@@ -340,15 +381,31 @@
     </div>
 <div class="viewcode-block" id="topology.getBranches"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getBranches">[docs]</a>    <span class="k">def</span> <span class="nf">getBranches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
+        <span class="sd">&#39;&#39;&#39; Return all branches from this topology. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of :class:`newick.branch` objects</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span>
     </div>
 <div class="viewcode-block" id="topology.getLeaves"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getLeaves">[docs]</a>    <span class="k">def</span> <span class="nf">getLeaves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return all leaves from this topology. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of :class:`newick.node` objects</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">()</span>
     </div>
 <div class="viewcode-block" id="topology.getBipartitions"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getBipartitions">[docs]</a>    <span class="k">def</span> <span class="nf">getBipartitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Get all bipartitions. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Get all bipartitions.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of :class:`tree.bipartition` objects</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">bili</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">br</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span>
@@ -359,7 +416,13 @@
     </div>
 <div class="viewcode-block" id="topology.getStrBipartitionFromBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getStrBipartitionFromBranch">[docs]</a>    <span class="k">def</span> <span class="nf">getStrBipartitionFromBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Given a branch, return corresponding bipartition. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Given a branch, return corresponding bipartition.</span>
+<span class="sd">        </span>
+<span class="sd">        :param br: a branch</span>
+<span class="sd">        :type br: a :class:`newick.branch` object</span>
+<span class="sd">        :return: a :class:`tree.bipartition` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">right</span>  <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">treeStructure</span><span class="o">.</span><span class="n">leaves</span><span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">child</span><span class="p">)</span>
         <span class="n">others</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAllLeaves</span><span class="p">()</span>
@@ -370,7 +433,12 @@
 <div class="viewcode-block" id="topology.getBranchFromStrBipartition"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getBranchFromStrBipartition">[docs]</a>    <span class="k">def</span> <span class="nf">getBranchFromStrBipartition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">bip</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Given a bipartition of taxa, return a branch that creates that</span>
-<span class="sd">        partition of tree taxa. &#39;&#39;&#39;</span>
+<span class="sd">        partition of tree taxa.</span>
+<span class="sd">        </span>
+<span class="sd">        :param bip: a tuple of taxa names</span>
+<span class="sd">        :return: a :class:`newick.branch` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">l</span><span class="p">,</span><span class="n">r</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">bip</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">sorted</span><span class="p">(</span><span class="n">bip</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         
@@ -384,7 +452,13 @@
 <div class="viewcode-block" id="topology.getBranchFromBipartition"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.getBranchFromBipartition">[docs]</a>    <span class="k">def</span> <span class="nf">getBranchFromBipartition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">bip</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Given a bipartition object, return a branch that creates that</span>
-<span class="sd">        partition of taxa. &#39;&#39;&#39;</span>
+<span class="sd">        partition of taxa.</span>
+<span class="sd">        </span>
+<span class="sd">        :param bip: a bipartition</span>
+<span class="sd">        :type bip: a :class:`tree.bipartition` object</span>
+<span class="sd">        :return: a :class:`newick.branch` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBranchFromStrBipartition</span><span class="p">(</span>
             <span class="n">bip</span><span class="o">.</span><span class="n">getStringRepresentation</span><span class="p">())</span>
@@ -392,7 +466,13 @@
 <div class="viewcode-block" id="topology.lockBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.lockBranch">[docs]</a>    <span class="k">def</span> <span class="nf">lockBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">branch</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Given a branch, lock it such that no transitions can ever occur</span>
-<span class="sd">        across it. &#39;&#39;&#39;</span>
+<span class="sd">        across it.</span>
+<span class="sd">        </span>
+<span class="sd">        :param branch: a branch</span>
+<span class="sd">        :type branch: a :class:`newick.branch` object</span>
+<span class="sd">        :return: a boolean (True if success)</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Transform to bipartition object.</span>
         <span class="n">bipart</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">bipartition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">branch</span><span class="p">)</span>
@@ -613,7 +693,11 @@
 <div class="viewcode-block" id="topology.parse"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newickstr</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Parse a newick string and assign the tree to this object. Cannot</span>
-<span class="sd">        already be initialized with a tree. &#39;&#39;&#39;</span>
+<span class="sd">        already be initialized with a tree.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: None</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
     
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">RearrangementError</span><span class="p">(</span>
@@ -629,14 +713,22 @@
         </div>
 <div class="viewcode-block" id="topology.toNewick"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.toNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Return the newick string of the tree. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Return the newick string of the tree.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a Newick string (rooted)</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
     </div>
 <div class="viewcode-block" id="topology.toUnrootedNewick"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.toUnrootedNewick">[docs]</a>    <span class="k">def</span> <span class="nf">toUnrootedNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Return the newick string of the tree as an unrooted topology with a</span>
-<span class="sd">        multifurcating top-level node. &#39;&#39;&#39;</span>
+<span class="sd">        multifurcating top-level node.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a Newick string (unrooted)</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">r</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">r</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -650,7 +742,11 @@
         </div>
 <div class="viewcode-block" id="topology.toTree"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.toTree">[docs]</a>    <span class="k">def</span> <span class="nf">toTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Return the tree object for this topology. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Return the tree object for this topology.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a new :class:`tree.tree` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toNewick</span><span class="p">())</span>
         </div>
@@ -662,8 +758,6 @@
         <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toUnrootedNewick</span><span class="p">())</span>
         </div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        
-        <span class="sd">&#39;&#39;&#39; Return the newick string of the tree. &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span></div>
 </pre></div>
@@ -699,7 +793,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

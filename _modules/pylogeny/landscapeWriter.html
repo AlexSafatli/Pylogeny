@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscapeWriter &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.landscapeWriter &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -66,6 +66,15 @@
     <span class="sd">&#39;&#39;&#39; Encapsulate the writing of a landscape to a file format. &#39;&#39;&#39;</span>
 
 <div class="viewcode-block" id="landscapeWriter.__init__"><a class="viewcode-back" href="../../pylogeny.landscapeWriter.html#pylogeny.landscapeWriter.landscapeWriter.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">landscape</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Instantiates this writer.</span>
+<span class="sd">        </span>
+<span class="sd">        :param landscape: a landscape object</span>
+<span class="sd">        :type landscape: a :class:`landscape` object</span>
+<span class="sd">        :param name: the name of this landscape</span>
+<span class="sd">        :type name: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Fields</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span> <span class="o">=</span> <span class="n">landscape</span>
@@ -171,7 +180,13 @@
 
 <div class="viewcode-block" id="landscapeWriter.writeFile"><a class="viewcode-back" href="../../pylogeny.landscapeWriter.html#pylogeny.landscapeWriter.landscapeWriter.writeFile">[docs]</a>    <span class="k">def</span> <span class="nf">writeFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">path</span><span class="o">=</span><span class="s">&#39;.&#39;</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Write the landscape serialized file to given path. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Write the landscape serialized file to given path.</span>
+<span class="sd">        </span>
+<span class="sd">        :param path: a directory path, defaulting to the current one</span>
+<span class="sd">        :type path: a string</span>
+<span class="sd">        :return: the relative filepath to the written file</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dump</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </div></div>
@@ -181,6 +196,14 @@
 <span class="sd">    object from a sqlite landscape file. &#39;&#39;&#39;</span>
 
 <div class="viewcode-block" id="landscapeParser.__init__"><a class="viewcode-back" href="../../pylogeny.landscapeWriter.html#pylogeny.landscapeWriter.landscapeParser.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">path</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Instantiate this parser. </span>
+<span class="sd">        </span>
+<span class="sd">        :param path: the filepath to the landscape file</span>
+<span class="sd">        :type path: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
@@ -191,7 +214,11 @@
 </div>
 <div class="viewcode-block" id="landscapeParser.getName"><a class="viewcode-back" href="../../pylogeny.landscapeWriter.html#pylogeny.landscapeWriter.landscapeParser.getName">[docs]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Acquire the name of the parsed landscape. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Acquire the name of the parsed landscape.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">metadata</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
@@ -266,7 +293,11 @@
         
 <div class="viewcode-block" id="landscapeParser.parse"><a class="viewcode-back" href="../../pylogeny.landscapeWriter.html#pylogeny.landscapeWriter.landscapeParser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Parse the file. &#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39; Parse the file.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a tuple of a :class:`landscape` object and its name (a string)</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="c"># Get database object.</span>
         <span class="n">fpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span>
@@ -332,7 +363,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

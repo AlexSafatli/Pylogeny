@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.database module &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.database module &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.executable module" href="pylogeny.executable.html" />
     <link rel="prev" title="pylogeny.base module" href="pylogeny.base.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.base.html" title="pylogeny.base module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -57,12 +57,12 @@
   <div class="section" id="module-pylogeny.database">
 <span id="pylogeny-database-module"></span><h1>pylogeny.database module<a class="headerlink" href="#module-pylogeny.database" title="Permalink to this headline">¶</a></h1>
 <p>Connect, access, + manipulate external tree data from a remote SQL server or
-from a sqlite file.</p>
+from an sqlite file.</p>
 <dl class="class">
 <dt id="pylogeny.database.DatabaseLandscape">
 <em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">DatabaseLandscape</tt><big>(</big><em>ali</em>, <em>starting_tree=None</em>, <em>root=True</em>, <em>operator='SPR'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#DatabaseLandscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.DatabaseLandscape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pylogeny.landscape.html#pylogeny.landscape.landscape" title="pylogeny.landscape.landscape"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.landscape.landscape</span></tt></a></p>
-<p>Abstract the landscape to one comprising a landscape.</p>
+<p>Abstract the landscape to one comprising a database.</p>
 <dl class="method">
 <dt id="pylogeny.database.DatabaseLandscape.getNode">
 <tt class="descname">getNode</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#DatabaseLandscape.getNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.DatabaseLandscape.getNode" title="Permalink to this definition">¶</a></dt>
@@ -117,10 +117,24 @@ from a sqlite file.</p>
 <dt id="pylogeny.database.SQLExhaustiveLandscape">
 <em class="property">class </em><tt class="descclassname">pylogeny.database.</tt><tt class="descname">SQLExhaustiveLandscape</tt><big>(</big><em>dbobj</em>, <em>aliname</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLExhaustiveLandscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLExhaustiveLandscape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pylogeny.database.DatabaseLandscape" title="pylogeny.database.DatabaseLandscape"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.database.DatabaseLandscape</span></tt></a></p>
+<p>Abstract the landscape to one comprising an SQL database.</p>
 <dl class="method">
 <dt id="pylogeny.database.SQLExhaustiveLandscape.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>dbobj</em>, <em>aliname</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLExhaustiveLandscape.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLExhaustiveLandscape.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Instantiate this landscape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dbobj</strong> (a <a class="reference internal" href="#pylogeny.database.database" title="pylogeny.database.database"><tt class="xref py py-class docutils literal"><span class="pre">database</span></tt></a>) &#8211; a database object</li>
+<li><strong>aliname</strong> (<em>a string</em>) &#8211; the name of the alignment (table in the database)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.SQLExhaustiveLandscape.exploreRandomTree">
@@ -146,7 +160,16 @@ from a sqlite file.</p>
 <dl class="method">
 <dt id="pylogeny.database.SQLiteDatabase.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>filepath</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Instantiate this SQLite database object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<em>a string</em>) &#8211; a path to the file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.SQLiteDatabase.close">
@@ -157,6 +180,14 @@ from a sqlite file.</p>
 <dt id="pylogeny.database.SQLiteDatabase.getColumns">
 <tt class="descname">getColumns</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#SQLiteDatabase.getColumns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.SQLiteDatabase.getColumns" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return column information for a given table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> (<em>a string</em>) &#8211; a table name</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -195,19 +226,35 @@ the hard disk.</p>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Allow interfacing with a SQL/sqlite database.</p>
 <dl class="method">
-<dt id="pylogeny.database.database.close">
-<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.close" title="Permalink to this definition">¶</a></dt>
+<dt id="pylogeny.database.database.__init__">
+<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="pylogeny.database.database.cursor">
-<tt class="descname">cursor</tt><em class="property"> = None</em><a class="headerlink" href="#pylogeny.database.database.cursor" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="pylogeny.database.database.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.close" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.filterRecords">
 <tt class="descname">filterRecords</tt><big>(</big><em>table</em>, <em>condn</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.filterRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.filterRecords" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all records from a given table following a condition.</p>
+<dd><p>Get all records from a given table following a condition. The
+equivalent of calling &#8220;SELECT * FROM table WHERE cond&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>table</strong> (<em>a string</em>) &#8211; a table name</li>
+<li><strong>condn</strong> (<em>a string</em>) &#8211; a condition in SQL syntax</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of tuples</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -219,25 +266,71 @@ the hard disk.</p>
 <dt id="pylogeny.database.database.getHeaders">
 <tt class="descname">getHeaders</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get only header names for a given table&#8217;s columns.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> (<em>a string</em>) &#8211; a table name</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.getRecords">
 <tt class="descname">getRecords</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getRecords" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all records from a given table in the database.</p>
+<dd><p>Get all records from a given table in the database. The
+equivalent of a call &#8220;SELECT * FROM table&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> (<em>a string</em>) &#8211; a table name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of tuples</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.getRecordsAsDict">
 <tt class="descname">getRecordsAsDict</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getRecordsAsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getRecordsAsDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquires records using getRecords() and then leverages
-access using a dictionary data structure.</p>
+access using a dictionary data structure where keys are 
+headers (column names).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> (<em>a string</em>) &#8211; a table name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dictionary (of records as values)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.getRecordsColumn">
 <tt class="descname">getRecordsColumn</tt><big>(</big><em>table</em>, <em>col</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.getRecordsColumn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.getRecordsColumn" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all data for a single colmun from records for a table.</p>
+<dd><p>Get all data for a single column from records for a table. The
+equivalent of a call &#8220;SELECT col FROM table&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>table</strong> (<em>a string</em>) &#8211; a table name</li>
+<li><strong>col</strong> (<em>a string</em>) &#8211; a column name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of strings</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -248,29 +341,82 @@ access using a dictionary data structure.</p>
 <dl class="method">
 <dt id="pylogeny.database.database.insertRecord">
 <tt class="descname">insertRecord</tt><big>(</big><em>tablename</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.insertRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.insertRecord" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Insert a single record.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tablename</strong> (<em>a string</em>) &#8211; the name of the table</li>
+<li><strong>record</strong> (<em>a tuple</em>) &#8211; a tuple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.insertRecords">
 <tt class="descname">insertRecords</tt><big>(</big><em>tablename</em>, <em>items</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.insertRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.insertRecords" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Insert a number of records into a table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tablename</strong> (<em>a string</em>) &#8211; the name of the table</li>
+<li><strong>items</strong> (<em>a list of tuples</em>) &#8211; a list of record tuples</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.isEmpty">
 <tt class="descname">isEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.isEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.isEmpty" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine if the database is empty.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a boolean</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.iterRecords">
 <tt class="descname">iterRecords</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.iterRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.iterRecords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a record, one at a time, from a table in the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> (<em>a string</em>) &#8211; a table name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a generator of records</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.newTable">
 <tt class="descname">newTable</tt><big>(</big><em>tablename</em>, <em>*args</em><big>)</big><a class="reference internal" href="_modules/pylogeny/database.html#database.newTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.database.database.newTable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create a new table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tablename</strong> (<em>a string</em>) &#8211; the name of this table</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.database.database.query">
@@ -335,7 +481,7 @@ access using a dictionary data structure.</p>
         <li class="right" >
           <a href="pylogeny.base.html" title="pylogeny.base module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

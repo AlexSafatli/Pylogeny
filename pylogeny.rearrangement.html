@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.rearrangement module &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.rearrangement module &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.scoring module" href="pylogeny.scoring.html" />
     <link rel="prev" title="pylogeny.pll module" href="pylogeny.pll.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -90,17 +90,48 @@ operator.</p>
 <tt class="descname">__init__</tt><big>(</big><em>struct</em>, <em>type</em>, <em>targ</em>, <em>dest</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize by providing a pointer to a base topology, a target
 branch to be moved, and its destination.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>struct</strong> (a <a class="reference internal" href="#pylogeny.rearrangement.topology" title="pylogeny.rearrangement.topology"><tt class="xref py py-class docutils literal"><span class="pre">topology</span></tt></a> object) &#8211; a topology object</li>
+<li><strong>type</strong> &#8211; the type of movement to perform</li>
+<li><strong>targ</strong> &#8211; a target branch</li>
+<li><strong>dest</strong> &#8211; a destination branch</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.rearrangement.doMove">
 <tt class="descname">doMove</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.doMove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.doMove" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Commit the move and return the topology.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.rearrangement.topology" title="pylogeny.rearrangement.topology"><tt class="xref py py-class docutils literal"><span class="pre">topology</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.rearrangement.getType">
 <tt class="descname">getType</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.getType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.getType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the type of movement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -123,18 +154,42 @@ branch to be moved, and its destination.</p>
 <tt class="descname">toNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.toNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.toNewick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Commit the move but do not create a new structure. Only retrieve 
 resultant Newick string; will be more efficient.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a Newick string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.rearrangement.toTopology">
 <tt class="descname">toTopology</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.toTopology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.toTopology" title="Permalink to this definition">¶</a></dt>
 <dd><p>Commit the actual move and return the topology.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a new <a class="reference internal" href="#pylogeny.rearrangement.topology" title="pylogeny.rearrangement.topology"><tt class="xref py py-class docutils literal"><span class="pre">topology</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.rearrangement.toTree">
 <tt class="descname">toTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#rearrangement.toTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.rearrangement.toTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Commit the move and transform to tree object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -167,6 +222,19 @@ to save memory.</p>
 <dt id="pylogeny.rearrangement.topology.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>t=None</em>, <em>rerootToLeaf=True</em>, <em>toLeaf=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize structure with a top-level internal node OR nothing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> &#8211; a top-level internal node</li>
+<li><strong>rerootToLeaf</strong> &#8211; whether to not reroot the structure to a        lowest-lexicographic order taxon name</li>
+<li><strong>toLeaf</strong> &#8211; reroot to a specifically provided leaf</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -217,6 +285,14 @@ TYPE_SPR.</p>
 <dt id="pylogeny.rearrangement.topology.getBipartitions">
 <tt class="descname">getBipartitions</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getBipartitions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getBipartitions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all bipartitions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <tt class="xref py py-class docutils literal"><span class="pre">tree.bipartition</span></tt> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -224,6 +300,16 @@ TYPE_SPR.</p>
 <tt class="descname">getBranchFromBipartition</tt><big>(</big><em>bip</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getBranchFromBipartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getBranchFromBipartition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a bipartition object, return a branch that creates that
 partition of taxa.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bip</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">tree.bipartition</span></tt> object) &#8211; a bipartition</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">newick.branch</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -231,22 +317,60 @@ partition of taxa.</p>
 <tt class="descname">getBranchFromStrBipartition</tt><big>(</big><em>bip</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getBranchFromStrBipartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getBranchFromStrBipartition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a bipartition of taxa, return a branch that creates that
 partition of tree taxa.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bip</strong> &#8211; a tuple of taxa names</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">newick.branch</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.topology.getBranches">
 <tt class="descname">getBranches</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getBranches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getBranches" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return all branches from this topology.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <tt class="xref py py-class docutils literal"><span class="pre">newick.branch</span></tt> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.topology.getLeaves">
 <tt class="descname">getLeaves</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getLeaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getLeaves" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return all leaves from this topology.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <tt class="xref py py-class docutils literal"><span class="pre">newick.node</span></tt> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.topology.getStrBipartitionFromBranch">
 <tt class="descname">getStrBipartitionFromBranch</tt><big>(</big><em>br</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.getStrBipartitionFromBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.getStrBipartitionFromBranch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a branch, return corresponding bipartition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>br</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">newick.branch</span></tt> object) &#8211; a branch</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">tree.bipartition</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -278,6 +402,16 @@ NNI operations. By default, the type is TYPE_SPR.</p>
 <tt class="descname">lockBranch</tt><big>(</big><em>branch</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.lockBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.lockBranch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a branch, lock it such that no transitions can ever occur
 across it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>branch</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">newick.branch</span></tt> object) &#8211; a branch</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a boolean (True if success)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -292,25 +426,57 @@ structure, or return merely the resultant Newick string.</p>
 <tt class="descname">parse</tt><big>(</big><em>newickstr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.parse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse a newick string and assign the tree to this object. Cannot
 already be initialized with a tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.topology.rerootToLeaf">
 <tt class="descname">rerootToLeaf</tt><big>(</big><em>toleaf=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.rerootToLeaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.rerootToLeaf" title="Permalink to this definition">¶</a></dt>
-<dd><p>PRIVATE: Reroots the given tree structure such that it is rooted
-nearest the lowest-order leaf.</p>
+<dd><p>Reroots the given tree structure such that it is rooted
+nearest the lowest-order leaf or a provided leaf.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>toleaf</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">newick.node</span></tt> object) &#8211; a leaf node from this topology</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.topology.toNewick">
 <tt class="descname">toNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.toNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.toNewick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the newick string of the tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a Newick string (rooted)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.rearrangement.topology.toTree">
 <tt class="descname">toTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.toTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.toTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the tree object for this topology.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a new <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -318,6 +484,14 @@ nearest the lowest-order leaf.</p>
 <tt class="descname">toUnrootedNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.toUnrootedNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.toUnrootedNewick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the newick string of the tree as an unrooted topology with a
 multifurcating top-level node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a Newick string (unrooted)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -380,7 +554,7 @@ version of this topology.</p>
         <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

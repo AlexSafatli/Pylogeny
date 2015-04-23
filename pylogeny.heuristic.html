@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.heuristic module &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.heuristic module &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.landscape module" href="pylogeny.landscape.html" />
     <link rel="prev" title="pylogeny.executable module" href="pylogeny.executable.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.executable.html" title="pylogeny.executable module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -74,7 +74,16 @@ RAxML executable.</p>
 <dl class="method">
 <dt id="pylogeny.heuristic.RAxMLIdentify.explore">
 <tt class="descname">explore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#RAxMLIdentify.explore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.RAxMLIdentify.explore" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Explore using RAxML.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None; landscape is modified.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -109,7 +118,8 @@ RAxML executable.</p>
 <dt id="pylogeny.heuristic.likelihoodGreedy">
 <em class="property">class </em><tt class="descclassname">pylogeny.heuristic.</tt><tt class="descname">likelihoodGreedy</tt><big>(</big><em>ls</em>, <em>startNode</em><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#likelihoodGreedy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.likelihoodGreedy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pylogeny.heuristic.phylogeneticLinearHeuristic" title="pylogeny.heuristic.phylogeneticLinearHeuristic"><tt class="xref py py-class docutils literal"><span class="pre">pylogeny.heuristic.phylogeneticLinearHeuristic</span></tt></a></p>
-<p>Greedy (hill-climbing) landscape exploration by comparsion of likelihood.</p>
+<p>Greedy (hill-climbing) landscape exploration by comparsion of
+likelihood.</p>
 <dl class="method">
 <dt id="pylogeny.heuristic.likelihoodGreedy.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>ls</em>, <em>startNode</em><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#likelihoodGreedy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.likelihoodGreedy.__init__" title="Permalink to this definition">¶</a></dt>
@@ -120,6 +130,14 @@ RAxML executable.</p>
 <tt class="descname">explore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#likelihoodGreedy.explore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.likelihoodGreedy.explore" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform greedy search of the landscape using
 a method of greed via likelihood.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None; landscape is modified</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -139,6 +157,14 @@ a method of greed via likelihood.</p>
 <tt class="descname">explore</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/heuristic.html#parsimonyGreedy.explore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.heuristic.parsimonyGreedy.explore" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform greedy search of the landscape using
 a method of greed via parsimonious criterion.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None; landscape is modified</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -194,6 +220,14 @@ by comparsion of likelihoods.</p>
 a method of greed via parsimonious criterion and then
 performing final smoothing via likelihood on top 10% of
 1-SPR neighbors ranked on basis of parsimony.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None; landscape is modified</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -249,7 +283,7 @@ performing final smoothing via likelihood on top 10% of
         <li class="right" >
           <a href="pylogeny.executable.html" title="pylogeny.executable module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

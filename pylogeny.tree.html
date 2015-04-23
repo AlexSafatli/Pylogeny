@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree module &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.tree module &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="prev" title="pylogeny.scoring module" href="pylogeny.scoring.html" /> 
   </head>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -75,8 +75,8 @@ of the leaves or taxa in the tree.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>topol</strong> &#8211; A topology.</li>
-<li><strong>bra</strong> &#8211; An optional branch object.</li>
+<li><strong>topol</strong> (<tt class="xref py py-class docutils literal"><span class="pre">rearrangement.topology</span></tt>) &#8211; A topology.</li>
+<li><strong>bra</strong> (<tt class="xref py py-class docutils literal"><span class="pre">newick.branch</span></tt>) &#8211; An optional branch object.</li>
 </ul>
 </td>
 </tr>
@@ -198,6 +198,11 @@ bipartition.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="pylogeny.tree.median">
+<tt class="descclassname">pylogeny.tree.</tt><tt class="descname">median</tt><big>(</big><em>lst</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#median"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.median" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="pylogeny.tree.numberRootedTrees">
 <tt class="descclassname">pylogeny.tree.</tt><tt class="descname">numberRootedTrees</tt><big>(</big><em>t</em><big>)</big><a class="headerlink" href="#pylogeny.tree.numberRootedTrees" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -211,7 +216,7 @@ bipartition.</p>
 <dt id="pylogeny.tree.tree">
 <em class="property">class </em><tt class="descclassname">pylogeny.tree.</tt><tt class="descname">tree</tt><big>(</big><em>newi=''</em>, <em>check=False</em>, <em>structure=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>Defines a single (phylogenetic) tree by newick string;
+<p>Defines a single (phylogenetic) tree by Newick string;
 can possess other metadata.</p>
 <dl class="method">
 <dt id="pylogeny.tree.tree.__init__">
@@ -347,7 +352,7 @@ branch lengths.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>a string</em>) &#8211; A string indicating this tree&#8217;s name.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>a string</em>) &#8211; a string indicating this tree&#8217;s name</td>
 </tr>
 </tbody>
 </table>
@@ -377,7 +382,7 @@ was acquired or constructed from.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<em>a tuple of floats or integers</em>) &#8211; A set of objective function scores.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<em>a tuple of floats or integers</em>) &#8211; a set of objective function scores.</td>
 </tr>
 </tbody>
 </table>
@@ -406,7 +411,7 @@ for rearrangement of the actual structure of the tree.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a :class: <cite>rearrangement.topology</cite> object</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">rearrangement.topology</span></tt> object</td>
 </tr>
 </tbody>
 </table>
@@ -425,7 +430,7 @@ structure.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>n</strong> (<em>a string</em>) &#8211; A Newick or New Hampshire formatted string.</li>
-<li><strong>reroot</strong> (<em>a boolean</em>) &#8211; Reroot to lexicographically lowest-order leaf.</li>
+<li><strong>reroot</strong> (<em>a boolean</em>) &#8211; reroot to lexicographically lowest-order leaf.</li>
 </ul>
 </td>
 </tr>
@@ -454,7 +459,7 @@ that do not necessarily comprise a combinatorial space.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> &#8211; A tree object.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> (<a class="reference internal" href="#pylogeny.tree.tree" title="pylogeny.tree.tree"><tt class="xref py py-class docutils literal"><span class="pre">tree</span></tt></a>) &#8211; A tree object.</td>
 </tr>
 </tbody>
 </table>
@@ -490,7 +495,7 @@ Returns -1 if not found.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> &#8211; A tree object.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> (<a class="reference internal" href="#pylogeny.tree.tree" title="pylogeny.tree.tree"><tt class="xref py py-class docutils literal"><span class="pre">tree</span></tt></a>) &#8211; A tree object.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an integer [-1,length of collection)</td>
 </tr>
@@ -512,7 +517,7 @@ Returns -1 if not found.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> &#8211; A tree object (present in the collection).</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> (<a class="reference internal" href="#pylogeny.tree.tree" title="pylogeny.tree.tree"><tt class="xref py py-class docutils literal"><span class="pre">tree</span></tt></a>) &#8211; A tree object (present in the collection).</td>
 </tr>
 </tbody>
 </table>
@@ -580,7 +585,7 @@ newlines, as a text file saved at the given path.</p>
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

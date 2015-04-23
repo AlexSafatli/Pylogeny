@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.alignment module &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.alignment module &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.base module" href="pylogeny.base.html" />
     <link rel="prev" title="pylogeny.JSONWriter module" href="pylogeny.JSONWriter.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.JSONWriter.html" title="pylogeny.JSONWriter module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,7 +56,8 @@
             
   <div class="section" id="module-pylogeny.alignment">
 <span id="pylogeny-alignment-module"></span><h1>pylogeny.alignment module<a class="headerlink" href="#module-pylogeny.alignment" title="Permalink to this headline">¶</a></h1>
-<p>Handle input biological sequence alignment files for the purposes of
+<p>Object model defining a sequence alignment (DNA, RNA, protein sequences). 
+Handle input biological sequence alignment files for the purposes of 
 phylogenetic inference. Will read all types of alignment files by utilizing the 
 P4 python phylogenetic library.</p>
 <dl class="class">
@@ -82,21 +83,9 @@ purposes of running phylogenetic inference.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pylogeny.alignment.alignment.bootstrap">
-<tt class="descname">bootstrap</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.bootstrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.bootstrap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform bootstrapping on the alignment data.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="pylogeny.alignment.alignment.close">
 <tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete all temporary files and clear data.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.alignment.alignment.getAlignment">
-<tt class="descname">getAlignment</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getAlignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getAlignment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire the alignment data structure (P4 module).</p>
+<dd><p>Forcefully delete all temporary files and clear data.</p>
 </dd></dl>
 
 <dl class="method">
@@ -104,6 +93,14 @@ purposes of running phylogenetic inference.</p>
 <tt class="descname">getApproxMLNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getApproxMLNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getApproxMLNewick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a tree in newick format via use of FastTree that serves as
 an approximation of the maximum likelihood tree for this data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a Newick or New Hampshire string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -111,6 +108,14 @@ an approximation of the maximum likelihood tree for this data.</p>
 <tt class="descname">getApproxMLTree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getApproxMLTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getApproxMLTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a tree object for an approximation of the maximum likelihood
 tree for this data using FastTree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -118,6 +123,14 @@ tree for this data using FastTree.</p>
 <tt class="descname">getDim</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getDim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getDim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the dimensionality of the sequence alignment (how 
 many different types of characters).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -126,12 +139,14 @@ many different types of characters).</p>
 <dd><p>Get (and create if not already) a path to a temporary 
 FASTA file. This will be deleted upon closure of the alignment
 instance.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.alignment.alignment.getFastTreeNewick">
-<tt class="descname">getFastTreeNewick</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getFastTreeNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getFastTreeNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for the &#8220;getApproxMLNewick()&#8221; function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string associated with a path in the file system</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -139,12 +154,30 @@ instance.</p>
 <tt class="descname">getNumSeqs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getNumSeqs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getNumSeqs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of sequences that are present in the 
 sequence alignment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
-<dt id="pylogeny.alignment.alignment.getSequence">
-<tt class="descname">getSequence</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getSequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getSequence" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire the ith sequence.</p>
+<dt id="pylogeny.alignment.alignment.getSequenceString">
+<tt class="descname">getSequenceString</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getSequenceString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getSequenceString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire the ith sequence as a string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<em>an integer</em>) &#8211; an index in the alignment (associated with a sequence)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a string associated with the sequence</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -152,23 +185,57 @@ sequence alignment.</p>
 <tt class="descname">getSize</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getSize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the size of the alignment, or how many characters
 there are in each respective item in the alignment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an integer</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.alignment.alignment.getStateModel">
 <tt class="descname">getStateModel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getStateModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getStateModel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the state model associated with this alignment. See model
+module for more information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref py py-class docutils literal"><span class="pre">model.DiscreteStateModel</span></tt> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.alignment.alignment.getTaxa">
 <tt class="descname">getTaxa</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.getTaxa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.getTaxa" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return taxa names.</p>
+<dd><p>Get a list of taxa names associated with the alignment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of strings</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.alignment.alignment.toStrList">
 <tt class="descname">toStrList</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#alignment.toStrList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.alignment.toStrList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all sequences as a list of strings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of strings</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -187,8 +254,17 @@ to be able to be written as a strict Phylip file.</p>
 <dl class="method">
 <dt id="pylogeny.alignment.phylipFriendlyAlignment.getPhylip">
 <tt class="descname">getPhylip</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.getPhylip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.getPhylip" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a path to a temporary Phylip file. This will 
-be deleted upon closure of the alignment instance.</p>
+<dd><p>Get (and create if not already) a path to a temporary 
+Phylip file. This will be deleted upon closure of the alignment
+instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string associated with a path in the file system</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -196,18 +272,47 @@ be deleted upon closure of the alignment instance.</p>
 <tt class="descname">getProperName</tt><big>(</big><em>n</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.getProperName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.getProperName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the actual name for an integer-based sequence name 
 that was reassigned at initialization.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>a string</em>) &#8211; a shortened taxon name from this object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a string (replaced with the original taxon name)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.alignment.phylipFriendlyAlignment.getTaxa">
 <tt class="descname">getTaxa</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.getTaxa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.getTaxa" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return current taxa names in the alignment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of shortened taxa names</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.alignment.phylipFriendlyAlignment.reassignFromReinterpretedNewick">
 <tt class="descname">reassignFromReinterpretedNewick</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.reassignFromReinterpretedNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.reassignFromReinterpretedNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Replace all proper names with reassigned names in Newick tree.</p>
+<dd><p>Return a Newick string with taxa names replaced with shortened forms
+as they are defined in this object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> (<em>a string</em>) &#8211; a Newick string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a Newick string with all replaced names</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -219,13 +324,32 @@ that was reassigned at initialization.</p>
 <dl class="method">
 <dt id="pylogeny.alignment.phylipFriendlyAlignment.reinterpretNewick">
 <tt class="descname">reinterpretNewick</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.reinterpretNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.reinterpretNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Replaces all reassigned names to proper names in Newick tree.</p>
+<dd><p>Revert the replacing of taxa names with shortened names by changing
+them back to their original form.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> (<em>a string</em>) &#8211; a Newick string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a Newick string with all replaced names</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.alignment.phylipFriendlyAlignment.writeProperNexus">
 <tt class="descname">writeProperNexus</tt><big>(</big><em>wri</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.writeProperNexus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.writeProperNexus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write a Nexus file with proper names.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>wri</strong> (<em>a string</em>) &#8211; a path to a (existent or unexistent) file to write to</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -281,7 +405,7 @@ that was reassigned at initialization.</p>
         <li class="right" >
           <a href="pylogeny.JSONWriter.html" title="pylogeny.JSONWriter module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

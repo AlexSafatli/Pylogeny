@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.database &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.database &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,7 +48,7 @@
             
   <h1>Source code for pylogeny.database</h1><div class="highlight"><pre>
 <span class="sd">&#39;&#39;&#39; Connect, access, + manipulate external tree data from a remote SQL server or</span>
-<span class="sd">from a sqlite file. &#39;&#39;&#39;</span>
+<span class="sd">from an sqlite file. &#39;&#39;&#39;</span>
 
 <span class="c"># Date:   Nov 7 2013</span>
 <span class="c"># Author: Alex Safatli</span>
@@ -61,7 +61,7 @@
 
 <div class="viewcode-block" id="DatabaseLandscape"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.DatabaseLandscape">[docs]</a><span class="k">class</span> <span class="nc">DatabaseLandscape</span><span class="p">(</span><span class="n">landscape</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Abstract the landscape to one comprising a landscape. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Abstract the landscape to one comprising a database. &#39;&#39;&#39;</span>
     
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abstractclass</span>
 
@@ -82,8 +82,19 @@
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DatabaseLandscape</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
 </div></div>
 <div class="viewcode-block" id="SQLExhaustiveLandscape"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLExhaustiveLandscape">[docs]</a><span class="k">class</span> <span class="nc">SQLExhaustiveLandscape</span><span class="p">(</span><span class="n">DatabaseLandscape</span><span class="p">):</span>
-    
+
+    <span class="sd">&#39;&#39;&#39; Abstract the landscape to one comprising an SQL database. &#39;&#39;&#39;</span>
+   
 <div class="viewcode-block" id="SQLExhaustiveLandscape.__init__"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLExhaustiveLandscape.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dbobj</span><span class="p">,</span><span class="n">aliname</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Instantiate this landscape. </span>
+<span class="sd">        </span>
+<span class="sd">        :param dbobj: a database object</span>
+<span class="sd">        :type dbobj: a :class:`database`</span>
+<span class="sd">        :param aliname: the name of the alignment (table in the database)</span>
+<span class="sd">        :type aliname: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Set up fields.</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SQLLandscape</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
@@ -177,8 +188,10 @@
     <span class="sd">&#39;&#39;&#39; Allow interfacing with a SQL/sqlite database. &#39;&#39;&#39;</span>
     
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abstractclass</span>
-    <span class="n">cursor</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># Cursor for the database object.</span>
     
+<div class="viewcode-block" id="database.__init__"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="bp">None</span>
+    </div>
     <span class="nd">@abstractmethod</span>
 <div class="viewcode-block" id="database.getTables"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getTables">[docs]</a>    <span class="k">def</span> <span class="nf">getTables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
     </div>
@@ -186,33 +199,100 @@
 <div class="viewcode-block" id="database.getColumns"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getColumns">[docs]</a>    <span class="k">def</span> <span class="nf">getColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span> <span class="k">pass</span>  
     </div>
 <div class="viewcode-block" id="database.isEmpty"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.isEmpty">[docs]</a>    <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Determine if the database is empty. &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTables</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span></div>
+        
+        <span class="sd">&#39;&#39;&#39; Determine if the database is empty.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a boolean</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getTables</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    </div>
 <div class="viewcode-block" id="database.getHeaders"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">getHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Get only header names for a given table&#39;s columns. &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getColumns</span><span class="p">(</span><span class="n">table</span><span class="p">)]</span></div>
+        
+        <span class="sd">&#39;&#39;&#39; Get only header names for a given table&#39;s columns.</span>
+<span class="sd">        </span>
+<span class="sd">        :param table: a table name</span>
+<span class="sd">        :type table: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getColumns</span><span class="p">(</span><span class="n">table</span><span class="p">)]</span>
+    </div>
 <div class="viewcode-block" id="database.getRecordsColumn"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getRecordsColumn">[docs]</a>    <span class="k">def</span> <span class="nf">getRecordsColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">,</span><span class="n">col</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Get all data for a single colmun from records for a table. &#39;&#39;&#39;</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get all data for a single column from records for a table. The</span>
+<span class="sd">        equivalent of a call &quot;SELECT col FROM table&quot;.</span>
+<span class="sd">       </span>
+<span class="sd">        :param table: a table name</span>
+<span class="sd">        :type table: a string</span>
+<span class="sd">        :param col: a column name</span>
+<span class="sd">        :type col: a string</span>
+<span class="sd">        :return: a list of strings</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT </span><span class="si">%s</span><span class="s"> FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">table</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    </div>
 <div class="viewcode-block" id="database.getRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getRecords">[docs]</a>    <span class="k">def</span> <span class="nf">getRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Get all records from a given table in the database. &#39;&#39;&#39;</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get all records from a given table in the database. The</span>
+<span class="sd">        equivalent of a call &quot;SELECT * FROM table&quot;. </span>
+<span class="sd">        </span>
+<span class="sd">        :param table: a table name</span>
+<span class="sd">        :type table: a string</span>
+<span class="sd">        :return: a list of tuples</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT * FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    </div>
 <div class="viewcode-block" id="database.iterRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.iterRecords">[docs]</a>    <span class="k">def</span> <span class="nf">iterRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Get a record, one at a time, from a table in the database. &#39;&#39;&#39;</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get a record, one at a time, from a table in the database.</span>
+<span class="sd">        </span>
+<span class="sd">        :param table: a table name</span>
+<span class="sd">        :type table: a string</span>
+<span class="sd">        :return: a generator of records</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT * FROM </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
         <span class="n">nextitem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">nextitem</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">nextitem</span>
-            <span class="n">nextitem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span></div>
+            <span class="n">nextitem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+            </div>
 <div class="viewcode-block" id="database.filterRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.filterRecords">[docs]</a>    <span class="k">def</span> <span class="nf">filterRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">,</span><span class="n">condn</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Get all records from a given table following a condition. &#39;&#39;&#39;</span>
+        
+        <span class="sd">&#39;&#39;&#39; Get all records from a given table following a condition. The</span>
+<span class="sd">        equivalent of calling &quot;SELECT * FROM table WHERE cond&quot;. </span>
+<span class="sd">        </span>
+<span class="sd">        :param table: a table name</span>
+<span class="sd">        :type table: a string</span>
+<span class="sd">        :param condn: a condition in SQL syntax</span>
+<span class="sd">        :type condn: a string</span>
+<span class="sd">        :return: a list of tuples</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SELECT * FROM </span><span class="si">%s</span><span class="s"> WHERE </span><span class="si">%s</span><span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">,</span><span class="n">condn</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    </div>
 <div class="viewcode-block" id="database.getRecordsAsDict"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.getRecordsAsDict">[docs]</a>    <span class="k">def</span> <span class="nf">getRecordsAsDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        
         <span class="sd">&#39;&#39;&#39; Acquires records using getRecords() and then leverages</span>
-<span class="sd">        access using a dictionary data structure. &#39;&#39;&#39;</span>
+<span class="sd">        access using a dictionary data structure where keys are </span>
+<span class="sd">        headers (column names).</span>
+<span class="sd">        </span>
+<span class="sd">        :param table: a table name</span>
+<span class="sd">        :type table: a string</span>
+<span class="sd">        :return: a dictionary (of records as values)</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRecords</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="p">{}</span>
@@ -224,14 +304,45 @@
                 <span class="n">header</span> <span class="o">=</span> <span class="n">headers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">value</span>  <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">d</span><span class="p">[</span><span class="n">header</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">d</span></div>
+        <span class="k">return</span> <span class="n">d</span>
+    </div>
 <div class="viewcode-block" id="database.newTable"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.newTable">[docs]</a>    <span class="k">def</span> <span class="nf">newTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Create a new table.</span>
+<span class="sd">        </span>
+<span class="sd">        :param tablename: the name of this table</span>
+<span class="sd">        :type tablename: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;CREATE TABLE </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span>
-            <span class="n">tablename</span><span class="p">,</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">args</span><span class="p">])))</span></div>
+            <span class="n">tablename</span><span class="p">,</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">args</span><span class="p">])))</span>
+        </div>
 <div class="viewcode-block" id="database.insertRecords"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.insertRecords">[docs]</a>    <span class="k">def</span> <span class="nf">insertRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="n">items</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Insert a number of records into a table.</span>
+<span class="sd">        </span>
+<span class="sd">        :param tablename: the name of the table</span>
+<span class="sd">        :type tablename: a string</span>
+<span class="sd">        :param items: a list of record tuples</span>
+<span class="sd">        :type items: a list of tuples</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">querymany</span><span class="p">(</span><span class="s">&#39;&#39;&#39;INSERT INTO </span><span class="si">%s</span><span class="s"> VALUES (</span><span class="si">%s</span><span class="s">)&#39;&#39;&#39;</span> <span class="o">%</span> <span class="p">(</span>
-            <span class="n">tablename</span><span class="p">,</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;?&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]])),</span><span class="n">items</span><span class="p">)</span></div>
+            <span class="n">tablename</span><span class="p">,</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;?&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]])),</span><span class="n">items</span><span class="p">)</span>
+        </div>
 <div class="viewcode-block" id="database.insertRecord"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.database.insertRecord">[docs]</a>    <span class="k">def</span> <span class="nf">insertRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="n">record</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Insert a single record. </span>
+<span class="sd">        </span>
+<span class="sd">        :param tablename: the name of the table</span>
+<span class="sd">        :type tablename: a string</span>
+<span class="sd">        :param record: a tuple</span>
+<span class="sd">        :type record: a tuple</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">insertRecords</span><span class="p">(</span><span class="n">tablename</span><span class="p">,[</span><span class="n">record</span><span class="p">])</span>
 </div>
     <span class="nd">@abstractmethod</span>
@@ -255,9 +366,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     </div>
 <div class="viewcode-block" id="SQLDatabase.connect"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span>   <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
                                       <span class="n">passwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span><span class="n">db</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>        
         </div>
 <div class="viewcode-block" id="SQLDatabase.getTables"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLDatabase.getTables">[docs]</a>    <span class="k">def</span> <span class="nf">getTables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;SHOW TABLES&quot;&quot;&quot;</span><span class="p">)</span>
@@ -292,12 +403,27 @@
 <div class="viewcode-block" id="SQLiteDatabase"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase">[docs]</a><span class="k">class</span> <span class="nc">SQLiteDatabase</span><span class="p">(</span><span class="n">database</span><span class="p">):</span>
     
 <div class="viewcode-block" id="SQLiteDatabase.__init__"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Instantiate this SQLite database object. </span>
+
+<span class="sd">        :param filepath: a path to the file</span>
+<span class="sd">        :type filepath: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">socket</span>   <span class="o">=</span> <span class="n">sqllite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="SQLiteDatabase.getColumns"><a class="viewcode-back" href="../../pylogeny.database.html#pylogeny.database.SQLiteDatabase.getColumns">[docs]</a>    <span class="k">def</span> <span class="nf">getColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Return column information for a given table. &#39;&#39;&#39;</span>
+        
+        <span class="sd">&#39;&#39;&#39; Return column information for a given table.</span>
+<span class="sd">        </span>
+<span class="sd">        :param table: a table name</span>
+<span class="sd">        :type table: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;PRAGMA table_info(</span><span class="si">%s</span><span class="s">)&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">table</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
 </div>
@@ -351,7 +477,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

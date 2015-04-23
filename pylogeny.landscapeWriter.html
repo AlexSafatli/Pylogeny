@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.landscapeWriter module &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.landscapeWriter module &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.model module" href="pylogeny.model.html" />
     <link rel="prev" title="pylogeny.landscape module" href="pylogeny.landscape.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.landscape.html" title="pylogeny.landscape module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -68,18 +68,43 @@ object from a sqlite landscape file.</p>
 <dl class="method">
 <dt id="pylogeny.landscapeWriter.landscapeParser.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeParser.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeParser.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Instantiate this parser.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>a string</em>) &#8211; the filepath to the landscape file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscapeWriter.landscapeParser.getName">
 <tt class="descname">getName</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeParser.getName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeParser.getName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Acquire the name of the parsed landscape.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscapeWriter.landscapeParser.parse">
 <tt class="descname">parse</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeParser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeParser.parse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse the file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a tuple of a <tt class="xref py py-class docutils literal"><span class="pre">landscape</span></tt> object and its name (a string)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -92,12 +117,35 @@ object from a sqlite landscape file.</p>
 <dl class="method">
 <dt id="pylogeny.landscapeWriter.landscapeWriter.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>landscape</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeWriter.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeWriter.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Instantiates this writer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>landscape</strong> (a <tt class="xref py py-class docutils literal"><span class="pre">landscape</span></tt> object) &#8211; a landscape object</li>
+<li><strong>name</strong> (<em>a string</em>) &#8211; the name of this landscape</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylogeny.landscapeWriter.landscapeWriter.writeFile">
 <tt class="descname">writeFile</tt><big>(</big><em>path='.'</em><big>)</big><a class="reference internal" href="_modules/pylogeny/landscapeWriter.html#landscapeWriter.writeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.landscapeWriter.landscapeWriter.writeFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the landscape serialized file to given path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>a string</em>) &#8211; a directory path, defaulting to the current one</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the relative filepath to the written file</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -153,7 +201,7 @@ object from a sqlite landscape file.</p>
         <li class="right" >
           <a href="pylogeny.landscape.html" title="pylogeny.landscape module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.JSONWriter &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.JSONWriter &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -55,13 +55,34 @@
 
 <span class="kn">from</span> <span class="nn">landscapeWriter</span> <span class="kn">import</span> <span class="n">landscapeWriter</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">landscape</span>
 
 <div class="viewcode-block" id="JSONWriter"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter">[docs]</a><span class="k">class</span> <span class="nc">JSONWriter</span><span class="p">(</span><span class="n">landscapeWriter</span><span class="p">):</span>
     
+    <span class="sd">&#39;&#39;&#39; Writes a landscape and associated node information to a JSON</span>
+<span class="sd">    object. &#39;&#39;&#39;</span>
+    
 <div class="viewcode-block" id="JSONWriter.__init__"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Instantiates this writer.</span>
+<span class="sd">        </span>
+<span class="sd">        :param ls: a landscape object</span>
+<span class="sd">        :type ls: a :class:`landscape.landscape` object</span>
+<span class="sd">        :param name: the name of this landscape</span>
+<span class="sd">        :type name: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="nb">super</span><span class="p">(</span><span class="n">JSONWriter</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="JSONWriter.nodeToJSON"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter.nodeToJSON">[docs]</a>    <span class="k">def</span> <span class="nf">nodeToJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Returns a JSON formatted node, given a node ID.</span>
+<span class="sd">        </span>
+<span class="sd">        :param node: a name of a tree/node in the graph</span>
+<span class="sd">        :type node: a string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="n">ml</span><span class="p">,</span><span class="n">pars</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">getScore</span><span class="p">()</span>
@@ -137,9 +158,23 @@
         <span class="k">return</span> <span class="n">out</span>
     
     </div>
-<div class="viewcode-block" id="JSONWriter.getCompleteLandscape"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter.getCompleteLandscape">[docs]</a>    <span class="k">def</span> <span class="nf">getCompleteLandscape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getJSON</span><span class="p">()</span>
+<div class="viewcode-block" id="JSONWriter.getCompleteLandscape"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter.getCompleteLandscape">[docs]</a>    <span class="k">def</span> <span class="nf">getCompleteLandscape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Returns the landscape as a JSON string. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a JSON string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getJSON</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="JSONWriter.getJSON"><a class="viewcode-back" href="../../pylogeny.JSONWriter.html#pylogeny.JSONWriter.JSONWriter.getJSON">[docs]</a>    <span class="k">def</span> <span class="nf">getJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39; Returns the landscape as a JSON string.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a JSON string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="c"># Get node and link information.</span>
         <span class="n">nodes</span><span class="p">,</span> <span class="n">aS</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jsonGraph</span><span class="p">()</span>
@@ -148,7 +183,8 @@
         
         <span class="c"># Output to JSON string.</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s">&quot;nodes&quot;</span><span class="p">:</span><span class="n">nodes</span><span class="p">,</span><span class="s">&quot;links&quot;</span><span class="p">:</span><span class="n">links</span><span class="p">,</span><span class="s">&quot;graphid&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                         <span class="s">&quot;scored&quot;</span><span class="p">:</span><span class="n">aS</span><span class="p">},</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">))</span>
+                         <span class="s">&quot;scored&quot;</span><span class="p">:</span><span class="n">aS</span><span class="p">},</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span>
+                         <span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">out</span>
         </div></div>
 </pre></div>
@@ -184,7 +220,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

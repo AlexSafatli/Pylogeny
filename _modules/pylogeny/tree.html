@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.tree &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -59,10 +59,18 @@
 
 <span class="kn">import</span> <span class="nn">newick</span><span class="o">,</span> <span class="nn">rearrangement</span><span class="o">,</span> <span class="nn">base</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span> <span class="k">as</span> <span class="n">fact</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">median</span>
+
+<span class="c"># Median Function</span>
+
+<div class="viewcode-block" id="median"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.median">[docs]</a><span class="k">def</span> <span class="nf">median</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span> <span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="n">lst</span><span class="p">[((</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span> <span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">lst</span><span class="p">[(</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:(</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span><span class="o">/</span><span class="mf">2.0</span>
 
 <span class="c"># Function Defitions</span>
-
+</div>
 <span class="n">numberRootedTrees</span>   <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">numberUnrootedTrees</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">numberUnrootedTrees</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="p">(</span><span class="n">fact</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span><span class="o">/</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span><span class="o">*</span><span class="n">fact</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">3</span><span class="p">))</span>
 
@@ -70,7 +78,7 @@
 
 <div class="viewcode-block" id="tree"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree">[docs]</a><span class="k">class</span> <span class="nc">tree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span> <span class="c"># TODO: Integrate with P4 Tree class (?).</span>
     
-    <span class="sd">&#39;&#39;&#39; Defines a single (phylogenetic) tree by newick string;</span>
+    <span class="sd">&#39;&#39;&#39; Defines a single (phylogenetic) tree by Newick string;</span>
 <span class="sd">    can possess other metadata. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="tree.__init__"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newi</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">structure</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -113,7 +121,7 @@
 
         <span class="sd">&#39;&#39;&#39; Sets the name of this tree (object).</span>
 
-<span class="sd">        :param n: A string indicating this tree&#39;s name.</span>
+<span class="sd">        :param n: a string indicating this tree&#39;s name</span>
 <span class="sd">        :type n: a string</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -136,7 +144,7 @@
         <span class="sd">&#39;&#39;&#39; Sets the score(s) for this tree. Should be performed by a scorer</span>
 <span class="sd">        (see scoring functions in the appropriate module).</span>
 
-<span class="sd">        :param s: A set of objective function scores.</span>
+<span class="sd">        :param s: a set of objective function scores.</span>
 <span class="sd">        :type s: a tuple of floats or integers</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -204,7 +212,7 @@
 
 <span class="sd">        :param n: A Newick or New Hampshire formatted string.</span>
 <span class="sd">        :type n: a string</span>
-<span class="sd">        :param reroot: Reroot to lexicographically lowest-order leaf.</span>
+<span class="sd">        :param reroot: reroot to lexicographically lowest-order leaf.</span>
 <span class="sd">        :type reroot: a boolean</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -259,7 +267,7 @@
         <span class="sd">&#39;&#39;&#39; Return a topology object instance for this tree to allow </span>
 <span class="sd">        for rearrangement of the actual structure of the tree. </span>
 
-<span class="sd">        :return: a :class: `rearrangement.topology` object</span>
+<span class="sd">        :return: a :class:`rearrangement.topology` object</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -315,7 +323,7 @@
         <span class="sd">&#39;&#39;&#39; Add a tree object to the collection. </span>
 
 <span class="sd">        :param tr: A tree object.</span>
-<span class="sd">        :type tr: :class: `tree`</span>
+<span class="sd">        :type tr: :class:`tree`</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
     
@@ -338,7 +346,7 @@
         <span class="sd">&#39;&#39;&#39; Remove a tree object from the collection if present. </span>
 
 <span class="sd">        :param tr: A tree object (present in the collection).</span>
-<span class="sd">        :type tr: :class: `tree`</span>
+<span class="sd">        :type tr: :class:`tree`</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -351,7 +359,7 @@
 <span class="sd">        Returns -1 if not found. </span>
 
 <span class="sd">        :param tr: A tree object.</span>
-<span class="sd">        :type tr: :class: `tree`</span>
+<span class="sd">        :type tr: :class:`tree`</span>
 <span class="sd">        :return: an integer [-1,length of collection)</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -422,9 +430,9 @@
         <span class="sd">&#39;&#39;&#39; Construct a bipartition from a branch in a topology. </span>
 <span class="sd">        </span>
 <span class="sd">        :param topol: A topology.</span>
-<span class="sd">        :type topol: :class: `rearrangement.topology`</span>
+<span class="sd">        :type topol: :class:`rearrangement.topology`</span>
 <span class="sd">        :param bra: An optional branch object.</span>
-<span class="sd">        :type bra: :class: `newick.branch`</span>
+<span class="sd">        :type bra: :class:`newick.branch`</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -665,7 +673,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.heuristic &mdash; Pylogeny 0.3.4.7 documentation</title>
+    <title>pylogeny.heuristic &mdash; Pylogeny 0.3.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.4.7',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.4.7 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -102,7 +102,11 @@
 <div class="viewcode-block" id="parsimonyGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
         <span class="sd">&#39;&#39;&#39; Perform greedy search of the landscape using</span>
-<span class="sd">        a method of greed via parsimonious criterion. &#39;&#39;&#39;</span>
+<span class="sd">        a method of greed via parsimonious criterion.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: None; landscape is modified</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Get starting tree, landscape.</span>
         <span class="n">landscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
@@ -139,7 +143,8 @@
 </div></div>
 <div class="viewcode-block" id="likelihoodGreedy"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy">[docs]</a><span class="k">class</span> <span class="nc">likelihoodGreedy</span><span class="p">(</span><span class="n">phylogeneticLinearHeuristic</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of likelihood. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of</span>
+<span class="sd">    likelihood. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="likelihoodGreedy.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">likelihoodGreedy</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">)</span>
@@ -147,7 +152,11 @@
 <div class="viewcode-block" id="likelihoodGreedy.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.likelihoodGreedy.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     
         <span class="sd">&#39;&#39;&#39; Perform greedy search of the landscape using</span>
-<span class="sd">        a method of greed via likelihood. &#39;&#39;&#39;</span>
+<span class="sd">        a method of greed via likelihood. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: None; landscape is modified</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Get starting tree, landscape.</span>
         <span class="n">landscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
@@ -196,7 +205,11 @@
         <span class="sd">&#39;&#39;&#39; Perform greedy search of the landscape using</span>
 <span class="sd">        a method of greed via parsimonious criterion and then</span>
 <span class="sd">        performing final smoothing via likelihood on top 10% of</span>
-<span class="sd">        1-SPR neighbors ranked on basis of parsimony. &#39;&#39;&#39;</span>
+<span class="sd">        1-SPR neighbors ranked on basis of parsimony.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: None; landscape is modified</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Get starting tree, landscape.</span>
         <span class="n">landscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
@@ -311,6 +324,12 @@
     
 <div class="viewcode-block" id="RAxMLIdentify.explore"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.RAxMLIdentify.explore">[docs]</a>    <span class="k">def</span> <span class="nf">explore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
+        <span class="sd">&#39;&#39;&#39; Explore using RAxML.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: None; landscape is modified.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>        
+        
         <span class="c"># Get the landscape.</span>
         <span class="n">landscape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span>
         
@@ -373,7 +392,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.4.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
