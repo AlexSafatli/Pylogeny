@@ -355,9 +355,9 @@
         <span class="sd">&#39;&#39;&#39; Initialize the landscape.</span>
 
 <span class="sd">        :param ali: an alignment</span>
-<span class="sd">        :type ali: an :class:`pylogeny.alignment.alignment` object</span>
+<span class="sd">        :type ali: an :class:`.alignment.alignment` object</span>
 <span class="sd">        :param starting_tree: an optional tree object to start with</span>
-<span class="sd">        :type starting_tree: a :class:`pylogeny.tree.tree` object</span>
+<span class="sd">        :type starting_tree: a :class:`.tree.tree` object</span>
 <span class="sd">        :param root: whether or not to compute an approximate\</span>
 <span class="sd">        maximum likelihood tree (FastTree) or start the landscape\</span>
 <span class="sd">        with a given starting tree.</span>
@@ -406,7 +406,7 @@
         
         <span class="sd">&#39;&#39;&#39; Acquire the alignment object associated with this space. </span>
 <span class="sd">        </span>
-<span class="sd">        :return: an :class:`pylogeny.alignment.alignment` object</span>
+<span class="sd">        :return: an :class:`.alignment.alignment` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -461,7 +461,7 @@
         
         <span class="sd">&#39;&#39;&#39; Acquire the first tree that was placed in this space.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`pylogeny.tree.tree` object</span>
+<span class="sd">        :return: a :class:`.tree.tree` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -473,7 +473,7 @@
 <span class="sd">        modify existing scores. </span>
 <span class="sd">        </span>
 <span class="sd">        :param ali: an alignment</span>
-<span class="sd">        :type ali: an :class:`pylogeny.alignment.alignment` object</span>
+<span class="sd">        :type ali: an :class:`.alignment.alignment` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -545,7 +545,7 @@
         <span class="sd">&#39;&#39;&#39; Get the object for a tree by its name.</span>
 <span class="sd">        </span>
 <span class="sd">        :param i: a tree name (usually an integer)</span>
-<span class="sd">        :return: a :class:`pylogeny.tree.tree` object</span>
+<span class="sd">        :return: a :class:`.tree.tree` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -591,7 +591,7 @@
         <span class="sd">&#39;&#39;&#39; Remove a tree from the landscape by object.</span>
 <span class="sd">        </span>
 <span class="sd">        :param tree: a tree that exists in the landscape</span>
-<span class="sd">        :type tree: a :class:`pylogeny.tree.tree` object</span>
+<span class="sd">        :type tree: a :class:`.tree.tree` object</span>
 <span class="sd">        :return: a boolean (success or failure)</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -620,7 +620,7 @@
         <span class="sd">&#39;&#39;&#39; Add a tree to the landscape. Will return its index. </span>
 
 <span class="sd">        :param tr: a tree</span>
-<span class="sd">        :type tr: a :class:`pylogeny.tree.tree` object</span>
+<span class="sd">        :type tr: a :class:`.tree.tree` object</span>
 <span class="sd">        :param score: defaults to True, whether to score this tree or not</span>
 <span class="sd">        :type score: a boolean</span>
 <span class="sd">        :return: the index of the tree</span>
@@ -806,7 +806,7 @@
 
         <span class="sd">&#39;&#39;&#39; Get all restrictions (locks which cannot be violated on splits).</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a list of :class:`pylogeny.tree.bipartition` objects</span>
+<span class="sd">        :return: a list of :class:`.tree.bipartition` objects</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -818,7 +818,7 @@
 <span class="sd">        present; otherwise, remove it. Return status of lock.</span>
 <span class="sd">        </span>
 <span class="sd">        :param lock: a bipartition that cannot be violated</span>
-<span class="sd">        :type lock: a :class:`pylogeny.tree.bipartition` object</span>
+<span class="sd">        :type lock: a :class:`.tree.bipartition` object</span>
 <span class="sd">        :return: a boolean (on or off)</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -839,8 +839,8 @@
 <span class="sd">        </span>
 <span class="sd">        :param tr: a tree name</span>
 <span class="sd">        :param br: a branch in that tree</span>
-<span class="sd">        :type br: a :class:`pylogeny.base.treeBranch` object</span>
-<span class="sd">        :return: a :class:`pylogeny.tree.bipartition` object that has been locked or None</span>
+<span class="sd">        :type br: a :class:`.base.treeBranch` object</span>
+<span class="sd">        :return: a :class:`.tree.bipartition` object that has been locked or None</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
@@ -866,7 +866,7 @@
 <span class="sd">        </span>
 <span class="sd">        :param tr: a tree name</span>
 <span class="sd">        :param brind: a branch index in that tree, a la post-order traversal</span>
-<span class="sd">        :return: a :class:`pylogeny.tree.bipartition` object</span>
+<span class="sd">        :return: a :class:`.tree.bipartition` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -895,7 +895,7 @@
 <span class="sd">        </span>
 <span class="sd">        :param tr: a tree name</span>
 <span class="sd">        :param brind: a branch index</span>
-<span class="sd">        :return: a :class:`pylogeny.tree.bipartition` object if it has been locked</span>
+<span class="sd">        :return: a :class:`.tree.bipartition` object if it has been locked</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
@@ -952,7 +952,7 @@
 <span class="sd">        -1 if not found. Warning: naively performs a sequential search.</span>
 <span class="sd">        </span>
 <span class="sd">        :param tr: a tree</span>
-<span class="sd">        :type tr: a :class:`pylogeny.tree.tree` object</span>
+<span class="sd">        :type tr: a :class:`.tree.tree` object</span>
 <span class="sd">        :return: a tree name (usually an integer index) or -1 if not found</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -1159,7 +1159,7 @@
 <span class="sd">        names are transformed to their original form (i.e. not transformed to a</span>
 <span class="sd">        state friendly for the Phylip format).</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`pylogeny.tree.treeSet` object</span>
+<span class="sd">        :return: a :class:`.tree.treeSet` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -1170,7 +1170,7 @@
 
         <span class="sd">&#39;&#39;&#39; Convert this landscape into an unorganized set of trees.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`pylogeny.tree.treeSet` object</span>
+<span class="sd">        :return: a :class:`.tree.treeSet` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -1229,7 +1229,7 @@
         
         <span class="sd">&#39;&#39;&#39; Get the tree object associated with this tree. </span>
 <span class="sd">        </span>
-<span class="sd">        :return: a :class:`pylogeny.tree.tree` object</span>
+<span class="sd">        :return: a :class:`.tree.tree` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -1421,7 +1421,7 @@
     
         <span class="sd">&#39;&#39;&#39; Get all bipartitions for this vertex.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a list of :class:`pylogeny.tree.bipartition` objects</span>
+<span class="sd">        :return: a list of :class:`.tree.bipartition` objects</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
