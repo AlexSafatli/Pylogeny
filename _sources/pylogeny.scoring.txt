@@ -1,6 +1,3 @@
-pylogeny.scoring module
-=======================
-
 .. automodule:: pylogeny.scoring
     :members:
     :undoc-members:

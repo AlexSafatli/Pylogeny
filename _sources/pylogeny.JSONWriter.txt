@@ -1,6 +1,3 @@
-pylogeny.JSONWriter module
-==========================
-
 .. automodule:: pylogeny.JSONWriter
     :members:
     :undoc-members:

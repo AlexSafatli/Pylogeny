@@ -1,6 +1,3 @@
-pylogeny.alignment module
-=========================
-
 .. automodule:: pylogeny.alignment
     :members:
     :undoc-members:

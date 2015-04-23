@@ -1,6 +1,3 @@
-pylogeny.database module
-========================
-
 .. automodule:: pylogeny.database
     :members:
     :undoc-members:

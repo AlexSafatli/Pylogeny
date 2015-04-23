@@ -1,6 +1,3 @@
-pylogeny.rearrangement module
-=============================
-
 .. automodule:: pylogeny.rearrangement
     :members:
     :undoc-members:
