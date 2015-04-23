@@ -1,4 +1,5 @@
-''' Phylogenetic tree scoring models; intended to be coupled with the use of pytbeaglehon (BEAGLE) high-performance library. '''
+''' Phylogenetic tree scoring models; intended to be coupled with the use of 
+pytbeaglehon (BEAGLE) high-performance library. '''
 
 # Date:   Jun 9 2014
 # Author: Alex Safatli

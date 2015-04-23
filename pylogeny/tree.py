@@ -10,7 +10,15 @@ trees. '''
 
 import newick, rearrangement, base
 from math import factorial as fact
-from numpy import median
+
+# Median Function
+
+def median(lst):
+    lst = sorted(lst)
+    if len(lst) < 1: return None
+    if len(lst) %2 == 1: return lst[((len(lst)+1)/2)-1]
+    if len(lst) %2 == 0:
+        return float(sum(lst[(len(lst)/2)-1:(len(lst)/2)+1]))/2.0
 
 # Function Defitions
 
@@ -21,7 +29,7 @@ numberUnrootedTrees = lambda t: (fact(2*(t-1)-3))/((2**(t-3))*fact(t-3))
 
 class tree(object): # TODO: Integrate with P4 Tree class (?).
     
-    ''' Defines a single (phylogenetic) tree by newick string;
+    ''' Defines a single (phylogenetic) tree by Newick string;
     can possess other metadata. '''
     
     def __init__(self,newi='',check=False,structure=None):
@@ -64,7 +72,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
 
         ''' Sets the name of this tree (object).
 
-        :param n: A string indicating this tree's name.
+        :param n: a string indicating this tree's name
         :type n: a string
 
         '''
@@ -87,7 +95,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         ''' Sets the score(s) for this tree. Should be performed by a scorer
         (see scoring functions in the appropriate module).
 
-        :param s: A set of objective function scores.
+        :param s: a set of objective function scores.
         :type s: a tuple of floats or integers
 
         '''
@@ -155,7 +163,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
 
         :param n: A Newick or New Hampshire formatted string.
         :type n: a string
-        :param reroot: Reroot to lexicographically lowest-order leaf.
+        :param reroot: reroot to lexicographically lowest-order leaf.
         :type reroot: a boolean
 
         '''
@@ -210,7 +218,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         ''' Return a topology object instance for this tree to allow 
         for rearrangement of the actual structure of the tree. 
 
-        :return: a :class: `rearrangement.topology` object
+        :return: a :class:`.rearrangement.topology` object
 
         '''
         
@@ -266,7 +274,7 @@ class treeSet(base.Sized,base.Iterable):
         ''' Add a tree object to the collection. 
 
         :param tr: A tree object.
-        :type tr: :class: `tree`
+        :type tr: :class:`.tree.tree`
 
         '''
     
@@ -289,7 +297,7 @@ class treeSet(base.Sized,base.Iterable):
         ''' Remove a tree object from the collection if present. 
 
         :param tr: A tree object (present in the collection).
-        :type tr: :class: `tree`
+        :type tr: :class:`.tree.tree`
 
         '''
         
@@ -302,7 +310,7 @@ class treeSet(base.Sized,base.Iterable):
         Returns -1 if not found. 
 
         :param tr: A tree object.
-        :type tr: :class: `tree`
+        :type tr: :class:`.tree.tree`
         :return: an integer [-1,length of collection)
 
         '''
@@ -373,9 +381,9 @@ class bipartition(object):
         ''' Construct a bipartition from a branch in a topology. 
         
         :param topol: A topology.
-        :type topol: :class: `rearrangement.topology`
+        :type topol: :class:`.rearrangement.topology`
         :param bra: An optional branch object.
-        :type bra: :class: `newick.branch`
+        :type bra: :class:`.newick.branch`
         
         '''
         
@@ -461,7 +469,7 @@ class bipartition(object):
         ''' Acquire all component elements from a string representation 
         of a bipartition. 
         
-        :param st: A string representation from a :class:`.bipartition` object.
+        :param st: A string representation from a :class:`.tree.bipartition` object.
         
         '''
         
@@ -472,7 +480,7 @@ class bipartition(object):
         
         ''' Get branch corresponding to this bipartition.
         
-        :returns: :class:`newick.branch`
+        :returns: :class:`.newick.branch`
         
         '''
         

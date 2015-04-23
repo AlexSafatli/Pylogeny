@@ -18,6 +18,15 @@ class landscapeWriter(object):
 
     def __init__(self, landscape, name):
         
+        ''' Instantiates this writer.
+        
+        :param landscape: a landscape object
+        :type landscape: a :class:`.landscape.landscape` object
+        :param name: the name of this landscape
+        :type name: a string
+        
+        '''
+        
         # Fields
         self.landscape = landscape
         self.name      = name
@@ -122,7 +131,13 @@ class landscapeWriter(object):
 
     def writeFile(self,path='.'):
         
-        ''' Write the landscape serialized file to given path. '''
+        ''' Write the landscape serialized file to given path.
+        
+        :param path: a directory path, defaulting to the current one
+        :type path: a string
+        :return: the relative filepath to the written file
+        
+        '''
 
         return self._dump(path)
 
@@ -132,6 +147,14 @@ class landscapeParser(object):
     object from a sqlite landscape file. '''
 
     def __init__(self,path):
+        
+        ''' Instantiate this parser. 
+        
+        :param path: the filepath to the landscape file
+        :type path: a string
+        
+        '''
+        
         self.file = path
         self.metadata = None
         self.name = None
@@ -142,7 +165,11 @@ class landscapeParser(object):
 
     def getName(self):
         
-        ''' Acquire the name of the parsed landscape. '''
+        ''' Acquire the name of the parsed landscape.
+        
+        :return: a string
+        
+        '''
         
         if self.name is None and self.metadata != None:
                 for metadata in self.metadata:
@@ -217,7 +244,11 @@ class landscapeParser(object):
         
     def parse(self):
         
-        ''' Parse the file. '''
+        ''' Parse the file.
+        
+        :return: a tuple of a :class:`.landscape.landscape` object and its name (a string)
+        
+        '''
 
         # Get database object.
         fpath = self.file

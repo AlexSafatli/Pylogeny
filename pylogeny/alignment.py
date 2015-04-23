@@ -1,4 +1,5 @@
-''' Handle input biological sequence alignment files for the purposes of
+''' Object model defining a sequence alignment (DNA, RNA, protein sequences). 
+Handle input biological sequence alignment files for the purposes of 
 phylogenetic inference. Will read all types of alignment files by utilizing the 
 P4 python phylogenetic library. '''
 
@@ -56,9 +57,17 @@ class alignment(object):
 
     # Internals
 
-    def __getitem__(self,i): return self.data.sequences[i]
-    def __str__(self):       return '\n'.join(self.toStrList())
-    def __len__(self):       return len(self.data)
+    def __getitem__(self,i):
+        
+        return self.data.sequences[i]
+    
+    def __str__(self):
+        
+        return '\n'.join(self.toStrList())
+    
+    def __len__(self):
+        
+        return len(self.data)
     
     def __iter__(self):
         
@@ -77,7 +86,7 @@ class alignment(object):
 
     def close(self):
         
-        ''' Delete all temporary files and clear data. '''
+        ''' Forcefully delete all temporary files and clear data. '''
         
         self.data  = None
         self.model = None
@@ -89,38 +98,77 @@ class alignment(object):
 
     def toStrList(self):
 
-        ''' Get all sequences as a list of strings. '''
+        ''' Get all sequences as a list of strings. 
 
-        return [self.getSequence(i) for i in xrange(self.getNumSeqs())]
+        :return: a list of strings
+        
+        '''
+
+        return [self.getSequenceString(i) for i in xrange(self.getNumSeqs())]
+
+    def getDataType(self):
+        
+        ''' Get the data type associated with this alignment (e.g., protein). 
+        
+        :return: a string indicating the data type ('protein', 'DNA')
+        
+        '''
+
+        return self.data.dataType
 
     def getStateModel(self):
+
+        ''' Get the state model associated with this alignment. See model
+        module for more information.
+        
+        :return: a :class:`.model.DiscreteStateModel` object
+        
+        '''
 
         return self.model
 
     def getSize(self):
 
         ''' Return the size of the alignment, or how many characters
-        there are in each respective item in the alignment. '''
+        there are in each respective item in the alignment. 
+        
+        :return: an integer
+        
+        '''
 
-        return self.__len__()
+        return len(self)
 
     def getNumSeqs(self):
 
         ''' Return the number of sequences that are present in the 
-        sequence alignment. '''
+        sequence alignment. 
+        
+        :return: an integer
+        
+        '''
 
         return len(self.data.sequences)
 
     def getDim(self):
 
         ''' Return the dimensionality of the sequence alignment (how 
-        many different types of characters). '''
+        many different types of characters). 
+        
+        :return: an integer
+        
+        '''
 
         return self.data.dim
 
-    def getSequence(self,i):
+    def getSequenceString(self,i):
 
-        ''' Acquire the ith sequence. '''
+        ''' Acquire the ith sequence as a string. 
+        
+        :param i: an index in the alignment (associated with a sequence)
+        :type i: an integer
+        :return: a string associated with the sequence
+        
+        '''
 
         return self[i].sequence
 
@@ -128,7 +176,11 @@ class alignment(object):
 
         ''' Get (and create if not already) a path to a temporary 
         FASTA file. This will be deleted upon closure of the alignment
-        instance. '''
+        instance. 
+        
+        :return: a string associated with a path in the file system
+        
+        '''
 
         self._makeFASTAFile()
         return self.paths['fasta']
@@ -136,7 +188,11 @@ class alignment(object):
     def getApproxMLNewick(self):
 
         ''' Get a tree in newick format via use of FastTree that serves as
-        an approximation of the maximum likelihood tree for this data. '''
+        an approximation of the maximum likelihood tree for this data. 
+        
+        :return: a Newick or New Hampshire string
+        
+        '''
 
         ft = fasttree(
             self.getFASTA(), isProtein=(self.data.dataType=='protein'))
@@ -145,35 +201,23 @@ class alignment(object):
     def getApproxMLTree(self):
 
         ''' Get a tree object for an approximation of the maximum likelihood
-        tree for this data using FastTree. '''
+        tree for this data using FastTree. 
+        
+        :return: a :class:`.tree.tree` object
+        
+        '''
 
         return tree.tree(self.getApproxMLNewick(),check=True)
 
-    def getFastTreeNewick(self):
-
-        ''' Alias for the "getApproxMLNewick()" function. '''
-
-        return self.getApproxMLNewick()
-
     def getTaxa(self):
 
-        ''' Return taxa names. '''
+        ''' Get a list of taxa names associated with the alignment. 
+        
+        :return: a list of strings
+        
+        '''
 
         return self.data.taxNames
-
-    # Interface Revealing
-
-    def getAlignment(self):
-
-        ''' Acquire the alignment data structure (P4 module). '''
-
-        return self.data
-
-    def bootstrap(self):
-
-        ''' Perform bootstrapping on the alignment data. '''
-
-        self.data = self.data.bootstrap()    
 
 
 class phylipFriendlyAlignment(alignment):
@@ -233,22 +277,39 @@ class phylipFriendlyAlignment(alignment):
 
     def getPhylip(self):
 
-        ''' Get a path to a temporary Phylip file. This will 
-        be deleted upon closure of the alignment instance. '''
+        ''' Get (and create if not already) a path to a temporary 
+        Phylip file. This will be deleted upon closure of the alignment
+        instance. 
+
+        :return: a string associated with a path in the file system
+
+        '''
 
         self._makePhylipFile()
         return self.paths['phylip']
 
     def writeProperNexus(self,wri):
 
-        ''' Write a Nexus file with proper names. '''
+        ''' Write a Nexus file with proper names. 
+        
+        :param wri: a path to a (existent or unexistent) file to write to
+        :type wri: a string
+        
+        '''
 
         copyfile(self.paths['nexus'],wri)
         return True
 
     def reassignFromReinterpretedNewick(self,tr):
 
-        ''' Replace all proper names with reassigned names in Newick tree. '''
+        ''' Return a Newick string with taxa names replaced with shortened forms
+        as they are defined in this object. 
+        
+        :param tr: a Newick string
+        :type tr: a string
+        :return: a Newick string with all replaced names
+        
+        '''
 
         p = newickParser(tr).parse()
         nodes = base.treeStructure(p).getAllNodes()
@@ -263,7 +324,14 @@ class phylipFriendlyAlignment(alignment):
 
     def reinterpretNewick(self,tr):
 
-        ''' Replaces all reassigned names to proper names in Newick tree. '''
+        ''' Revert the replacing of taxa names with shortened names by changing
+        them back to their original form.
+        
+        :param tr: a Newick string
+        :type tr: a string
+        :return: a Newick string with all replaced names
+        
+        '''
 
         p = newickParser(tr).parse()
         nodes = base.treeStructure(p).getAllNodes()
@@ -275,14 +343,24 @@ class phylipFriendlyAlignment(alignment):
     def getProperName(self,n):
 
         ''' Return the actual name for an integer-based sequence name 
-        that was reassigned at initialization. '''
+        that was reassigned at initialization. 
+        
+        :param n: a shortened taxon name from this object
+        :type n: a string
+        :return: a string (replaced with the original taxon name)
+        
+        '''
 
         if n in self.namedict: return self.namedict[n]
         else: return None
 
     def getTaxa(self):
 
-        ''' Return current taxa names in the alignment. '''
+        ''' Return current taxa names in the alignment.
+        
+        :return: a list of shortened taxa names
+        
+        '''
 
         return [x for x in self.namedict]
 

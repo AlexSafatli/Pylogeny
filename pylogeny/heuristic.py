@@ -7,6 +7,7 @@ phylogenetic tree space. '''
 # E-mail: safatli@cs.dal.ca
 
 import os
+import landscape
 from shutil import rmtree as removeFolder
 from scoring import getLogLikelihood as ll
 from executable import raxml
@@ -48,12 +49,26 @@ class parsimonyGreedy(phylogeneticLinearHeuristic):
     ''' Greedy (hill-climbing) landscape exploration by comparsion of parsimony. '''
     
     def __init__(self,ls,startNode):
+        
+        ''' Initialize this heuristic.
+        
+        :param ls: a landscape object
+        :type ls: a :class:`.landscape.landscape` object
+        :param startNode: what node to start with
+        :type startNode: a node (dictionary) from the landscape (getNode())
+        
+        '''
+        
         super(parsimonyGreedy,self).__init__(ls,startNode)
         
     def explore(self):
     
         ''' Perform greedy search of the landscape using
-        a method of greed via parsimonious criterion. '''
+        a method of greed via parsimonious criterion.
+        
+        :return: None; landscape is modified
+        
+        '''
         
         # Get starting tree, landscape.
         landscape = self.landscape
@@ -90,15 +105,30 @@ class parsimonyGreedy(phylogeneticLinearHeuristic):
 
 class likelihoodGreedy(phylogeneticLinearHeuristic):
     
-    ''' Greedy (hill-climbing) landscape exploration by comparsion of likelihood. '''
+    ''' Greedy (hill-climbing) landscape exploration by comparsion of
+    likelihood. '''
     
     def __init__(self,ls,startNode):
+        
+        ''' Initialize this heuristic.
+
+        :param ls: a landscape object
+        :type ls: a :class:`.landscape.landscape` object
+        :param startNode: what node to start with
+        :type startNode: a node (dictionary) from the landscape (getNode())
+
+        '''
+        
         super(likelihoodGreedy,self).__init__(ls,startNode)
         
     def explore(self):
     
         ''' Perform greedy search of the landscape using
-        a method of greed via likelihood. '''
+        a method of greed via likelihood. 
+        
+        :return: None; landscape is modified
+        
+        '''
         
         # Get starting tree, landscape.
         landscape = self.landscape
@@ -140,6 +170,16 @@ class smoothGreedy(phylogeneticLinearHeuristic):
     by comparsion of likelihoods. '''
     
     def __init__(self,ls,startNode):
+        
+        ''' Initialize this heuristic.
+
+        :param ls: a landscape object
+        :type ls: a :class:`.landscape.landscape` object
+        :param startNode: what node to start with
+        :type startNode: a node (dictionary) from the landscape (getNode())
+
+        '''       
+       
         super(smoothGreedy,self).__init__(ls,startNode)
         
     def explore(self):
@@ -147,7 +187,11 @@ class smoothGreedy(phylogeneticLinearHeuristic):
         ''' Perform greedy search of the landscape using
         a method of greed via parsimonious criterion and then
         performing final smoothing via likelihood on top 10% of
-        1-SPR neighbors ranked on basis of parsimony. '''
+        1-SPR neighbors ranked on basis of parsimony.
+        
+        :return: None; landscape is modified
+        
+        '''
         
         # Get starting tree, landscape.
         landscape = self.landscape
@@ -216,6 +260,16 @@ class RAxMLIdentify(phylogeneticLinearHeuristic):
     RAxML executable. '''
     
     def __init__(self,ls,startNode,workdir='.rxml'):
+        
+        ''' Initialize this heuristic.
+
+        :param ls: a landscape object
+        :type ls: a :class:`.landscape.landscape` object
+        :param startNode: what node to start with
+        :type startNode: a node (dictionary) from the landscape (getNode())
+
+        '''
+        
         super(RAxMLIdentify,self).__init__(ls,startNode)
         self.executable = None
         self.workdir    = workdir        
@@ -261,6 +315,12 @@ class RAxMLIdentify(phylogeneticLinearHeuristic):
         return trees
     
     def explore(self):
+        
+        ''' Explore using RAxML.
+        
+        :return: None; landscape is modified.
+        
+        '''        
         
         # Get the landscape.
         landscape = self.landscape

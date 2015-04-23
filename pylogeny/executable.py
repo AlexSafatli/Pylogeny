@@ -124,7 +124,15 @@ class consel(executable):
         self.rejected  = tree.treeSet()
         self.instruction = ''
         
-    def getInstructionString(self): return self.instruction
+    def getInstructionString(self):
+        
+        ''' Get the instruction string.
+        
+        :return: a string (of a UNIX command)
+        
+        '''
+        
+        return self.instruction
     
     def _convertRawData(self):
         
@@ -168,7 +176,11 @@ class consel(executable):
     
     def getInterval(self):
         
-        ''' Compute the AU test. Return the interval of trees. '''
+        ''' Compute the AU test. Return the interval of trees.
+        
+        :return: a list of :class:`.tree.tree` objects
+        
+        '''
         
         with aTemporaryDirectory(L_TEMPDIR):
             if not isfile('%s.trees.sitelh' % (self.name)):

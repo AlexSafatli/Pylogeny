@@ -15,6 +15,13 @@ class profile_set:
 
     def __init__(self,alignment):
         
+        ''' Initialize this profile set by indicating an alignment. 
+        
+        :param alignment: an alignment object
+        :type alignment: an :class:`.alignment.alignment` object
+        
+        '''
+        
         self.alignment = alignment
         self.numSites  = alignment.getSize()
         self.taxa      = {}
@@ -51,23 +58,57 @@ class profile_set:
     
     def weight(self,val):
         
+        ''' Acquire the weight associated with an index. 
+        
+        :param val: an index of the set
+        :type val: an integer
+        :return: a weight (integer)
+        
+        '''
+        
         return self.weights[val]
     
     def get(self,val):
+        
+        ''' Acquire the site profile at an index. 
+        
+        :param val: an index of the set
+        :type val: an integer
+        :return: a :class:`.site_profile` object
+        
+        '''
         
         return self.profiles[val]
     
     def getForTaxa(self,val,tax):
         
+        ''' Acquire the string of sequence alphabet characters for a taxon. 
+        
+        :param val: an index of the set
+        :type val: an integer
+        :param tax: a taxon name
+        :type tax: a string
+        :return: a string of characters
+        
+        '''
+        
         return self.profiles[val].vector[self.taxa[tax]]
 
 class site_profile:
     
-    ''' Consolidate the single-column alignment at
-    a region into a set of components on the basis
-    of similarity alone. '''
+    ''' Consolidate a single column of the alignment into a set of components
+    with associated counts. '''
     
     def __init__(self,alignment,site):
+        
+        ''' Initialize this profile. 
+        
+        :param alignment: an alignment object
+        :type alignment: an `.alignment.alignment` object
+        :param site: a site/column index along the alignment
+        :type site: an integer
+        
+        '''
         
         self.alignment = alignment
         self.site      = site

@@ -35,11 +35,21 @@ You can print the Newick string for the global optimum or tree with the maximum 
 Installation
 -------------
 
-Installation requires access to some manner of UNIX-like system or terminal.
+Installation requires access to some manner of UNIX-like system or terminal. Furthermore, **basic build tools** and **python development header include files** are required to install this software. In Ubuntu, this is done with the command
 
-You must first install non-Python dependencies, which currently stand as only [libpll](http://libpll.org). Acquire the appropriate binary or install, from source, version 1.0.2 with SSE3 support. A convenient shell script is located in the root directory of this repository that will perform this installation.
+     sudo apt-get install python-dev build-essential
 
-Once you have acquired and installed all of the necessary non-Python dependencies, you can install this software automatically using `pip` or `easy_install` with the command
+If you do not use a Debian or Ubuntu-derived Linux distribution, search for instructions on acquiring these for your platform.
+
+Before continuing, first install non-Python library dependencies, which currently stand as only [libpll](http://libpll.org). Acquire the appropriate binary or install, from source, version 1.0.2 with SSE3 support. A convenient shell script is located in the root directory of this repository that will perform this installation.
+
+Once you have acquired and installed all of the necessary non-Python dependencies, you can install this software automatically using `pip` or `easy_install`.
+
+If you do not have these packages, you can install them in Ubuntu with
+
+    sudo apt-get install pip setuptools
+
+If you have them, install this package with the command
 
     pip install pylogeny
 
@@ -55,11 +65,10 @@ The API is currently being output to a Github page located [here](http://AlexSaf
 Dependencies
 -------------
 
- * [NumPy](http://www.numpy.org/)
- * [NetworkX](https://networkx.github.io/)
- * [Pandas](http://pandas.pydata.org/)
- * MySQLdb for Python
- * [P4](https://code.google.com/p/p4-phylogenetics/) Phylogenetic Library
+ * [NetworkX](https://networkx.github.io/) version >= 1.9.1
+ * [Pandas](http://pandas.pydata.org/) version >= 0.15.2
+ * MySQLdb for Python version >= 1.2.5
+ * [P4](https://code.google.com/p/p4-phylogenetics/) Phylogenetic Library version >= 0.93
  * [libpll](http://libpll.org) Phylogenetic Likelihood Library (currently compiled with latest [version 1.0.2 with SSE3](http://libpll.org/Downloads/libpll-1.0.2-sse3-64.tar.gz))
 
 Works With

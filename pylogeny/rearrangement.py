@@ -48,7 +48,15 @@ class rearrangement:
     def __init__(self,struct,type,targ,dest):
 
         ''' Initialize by providing a pointer to a base topology, a target
-        branch to be moved, and its destination. '''
+        branch to be moved, and its destination.
+        
+        :param struct: a topology object
+        :type struct: a :class:`.topology` object
+        :param type: the type of movement to perform
+        :param targ: a target branch
+        :param dest: a destination branch
+        
+        '''
         
         self.topol       = struct
         self.type        = type
@@ -57,7 +65,11 @@ class rearrangement:
     
     def getType(self):
         
-        ''' Get the type of movement. '''
+        ''' Get the type of movement.
+        
+        :return: a string
+        
+        '''
         
         if (self.isSPR()):   type = 'SPR'
         elif (self.isNNI()): type = 'NNI'
@@ -79,7 +91,11 @@ class rearrangement:
     
     def toTopology(self):
         
-        ''' Commit the actual move and return the topology. '''
+        ''' Commit the actual move and return the topology.
+        
+        :return: a new :class:`.topology` object
+        
+        '''
         
         topo = self.topol.move(self.target,self.destination)
         topo.rerootToLeaf()
@@ -88,20 +104,34 @@ class rearrangement:
     def toNewick(self):
         
         ''' Commit the move but do not create a new structure. Only retrieve 
-        resultant Newick string; will be more efficient.'''
+        resultant Newick string; will be more efficient.
+        
+        :return: a Newick string
+        
+        '''
         
         return self.topol.move(self.target,self.destination,
                                returnStruct=False)
     
     def toTree(self):
         
-        ''' Commit the move and transform to tree object. '''
+        ''' Commit the move and transform to tree object.
+        
+        :return: a :class:`.tree.tree` object
+        
+        '''
         
         out = self.toTopology().toTree()
         out.origin = self.getType()
         return out
     
     def doMove(self):
+        
+        ''' Commit the move and return the topology. 
+        
+        :return: a :class:`.topology` object
+        
+        '''
         
         return self.toTopology()
     
@@ -119,7 +149,14 @@ class topology(base.treeStructure):
     
     def __init__(self,t=None,rerootToLeaf=True,toLeaf=None):
 
-        ''' Initialize structure with a top-level internal node OR nothing. '''
+        ''' Initialize structure with a top-level internal node OR nothing.
+        
+        :param t: a top-level internal node
+        :param rerootToLeaf: whether to not reroot the structure to a\
+        lowest-lexicographic order taxon name
+        :param toLeaf: reroot to a specifically provided leaf
+        
+        '''
         
         self.root        = t
         self.forbidden  = {}
@@ -147,8 +184,7 @@ class topology(base.treeStructure):
        
     def _getForbiddenStates(self):
         
-        ''' PRIVATE: Construct forbidden state lists for 
-        each branch. '''
+        ''' PRIVATE: Construct forbidden state lists for each branch. '''
         
         # Set up list for each branch.
         for br in self.branches:
@@ -230,8 +266,13 @@ class topology(base.treeStructure):
 
     def rerootToLeaf(self,toleaf=None):
         
-        ''' PRIVATE: Reroots the given tree structure such that it is rooted
-        nearest the lowest-order leaf. '''
+        ''' Reroots the given tree structure such that it is rooted
+        nearest the lowest-order leaf or a provided leaf.
+        
+        :param toleaf: a leaf node from this topology
+        :type toleaf: a :class:`.newick.node` object
+        
+        '''
         
         # Determine lowest-order leaf.
         if not toleaf:
@@ -291,15 +332,31 @@ class topology(base.treeStructure):
     
     def getBranches(self):
         
+        ''' Return all branches from this topology. 
+        
+        :return: a list of :class:`.newick.branch` objects
+        
+        '''
+        
         return self.branches
     
     def getLeaves(self):
+        
+        ''' Return all leaves from this topology. 
+        
+        :return: a list of :class:`.newick.node` objects
+        
+        '''
         
         return self.getAllLeaves()
     
     def getBipartitions(self):
         
-        ''' Get all bipartitions. '''
+        ''' Get all bipartitions.
+        
+        :return: a list of :class:`.tree.bipartition` objects
+        
+        '''
         
         bili = []
         br = self.branches
@@ -310,7 +367,13 @@ class topology(base.treeStructure):
     
     def getStrBipartitionFromBranch(self,br):
         
-        ''' Given a branch, return corresponding bipartition. '''
+        ''' Given a branch, return corresponding bipartition.
+        
+        :param br: a branch
+        :type br: a :class:`.newick.branch` object
+        :return: a :class:`.tree.bipartition` object
+        
+        '''
         
         right  = base.treeStructure.leaves(br.child)
         others = self.getAllLeaves()
@@ -321,7 +384,12 @@ class topology(base.treeStructure):
     def getBranchFromStrBipartition(self,bip):
         
         ''' Given a bipartition of taxa, return a branch that creates that
-        partition of tree taxa. '''
+        partition of tree taxa.
+        
+        :param bip: a tuple of taxa names
+        :return: a :class:`.newick.branch` object
+        
+        '''
         
         l,r = sorted(bip[0]),sorted(bip[1])
         
@@ -335,7 +403,13 @@ class topology(base.treeStructure):
     def getBranchFromBipartition(self,bip):
         
         ''' Given a bipartition object, return a branch that creates that
-        partition of taxa. '''
+        partition of taxa.
+        
+        :param bip: a bipartition
+        :type bip: a :class:`.tree.bipartition` object
+        :return: a :class:`.newick.branch` object
+        
+        '''
         
         return self.getBranchFromStrBipartition(
             bip.getStringRepresentation())
@@ -343,7 +417,13 @@ class topology(base.treeStructure):
     def lockBranch(self,branch):
         
         ''' Given a branch, lock it such that no transitions can ever occur
-        across it. '''
+        across it.
+        
+        :param branch: a branch
+        :type branch: a :class:`.newick.branch` object
+        :return: a boolean (True if success)
+        
+        '''
         
         # Transform to bipartition object.
         bipart = tree.bipartition(self,branch)
@@ -564,7 +644,11 @@ class topology(base.treeStructure):
     def parse(self,newickstr):
         
         ''' Parse a newick string and assign the tree to this object. Cannot
-        already be initialized with a tree. '''
+        already be initialized with a tree.
+        
+        :return: None
+        
+        '''
     
         if self.root != None:
             raise RearrangementError(
@@ -580,14 +664,22 @@ class topology(base.treeStructure):
         
     def toNewick(self):
         
-        ''' Return the newick string of the tree. '''
+        ''' Return the newick string of the tree.
+        
+        :return: a Newick string (rooted)
+        
+        '''
         
         return self.__str__()
     
     def toUnrootedNewick(self):
         
         ''' Return the newick string of the tree as an unrooted topology with a
-        multifurcating top-level node. '''
+        multifurcating top-level node.
+        
+        :return: a Newick string (unrooted)
+        
+        '''
         
         r,a,b = self.root,self.root.children[0],self.root.children[1]
         r.children.remove(a)
@@ -601,7 +693,11 @@ class topology(base.treeStructure):
         
     def toTree(self):
         
-        ''' Return the tree object for this topology. '''
+        ''' Return the tree object for this topology.
+        
+        :return: a new :class:`.tree.tree` object
+        
+        '''
         
         return tree.tree(self.toNewick())
         
@@ -613,7 +709,5 @@ class topology(base.treeStructure):
         return tree.tree(self.toUnrootedNewick())
         
     def __str__(self):
-        
-        ''' Return the newick string of the tree. '''
         
         return str(self.root) + ';'

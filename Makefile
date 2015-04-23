@@ -19,7 +19,7 @@ dist: build
 	${PY} setup.py ${DIST}
 
 docs: ${FILES} check_environment install
-	${SDOC} -F -e -H ${NAME} -A "Alex Safatli" -V ${VER} -R ${VER} -o ${DOCS} ${PKG}
+	${SDOC} -E -F -e -H ${NAME} -A "Alex Safatli" -V ${VER} -R ${VER} -o ${DOCS} ${PKG}
 	@cd ${DOCS} && cat conf >> conf.py && make html && make latex && make latexpdf
 	cp -r ${DOCS}/_build/html/* $(GH_DOC_REPO)
 	cp ${DOCS}/_build/latex/*.pdf docs/api.pdf

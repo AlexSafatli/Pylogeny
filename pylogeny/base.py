@@ -13,7 +13,13 @@ from collections import Sized, Iterable, Container
 
 def longest_common_substring(s1,s2):
     
-    ''' Simplified, traditional LCS algorithm implementation. '''
+    ''' Simplified, traditional LCS algorithm implementation.
+    
+    :type s1: a string
+    :type s2: a string
+    :return: a string (longest common substring of s1, s2)
+    
+    '''
     
     m = [[0] * (1 + len(s2)) for i in xrange(1 + len(s1))]
     longest, x_longest = 0, 0
@@ -31,12 +37,17 @@ def longest_common_substring(s1,s2):
 
 class treeStructure(Container):
     
-    ''' Defines a base collection of treeNodes and treeBranches in a
+    ''' Defines a base collection of treeNodes and treeBranches in a rooted,
     hierarchical tree structure. '''
     
-    root = None
-    
     def __init__(self,root=None):
+        
+        ''' Initialize this tree structure.
+        
+        :param root: an optional node to root the tree with
+        :type root: a :class:`.treeNode` object
+        
+        '''
         
         if root == None:
             self.root = treeNode()
@@ -54,22 +65,54 @@ class treeStructure(Container):
     def getRoot(self):
         
         ''' Return the top-level, root, node of 
-        the tree. '''
+        the tree. 
+        
+        :return: a :class:`.treeNode` object
+        
+        '''
         
         return self.root    
     
     @staticmethod
     def leaves(root):
+        
+        ''' Static method to acquire all leaf nodes of a tree structure
+        in order of how they are defined in children of nodes (DFS).
+        
+        :param root: a root node of a tree structure
+        :type root: a :class:`.treeNode` object
+        :return: a list of :class:`.treeNode` objects
+        
+        '''
+        
         if root.isLeaf(): return [root]
         li = list()
         for branch in root.getChildren():
             li.extend(treeStructure.leaves(branch.getChild()))
         return li        
         
-    def getAllLeaves(self): return treeStructure.leaves(self.root)
+    def getAllLeaves(self):
+        
+        ''' Acquire all leaf nodes for this structure.
+        
+        :return: a list of :class:`.treeNode` objects
+        
+        '''
+        
+        return treeStructure.leaves(self.root)
     
     @staticmethod
     def nodes(root):
+        
+        ''' Static method to acquire all nodes of a tree structure
+        in order of how they are defined in children of nodes (DFS).
+
+        :param root: a root node of a tree structure
+        :type root: a :class:`.treeNode` object
+        :return: a list of :class:`.treeNode` objects
+
+        '''
+        
         if root == None: return []
         li = list()
         li.append(root)
@@ -77,10 +120,28 @@ class treeStructure(Container):
             li.extend(treeStructure.nodes(branch.getChild()))
         return li    
     
-    def getAllNodes(self): return treeStructure.nodes(self.root)
+    def getAllNodes(self):
+        
+        ''' Acquire all nodes for this structure.
+
+        :return: a list of :class:`.treeNode` objects
+
+        '''       
+        
+        return treeStructure.nodes(self.root)
     
     @staticmethod
     def postOrderTraversal(root):
+        
+        ''' Static method to acquire all nodes of a tree structure
+        as a post order traversal.
+
+        :param root: a root node of a tree structure
+        :type root: a :class:`.treeNode` object
+        :return: a list of :class:`.treeNode` objects
+
+        '''       
+        
         if (root == None): return []
         li = list()
         for branch in root.getChildren():
@@ -109,45 +170,181 @@ class treeStructure(Container):
 class treeNode(object):
     
     ''' A node in a tree. '''
-
-    label    = None
-    parent   = None
-    children = None
     
     def __init__(self,lbl=None,children=None,parent=None):
-        
+
+        ''' Initialize this tree node.
+
+        :param lbl: an optional string to label this node
+        :type lbl: a string
+        :param children: an optional list of branches as children
+        :type children: a list of :class:`.treeBranch` objects
+        :param parent: an optional branch to act as parent to this one
+        :type parent: a :class:`.treeBranch` object
+
+        '''        
         self.label  = lbl
         self.parent = parent
         if children != None:
             self.children = children
         else: self.children = list()
             
-    def getLabel(self): return self.label
-    def getParent(self): return self.parent
+    def getLabel(self):
+        
+        ''' Return the label of this node.
+
+        :return: a string
+
+        '''        
+        
+        return self.label
+    
+    def getParent(self):
+
+        ''' Return the parent of this node.
+
+        :return: a :class:`.treeBranch` object
+
+        '''          
+        
+        return self.parent
+    
     def addChild(self,item):
+        
+        ''' Add a branch as a child.
+
+        :param item: a branch to add as a child
+        :type item: a :class:`.treeBranch` object
+
+        '''
+        
         self.children.append(item)
-    def getChildByIndex(self,i): return self.children[i]
-    def getChildren(self): return self.children
-    def isLeaf(self): return len(self.children) == 0
-    def isInternalNode(self): return (len(self.children) > 0)
+        
+    def getChildByIndex(self,i):
+        
+        ''' Get a child branch by index in the list of children.
+
+        :param i: an index
+        :type i: an integer
+        :return: a :class:`.treeBranch` object
+
+        '''          
+        
+        return self.children[i]
+    
+    def getChildren(self):
+        
+        ''' Return the list of children branch object.
+
+        :return: a string
+
+        '''          
+        
+        return self.children
+    
+    def isLeaf(self):
+        
+        ''' Determine if this node is a leaf (has no children).
+
+        :return: a boolean
+
+        '''          
+        
+        return len(self.children) == 0
+    
+    def isInternalNode(self):
+        
+        ''' Determine if this node is not a leaf (has children).
+
+        :return: a boolean
+
+        '''          
+    
+        return (len(self.children) > 0)
 
 class treeBranch(object):
     
     ''' A branch in a tree. '''
     
-    label  = ''    
-    parent = None
-    child  = None
-    
     def __init__(self,parent=None,child=None,label=''):
+        
+        ''' Instantiate this branch.
+
+        :param parent: an optional parent node
+        :type parent: a :class:`.treeNode` object
+        :param child: an optional child node
+        :type child: a :class:`.treeNode` object
+        :param label: an optional string label
+        :type label: a string
+
+        '''          
         
         self.parent = parent
         self.child  = child
         self.label  = label
         
-    def getLabel(self): return self.label
-    def getParent(self): return self.parent
-    def getChild(self): return self.child  
+    def getLabel(self):
+        
+        ''' Return the label of this branch.
+
+        :return: a string
+
+        '''          
+        
+        return self.label
+    
+    def getParent(self):
+
+        ''' Return the parent node of this branch.
+
+        :return: a :class:`.treeNode` object
+
+        '''  
+
+        return self.parent
+    
+    def getChild(self):
+        
+        ''' Return the child node of this branch.
+
+        :return: a :class:`.treeNode` object
+
+        '''          
+        
+        return self.child  
+
+    def setLabel(self,lbl):
+
+        ''' Set the label of this branch.
+
+        :param lbl: a string label
+        :type lbl: a string
+
+        '''          
+
+        self.label = lbl
+
+    def setParent(self,p):
+
+        ''' Set the parent node of this branch.
+
+        :param p: the parent node of this object
+        :type p: a :class:`.treeNode` object
+
+        '''  
+
+        self.parent = p
+
+    def setChild(self,c):
+
+        ''' Set the child node of this branch.
+
+        :param c: the child node of this object
+        :type c: a :class:`.treeNode` object
+
+        '''          
+
+        self.child = c  
 
 # Tries
 
@@ -157,9 +354,27 @@ class trieNode(treeNode):
     non-zero members amongst children branches and other
     conveniences. '''
     
-    def getParentNode(self): return self.parent.parent
+    def getParentNode(self):
+        
+        ''' Get the parent node of this node (assumes a parent branch).
+
+        :return: the parent of the parent branch to this node
+
+        '''              
+        
+        return self.parent.parent
     
     def setChildNode(self,child,newchild):
+        
+        ''' Set a given child node (traversing branches along the way)
+        of this node to a new object.
+
+        :param child: a child node of this object
+        :type child: a :class:`.treeNode` object
+        :param newchild: the child node to replace
+        :type newchild: a :class:`.treeNode` object
+
+        '''      
         
         for branch in self.children:
             if branch.child != None and branch.child == child:
@@ -169,7 +384,11 @@ class trieNode(treeNode):
     
     def iterNonEmptyChildrenNodes(self):    
         
-        ''' Iterate over all children that are not empty. '''
+        ''' Iterate over all children nodes that are not empty.
+        
+        :return: a generator yielding children :class:`.treeNode` objects
+                
+        '''
         
         for branch in self.children:
             if (branch.child != None):
@@ -177,17 +396,31 @@ class trieNode(treeNode):
                 
     def getNonEmptyChildrenNodes(self):
         
-        ''' Acquire a list of all non-empty children. '''
+        ''' Acquire a list of all non-empty children nodes. 
+        
+        :return: a list of :class:`.treeNode` objects
+                
+        '''
         
         return [x for x in self.iterNonEmptyChildrenNodes()]
     
     def getNonEmptyChildrenBranches(self):
         
-        ''' Acquire a list of all non-empty children. '''
+        ''' Acquire a list of all non-empty children branches.
+        
+        :return: a list of :class:`.treeBranch` objects
+        
+        '''
     
         return [x.parent for x in self.iterNonEmptyChildrenNodes()]
     
     def getNonEmptyChildrenBranchLabels(self):
+        
+        ''' Acquire a list of labels for all non-empty children branches.
+
+        :return: a list of strings
+
+        '''              
         
         return [x.parent.label for x in self.iterNonEmptyChildrenNodes()]
     
@@ -199,8 +432,7 @@ class trieNode(treeNode):
         empty = 0
         
         for branch in self.children:
-            if (branch.child == None or branch.child.label == 0):
-                empty += 1
+            if (branch.child == None or branch.child.label == 0): empty += 1
                 
         return empty
 
@@ -208,13 +440,12 @@ class trie(Sized,treeStructure):
     
     ''' Defines a trie across a range of strings. '''
     
-    alphabet  = None
-    root      = None
-    count     = 0
-    nextLabel = 1
-    
     def __init__(self):
         
+        ''' Instantiate this trie as empty. '''
+        
+        self.count = 0
+        self.nextLabel = 1
         self.alphabet = []
         self.root = trieNode(lbl=0)
         
@@ -230,8 +461,26 @@ class trie(Sized,treeStructure):
         
         return self.count
         
-    def getAlphabet(self): return self.alphabet
-    def getRoot(self): return self.root
+    def getAlphabet(self):
+        
+        ''' Acquire the unique alphabet of characters present across
+        strings in this trie. 
+        
+        :return: a list of characters
+        
+        '''
+        
+        return self.alphabet
+    
+    def getRoot(self):
+        
+        ''' Get the root node of this trie.
+        
+        :return: a :class:`.trieNode` object
+        
+        '''
+        
+        return self.root
     
     def _makeNewChildForNodes(self,node,char):
         
@@ -274,7 +523,11 @@ class trie(Sized,treeStructure):
     def search(self,seq):
         
         ''' Search for a sequence in the trie. Returns true
-        if it exists. '''
+        if it exists.
+        
+        :return: a boolean
+        
+        '''
         
         index  = 0
         cursor = self.getRoot()
@@ -298,7 +551,11 @@ class trie(Sized,treeStructure):
     
     def insert(self,seq):
         
-        ''' Dynamically insert a sequence into the trie. '''
+        ''' Dynamically insert a sequence into the trie.
+        
+        :return: the label for this inserted sequence
+        
+        '''
     
         index  = 0
         cursor = self.getRoot()
@@ -329,8 +586,12 @@ class trie(Sized,treeStructure):
         
     def delete(self,seq):
         
-        ''' Remove a sequence from the trie. Will not remove
-        added characters to alphabet. '''
+        ''' Remove a sequence from the trie. Will not remove added characters
+        to alphabet.
+        
+        :param seq: a sequence present in the trie
+        
+        '''
         
         index  = 0
         cursor = self.getRoot()
@@ -367,7 +628,9 @@ class patriciaTree(trie):
     
     ''' Defines a PATRICIA tree (condensed trie) across a range of strings. '''
     
-    def __contains__(self,x): return (self.search(x) != 0)
+    def __contains__(self,x):
+        
+        return (self.search(x) != 0)
     
     def _deleteNode(self,node,child=None):
         
@@ -524,7 +787,11 @@ class patriciaTree(trie):
     def delete(self,seq):
         
         ''' Remove a sequence from the PATRICIA tree. Will not remove 
-        added characters to alphabet. '''
+        added characters to alphabet.
+        
+        :param seq: a sequence present in the trie
+        
+        '''
 
         query,_,_,_ = self._query(seq)
         

@@ -20,9 +20,21 @@ class ParsingError(Exception):
 
 class node(base.treeNode):
     
-    ''' Newick node. '''
+    ''' Node for a tree parsed from a Newick string. '''
         
     def __init__(self,lbl='',children=None,parent=None):
+        
+        ''' Initialize a node in a tree parsed from a Newick string.
+        
+        :param lbl: a label for this node
+        :type lbl: a string
+        :param children: an optional set of children (branches); default none
+        :type children: a list of :class:`.branch` objects
+        :param parent: an optional parent branch for this node; default none
+        :type parent: a :class:`.branch` object
+        
+        '''
+        
         super(node,self).__init__(lbl,children,parent)
         
     def __str__(self):
@@ -35,9 +47,21 @@ class node(base.treeNode):
 
 class branch(base.treeBranch):
     
-    ''' Newick branch. '''
+    ''' Branch for a tree parsed from a Newick string. '''
     
     def __init__(self,chi,l,parent=None,s=None):
+        
+        ''' Initialize a branch in a tree parsed from a Newick string. 
+        
+        :param chi: a child node
+        :type chi: a :class:`.node` object
+        :param l: a branch length
+        :type l: a floating point value
+        :param parent: an optional parent node; default none
+        :type parent: a :class:`.node` object
+        
+        '''
+        
         self.parent         = parent
         self.child          = chi
         self.branch_length  = l
@@ -54,7 +78,12 @@ def assignParents(top):
     
     ''' Should be a one-time use function. Goes through
     and assigns parents to the parsed newick tree structure
-    nodes and branches to allow for up-traversal. '''
+    nodes and branches to allow for up-traversal.
+    
+    :param top: a top-level node for a tree (root node)
+    :type top: a :class:`.node` object
+    
+    '''
     
     # Is a node?
     if type(top) != node: return False
@@ -68,7 +97,12 @@ def assignParents(top):
 
 def removeBranchLengths(top):
     
-    ''' Goes through and removes any stored branch lengths. '''
+    ''' Goes through and removes any stored branch lengths.
+    
+    :param top: a top-level node for a tree (root node)
+    :type top: a :class:`.node` object
+    
+    '''
 
     # Is a node?
     if type(top) != node: return False
@@ -83,7 +117,12 @@ def removeUnaryInternalNodes(top):
     
     ''' Goes through and ensures any degree-2 internal 
     nodes are smoothed into a single degree-3 internal 
-    node. '''
+    node. 
+    
+    :param top: a top-level node for a tree (root node)
+    :type top: a :class:`.node` object    
+        
+    '''
     
     next_item = None
     if (len(top.children) == 1):
@@ -106,7 +145,14 @@ def invertAlongPathToNode(target,top):
     
     ''' DANGEROUS: Reverses all directionality to a given
     node from a top-level node. Intended as a low-level 
-    function for rerooting a tree. '''
+    function for rerooting a tree.
+    
+    :param target: a target node
+    :type target: a :class:`.node` object
+    :param top: a top-level node for a tree (root node)
+    :type top: a :class:`.node` object
+    
+    '''
         
     def invertDirections(n,newparent=None):
         b = n.parent
@@ -137,7 +183,12 @@ def invertAlongPathToNode(target,top):
 def shuffleLeaves(top):
     
     ''' DANGEROUS: Given a top-level node, shuffle all 
-    leaves in this tree. '''
+    leaves in this tree.
+    
+    :param top: a top-level node for a tree (root node)
+    :type top: a :class:`.node` object
+    
+    '''
 
     leaves = base.treeStructure.leaves(top)
     names  = [x.label for x in leaves]
@@ -148,7 +199,12 @@ def shuffleLeaves(top):
 def getAllBranches(br):
     
     ''' Given a branch, traverse subtree and return 
-    comprising branches as a list. '''
+    comprising branches as a list.
+    
+    :param br: a branch from a tree
+    :type br: a :class:`.branch` object
+    
+    '''
     
     # Is a branch?
     if type(br) != branch: return list()
@@ -165,7 +221,14 @@ def getAllBranches(br):
 def isSibling(br,other):
     
     ''' Given a branch, determine if that branch is 
-    adjacent to another branch. '''
+    adjacent to another branch. 
+    
+    :param br: a branch from a tree
+    :type br: a :class:`.branch` object
+    :param other: another branch from a tree
+    :type other: a :class:`.branch` object
+    
+    '''
 
     if type(br)     != branch: return False
     if type(other)  != branch: return False
@@ -178,6 +241,14 @@ class newickParser:
     ''' Parsing object for Newick strings. '''
     
     def __init__(self, newick):
+        
+        ''' Initialize this parser (with a Newick string). 
+        
+        :param newick: a Newick string
+        :type newick: a string
+        
+        '''
+                
         if newick == None or type(newick) != str:
             raise ValueError('Input <%s> is not a valid string!' %
                              (repr(newick)))
@@ -186,7 +257,11 @@ class newickParser:
         
     def parse(self):
         
-        ''' Parse the stored newick string into a topological structure. '''
+        ''' Parse the stored newick string into a topological structure.
+        
+        :return: the top-level root :class:`.node` object
+        
+        '''
         
         # Get the newick string.
         read = self.newick
@@ -210,7 +285,15 @@ def getBalancingBracket(newick,i):
     
     ''' Given a position of an opening bracket in a 
     newick string, i, output the closing bracket's
-    position that corresponds to this opening bracket. '''
+    position that corresponds to this opening bracket.
+    
+    :param newick: a Newick string
+    :type newick: a string
+    :param i: a position in the string (index)
+    :type i: an integer < length of the string
+    :return: an integer
+    
+    '''
     
     opencount = 0
     while (i+1 < len(newick)):
@@ -225,7 +308,15 @@ def getBalancingBracket(newick,i):
 def getBranchLength(newick,i):
     
     ''' Given a position of a colon symbol (indicating a 
-    branch length), return the branch length. '''
+    branch length), return the branch length.
+    
+    :param newick: a Newick string
+    :type newick: a string
+    :param i: a position in the string (index)
+    :type i: an integer < length of the string
+    :return: an integer
+    
+    '''
     
     runningstr = ''
     while (i+1 < len(newick)):
@@ -241,7 +332,15 @@ def getBranchLength(newick,i):
 
 def getLeafName(newick,i):
     
-    ''' Given the position of a leaf, find its complete name. '''
+    ''' Given the position of a leaf, find its complete name.
+    
+    :param newick: a Newick string
+    :type newick: a string
+    :param i: a position in the string (index)
+    :type i: an integer < length of the string
+    :return: an integer
+    
+    '''
     
     runningstr = ''
     while (i < len(newick)):
@@ -255,7 +354,18 @@ def getLeafName(newick,i):
 def parseNewick(newick,i,j,top):
     
     ''' Parse a newick string into a topological newick
-    structure given a top-level node. '''
+    structure given a top-level node.
+    
+    :param newick: a Newick string
+    :type newick: a string
+    :param i: a starting position to start parsing
+    :type i: an integer
+    :param j: an end position to stop parsing
+    :type j: an integer
+    :param top: a top-level node; start parsing with None
+    :type top: a :class:`.node` object
+    
+    '''
     
     # Input is substring [i,j] and top-level node.
     first = None

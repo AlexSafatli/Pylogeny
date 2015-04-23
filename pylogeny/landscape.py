@@ -15,7 +15,10 @@ in E(G). '''
 
 # Imports
 
-import networkx, tree, alignment, base
+import networkx
+import tree
+import alignment
+import base
 from random import choice
 from scoring import getParsimonyFromProfiles as parsimony, getLogLikelihood as\
      ll
@@ -35,64 +38,181 @@ class graph(object):
     
     ''' Define an empty graph object. '''
     
-    def __init__(self,gr=None):
+    def __init__(self,gr=None,defWeight=0.):
         
-        ''' Instantiate a graph.
+        ''' Instantiate a graph. Default edge weights are 0.
         
-        :param gr: A networkx graph object, if already exists. 
+        :param gr: a networkx graph object, if already exists. 
+        :type gr: a :class:`networkx.Graph` object
+        :param defWeight: the default edge weight of weights
+        :type defWeight: a floating point number
         
         '''
         
         if gr == None: self.graph = networkx.Graph()
         else: self.graph = gr
-        self.defaultWeight = 0. 
+        self.defaultWeight = defWeight
     
-    def __len__(self): return len(self.graph.node)
+    def __len__(self):
+        
+        return len(self.graph.node)
+    
     def __iter__(self):
+        
         for node in self.graph.node.keys(): yield node
 
     def getSize(self):
 
-        ''' Return the number of nodes in the graph. '''
+        ''' Return the number of nodes in the graph.
+        
+        :return: an integer
+        
+        '''
         
         return len(self.graph.node)
 
     def getNodeNames(self):
         
-        ''' Return the names of nodes in the graph. '''
+        ''' Return the names of nodes in the graph.
+        
+        :return: a list of strings
+        
+        '''
         
         return self.graph.node.keys()
     
     def iterNodes(self):
         
-        ''' Iterate over all node keys. '''
+        ''' Iterate over all node keys.
+        
+        :return: a generator of node keys
+        
+        '''
         
         for node in self.graph.node: yield node
         
-    def getNodes(self):          return self.graph.node.values()
+    def getNodes(self):
+        
+        ''' Get all node values. Recommended to use an iterator for large
+        graphs (iterNodes()).
+        
+        :return: a list of node values (whatever is associated with nodes)
+        
+        '''
+        
+        return self.graph.node.values()
+    
     def getEdges(self):
+        
+        ''' Get all edges (as defined for NetworkX graphs). Recommended to use
+        an iterator for large graphs.
+        
+        :return: a list of edges (and associated data)
+        
+        '''
+        
         return [self.getEdge(i,j) for i,j in self.graph.edges_iter()]
+    
     def getEdgesFor(self,i):
+        
+        ''' Get all edges associated with a certain node. 
+        
+        :param i: a node name
+        :type i: a string
+        :return: a list of edges (and associated data) for all neighbors
+        
+        '''
+        
         return [self.getEdge(i,j) for j in self.graph.neighbors(i)]
-    def getNode(self,i):         return self.graph.node[i] 
-    def getEdge(self,i,j):       return self.graph.get_edge_data(i,j)
-    def isEdge(self,i,j):        return (self.getEdge(i,j) != None)
-    def getNeighborsFor(self,i): return self.graph.neighbors(i)  
+    
+    def getNode(self,i):
+        
+        ''' Get a single node by name. 
+        
+        :param i: a node name:
+        :type i: a string
+        
+        '''
+        
+        return self.graph.node[i] 
+    
+    def getEdge(self,i,j):
+        
+        ''' Get the data associated with an edge (including weight).
+        
+        :param i: a node name
+        :type i: a string
+        :param j: a node name
+        :type j: a string
+        :return: an edge (and associated data)
+        
+        '''
+        
+        return self.graph.get_edge_data(i,j)
+    
+    def isEdge(self,i,j):
+        
+        ''' See if an edge exists between two nodes.
+        
+        :param i: a node name
+        :type i: a string
+        :param j: a node name
+        :type j: a string
+        :return: a boolean
+        
+        '''
+        
+        return (self.getEdge(i,j) != None)
+    
+    def getNeighborsFor(self,i):
+        
+        ''' Get a list of all node names neighbor to a node. 
+        
+        :param i: a node name
+        :type i: a string
+        :return: a list of strings (node names)
+        
+        '''
+        
+        return self.graph.neighbors(i)  
     
     def getDegreeFor(self,i):
 
-        ''' Return in- and out-degree for node named i. '''
+        ''' Return in- and out-degree for node named i.
+        
+        :param i: a node name
+        :type i: a string
+        :return: an integer
+        
+        '''
         
         return len(self.getNeighborsFor(i))
         
-    def setDefaultWeight(self,w): self.defaultWeight = float(w)
+    def setDefaultWeight(self,w):
+        
+        ''' Set the default weight of edges (weight of edges if not overridden).
+        
+        :param w: a weight
+        :type w: a floating point
+        
+        '''
+        
+        self.defaultWeight = float(w)
+        
     def clearEdgeWeights(self):
+        
+        ''' Set all edge weights to the default edge weight. '''
+        
         for edge in self.getEdges():
             edge['weight'] = self.defaultWeight
         
     def getNumComponents(self):
         
-        ''' Get the number of components of the graph. '''
+        ''' Get the number of components of the graph.
+        
+        :return: an integer
+        
+        '''
         
         return comp.number_connected_components(self.graph)
     
@@ -116,13 +236,21 @@ class graph(object):
     
     def getCliqueNumber(self):
 
-        ''' Get the clique number of the graph. '''
+        ''' Get the clique number of the graph.
+        
+        :return: an integer
+        
+        '''
         
         return alg.clique.graph_clique_number(self.graph)
     
     def getNumCliques(self):
         
-        ''' Get the number of cliques found in the graph. '''
+        ''' Get the number of cliques found in the graph.
+        
+        :return: an integer
+        
+        '''
         
         return alg.clique.number_of_cliques(self.graph)
     
@@ -171,20 +299,25 @@ class graph(object):
 
 class landscape(graph,treeSet):
     
-    ''' Defines an entire phylogenetic tree space. 
-    
-    :param ali: An :class:`alignment.alignment` object.
-    :param starting_tree: An optional tree object to start
-    the landscape with.
-    :param root: Whether or not to acquire an approximate
-    maximum likelihood tree (FastTree) or start the landscape
-    with a given starting tree.
-    :param operator: A string that describes what operator the
-    landscape is mostly comprised of.    
-    
-    '''
+    ''' Defines an entire phylogenetic tree space. '''
     
     def __init__(self,ali,starting_tree=None,root=True,operator='SPR'):
+        
+        ''' Initialize the landscape.
+
+        :param ali: an alignment
+        :type ali: an :class:`.alignment.alignment` object
+        :param starting_tree: an optional tree object to start with
+        :type starting_tree: a :class:`.tree.tree` object
+        :param root: whether or not to compute an approximate\
+        maximum likelihood tree (FastTree) or start the landscape\
+        with a given starting tree.
+        :type root: a boolean
+        :param operator: a string that describes what operator the\
+        landscape is mostly comprised of.
+        :type operator: a string
+        
+        '''        
         
         super(landscape,self).__init__()
         
@@ -222,14 +355,22 @@ class landscape(graph,treeSet):
         
     def getAlignment(self): 
         
-        ''' Acquire the alignment object associated with this space. '''
+        ''' Acquire the alignment object associated with this space. 
+        
+        :return: an :class:`.alignment.alignment` object
+        
+        '''
         
         return self.alignment
     
     def getNumberTaxa(self):
         
         ''' Return the number of different taxa present in any respective tree
-        in the landscape. '''
+        in the landscape. 
+        
+        :return: an integer
+        
+        '''
         
         return self.leaves
 
@@ -237,7 +378,11 @@ class landscape(graph,treeSet):
         
         ''' Assuming all of the trees in the space are rooted, return the
         maximum possible number of unrooted trees that can possibly be generated
-        for the number of taxa of trees in the landscape. '''
+        for the number of taxa of trees in the landscape.
+        
+        :return: an integer
+        
+        '''
         
         return numberRootedTrees(self.leaves)
     
@@ -245,26 +390,43 @@ class landscape(graph,treeSet):
         
         ''' Assuming all of the trees in the space are unrooted, return the 
         maximum possible number of unrooted trees that can possibly be generated
-        for the number of taxa of trees in the landscape. '''
+        for the number of taxa of trees in the landscape.
+        
+        :return: an integer
+        
+        '''
         
         return numberUnrootedTrees(self.leaves)
     
     def getRoot(self):
         
-        ''' Returns the index to the root (starting) tree of the space. '''
+        ''' Returns the index to the root (starting) tree of the space.
+        
+        :return: an integer
+        
+        '''
         
         return self.root
     
     def getRootTree(self):
         
-        ''' Acquire the first tree that was placed in this space. '''
+        ''' Acquire the first tree that was placed in this space.
+        
+        :return: a :class:`.tree.tree` object
+        
+        '''
         
         return self.getTree(self.root)
     
     def setAlignment(self,ali):
         
         ''' Set the alignment present in this landscape. WARNING; will not
-        modify existing scores. '''
+        modify existing scores. 
+        
+        :param ali: an alignment
+        :type ali: an :class:`.alignment.alignment` object
+        
+        '''
         
         self.alignment          = ali
         self.leaves             = ali.getNumSeqs()
@@ -272,7 +434,12 @@ class landscape(graph,treeSet):
         
     def setOperator(self,op):
         
-        ''' Set the operator assigned to this landscape. '''
+        ''' Set the operator assigned to this landscape.
+        
+        :param op: an operator (string description)
+        :type op: a string
+        
+        '''
         
         self.operator = op
     
@@ -326,7 +493,12 @@ class landscape(graph,treeSet):
     
     def getTree(self,i):
         
-        ''' Get the object for a tree by its name. '''
+        ''' Get the object for a tree by its name.
+        
+        :param i: a tree name (usually an integer)
+        :return: a :class:`.tree.tree` object
+        
+        '''
         
         if not i in self.graph.node: return None
         return self.getNode(i)['tree']
@@ -341,13 +513,23 @@ class landscape(graph,treeSet):
         ''' Acquire a vertex object from the landscape; this is a 
         high-level representation of a tree in the landscape with
         additional functionality. Object created upon invocation of
-        this function. '''
+        this function.
+        
+        :param i: a tree name (usually an integer)
+        :return: a :class:`.vertex` object
+        
+        '''
         
         return vertex(self.getNode(i),self)
 
     def removeTreeByIndex(self,i):
         
-        ''' Remove a tree from the landscape by index. '''
+        ''' Remove a tree from the landscape by index.
+        
+        :param i: a tree name (usually an integer)
+        :return: a boolean (success or failure)
+        
+        '''
         
         tr = self.getTree(i)
         if (tr == None): return False
@@ -357,7 +539,13 @@ class landscape(graph,treeSet):
 
     def removeTree(self,tree):
         
-        ''' Remove a tree from the landscape by object. '''
+        ''' Remove a tree from the landscape by object.
+        
+        :param tree: a tree that exists in the landscape
+        :type tree: a :class:`.tree.tree` object
+        :return: a boolean (success or failure)
+        
+        '''
 
         t = self.indexOf(tree)
         if (t < 0): return False
@@ -365,19 +553,35 @@ class landscape(graph,treeSet):
         
     def addTreeByNewick(self,newick,score=True,check=True,struct=None):
         
-        ''' Add tree to the landscape by Newick string. Will return index. '''
+        ''' Add tree to the landscape by Newick string. Will return index.
+        
+        :param newick: a Newick string
+        :type newick: a string
+        :param score: defaults to True, whether to score this tree or not
+        :type score: a boolean
+        :return: the index of the tree
+        
+        '''
         
         return self.addTree(None,score=score,check=check,newick=newick,
                             struct=struct)
         
     def addTree(self,tr,score=True,check=True,newick=None,struct=None):
         
-        ''' Add a tree to the landscape. Will return its index. '''
+        ''' Add a tree to the landscape. Will return its index. 
+
+        :param tr: a tree
+        :type tr: a :class:`.tree.tree` object
+        :param score: defaults to True, whether to score this tree or not
+        :type score: a boolean
+        :return: the index of the tree
+        
+        '''
             
         # (Re)construct the tree ensuring consistent configuration/naming.
         if tr == None and newick == None:
             raise ValueError(
-                'Require tree object OR newick string for tree addition.')
+                'Require tree object OR Newick string for tree addition.')
         if newick == None: newick = tr.toNewick()
         tobj = tree.tree(newick,check=check,structure=struct)
         
@@ -391,7 +595,7 @@ class landscape(graph,treeSet):
         index = self._newNode(tobj,score=score)
         if (self.root is None):
             if (len(self) != 1):
-                raise AssertionError('Landscape unrooted with 1+ tree.')
+                raise AssertionError('Landscape has no root with 1+ tree.')
             self.root = index
         return index
     
@@ -401,7 +605,13 @@ class landscape(graph,treeSet):
         random rearrangement of type SPR (by default), NNI, or TBR -- this is
         done by performing a rearrangement on a random branch in the topology.
         Rearrangement type is provided as a rearrangement module type definition
-        of form, for example, TYPE_SPR, TYPE_NNI, etc. '''
+        of form, for example, TYPE_SPR, TYPE_NNI, etc.
+        
+        :param i: a tree index
+        :param type: the type of rearrangement (e.g., TYPE_SPR, TYPE_NNI)
+        :return: the new tree index or None in case of failure
+        
+        '''
         
         # Get parsimony profiles.
         p = self.parsimony_profiles
@@ -473,14 +683,20 @@ class landscape(graph,treeSet):
         respective rearrangement operator as defined in the rearrangement
         module. Rearrangement type is provided as a rearrangement module type
         definition of form, for example, TYPE_SPR, TYPE_NNI, etc. By default,
-        this is TYPE_SPR. '''
+        this is TYPE_SPR.
+        
+        :param i: a tree index
+        :param type: the type of rearrangement (e.g., TYPE_SPR, TYPE_NNI)
+        :return: a list of neighbors as tree names (usually integers)
+        
+        '''
         
         # Get parsimony profiles.
         p = self.parsimony_profiles
         
         # Check node.
         node  = self.getNode(i)
-        if (node['explored']): return False
+        if (node['explored']): return list()
         tre   = node['tree']
         topol = tre.toTopology()
         new   = topol.toNewick()
@@ -493,6 +709,7 @@ class landscape(graph,treeSet):
                 if (hasthis): topol.lockBranch(hasthis)
         
         # Perform full-enumeration exploration (1 move).
+        neighbors = list()        
         enum = topol.allType(type)
         
         for en in enum:
@@ -525,22 +742,37 @@ class landscape(graph,treeSet):
             
             # Add to landscape.
             j = self._newNode(t,score=True)
+            neighbors.append(j)
             self.graph.add_edge(i,j)
             self.getEdge(i,j)['weight'] = self.defaultWeight
         
         # Set explored to True.
         node['explored'] = True 
         
-        return True
+        return neighbors
 
     # Lock Management
         
-    def getLocks(self): return self.locks 
+    def getLocks(self):
+
+        ''' Get all restrictions (locks which cannot be violated on splits).
+        
+        :return: a list of :class:`.tree.bipartition` objects
+        
+        '''
+        
+        return self.locks 
     
     def toggleLock(self,lock):
         
         ''' Add a biparition to the list of locked bipartitions if not 
-        present; otherwise, remove it. Return status of lock. '''
+        present; otherwise, remove it. Return status of lock.
+        
+        :param lock: a bipartition that cannot be violated
+        :type lock: a :class:`.tree.bipartition` object
+        :return: a boolean (on or off)
+        
+        '''
         
         toggle = False
         if lock in self.getLocks():
@@ -554,7 +786,14 @@ class landscape(graph,treeSet):
         
         ''' Given a tree node and a branch object, add a given 
         bipartition to the bipartition lock list. Returns 
-        bipartition if locked. '''
+        bipartition if locked.
+        
+        :param tr: a tree name
+        :param br: a branch in that tree
+        :type br: a :class:`.base.treeBranch` object
+        :return: a :class:`.tree.bipartition` object that has been locked or None
+        
+        '''
 
         # Check for presence of tree.
         g = self.graph.node
@@ -574,7 +813,13 @@ class landscape(graph,treeSet):
     def getBipartitionFoundInTreeByIndex(self,tr,brind,topol=None):
         
         ''' Given a tree node and a branch index, return the associated
-        bipartition. '''
+        bipartition.
+        
+        :param tr: a tree name
+        :param brind: a branch index in that tree, a la post-order traversal
+        :return: a :class:`.tree.bipartition` object
+        
+        '''
         
         # Check for presence of tree.
         if (not topol) and (not tr in self.graph.node): return None
@@ -597,7 +842,13 @@ class landscape(graph,treeSet):
         
         ''' Given a tree node and a branch index, add an associated 
         bipartition to the bipartition lock list. Returns the
-        bipartition if locked. '''
+        bipartition if locked.
+        
+        :param tr: a tree name
+        :param brind: a branch index
+        :return: a :class:`.tree.bipartition` object if it has been locked
+        
+        '''
 
         # Check for presence of tree.
         if (not tr in self.graph.node): return None
@@ -627,7 +878,12 @@ class landscape(graph,treeSet):
     def isViolating(self,i):
         
         ''' Determine if a tree is violating any locks intrinsic 
-        to the landscape. '''
+        to the landscape. Will also return False if the tree (name) is not
+        present in the landscape.
+        
+        :param i: a tree name (usually an integer)
+        
+        '''
     
         if i in self.graph.node.keys():
             node = self.getNode(i)
@@ -637,12 +893,20 @@ class landscape(graph,treeSet):
 
     # Search Methods
 
-    def __getitem__(self, i): return self.graph.node[i]
+    def __getitem__(self, i):
+        
+        return self.graph.node[i]
 
     def indexOf(self, tr):
         
         ''' Acquire the index/name in this landscape of a tree object. Returns
-        -1 if not found. '''
+        -1 if not found. Warning: naively performs a sequential search.
+        
+        :param tr: a tree
+        :type tr: a :class:`.tree.tree` object
+        :return: a tree name (usually an integer index) or -1 if not found
+        
+        '''
         
         for t in self.graph.node:
             if self.getTree(t) == tr: return t
@@ -651,7 +915,14 @@ class landscape(graph,treeSet):
     def findTree(self,newick):
         
         ''' Find a tree by Newick string, taking into account branch lengths.
-        Returns the index of this tree in the landscape. '''
+        Returns the index of this tree in the landscape. Warning: naively
+        performs a sequential search.
+        
+        :param newick: a Newick string
+        :type newick: a string
+        :return: a tree name (usually an integer index) or None if not found
+        
+        '''
         
         for t in self.graph.node:
             if self.getTree(t).newick == newick: return t
@@ -659,7 +930,13 @@ class landscape(graph,treeSet):
     
     def findTreeTopology(self,newick):
         
-        ''' Find a tree by topology, not taking into account branch lengths. '''
+        ''' Find a tree by topology, not taking into account branch lengths.
+        
+        :param newick: a Newick string
+        :type newick: a string
+        :return: a tree name (usually an integer index) or None if not found
+        
+        '''
         
         s = newickParser(newick).parse()
         removeBranchLengths(s)
@@ -669,7 +946,13 @@ class landscape(graph,treeSet):
     def findTreeTopologyByStructure(self,struct):
         
         ''' Find a tree by topology, not taking into account branch lengths,
-        given the topology. '''
+        given the topology.
+        
+        :param struct: a Newick string without branch lengths (a "structure")
+        :type struct: a string
+        :return: a tree name (usually an integer index) or None if not found
+        
+        '''
         
         query = (struct in self.newickSearchDict)
         if query is True:
@@ -681,7 +964,12 @@ class landscape(graph,treeSet):
         
         ''' For a tree in the landscape, investigate neighbors to find 
         a tree that leads to the best improvement of fitness function score
-        on the basis of likelihood. '''
+        on the basis of likelihood.
+        
+        :param i: a tree name (usually an integer)
+        :return: a tree name (usually an integer) or None if no better tree
+        
+        '''
         
         nodes = self.getNode
         tree  = self.getTree
@@ -699,7 +987,12 @@ class landscape(graph,treeSet):
     def getPathOfBestImprovement(self,i):
         
         ''' For a tree in the landscape, investigate neighbors iteratively until
-        a best path of score improvement is found on basis of likelihood. '''
+        a best path of score improvement is found on basis of likelihood.
+        
+        :param i: a tree name (usually an integer)
+        :return: a list of tree names (usually integers)
+        
+        '''
         
         path  = list()
         node = self.getNode(i)
@@ -715,7 +1008,11 @@ class landscape(graph,treeSet):
     
     def getAllPathsOfBestImprovement(self):
         
-        ''' Return all paths of best improvement as a dictionary. '''
+        ''' Return all paths of best improvement as a dictionary.
+        
+        :return: a dictionary of tree name to paths (lists of tree names)
+        
+        '''
         
         paths = dict()
         for node in self.graph.node:
@@ -724,7 +1021,11 @@ class landscape(graph,treeSet):
     
     def iterAllPathsOfBestImprovement(self):
         
-        ''' Return an iterator for all paths of best improvement. '''
+        ''' Return an iterator for all paths of best improvement.
+        
+        :return: a generator of paths (lists of tree names)
+        
+        '''
         
         for node in self.graph.node:
             yield self.getPathOfBestImprovement(node)
@@ -737,6 +1038,8 @@ class landscape(graph,treeSet):
           (1) Possesses a likelihood score.
           (2) Local neighborhood completely enumerated (and scored).
           (3) None of its neighbors is a better improvement.
+        
+        :return: a boolean
         
         '''
         
@@ -759,7 +1062,11 @@ class landscape(graph,treeSet):
     def getLocalOptima(self):
         
         ''' Get all trees in the landscape that can be labelled as a local
-        optimum. '''
+        optimum.
+        
+        :return: a list of tree names (usually integers)
+        
+        '''
         
         opt = []
         for node in self.graph.node:
@@ -768,7 +1075,11 @@ class landscape(graph,treeSet):
     
     def getGlobalOptimum(self):
         
-        ''' Get the global optimum of the current space. '''
+        ''' Get the global optimum of the current space.
+        
+        :return: a tree name (usually an integer)
+        
+        '''
         
         # TODO: store global optimum as trees are added?
         optima = self.getLocalOptima()
@@ -797,14 +1108,22 @@ class landscape(graph,treeSet):
         
         ''' Convert this landscape into an unorganized set of trees where taxa
         names are transformed to their original form (i.e. not transformed to a
-        state friendly for the Phylip format). '''
+        state friendly for the Phylip format).
+        
+        :return: a :class:`.tree.treeSet` object
+        
+        '''
         
         return self._toTreeSet(
             lambda t: tree(self.getVertex(t).getProperNewick()))
     
     def toTreeSet(self):
 
-        ''' Convert this landscape into an unorganized set of trees. '''
+        ''' Convert this landscape into an unorganized set of trees.
+        
+        :return: a :class:`.tree.treeSet` object
+        
+        '''
         
         return self._toTreeSet(lambda t: self.getTree(t))
 
@@ -817,6 +1136,9 @@ class vertex(object):
     functionality to alias parent landscape functions. '''
     
     def __init__(self, obj, ls):
+        
+        ''' Initialize this vertex. '''
+        
         self.id  = obj['index']
         self.obj = obj
         self.ls = ls
@@ -824,62 +1146,145 @@ class vertex(object):
     
     def getIndex(self):
         
+        ''' Get the index of this tree in the space.
+        
+        :return: a tree name (usually an integer)
+        
+        '''
+        
         return self.id
     
     def getDict(self):
+        
+        ''' Get the dictionary object (key-value pairs) associated with this
+        tree as it is in the NetworkX graph. 
+        
+        :return: a dictionary
+        
+        '''
         
         return self.obj
     
     def getObject(self):
         
+        ''' Get the dictionary object (key-value pairs) associated with this
+        tree as it is in the NetworkX graph. 
+
+        :return: a dictionary
+
+        '''
+        
         return self.getDict()
     
     def getTree(self):
+        
+        ''' Get the tree object associated with this tree. 
+        
+        :return: a :class:`.tree.tree` object
+        
+        '''
         
         return self.obj['tree']
     
     def getNewick(self):
         
+        ''' Get the Newick string of this tree. 
+        
+        :return: a string
+        
+        '''
+        
         return self.getTree().getNewick()
     
     def getScore(self):
+        
+        ''' Get (any) score(s) associated with this tree. 
+        
+        :return: a tuple of floating point values (scores)
+        
+        '''
         
         return self.getTree().score
     
     def getOrigin(self):
         
+        ''' Get the origin of this tree (how it was acquired).
+        
+        :return: a string
+        
+        '''
+        
         return self.getTree().origin
     
     def getNeighbors(self):
+        
+        ''' Get any neighbors to this tree in the landscape. 
+        
+        :return: a list of tree names (usually integers)
+        
+        '''
         
         return self.ls.graph.neighbors(self.id)
     
     def getDegree(self):
         
+        ''' Get the degree of this tree in the graph. 
+        
+        :return: an integer
+        
+        '''
+        
         return len(self.getNeighbors())
     
     def isLocalOptimum(self):
+        
+        ''' Determine if this tree is an optimum. 
+        
+        :return: a boolean
+        
+        '''
         
         return self.ls.isLocalOptimum(self.id)
     
     def isExplored(self):
         
+        ''' See if this tree has had all possible rearrangements performed. 
+        
+        :return: a boolean
+        
+        '''
+        
         return self.obj['explored']
     
     def isFailed(self):
+        
+        ''' Determine if any errors are associated with this node.
+        
+        :return: a boolean
+        
+        '''
         
         return ('failed' in self.obj and self.obj['failed'])
     
     def setExplored(self, exp):
         
-        ''' Sets the "explored" flag of this node in the landscape. '''
+        ''' Override the "explored" flag of this node in the landscape.
+        
+        :param exp: a boolean
+        
+        '''
         
         self.obj['explored'] = exp
     
     def approximatePossibleNumNeighbors(self):
         
         ''' Approximate the possible number of neighbors to this vertex
-        by considering the type of tree rearrangement operator. '''
+        by considering the type of tree rearrangement operator. Returns
+        LS_NOT_DEFINED if the operator is not known yet.
+        
+        :return: an integer
+        
+        '''
 
         n = self.ls.getNumberTaxa()
         if self.ls.operator == 'SPR': return 4*(n-3)*(n-2)
@@ -887,7 +1292,11 @@ class vertex(object):
     
     def scoreLikelihood(self):
     
-        ''' Acquire the log-likelihood for this vertex. '''
+        ''' Acquire the log-likelihood for this vertex.
+        
+        :return: the log-likelihood score
+        
+        '''
         
         if self.getScore()[0] == None:
             l = ll(self.getTree(),self.ali)
@@ -911,7 +1320,11 @@ class vertex(object):
     
     def isBestImprovement(self):
         
-        ''' Check to see if this vertex is a best move for another node. '''
+        ''' Check to see if this vertex is a best move for another node.
+        
+        :return: a boolean
+        
+        '''
         
         for neighbor in self.getNeighbors():
             if self.ls.getTree(neighbor).score[0] < self.getTree().score[0]:
@@ -957,7 +1370,11 @@ class vertex(object):
     
     def getBipartitions(self):
     
-        ''' Get all bipartitions for this vertex. '''
+        ''' Get all bipartitions for this vertex.
+        
+        :return: a list of :class:`.tree.bipartition` objects
+        
+        '''
         
         # Return the bipartitions.
         return [bipart for bipart in self.iterBipartitions()]

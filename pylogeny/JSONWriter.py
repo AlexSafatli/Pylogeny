@@ -6,13 +6,34 @@
 
 from landscapeWriter import landscapeWriter
 import json
+import landscape
 
 class JSONWriter(landscapeWriter):
     
+    ''' Writes a landscape and associated node information to a JSON
+    object. '''
+    
     def __init__(self, ls, name):
+        
+        ''' Instantiates this writer.
+        
+        :param ls: a landscape object
+        :type ls: a :class:`.landscape.landscape` object
+        :param name: the name of this landscape
+        :type name: a string
+        
+        '''
+        
         super(JSONWriter,self).__init__(ls,name)
 
     def nodeToJSON(self,node):
+
+        ''' Returns a JSON formatted node, given a node ID.
+        
+        :param node: a name of a tree/node in the graph
+        :type node: a string
+        
+        '''
 
         n = self.landscape.getVertex(node)
         ml,pars = n.getScore()
@@ -88,9 +109,23 @@ class JSONWriter(landscapeWriter):
         return out
     
     
-    def getCompleteLandscape(self): return self.getJSON()
+    def getCompleteLandscape(self):
+        
+        ''' Returns the landscape as a JSON string. 
+        
+        :return: a JSON string
+        
+        '''
+        
+        return self.getJSON()
 
     def getJSON(self):
+
+        ''' Returns the landscape as a JSON string.
+        
+        :return: a JSON string
+        
+        '''
 
         # Get node and link information.
         nodes, aS = self._jsonGraph()
@@ -99,6 +134,7 @@ class JSONWriter(landscapeWriter):
         
         # Output to JSON string.
         out = json.dumps({"nodes":nodes,"links":links,"graphid":self.name,
-                         "scored":aS},sort_keys=True,indent=4,separators=(',',': '))
+                         "scored":aS},sort_keys=True,indent=4,separators=
+                         (',',': '))
         return out
         
