@@ -131,6 +131,7 @@ class graph(object):
         
         :param i: a node name:
         :type i: a string
+        :return: a dictionary (with node information)
         
         '''
         
@@ -407,6 +408,14 @@ class landscape(graph,treeSet):
         '''
         
         return self.root
+    
+    def getRootNode(self):
+        
+        ''' Returns the root (starting) tree of the space in its node form. 
+        
+        :return: a dictionary (with node information)
+        
+        '''
     
     def getRootTree(self):
         

@@ -24,13 +24,21 @@ You can create a landscape for a given sequence alignment, add a tree to the lan
 
     ali = alignment('yourAlignment.fasta')
     ls  = landscape(ali,starting_tree=ali.getApproxMLTree())
-    heu = parsimonyGreedy(ls,ls.getRootTree())
+    heu = parsimonyGreedy(ls,ls.getRootNode())
     heu.explore()     
 
-You can print the Newick string for the global optimum or tree with the maximum likelihood by calling the following functions.
+This performs an exploration but the heuristic does not return anything. In order to acquire an idea of what this fitness landscape now looks like, you can start making queries to the landscape.
 
-    globalMax = ls.getGlobalOptimum()
-    print ls.getTree(globalMax)
+    for tree in ls.iterTrees():
+        print tree # Print all the Newick strings in the landscape.
+    globalMax = ls.getGlobalOptimum() # Get the name for tree with best score.
+    print ls.getTree(globalMax) # Print this tree (see its Newick string).
+
+We can also see what neighboring trees have been explored from the first tree we started the heuristic at.
+
+    neighbors = ls.getNeighborsFor(ls.getRoot())
+    for neighbor in neighbors: # Neighbors are indices.
+        print ls.getTree(neighbor) # Print the Newick string for that neighbor.
 
 Installation
 -------------
