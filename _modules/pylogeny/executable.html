@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.executable &mdash; Pylogeny 0.3.6 documentation</title>
+    <title>pylogeny.executable &mdash; Pylogeny 0.3.6.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6',
+        VERSION:     '0.3.6.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.1 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -164,6 +164,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">treeset</span>   <span class="o">=</span> <span class="n">treeset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span>      <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">alignment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_out</span>      <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sitelh</span>    <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw</span>       <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rmt</span>       <span class="o">=</span> <span class="bp">None</span>
@@ -223,11 +224,24 @@
             <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rejected</span><span class="o">.</span><span class="n">addTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeset</span><span class="p">[</span><span class="n">it</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>    
         <span class="bp">self</span><span class="o">.</span><span class="n">_out</span> <span class="o">=</span> <span class="n">pvout</span>
     
+<div class="viewcode-block" id="consel.getRejected"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.consel.getRejected">[docs]</a>    <span class="k">def</span> <span class="nf">getRejected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; If an AU test has already been performed, return the set of trees</span>
+<span class="sd">        that were rejected by the test. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: a :class:`.tree.treeSet` object or None if no test was done yet</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_out</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rejected</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    </div>
 <div class="viewcode-block" id="consel.getInterval"><a class="viewcode-back" href="../../pylogeny.executable.html#pylogeny.executable.consel.getInterval">[docs]</a>    <span class="k">def</span> <span class="nf">getInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
-        <span class="sd">&#39;&#39;&#39; Compute the AU test. Return the interval of trees.</span>
+        <span class="sd">&#39;&#39;&#39; Compute the AU test. Return the interval of trees as a tree set.</span>
 <span class="sd">        </span>
-<span class="sd">        :return: a list of :class:`.tree.tree` objects</span>
+<span class="sd">        :return: a :class:`.tree.treeSet` object</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
@@ -416,7 +430,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

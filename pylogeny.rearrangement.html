@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.rearrangement module &mdash; Pylogeny 0.3.6 documentation</title>
+    <title>pylogeny.rearrangement module &mdash; Pylogeny 0.3.6.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.6',
+        VERSION:     '0.3.6.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.1 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.scoring module" href="pylogeny.scoring.html" />
     <link rel="prev" title="pylogeny.pll module" href="pylogeny.pll.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -207,6 +207,14 @@ richer, rooted tree data structure object. Is immutable.</p>
 destination branch is a parent&#8217;s parent or a parent&#8217;s sibling. Returns a
 rearrangement structure (not the actual new structure) that can then be
 polled for the actual move; this is in order to save memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.rearrangement.rearrangement" title="pylogeny.rearrangement.rearrangement"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -216,6 +224,14 @@ polled for the actual move; this is in order to save memory.</p>
 new node there. Returns a rearrangement structure (not the actual new
 structure) that can then be polled for the actual move; this is in order
 to save memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.rearrangement.rearrangement" title="pylogeny.rearrangement.rearrangement"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -242,6 +258,14 @@ to save memory.</p>
 <tt class="descname">allNNI</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.allNNI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.allNNI" title="Permalink to this definition">¶</a></dt>
 <dd><p>Consider all valid NNI moves for a given topology and return all
 possible rearrangements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.rearrangement.rearrangement" title="pylogeny.rearrangement.rearrangement"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -249,6 +273,14 @@ possible rearrangements.</p>
 <tt class="descname">allNNIForBranch</tt><big>(</big><em>br</em>, <em>flip=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.allNNIForBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.allNNIForBranch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Consider all valid NNI moves for a given branch in the topology and
 return all possible rearrangements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.rearrangement.rearrangement" title="pylogeny.rearrangement.rearrangement"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -256,6 +288,14 @@ return all possible rearrangements.</p>
 <tt class="descname">allSPR</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.allSPR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.allSPR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Consider all valid SPR moves for a given topology and return all
 possible rearrangements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.rearrangement.rearrangement" title="pylogeny.rearrangement.rearrangement"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -263,6 +303,14 @@ possible rearrangements.</p>
 <tt class="descname">allSPRForBranch</tt><big>(</big><em>br</em>, <em>flip=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.allSPRForBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.allSPRForBranch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Consider all valid SPR moves for a given branch in the topology and
 return all possible rearrangements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.rearrangement.rearrangement" title="pylogeny.rearrangement.rearrangement"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -273,6 +321,14 @@ given topology. Uses a given rearrangement operator type defined in this
 module. For example, calling this function by providing TYPE_NNI as the
 type will iterate over all NNI operations. By default, the type is
 TYPE_SPR.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#pylogeny.rearrangement.rearrangement" title="pylogeny.rearrangement.rearrangement"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -378,6 +434,14 @@ partition of tree taxa.</p>
 <tt class="descname">iterNNIForBranch</tt><big>(</big><em>br</em>, <em>flip=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.iterNNIForBranch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.iterNNIForBranch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Consider all valid NNI moves for a given branch in the topology and
 and yield all possible rearrangements as a generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a generator of <a class="reference internal" href="#pylogeny.rearrangement.rearrangement" title="pylogeny.rearrangement.rearrangement"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -386,6 +450,14 @@ and yield all possible rearrangements as a generator.</p>
 <dd><p>Consider all valid SPR moves for a given branch 
 in the topology and yield all possible rearrangements
 as a generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a generator of <a class="reference internal" href="#pylogeny.rearrangement.rearrangement" title="pylogeny.rearrangement.rearrangement"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement</span></tt></a> objects</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -419,6 +491,14 @@ across it.</p>
 <tt class="descname">move</tt><big>(</big><em>branch</em>, <em>destination</em>, <em>returnStruct=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/rearrangement.html#topology.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.rearrangement.topology.move" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move a branch and attach to a destination branch. Return new
 structure, or return merely the resultant Newick string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#pylogeny.rearrangement.topology" title="pylogeny.rearrangement.topology"><tt class="xref py py-class docutils literal"><span class="pre">topology</span></tt></a> object or a Newick string</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -554,7 +634,7 @@ version of this topology.</p>
         <li class="right" >
           <a href="pylogeny.pll.html" title="pylogeny.pll module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

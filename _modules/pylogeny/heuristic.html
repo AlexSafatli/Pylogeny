@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.heuristic &mdash; Pylogeny 0.3.6 documentation</title>
+    <title>pylogeny.heuristic &mdash; Pylogeny 0.3.6.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6',
+        VERSION:     '0.3.6.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.1 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -95,7 +95,8 @@
 </div></div>
 <div class="viewcode-block" id="parsimonyGreedy"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy">[docs]</a><span class="k">class</span> <span class="nc">parsimonyGreedy</span><span class="p">(</span><span class="n">phylogeneticLinearHeuristic</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of parsimony. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Greedy (hill-climbing) landscape exploration by comparsion of parsimony.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="parsimonyGreedy.__init__"><a class="viewcode-back" href="../../pylogeny.heuristic.html#pylogeny.heuristic.parsimonyGreedy.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">startNode</span><span class="p">):</span>
         
@@ -197,7 +198,8 @@
             <span class="n">nodes</span> <span class="o">=</span> <span class="n">landscape</span><span class="o">.</span><span class="n">getNeighborsFor</span><span class="p">(</span><span class="n">cursor</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">landscape</span><span class="o">.</span><span class="n">getNode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">it</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">it</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
-            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">landscape</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">scoreLikelihood</span><span class="p">(),</span><span class="n">nodes</span><span class="p">)</span>
+            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">landscape</span><span class="o">.</span><span class="n">getVertex</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;index&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">scoreLikelihood</span><span class="p">(),</span>
+                <span class="n">nodes</span><span class="p">)</span>
             <span class="n">nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;tree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             
             <span class="c"># Get best likelihood tree.</span>
@@ -433,7 +435,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

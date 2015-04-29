@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree &mdash; Pylogeny 0.3.6 documentation</title>
+    <title>pylogeny.tree &mdash; Pylogeny 0.3.6.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6',
+        VERSION:     '0.3.6.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.1 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -78,8 +78,9 @@
 
 <div class="viewcode-block" id="tree"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree">[docs]</a><span class="k">class</span> <span class="nc">tree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span> <span class="c"># TODO: Integrate with P4 Tree class (?).</span>
     
-    <span class="sd">&#39;&#39;&#39; Defines a single (phylogenetic) tree by Newick string;</span>
-<span class="sd">    can possess other metadata. &#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39; Represents a single (phylogenetic) tree by Newick string;</span>
+<span class="sd">    can possess other metadata. For manipulation of tree structure, such</span>
+<span class="sd">    as rerooting and unrooting, convert this object to a topology. &#39;&#39;&#39;</span>
     
 <div class="viewcode-block" id="tree.__init__"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">newi</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">check</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">structure</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         
@@ -90,9 +91,9 @@
 <span class="sd">        all parsing routines are bypassed and the Newick and Structure</span>
 <span class="sd">        fields of this tree are overriden by the appropriate arguments. </span>
 
-<span class="sd">        :param newi: A Newick or New Hampshire string for a tree.</span>
+<span class="sd">        :param newi: a Newick or New Hampshire string for a tree</span>
 <span class="sd">        :type newi: a string</span>
-<span class="sd">        :param check: Perform parsing checks on the string input.</span>
+<span class="sd">        :param check: perform parsing checks on the string input</span>
 <span class="sd">        :type check: a boolean</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -167,7 +168,7 @@
         <span class="sd">&#39;&#39;&#39; Set the &quot;origin&quot; or specification of where this tree</span>
 <span class="sd">        was acquired or constructed from.</span>
 
-<span class="sd">        :param o: A string indicating where the tree came from.</span>
+<span class="sd">        :param o: a string indicating where the tree came from</span>
 <span class="sd">        :type o: string or None</span>
 
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -193,6 +194,23 @@
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">newick</span>
+    </div>
+<div class="viewcode-block" id="tree.toDendroPy"><a class="viewcode-back" href="../../pylogeny.tree.html#pylogeny.tree.tree.toDendroPy">[docs]</a>    <span class="k">def</span> <span class="nf">toDendroPy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39; Convert the tree object to a DendroPy tree object. Requires DendroPy</span>
+<span class="sd">        to be installed on the system.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a DendroPy Tree object or None if DendroPy not on system</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">dendropy</span> <span class="kn">import</span> <span class="n">Tree</span> <span class="k">as</span> <span class="n">dendropyTree</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">dendropyTree</span><span class="p">()</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">read_from_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toNewick</span><span class="p">(),</span><span class="s">&#39;newick&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">t</span>
 </div>
     <span class="k">def</span> <span class="nf">_setNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
         
@@ -673,7 +691,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

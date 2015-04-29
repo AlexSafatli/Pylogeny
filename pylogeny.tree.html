@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.tree module &mdash; Pylogeny 0.3.6 documentation</title>
+    <title>pylogeny.tree module &mdash; Pylogeny 0.3.6.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.6',
+        VERSION:     '0.3.6.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.1 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="prev" title="pylogeny.scoring module" href="pylogeny.scoring.html" /> 
   </head>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -216,8 +216,9 @@ bipartition.</p>
 <dt id="pylogeny.tree.tree">
 <em class="property">class </em><tt class="descclassname">pylogeny.tree.</tt><tt class="descname">tree</tt><big>(</big><em>newi=''</em>, <em>check=False</em>, <em>structure=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>Defines a single (phylogenetic) tree by Newick string;
-can possess other metadata.</p>
+<p>Represents a single (phylogenetic) tree by Newick string;
+can possess other metadata. For manipulation of tree structure, such
+as rerooting and unrooting, convert this object to a topology.</p>
 <dl class="method">
 <dt id="pylogeny.tree.tree.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>newi=''</em>, <em>check=False</em>, <em>structure=None</em><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.__init__" title="Permalink to this definition">¶</a></dt>
@@ -232,8 +233,8 @@ fields of this tree are overriden by the appropriate arguments.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>newi</strong> (<em>a string</em>) &#8211; A Newick or New Hampshire string for a tree.</li>
-<li><strong>check</strong> (<em>a boolean</em>) &#8211; Perform parsing checks on the string input.</li>
+<li><strong>newi</strong> (<em>a string</em>) &#8211; a Newick or New Hampshire string for a tree</li>
+<li><strong>check</strong> (<em>a boolean</em>) &#8211; perform parsing checks on the string input</li>
 </ul>
 </td>
 </tr>
@@ -367,7 +368,7 @@ was acquired or constructed from.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>o</strong> (<em>string or None</em>) &#8211; A string indicating where the tree came from.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>o</strong> (<em>string or None</em>) &#8211; a string indicating where the tree came from</td>
 </tr>
 </tbody>
 </table>
@@ -383,6 +384,21 @@ was acquired or constructed from.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<em>a tuple of floats or integers</em>) &#8211; a set of objective function scores.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylogeny.tree.tree.toDendroPy">
+<tt class="descname">toDendroPy</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/tree.html#tree.toDendroPy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.tree.tree.toDendroPy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the tree object to a DendroPy tree object. Requires DendroPy
+to be installed on the system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a DendroPy Tree object or None if DendroPy not on system</td>
 </tr>
 </tbody>
 </table>
@@ -585,7 +601,7 @@ newlines, as a text file saved at the given path.</p>
         <li class="right" >
           <a href="pylogeny.scoring.html" title="pylogeny.scoring module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>

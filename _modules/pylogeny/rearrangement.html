@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.rearrangement &mdash; Pylogeny 0.3.6 documentation</title>
+    <title>pylogeny.rearrangement &mdash; Pylogeny 0.3.6.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6',
+        VERSION:     '0.3.6.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.1 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -489,7 +489,11 @@
 <div class="viewcode-block" id="topology.move"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">branch</span><span class="p">,</span><span class="n">destination</span><span class="p">,</span><span class="n">returnStruct</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Move a branch and attach to a destination branch. Return new</span>
-<span class="sd">        structure, or return merely the resultant Newick string. &#39;&#39;&#39;</span>
+<span class="sd">        structure, or return merely the resultant Newick string.</span>
+
+<span class="sd">        :return: a :class:`.topology` object or a Newick string</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Cannot move to these.</span>
         <span class="n">forbidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forbidden</span><span class="p">[</span><span class="n">branch</span><span class="p">]</span>
@@ -560,7 +564,11 @@
         <span class="sd">&#39;&#39;&#39; Perform an SPR move of a branch to a destination branch, creating a</span>
 <span class="sd">        new node there. Returns a rearrangement structure (not the actual new</span>
 <span class="sd">        structure) that can then be polled for the actual move; this is in order</span>
-<span class="sd">        to save memory. &#39;&#39;&#39;</span>
+<span class="sd">        to save memory.</span>
+<span class="sd">                </span>
+<span class="sd">        :return: a :class:`.rearrangement` object</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="n">rearrangement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">TYPE_SPR</span><span class="p">,</span><span class="n">branch</span><span class="p">,</span><span class="n">destination</span><span class="p">)</span>
     </div>
@@ -569,7 +577,11 @@
         <span class="sd">&#39;&#39;&#39; Perform an NNI move of a branch to a destination, only if that</span>
 <span class="sd">        destination branch is a parent&#39;s parent or a parent&#39;s sibling. Returns a</span>
 <span class="sd">        rearrangement structure (not the actual new structure) that can then be</span>
-<span class="sd">        polled for the actual move; this is in order to save memory. &#39;&#39;&#39;</span>
+<span class="sd">        polled for the actual move; this is in order to save memory.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a :class:`.rearrangement` object        </span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="n">newick</span><span class="o">.</span><span class="n">isSibling</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span><span class="n">destination</span><span class="p">)</span> <span class="ow">or</span> \
            <span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">parent</span> <span class="ow">and</span> <span class="n">destination</span> <span class="o">==</span> <span class="n">branch</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">):</span>
@@ -580,7 +592,11 @@
         
         <span class="sd">&#39;&#39;&#39; Consider all valid SPR moves for a given branch </span>
 <span class="sd">        in the topology and yield all possible rearrangements</span>
-<span class="sd">        as a generator. &#39;&#39;&#39;</span>    
+<span class="sd">        as a generator.</span>
+
+<span class="sd">        :return: a generator of :class:`.rearrangement` objects</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>    
     
         <span class="c"># Go through possible moves.</span>
         <span class="n">partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getPartition</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
@@ -602,14 +618,22 @@
 <div class="viewcode-block" id="topology.allSPRForBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.allSPRForBranch">[docs]</a>    <span class="k">def</span> <span class="nf">allSPRForBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Consider all valid SPR moves for a given branch in the topology and</span>
-<span class="sd">        return all possible rearrangements. &#39;&#39;&#39;</span>
+<span class="sd">        return all possible rearrangements.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of :class:`.rearrangement` objects        </span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterSPRForBranch</span><span class="p">(</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="p">)]</span>
     </div>
 <div class="viewcode-block" id="topology.allSPR"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.allSPR">[docs]</a>    <span class="k">def</span> <span class="nf">allSPR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Consider all valid SPR moves for a given topology and return all</span>
-<span class="sd">        possible rearrangements. &#39;&#39;&#39;</span>
+<span class="sd">        possible rearrangements.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of :class:`.rearrangement` objects</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="c"># Output list of structures.</span>
         <span class="n">li</span> <span class="o">=</span> <span class="p">[]</span>        
@@ -621,7 +645,11 @@
 <div class="viewcode-block" id="topology.iterNNIForBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.iterNNIForBranch">[docs]</a>    <span class="k">def</span> <span class="nf">iterNNIForBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39; Consider all valid NNI moves for a given branch in the topology and</span>
-<span class="sd">        and yield all possible rearrangements as a generator. &#39;&#39;&#39;</span>
+<span class="sd">        and yield all possible rearrangements as a generator.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a generator of :class:`.rearrangement` objects        </span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="c"># Go through possible moves.</span>
         <span class="n">partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getPartition</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
@@ -645,14 +673,22 @@
 <div class="viewcode-block" id="topology.allNNIForBranch"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.allNNIForBranch">[docs]</a>    <span class="k">def</span> <span class="nf">allNNIForBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Consider all valid NNI moves for a given branch in the topology and</span>
-<span class="sd">        return all possible rearrangements. &#39;&#39;&#39;</span>
+<span class="sd">        return all possible rearrangements.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of :class:`.rearrangement` objects</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterNNIForBranch</span><span class="p">(</span><span class="n">br</span><span class="p">,</span><span class="n">flip</span><span class="p">)]</span>
 </div>
 <div class="viewcode-block" id="topology.allNNI"><a class="viewcode-back" href="../../pylogeny.rearrangement.html#pylogeny.rearrangement.topology.allNNI">[docs]</a>    <span class="k">def</span> <span class="nf">allNNI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39; Consider all valid NNI moves for a given topology and return all</span>
-<span class="sd">        possible rearrangements. &#39;&#39;&#39;</span>
+<span class="sd">        possible rearrangements.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of :class:`.rearrangement` objects        </span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="c"># Output list of structures.</span>
         <span class="n">li</span><span class="p">,</span><span class="n">nni</span> <span class="o">=</span> <span class="p">[],</span><span class="bp">self</span><span class="o">.</span><span class="n">allNNIForBranch</span>        
@@ -665,7 +701,11 @@
 <span class="sd">        given topology. Uses a given rearrangement operator type defined in this</span>
 <span class="sd">        module. For example, calling this function by providing TYPE_NNI as the</span>
 <span class="sd">        type will iterate over all NNI operations. By default, the type is</span>
-<span class="sd">        TYPE_SPR. &#39;&#39;&#39;</span>
+<span class="sd">        TYPE_SPR.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of :class:`.rearrangement` objects</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="k">if</span> <span class="p">(</span><span class="nb">type</span> <span class="o">==</span> <span class="n">TYPE_SPR</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allSPR</span><span class="p">()</span>
         <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span> <span class="o">==</span> <span class="n">TYPE_NNI</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">allNNI</span><span class="p">()</span>
@@ -793,7 +833,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
