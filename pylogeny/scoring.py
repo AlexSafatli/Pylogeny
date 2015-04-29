@@ -21,9 +21,9 @@ def beaglegetLogLikelihood(tree,alignment):
     Currently uses HKY85 model. 
     
     :param tree: A tree object.
-    :type tree: :class: `.tree.tree`
+    :type tree: :class:`.tree.tree`
     :param alignment: An alignment object.
-    :type alignment: :class: `.alignment.alignment`
+    :type alignment: :class:`.alignment.alignment`
     :returns: A floating point value.
     
     '''
@@ -40,12 +40,13 @@ def beaglegetLogLikelihood(tree,alignment):
 
 def getLogLikelihood(tree,alignment,updateBranchLengths=True):
     
-    ''' Acquire log-likelihood via C library libpll. 
+    ''' Acquire log-likelihood via C library libpll. Requires the input
+    alignment to be "Phylip friendly" (a phylipFriendlyAlignment).
 
     :param tree: A tree object.
-    :type tree: :class: `.tree.tree`
+    :type tree: :class:`.tree.tree`
     :param alignment: An alignment object.
-    :type alignment: :class: `.alignment.phylipFriendlyAlignment`
+    :type alignment: :class:`.alignment.phylipFriendlyAlignment`
     :param updateBranchLengths: Whether or not to update the branch lengths
     in the provided tree with optimized ones.
     :returns: A floating point value.    
@@ -95,7 +96,7 @@ def getParsimony(newick,alignment):
     
     :param newick: A New Hampshire (Newick) tree string.
     :param alignment: An alignment object.
-    :type alignment: :class: `.alignment.alignment`
+    :type alignment: :class:`.alignment.alignment`
     :returns: An integer value.
     
     '''    
@@ -108,9 +109,9 @@ def getParsimonyForTopology(topo,alignment):
     ''' Acquire parsimony via a C++ implementation.
     
     :param topo: A topology object.
-    :type topo: :class: `.rearrangement.topology`
+    :type topo: :class:`.rearrangement.topology`
     :param alignment: An alignment object.
-    :type alignment: :class: `.alignment.alignment`
+    :type alignment: :class:`.alignment.alignment`
     :returns: An integer value.
     
     '''    
@@ -125,7 +126,7 @@ def getParsimonyFromProfiles(newick,profiles):
     
     :param newick: A New Hampshire (Newick) tree string.
     :param profiles: A set of profiles corresponding to an alignment.
-    :type profiles: :class: `.parsimony.profile_set`
+    :type profiles: :class:`.parsimony.profile_set`
     :returns: An integer value.    
 
     '''        
@@ -140,9 +141,9 @@ def getParsimonyFromProfilesForTopology(topology,profiles):
     ''' Acquire parsimony via a C++ implementation.
     
     :param topo: A topology object.
-    :type topo: :class: `.rearrangement.topology`
+    :type topo: :class:`.rearrangement.topology`
     :param profiles: A set of profiles corresponding to an alignment.
-    :type profiles: :class: `.parsimony.profile_set`
+    :type profiles: :class:`.parsimony.profile_set`
     :returns: An integer value.
     
     '''        
