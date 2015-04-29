@@ -115,6 +115,7 @@ class consel(executable):
         self.treeset   = treeset
         self.name      = name
         self.alignment = alignment
+        self._out      = None
         self.sitelh    = None
         self.raw       = None
         self.rmt       = None
@@ -174,11 +175,24 @@ class consel(executable):
             else: self.rejected.addTree(self.treeset[it[0]])    
         self._out = pvout
     
+    def getRejected(self):
+        
+        ''' If an AU test has already been performed, return the set of trees
+        that were rejected by the test. 
+        
+        :return: a :class:`.tree.treeSet` object or None if no test was done yet
+        
+        '''
+        
+        if (self._out != None):
+            return self.rejected
+        return None
+    
     def getInterval(self):
         
-        ''' Compute the AU test. Return the interval of trees.
+        ''' Compute the AU test. Return the interval of trees as a tree set.
         
-        :return: a list of :class:`.tree.tree` objects
+        :return: a :class:`.tree.treeSet` object
         
         '''
         

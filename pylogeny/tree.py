@@ -29,8 +29,9 @@ numberUnrootedTrees = lambda t: (fact(2*(t-1)-3))/((2**(t-3))*fact(t-3))
 
 class tree(object): # TODO: Integrate with P4 Tree class (?).
     
-    ''' Defines a single (phylogenetic) tree by Newick string;
-    can possess other metadata. '''
+    ''' Represents a single (phylogenetic) tree by Newick string;
+    can possess other metadata. For manipulation of tree structure, such
+    as rerooting and unrooting, convert this object to a topology. '''
     
     def __init__(self,newi='',check=False,structure=None):
         
@@ -41,9 +42,9 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         all parsing routines are bypassed and the Newick and Structure
         fields of this tree are overriden by the appropriate arguments. 
 
-        :param newi: A Newick or New Hampshire string for a tree.
+        :param newi: a Newick or New Hampshire string for a tree
         :type newi: a string
-        :param check: Perform parsing checks on the string input.
+        :param check: perform parsing checks on the string input
         :type check: a boolean
 
         '''
@@ -118,7 +119,7 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         ''' Set the "origin" or specification of where this tree
         was acquired or constructed from.
 
-        :param o: A string indicating where the tree came from.
+        :param o: a string indicating where the tree came from
         :type o: string or None
 
         '''
@@ -144,6 +145,23 @@ class tree(object): # TODO: Integrate with P4 Tree class (?).
         '''
 
         return self.newick
+    
+    def toDendroPy(self):
+        
+        ''' Convert the tree object to a DendroPy tree object. Requires DendroPy
+        to be installed on the system.
+        
+        :return: a DendroPy Tree object or None if DendroPy not on system
+        
+        '''
+
+        try:
+            from dendropy import Tree as dendropyTree
+        except ImportError:
+            return None
+        t = dendropyTree()
+        t.read_from_string(self.toNewick(),'newick')
+        return t
 
     def _setNewick(self,n):
         

@@ -46,7 +46,8 @@ class phylogeneticLinearHeuristic(heuristic):
 
 class parsimonyGreedy(phylogeneticLinearHeuristic):
     
-    ''' Greedy (hill-climbing) landscape exploration by comparsion of parsimony. '''
+    ''' Greedy (hill-climbing) landscape exploration by comparsion of parsimony.
+    '''
     
     def __init__(self,ls,startNode):
         
@@ -148,7 +149,8 @@ class likelihoodGreedy(phylogeneticLinearHeuristic):
             nodes = landscape.getNeighborsFor(cursor['index'])
             nodes = [landscape.getNode(x) for x in nodes]
             nodes = [it for it in nodes if not it in self.path]
-            map(lambda d: landscape.getVertex(d['index']).scoreLikelihood(),nodes)
+            map(lambda d: landscape.getVertex(d['index']).scoreLikelihood(),
+                nodes)
             nodes = sorted(nodes,key=lambda d: d['tree'].score[0])
             
             # Get best likelihood tree.

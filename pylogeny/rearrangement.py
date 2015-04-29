@@ -440,7 +440,11 @@ class topology(base.treeStructure):
     def move(self,branch,destination,returnStruct=True):
         
         ''' Move a branch and attach to a destination branch. Return new
-        structure, or return merely the resultant Newick string. '''
+        structure, or return merely the resultant Newick string.
+
+        :return: a :class:`.topology` object or a Newick string
+        
+        '''
         
         # Cannot move to these.
         forbidden = self.forbidden[branch]
@@ -511,7 +515,11 @@ class topology(base.treeStructure):
         ''' Perform an SPR move of a branch to a destination branch, creating a
         new node there. Returns a rearrangement structure (not the actual new
         structure) that can then be polled for the actual move; this is in order
-        to save memory. '''
+        to save memory.
+                
+        :return: a :class:`.rearrangement` object
+        
+        '''
         
         return rearrangement(self,TYPE_SPR,branch,destination)
     
@@ -520,7 +528,11 @@ class topology(base.treeStructure):
         ''' Perform an NNI move of a branch to a destination, only if that
         destination branch is a parent's parent or a parent's sibling. Returns a
         rearrangement structure (not the actual new structure) that can then be
-        polled for the actual move; this is in order to save memory. '''
+        polled for the actual move; this is in order to save memory.
+        
+        :return: a :class:`.rearrangement` object        
+        
+        '''
         
         if newick.isSibling(branch.parent,destination) or \
            (branch.parent and destination == branch.parent.parent):
@@ -531,7 +543,11 @@ class topology(base.treeStructure):
         
         ''' Consider all valid SPR moves for a given branch 
         in the topology and yield all possible rearrangements
-        as a generator. '''    
+        as a generator.
+
+        :return: a generator of :class:`.rearrangement` objects
+        
+        '''    
     
         # Go through possible moves.
         partition = self._getPartition(br)
@@ -553,14 +569,22 @@ class topology(base.treeStructure):
     def allSPRForBranch(self,br,flip=True):
         
         ''' Consider all valid SPR moves for a given branch in the topology and
-        return all possible rearrangements. '''
+        return all possible rearrangements.
+        
+        :return: a list of :class:`.rearrangement` objects        
+        
+        '''
         
         return [x for x in self.iterSPRForBranch(br,flip)]
     
     def allSPR(self):
         
         ''' Consider all valid SPR moves for a given topology and return all
-        possible rearrangements. '''
+        possible rearrangements.
+        
+        :return: a list of :class:`.rearrangement` objects
+        
+        '''
 
         # Output list of structures.
         li = []        
@@ -572,7 +596,11 @@ class topology(base.treeStructure):
     def iterNNIForBranch(self,br,flip=True):
 
         ''' Consider all valid NNI moves for a given branch in the topology and
-        and yield all possible rearrangements as a generator. '''
+        and yield all possible rearrangements as a generator.
+        
+        :return: a generator of :class:`.rearrangement` objects        
+        
+        '''
         
         # Go through possible moves.
         partition = self._getPartition(br)
@@ -596,14 +624,22 @@ class topology(base.treeStructure):
     def allNNIForBranch(self,br,flip=True):
         
         ''' Consider all valid NNI moves for a given branch in the topology and
-        return all possible rearrangements. '''
+        return all possible rearrangements.
+        
+        :return: a list of :class:`.rearrangement` objects
+        
+        '''
         
         return [x for x in self.iterNNIForBranch(br,flip)]
 
     def allNNI(self):
         
         ''' Consider all valid NNI moves for a given topology and return all
-        possible rearrangements. '''
+        possible rearrangements.
+        
+        :return: a list of :class:`.rearrangement` objects        
+        
+        '''
 
         # Output list of structures.
         li,nni = [],self.allNNIForBranch        
@@ -616,7 +652,11 @@ class topology(base.treeStructure):
         given topology. Uses a given rearrangement operator type defined in this
         module. For example, calling this function by providing TYPE_NNI as the
         type will iterate over all NNI operations. By default, the type is
-        TYPE_SPR. '''
+        TYPE_SPR.
+        
+        :return: a list of :class:`.rearrangement` objects
+        
+        '''
         
         if (type == TYPE_SPR): return self.allSPR()
         elif (type == TYPE_NNI): return self.allNNI()

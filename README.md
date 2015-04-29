@@ -68,7 +68,7 @@ or the command
 Documentation
 -------------
 
-Generated documentation is found [here](http://AlexSafatli.github.io/Pylogeny "Pylogeny API").
+Generated documentation is found [here](http://AlexSafatli.github.io/Pylogeny "Pylogeny API"). Tutorials and additional code examples are present in the [wiki](https://github.com/AlexSafatli/Pylogeny/wiki) on GitHub for this project.
 
 Dependencies
 -------------
