@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.scoring &mdash; Pylogeny 0.3.6.1 documentation</title>
+    <title>pylogeny.scoring &mdash; Pylogeny 0.3.6.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.6.1',
+        VERSION:     '0.3.6.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.1 documentation" href="../../index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -70,9 +70,9 @@
 <span class="sd">    Currently uses HKY85 model. </span>
 <span class="sd">    </span>
 <span class="sd">    :param tree: A tree object.</span>
-<span class="sd">    :type tree: :class: `.tree.tree`</span>
+<span class="sd">    :type tree: :class:`.tree.tree`</span>
 <span class="sd">    :param alignment: An alignment object.</span>
-<span class="sd">    :type alignment: :class: `.alignment.alignment`</span>
+<span class="sd">    :type alignment: :class:`.alignment.alignment`</span>
 <span class="sd">    :returns: A floating point value.</span>
 <span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -89,12 +89,13 @@
 </div>
 <div class="viewcode-block" id="getLogLikelihood"><a class="viewcode-back" href="../../pylogeny.scoring.html#pylogeny.scoring.getLogLikelihood">[docs]</a><span class="k">def</span> <span class="nf">getLogLikelihood</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">alignment</span><span class="p">,</span><span class="n">updateBranchLengths</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     
-    <span class="sd">&#39;&#39;&#39; Acquire log-likelihood via C library libpll. </span>
+    <span class="sd">&#39;&#39;&#39; Acquire log-likelihood via C library libpll. Requires the input</span>
+<span class="sd">    alignment to be &quot;Phylip friendly&quot; (a phylipFriendlyAlignment).</span>
 
 <span class="sd">    :param tree: A tree object.</span>
-<span class="sd">    :type tree: :class: `.tree.tree`</span>
+<span class="sd">    :type tree: :class:`.tree.tree`</span>
 <span class="sd">    :param alignment: An alignment object.</span>
-<span class="sd">    :type alignment: :class: `.alignment.phylipFriendlyAlignment`</span>
+<span class="sd">    :type alignment: :class:`.alignment.phylipFriendlyAlignment`</span>
 <span class="sd">    :param updateBranchLengths: Whether or not to update the branch lengths</span>
 <span class="sd">    in the provided tree with optimized ones.</span>
 <span class="sd">    :returns: A floating point value.    </span>
@@ -144,7 +145,7 @@
 <span class="sd">    </span>
 <span class="sd">    :param newick: A New Hampshire (Newick) tree string.</span>
 <span class="sd">    :param alignment: An alignment object.</span>
-<span class="sd">    :type alignment: :class: `.alignment.alignment`</span>
+<span class="sd">    :type alignment: :class:`.alignment.alignment`</span>
 <span class="sd">    :returns: An integer value.</span>
 <span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>    
@@ -157,9 +158,9 @@
     <span class="sd">&#39;&#39;&#39; Acquire parsimony via a C++ implementation.</span>
 <span class="sd">    </span>
 <span class="sd">    :param topo: A topology object.</span>
-<span class="sd">    :type topo: :class: `.rearrangement.topology`</span>
+<span class="sd">    :type topo: :class:`.rearrangement.topology`</span>
 <span class="sd">    :param alignment: An alignment object.</span>
-<span class="sd">    :type alignment: :class: `.alignment.alignment`</span>
+<span class="sd">    :type alignment: :class:`.alignment.alignment`</span>
 <span class="sd">    :returns: An integer value.</span>
 <span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>    
@@ -174,7 +175,7 @@
 <span class="sd">    </span>
 <span class="sd">    :param newick: A New Hampshire (Newick) tree string.</span>
 <span class="sd">    :param profiles: A set of profiles corresponding to an alignment.</span>
-<span class="sd">    :type profiles: :class: `.parsimony.profile_set`</span>
+<span class="sd">    :type profiles: :class:`.parsimony.profile_set`</span>
 <span class="sd">    :returns: An integer value.    </span>
 
 <span class="sd">    &#39;&#39;&#39;</span>        
@@ -189,9 +190,9 @@
     <span class="sd">&#39;&#39;&#39; Acquire parsimony via a C++ implementation.</span>
 <span class="sd">    </span>
 <span class="sd">    :param topo: A topology object.</span>
-<span class="sd">    :type topo: :class: `.rearrangement.topology`</span>
+<span class="sd">    :type topo: :class:`.rearrangement.topology`</span>
 <span class="sd">    :param profiles: A set of profiles corresponding to an alignment.</span>
-<span class="sd">    :type profiles: :class: `.parsimony.profile_set`</span>
+<span class="sd">    :type profiles: :class:`.parsimony.profile_set`</span>
 <span class="sd">    :returns: An integer value.</span>
 <span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>        
@@ -236,7 +237,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

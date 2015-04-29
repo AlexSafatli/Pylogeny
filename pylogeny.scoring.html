@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pylogeny.scoring module &mdash; Pylogeny 0.3.6.1 documentation</title>
+    <title>pylogeny.scoring module &mdash; Pylogeny 0.3.6.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.6.1',
+        VERSION:     '0.3.6.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Pylogeny 0.3.6.1 documentation" href="index.html" />
+    <link rel="top" title="Pylogeny 0.3.6.2 documentation" href="index.html" />
     <link rel="up" title="pylogeny package" href="pylogeny.html" />
     <link rel="next" title="pylogeny.tree module" href="pylogeny.tree.html" />
     <link rel="prev" title="pylogeny.rearrangement module" href="pylogeny.rearrangement.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pylogeny.rearrangement.html" title="pylogeny.rearrangement module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" accesskey="U">pylogeny package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -68,8 +68,8 @@ Currently uses HKY85 model.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>tree</strong> &#8211; A tree object.</li>
-<li><strong>alignment</strong> &#8211; An alignment object.</li>
+<li><strong>tree</strong> (<a class="reference internal" href="pylogeny.tree.html#pylogeny.tree.tree" title="pylogeny.tree.tree"><tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt></a>) &#8211; A tree object.</li>
+<li><strong>alignment</strong> (<a class="reference internal" href="pylogeny.alignment.html#pylogeny.alignment.alignment" title="pylogeny.alignment.alignment"><tt class="xref py py-class docutils literal"><span class="pre">alignment.alignment</span></tt></a>) &#8211; An alignment object.</li>
 </ul>
 </td>
 </tr>
@@ -83,14 +83,15 @@ Currently uses HKY85 model.</p>
 <dl class="function">
 <dt id="pylogeny.scoring.getLogLikelihood">
 <tt class="descclassname">pylogeny.scoring.</tt><tt class="descname">getLogLikelihood</tt><big>(</big><em>tree</em>, <em>alignment</em>, <em>updateBranchLengths=True</em><big>)</big><a class="reference internal" href="_modules/pylogeny/scoring.html#getLogLikelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.scoring.getLogLikelihood" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire log-likelihood via C library libpll.</p>
+<dd><p>Acquire log-likelihood via C library libpll. Requires the input
+alignment to be &#8220;Phylip friendly&#8221; (a phylipFriendlyAlignment).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tree</strong> &#8211; A tree object.</li>
-<li><strong>alignment</strong> &#8211; An alignment object.</li>
+<li><strong>tree</strong> (<a class="reference internal" href="pylogeny.tree.html#pylogeny.tree.tree" title="pylogeny.tree.tree"><tt class="xref py py-class docutils literal"><span class="pre">tree.tree</span></tt></a>) &#8211; A tree object.</li>
+<li><strong>alignment</strong> (<a class="reference internal" href="pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment" title="pylogeny.alignment.phylipFriendlyAlignment"><tt class="xref py py-class docutils literal"><span class="pre">alignment.phylipFriendlyAlignment</span></tt></a>) &#8211; An alignment object.</li>
 <li><strong>updateBranchLengths</strong> &#8211; Whether or not to update the branch lengths</li>
 </ul>
 </td>
@@ -111,7 +112,7 @@ Currently uses HKY85 model.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>newick</strong> &#8211; A New Hampshire (Newick) tree string.</li>
-<li><strong>alignment</strong> &#8211; An alignment object.</li>
+<li><strong>alignment</strong> (<a class="reference internal" href="pylogeny.alignment.html#pylogeny.alignment.alignment" title="pylogeny.alignment.alignment"><tt class="xref py py-class docutils literal"><span class="pre">alignment.alignment</span></tt></a>) &#8211; An alignment object.</li>
 </ul>
 </td>
 </tr>
@@ -131,8 +132,8 @@ Currently uses HKY85 model.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>topo</strong> &#8211; A topology object.</li>
-<li><strong>alignment</strong> &#8211; An alignment object.</li>
+<li><strong>topo</strong> (<a class="reference internal" href="pylogeny.rearrangement.html#pylogeny.rearrangement.topology" title="pylogeny.rearrangement.topology"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement.topology</span></tt></a>) &#8211; A topology object.</li>
+<li><strong>alignment</strong> (<a class="reference internal" href="pylogeny.alignment.html#pylogeny.alignment.alignment" title="pylogeny.alignment.alignment"><tt class="xref py py-class docutils literal"><span class="pre">alignment.alignment</span></tt></a>) &#8211; An alignment object.</li>
 </ul>
 </td>
 </tr>
@@ -153,7 +154,7 @@ Currently uses HKY85 model.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>newick</strong> &#8211; A New Hampshire (Newick) tree string.</li>
-<li><strong>profiles</strong> &#8211; A set of profiles corresponding to an alignment.</li>
+<li><strong>profiles</strong> (<a class="reference internal" href="pylogeny.parsimony.html#pylogeny.parsimony.profile_set" title="pylogeny.parsimony.profile_set"><tt class="xref py py-class docutils literal"><span class="pre">parsimony.profile_set</span></tt></a>) &#8211; A set of profiles corresponding to an alignment.</li>
 </ul>
 </td>
 </tr>
@@ -173,8 +174,8 @@ Currently uses HKY85 model.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>topo</strong> &#8211; A topology object.</li>
-<li><strong>profiles</strong> &#8211; A set of profiles corresponding to an alignment.</li>
+<li><strong>topo</strong> (<a class="reference internal" href="pylogeny.rearrangement.html#pylogeny.rearrangement.topology" title="pylogeny.rearrangement.topology"><tt class="xref py py-class docutils literal"><span class="pre">rearrangement.topology</span></tt></a>) &#8211; A topology object.</li>
+<li><strong>profiles</strong> (<a class="reference internal" href="pylogeny.parsimony.html#pylogeny.parsimony.profile_set" title="pylogeny.parsimony.profile_set"><tt class="xref py py-class docutils literal"><span class="pre">parsimony.profile_set</span></tt></a>) &#8211; A set of profiles corresponding to an alignment.</li>
 </ul>
 </td>
 </tr>
@@ -236,7 +237,7 @@ Currently uses HKY85 model.</p>
         <li class="right" >
           <a href="pylogeny.rearrangement.html" title="pylogeny.rearrangement module"
              >previous</a> |</li>
-        <li><a href="index.html">Pylogeny 0.3.6.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">Pylogeny 0.3.6.2 documentation</a> &raquo;</li>
           <li><a href="pylogeny.html" >pylogeny package</a> &raquo;</li> 
       </ul>
     </div>
