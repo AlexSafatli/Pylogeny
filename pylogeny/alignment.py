@@ -300,10 +300,10 @@ class phylipFriendlyAlignment(alignment):
         copyfile(self.paths['nexus'],wri)
         return True
 
-    def reassignFromReinterpretedNewick(self,tr):
+    def convertOriginalNewick(self,tr):
 
-        ''' Return a Newick string with taxa names replaced with shortened forms
-        as they are defined in this object. 
+        ''' Return a Newick string with (original) taxa names that are replaced
+        with the shortened forms as they are defined in this object.
         
         :param tr: a Newick string
         :type tr: a string
