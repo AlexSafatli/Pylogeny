@@ -349,10 +349,10 @@
         <span class="n">copyfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;nexus&#39;</span><span class="p">],</span><span class="n">wri</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="phylipFriendlyAlignment.reassignFromReinterpretedNewick"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment.reassignFromReinterpretedNewick">[docs]</a>    <span class="k">def</span> <span class="nf">reassignFromReinterpretedNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span>
+<div class="viewcode-block" id="phylipFriendlyAlignment.convertOriginalNewick"><a class="viewcode-back" href="../../pylogeny.alignment.html#pylogeny.alignment.phylipFriendlyAlignment.convertOriginalNewick">[docs]</a>    <span class="k">def</span> <span class="nf">convertOriginalNewick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tr</span><span class="p">):</span>
 
-        <span class="sd">&#39;&#39;&#39; Return a Newick string with taxa names replaced with shortened forms</span>
-<span class="sd">        as they are defined in this object. </span>
+        <span class="sd">&#39;&#39;&#39; Return a Newick string with (original) taxa names that are replaced</span>
+<span class="sd">        with the shortened forms as they are defined in this object.</span>
 <span class="sd">        </span>
 <span class="sd">        :param tr: a Newick string</span>
 <span class="sd">        :type tr: a string</span>

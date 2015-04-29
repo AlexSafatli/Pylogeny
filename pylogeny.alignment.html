@@ -266,6 +266,23 @@ to be able to be written as a strict Phylip file.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pylogeny.alignment.phylipFriendlyAlignment.convertOriginalNewick">
+<tt class="descname">convertOriginalNewick</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.convertOriginalNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.convertOriginalNewick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Newick string with (original) taxa names that are replaced
+with the shortened forms as they are defined in this object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> (<em>a string</em>) &#8211; a Newick string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a Newick string with all replaced names</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="pylogeny.alignment.phylipFriendlyAlignment.getPhylip">
 <tt class="descname">getPhylip</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.getPhylip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.getPhylip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get (and create if not already) a path to a temporary 
@@ -307,23 +324,6 @@ that was reassigned at initialization.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of shortened taxa names</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pylogeny.alignment.phylipFriendlyAlignment.reassignFromReinterpretedNewick">
-<tt class="descname">reassignFromReinterpretedNewick</tt><big>(</big><em>tr</em><big>)</big><a class="reference internal" href="_modules/pylogeny/alignment.html#phylipFriendlyAlignment.reassignFromReinterpretedNewick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pylogeny.alignment.phylipFriendlyAlignment.reassignFromReinterpretedNewick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a Newick string with taxa names replaced with shortened forms
-as they are defined in this object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tr</strong> (<em>a string</em>) &#8211; a Newick string</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a Newick string with all replaced names</td>
 </tr>
 </tbody>
 </table>
