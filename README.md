@@ -87,6 +87,11 @@ Works With
  * [CONSEL](http://www.sigmath.es.osaka-u.ac.jp/shimo-lab/prog/consel/)
  * [PytBEAGLEhon](https://github.com/mtholder/pytbeaglehon)
 
+Citing
+-------------
+
+To cite this library, refer to the paper *Pylogeny: an open-source Python framework for phylogenetic tree reconstruction and search space heuristics* that has been published to describe its purpose [here](https://peerj.com/articles/cs-9/) at [PeerJ](https://peerj.com/).
+
 Contributing
 -------------
 
