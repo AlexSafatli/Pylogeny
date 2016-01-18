@@ -7,7 +7,7 @@ compiler:
   - gcc
   - clang
 before_install: sh install-pll.sh
-install: CC=g++-4.8 make install
+install: CC=gcc-4.8 make install
 script: make tests
 addons:
   apt:
