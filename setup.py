@@ -1,4 +1,4 @@
-''' An installation script for Pylogeny. '''
+''' Installation script for Pylogeny. '''
 
 # Date:   Oct 16 2014
 # Author: Alex Safatli
@@ -15,17 +15,17 @@ LONG    = 'A Python library and code framework for phylogenetic tree reconstruct
 URL     = 'http://www.github.com/AlexSafatli/Pylogeny'
 AUTHOR  = 'Alex Safatli'
 EMAIL   = 'safatli@cs.dal.ca'
-DEPNDS  = ['networkx','pandas','mysql-python']
-LINKS   = ['http://p4-phylogenetics.googlecode.com/archive/4491de464e68fdb49c7a11e06737cd34a98143ec.tar.gz']
+DEPNDS  = ['networkx','pandas','mysql-python','p4']
+LINKS   = ['http://p4-phylogenetics.googlecode.com/archive/4491de464e68fdb49c7a11e06737cd34a98143ec.tar.gz#egg=p4']
 PKGDATA = {'pylogeny':['fitch.cpp','libpllWrapper.c']}
 FITCHCC = os.path.join('pylogeny','fitch.cpp')
 PLLC    = os.path.join('pylogeny','libpllWrapper.c')
 
 # Compilation for C/C++ Extensions (Fitch, Pylibpll)
 
-pllExtension    = extension('libpllWrapper',sources=[PLLC],include_dirs=['/usr/local/include'],libraries=['pll-sse3'],library_dirs=['/usr/local/lib'])
+pllExtension   = extension('libpllWrapper',sources=[PLLC],include_dirs=['/usr/local/include'],libraries=['pll-sse3'],library_dirs=['/usr/local/lib'])
 fitchExtension = extension('fitch',sources=[FITCHCC],include_dirs=['/usr/local/include'],language="c++",extra_compile_args=['-std=c++11'])
 
 # Setup
 
-setup(name='pylogeny',version=VERSION,description=DESCRIP,long_description=LONG,url=URL,author=AUTHOR,author_email=EMAIL,license='MIT',packages=['pylogeny'],package_data=PKGDATA,ext_modules=[pllExtension,fitchExtension],install_requires=DEPNDS,dependency_links=LINKS,zip_safe=False)
+setup(name='pylogeny',version=VERSION,description=DESCRIP,long_description=LONG,url=URL,author=AUTHOR,author_email=EMAIL,license='MIT',packages=['pylogeny'],package_data=PKGDATA,ext_modules=[pllExtension,fitchExtension],dependency_links=LINKS,install_requires=DEPNDS,zip_safe=False)

@@ -43,19 +43,22 @@ We can also see what neighboring trees have been explored from the first tree we
 Installation
 -------------
 
-Installation requires access to some manner of UNIX-like system or terminal. Furthermore, **basic build tools** and **python development header include files** are required to install this software. In Ubuntu, this is done with the command
+Installation requires access to some manner of UNIX-like system or terminal. Furthermore, **basic build tools**, **python development header include files**, and [**MySQL library bindings**](https://www.mysql.com/) are required to install this software. In Ubuntu, this is done with the command
 
-     sudo apt-get install python-dev build-essential
+     sudo apt-get install python-dev build-essential libmysqlclient-dev
 
 If you do not use a Debian or Ubuntu-derived Linux distribution, search for instructions on acquiring these for your platform.
 
-Before continuing, first install non-Python library dependencies, which currently stand as only [libpll](http://libpll.org). Acquire the appropriate binary or install, from source, version 1.0.2 with SSE3 support. A convenient shell script is located in the root directory of this repository that will perform this installation.
+Before continuing, first install non-Python library dependencies, which currently stand as only [libpll](http://libpll.org). Acquire the appropriate binary or install, from source, version 1.0.2 with SSE3 support. A **convenient shell script** is located in the root directory of this repository that will perform this installation. You can run this without any download by peforming the command:
+
+    wget https://raw.githubusercontent.com/AlexSafatli/Pylogeny/master/install-pll.sh -O - | sh
+
 
 Once you have acquired and installed all of the necessary non-Python dependencies, you can install this software automatically using `pip` or `easy_install`.
 
 If you do not have these packages, you can install them in Ubuntu with
 
-    sudo apt-get install pip setuptools
+    sudo apt-get install python-pip python-setuptools
 
 If you have them, install this package with the command
 
