@@ -26,7 +26,7 @@ docs: ${FILES} check_environment install
 	@cd $(GH_DOC_REPO) && git add * && git commit -m "Version ${VER} documentation." && git push origin gh-pages
 
 tests:
-	${PY} tests/allTests.py
+	sudo ${PY} tests/allTests.py
 
 clean:
 	-find ${DOCS} -type f -not -name api.pdf -not -name conf -delete
