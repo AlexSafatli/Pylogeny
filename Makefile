@@ -13,7 +13,7 @@ build: ${FILES} setup.py
 
 install: build
 	-pip uninstall ${PKG}
-	pip install --process-dependency-links .
+	pip install --process-dependency-links --trusted-host p4-phylogenetics.googlecode.com .
 
 dist: build
 	${PY} setup.py ${DIST}

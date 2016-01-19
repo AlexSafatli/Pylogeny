@@ -1,6 +1,5 @@
 language: python
 python:
-  - "2.6"
   - "2.7"
 sudo: required
 compiler:
@@ -18,3 +17,4 @@ addons:
       - gcc-4.8
       - g++-4.8
       - clang
+      - fasttree

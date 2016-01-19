@@ -14,7 +14,7 @@ class alignmentTest(testCase):
         self.assertIsInstance(str(self.alignment),str)
         lines = str(self.alignment).split('\n')
         for i in xrange(len(lines)):
-            self.assertEqual(lines[i],self.alignment.getSequence(i))    
+            self.assertEqual(lines[i],self.alignment.getSequenceString(i))    
     
     def test_getLength(self):
         self.assertEquals(len(self.alignment),len(self.alignment.data))
