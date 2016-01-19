@@ -21,34 +21,28 @@ class treeTest(testCase):
     def tearDownClass(cls): pass
     
     def test_tree_init(self):
-        
         t = tree(self.tree_.getNewick(),check=True)
         self.assertTrue(type(t) == tree)
     
     def test_tree_initNoCheck(self):
-        
         t = tree(self.tree_.getNewick(),check=False)
         self.assertTrue(type(t) == tree)
         self.assertEqual(t.newick,self.tree_.getNewick())
     
     def test_tree_toTopology(self):
-         
         t = self.tree_.toTopology()
         self.assertEqual(t.toNewick(),self.tree_.getNewick())
         
     def test_treeSet_indexOfTree(self):
-        
         self.assertGreaterEqual(self.trees.indexOf(self.tree_),0)
         
     def test_treeSet_addTree(self):
-        
         l = len(self.trees)
         t = self.tree_
         self.trees.addTree(t)
         self.assertEqual(len(self.trees),l+1)
     
     def test_treeSet_removeTree(self):
-        
         l = len(self.trees)
         t = self.tree_
         self.trees.removeTree(t)

@@ -13,7 +13,7 @@ build: ${FILES} setup.py
 
 install: build
 	-pip uninstall ${PKG}
-	pip install .
+	pip install --process-dependency-links .
 
 dist: build
 	${PY} setup.py ${DIST}
