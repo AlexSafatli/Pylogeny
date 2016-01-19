@@ -340,6 +340,20 @@ class phylipFriendlyAlignment(alignment):
             if l in self.namedict: node.label = self.namedict[l]
         return str(p) + ';'
 
+    def reinterpretTree(self,tr):
+
+        ''' Revert the replacing of taxa names with shortened names by changing
+        them back to their original form.
+        
+        :param tr: a tree
+        :type tr: a :class:`.tree.tree` object
+        :return: a Newick string with all replaced names
+        
+        '''
+
+        #TODO Implement smarter
+        return self.reinterpretNewick(str(tr))
+
     def getProperName(self,n):
 
         ''' Return the actual name for an integer-based sequence name 
