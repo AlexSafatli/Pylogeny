@@ -8,7 +8,7 @@ compiler:
   - clang
 before_install: sh install-pll.sh
 install: CC=gcc-4.8 make install
-script: LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/include make tests
+script: LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib make tests
 addons:
   apt:
     sources:
